@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin:*");
 date_default_timezone_set("Asia/Riyadh");
-$root = "test2/v1/include/";
+$root = "/v1/include/";
 $path = $_SERVER["DOCUMENT_ROOT"] . "/$root/";
 require_once "{$path}shared/shared_executer.php";
 require_once "{$path}shared/shared_sql.php";
@@ -23,22 +23,22 @@ function getPath()
 function getSuPath()
 {
     global $path;
-    return $_SERVER["DOCUMENT_ROOT"] ."/". "test2/v1/su/";
+    return $_SERVER["DOCUMENT_ROOT"] ."/". "v1/su/";
 }
 function getUserPath()
 {
     global $path;
-    return $_SERVER["DOCUMENT_ROOT"] ."/". "test2/v1/user_app/";
+    return $_SERVER["DOCUMENT_ROOT"] ."/". "tv1/user_app/";
 }
 function getManagerPath()
 {
     global $path;
-    return $_SERVER["DOCUMENT_ROOT"] ."/". "test2/v1/project_manager/";
+    return $_SERVER["DOCUMENT_ROOT"] ."/". "v1/project_manager/";
 }
 function getDeliveryPath()
 {
     global $path;
-    return $_SERVER["DOCUMENT_ROOT"] ."/". "test2/v1/delivery_app/";
+    return $_SERVER["DOCUMENT_ROOT"] ."/". "v1/delivery_app/";
 }
 
 
