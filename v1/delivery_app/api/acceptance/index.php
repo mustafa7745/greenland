@@ -1,7 +1,7 @@
 <?php
 namespace DeliveryMen;
 
-require_once "../../app/acceptance/index.php";
+require_once __DIR__ . "/../../app/acceptance/index.php";
 
 
 class ThisClass

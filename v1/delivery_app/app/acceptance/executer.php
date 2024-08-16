@@ -94,7 +94,7 @@ class AcceptanceExecuter
     $acceptance = $acceptance[0];
 
 
-    require_once (getDeliveryPath() . 'app/orders/helper.php');
+    require_once __DIR__ . '/../../app/orders/helper.php';
     $orderDelivery = getOrdersDeliveryHelper()->getDataById(getOrderDeliveryId($acceptance));
     getOrdersDeliveryHelper()->updateDeliveryManId(getId($orderDelivery), $deliveryManId);
     $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
