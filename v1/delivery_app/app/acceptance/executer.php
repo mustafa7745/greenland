@@ -1,11 +1,11 @@
 <?php
 namespace DeliveryMen;
 
-require_once (getPath() . 'tables/categories/attribute.php');
+// require_once (getPath() . 'tables/categories/attribute.php');
 
-// require_once "../../../ids_controller/helper.php";
-require_once (getUserPath() . 'app/ids_controller/helper.php');
-require_once (getSuPath() . 'app/products_images/helper.php');
+// // require_once "../../../ids_controller/helper.php";
+// require_once (getUserPath() . 'app/ids_controller/helper.php');
+// require_once (getSuPath() . 'app/products_images/helper.php');
 
 
 require_once ('helper.php');
