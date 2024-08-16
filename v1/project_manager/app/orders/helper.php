@@ -40,7 +40,7 @@ class OrdersHelper extends OrdersSql
   }
   function searchDataById($id)
   {
-    $sql = $this->searchDataById("'$id'");
+    $sql = $this->searchSql("'$id'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = "لايوجد طلب بهذا الرقم";
