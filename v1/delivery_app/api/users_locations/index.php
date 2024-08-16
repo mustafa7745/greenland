@@ -1,7 +1,7 @@
 <?php
 namespace UserApp;
 
-require_once "../../app/users_locations/index.php";
+require_once __DIR__ . "../../app/users_locations/index.php";
 
 
 class ThisClass

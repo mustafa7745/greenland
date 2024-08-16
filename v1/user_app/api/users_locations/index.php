@@ -1,9 +1,9 @@
 <?php
 
 namespace UserApp;
-$ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
-$en = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
-exitFromScript($ar, $en);
+// $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
+// $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
+// exitFromScript($ar, $en);
 
 require_once __DIR__ . "/../../app/users_locations/index.php";
 
