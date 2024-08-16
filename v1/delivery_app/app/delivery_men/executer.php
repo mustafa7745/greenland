@@ -24,7 +24,7 @@ class UsersLocationsExecuter
      */
     shared_execute_sql("START TRANSACTION");
 
-    require_once __DIR__ .'/../../../include/ids_controller/helper.php'
+    require_once __DIR__ .'/../../../include/ids_controller/helper.php';
     // $category_id = uniqid(rand(), false);
     $id = getId(getIdsControllerHelper()->getData($helper->table_name));
     $dataAfterAdd = $helper->addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone);
