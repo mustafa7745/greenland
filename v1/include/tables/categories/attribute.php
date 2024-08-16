@@ -13,6 +13,6 @@ class CategoriesAttribute
   // 
   function path_image()
   {
-    return __DIR__ . "/../images/categories/";
+    return __DIR__ . "/../../images/categories/";
   }
 }
