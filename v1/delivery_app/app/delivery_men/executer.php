@@ -18,9 +18,7 @@ class UsersLocationsExecuter
   }
   function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone)
   {
-    $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
-    $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
-    exitFromScript($ar, $en);
+  
     // 
     $helper = getUsersLocationsHelper();
     /**
