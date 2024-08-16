@@ -3,7 +3,7 @@ namespace UserApp;
 
 
 require_once ('helper.php');
-class OrdersExecuter 
+class OrdersExecuter
 {
   function executeAddData($userId, $order_products, $projectId, $userLocationId)
   {
@@ -23,7 +23,7 @@ class OrdersExecuter
      */
     shared_execute_sql("START TRANSACTION");
 
-    require_once (getUserPath() . "app/products/helper.php");
+    require_once __DIR__ . "/../../app/products/helper.php";
     $products = getProductsHelper()->getDataByIds($idsStringSql);
 
 
@@ -42,7 +42,7 @@ class OrdersExecuter
     /**
      * ADD ORDER DATA
      */
-    require_once (getUserPath() . "app/ids_controller/helper.php");
+    require_once __DIR__ . "/../../app/ids_controller/helper.php";
 
     $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
     getOrdersHelper()->addOrder($orderId, $userId);
@@ -51,13 +51,13 @@ class OrdersExecuter
     /**
      * ADD DELIVERY DATA
      */
-    require_once (getUserPath() . "app/projects/helper.php");
+    require_once __DIR__ . "/../../app/projects/helper.php";
 
     $project = getProjectsHelper()->getDataById($projectId);
     $project_lat = (getLatLong($project))[0];
     $project_long = (getLatLong($project))[1];
     // 
-    require_once (getUserPath() . "app/users_locations/helper.php");
+    require_once __DIR__ . "/../../app/users_locations/helper.php";
 
     $userLocation = getUsersLocationsHelper()->getDataById($userLocationId);
     $user_lat = (getLatLong($userLocation))[0];
