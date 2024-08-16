@@ -26,9 +26,7 @@ class UsersLocations
     }
     function add()
     {
-        $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
-        $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_Cate";
-        exitFromScript($ar, $en);
+      
         $s = getMainRunApp();
         $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
