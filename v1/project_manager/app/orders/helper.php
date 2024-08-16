@@ -38,6 +38,17 @@ class OrdersHelper extends OrdersSql
     }
     return $data[0];
   }
+  function searchDataById($id)
+  {
+    $sql = $this->searchDataById("'$id'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "لايوجد طلب بهذا الرقم";
+      $en = "ORDER_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
   function getData()
   {
     $sql = $this->readSql();

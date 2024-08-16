@@ -106,8 +106,12 @@ class OrdersExecuter extends OrdersSql
   /********/
   function executeGetData()
   {
-
     $data = getOrdersHelper()->getData();
+    return $data;
+  }
+  function executeSearchData($orderId)
+  {
+    $data = getOrdersHelper()->searchDataById($orderId);
     return $data;
   }
   function executeUpdateSystemOrder($orderId, $systemOrderNumber)

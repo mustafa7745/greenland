@@ -26,6 +26,14 @@ class Orders
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersExecuter()->executeGetData();
     }
+    function search()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getOrdersExecuter()->executeSearchData(getInputOrderId());
+    }
     function updateSystemOrderNumber()
     {
         // $s = getMainRunApp();
