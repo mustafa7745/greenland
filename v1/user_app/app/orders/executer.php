@@ -2,9 +2,8 @@
 namespace UserApp;
 
 
-require_once ('sql.php');
 require_once ('helper.php');
-class OrdersExecuter extends OrdersSql
+class OrdersExecuter 
 {
   function executeAddData($userId, $order_products, $projectId, $userLocationId)
   {
