@@ -1,0 +1,2 @@
+OpenSSL> genrsa -out C:\wamp64\www\onemegasoft2\v1\keys\privateKey.pem 2048
+OpenSSL> rsa -in C:\wamp64\www\onemegasoft2\v1\keys\privateKey.pem -pubout -out C:\wamp64\www\onemegasoft2\v1\keys\publicKey.pem
