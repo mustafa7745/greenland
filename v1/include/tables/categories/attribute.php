@@ -10,4 +10,9 @@ class CategoriesAttribute
   public $order = "order";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
+  // 
+  function path_image()
+  {
+    return __DIR__ . "/../images/categories/";
+  }
 }
