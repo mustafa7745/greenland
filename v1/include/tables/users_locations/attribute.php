@@ -1,6 +1,7 @@
 <?php
 class UsersLocationsAttribute
 {
+    public $name = "userLocation";
     public $table_name = "users_locations";
     public $id = "id";
     public $userId = "userId";

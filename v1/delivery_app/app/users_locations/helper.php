@@ -1,17 +1,13 @@
 <?php
 namespace UserApp;
 
-require_once ('sql.php');
+require_once 'sql.php';
 // 
 class UsersLocationsHelper extends UsersLocationsSql
 {
-  // public $name = "APP";
   function getData($userId)
   {
     $sql = $this->readByUserIdsql("'$userId'");
-    // $ar = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
-    // $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
-    // exitFromScript($ar, $en);
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
