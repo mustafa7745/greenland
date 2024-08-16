@@ -3,9 +3,9 @@
 class DB
 {
   public $servername = "localhost";
-  public $username = "root";
-  public $password = '';
-  public $dbname = "test2";
+  public $username = "greenland_rest";
+  public $password = 'RuT>p0TB1kS/';
+  public $dbname = "greenland_rest";
   public $conn;
 
   function __construct()
