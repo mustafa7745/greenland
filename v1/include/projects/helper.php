@@ -18,7 +18,7 @@ class ProjectsHelper extends ProjectsSql
 }
 
 $projects1_helper = null;
-function getIdsControllerHelper()
+function getProjectsHelper()
 {
   global $projects1_helper;
   if ($projects1_helper == null) {

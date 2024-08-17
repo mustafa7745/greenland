@@ -87,7 +87,6 @@ class AcceptanceExecuter
       getReservationsHelper()->updateAcceptanceId(getId($resrvation), $acceptanceId);
 
     }
-    shared_execute_sql("COMMIT");
     require_once __DIR__ . '/../../../include/projects/helper.php';
     $project = getProjectsHelper()->getDataById(1);
     require_once __DIR__ . '/../../app/delivery_men/helper.php';
@@ -98,6 +97,7 @@ class AcceptanceExecuter
     if ($token != null) {
       sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, "مرحبا بك", "يرجى قبول الطلب شكرا لك");
     }
+    shared_execute_sql("COMMIT");
 
     return ["success" => "true"];
   }
