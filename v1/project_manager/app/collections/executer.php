@@ -13,6 +13,7 @@ class CollectionsExecuter
       $orderId = $collections[getCollectionsHelper()->orderId];
       $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
     }
+    return $collections;
   }
   function executeAddData($name, $image)
   {
