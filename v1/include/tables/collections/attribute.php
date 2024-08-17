@@ -1,5 +1,5 @@
 <?php
-require_once 'post_data.php';
+// require_once 'post_data.php';
 
 
 class CollectionsAttribute
