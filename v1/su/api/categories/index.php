@@ -19,17 +19,19 @@ class ThisClass
 
     function main(): string
     {
-        if (getTag()  == "read") {
+        if (getTag() == "read") {
             return $this->read();
-        } elseif (getTag()  == "add") {
+        } elseif (getTag() == "add") {
             return $this->add();
-        }elseif (getTag()  == "search") {
+        } elseif (getTag() == "search") {
             return $this->search();
-        } elseif (getTag()  == "updateName") {
+        } elseif (getTag() == "updateName") {
             return $this->updateName();
-        } elseif (getTag()  == "updateSha") {
+        } elseif (getTag() == "updateImage") {
+            return $this->updateName();
+        } elseif (getTag() == "updateSha") {
             return $this->updateSha();
-        } elseif (getTag()  == "updateVersion") {
+        } elseif (getTag() == "updateVersion") {
             return $this->updateVersion();
         } else {
             UNKOWN_TAG();
@@ -59,6 +61,11 @@ class ThisClass
     private function updateName(): string
     {
         $resultData = $this->controller->updateName();
+        return json_encode($resultData);
+    }
+    private function updateImage(): string
+    {
+        $resultData = $this->controller->updateImage();
         return json_encode($resultData);
     }
     private function updateSha(): string

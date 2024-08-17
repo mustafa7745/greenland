@@ -39,6 +39,12 @@ class Categories
         getProjectLoginTokenData("RUN_APP", $s);
         return getCategoriesExecuter()->executeUpdateName(getInputCategoryId(), getInputCategoryName());
     }
+    function updateImage()
+    {
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getCategoriesExecuter()->executeUpdateName(getInputCategoryId(), getInputCategoryImage());
+    }
 
     function updateSha($id, $newValue)
     {
