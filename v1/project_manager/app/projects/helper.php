@@ -18,6 +18,7 @@ class ProjectsHelper extends ProjectsSql
   function getDataById($id)
   {
     $sql = $this->readByIdSql($id);
+    print_r($sql);
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = $this->name . "_ID_ERROR";
