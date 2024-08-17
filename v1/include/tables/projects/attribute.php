@@ -12,7 +12,7 @@ class ProjectsAttribute
     public $ownerUserId = "owner_user_id";
     public $icon = "icon";
     public $deviceId = "deviceId";
-    public $serviceAccount = "serviceAccount";
+    public $serviceAccountKey = "serviceAccountKey";
     public $priceDeliveryPer1km = "priceDeliveryPer1km";
     public $latLong = "latLong";
     public $createdAt = "createdAt";

@@ -32,6 +32,16 @@ function convertIdsListToStringSql($ids)
   return $result;
 }
 
+function sendMessageToTobic($json, $topic, $title, $body): bool
+{
+    $sendMessage = new SendFCM();
+    return $sendMessage->sendMessageToTobic($json, $topic, $title, $body);
+}
+function sendMessageToOne($json, $token, $title, $body): bool
+{
+    $sendMessage = new SendFCM();
+    return $sendMessage->sendMessageToOne($json, $token, $title, $body);
+}
 
 
 

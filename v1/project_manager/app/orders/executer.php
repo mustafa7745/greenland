@@ -52,7 +52,7 @@ class OrdersExecuter extends OrdersSql
     /**
      * ADD DELIVERY DATA
      */
-    require_once (getUserPath() . "app/projects/helper.php");
+    require_once __DIR__ . '/../../../include/projects/helper.php';
 
     $project = getProjectsHelper()->getDataById($projectId);
     $project_lat = (getLatLong($project))[0];

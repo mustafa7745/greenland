@@ -88,6 +88,17 @@ class AcceptanceExecuter
 
     }
     shared_execute_sql("COMMIT");
+    require_once __DIR__ . '/../../../include/projects/helper.php';
+    $project = getProjectsHelper()->getDataById(1);
+    require_once __DIR__ . '/../../app/delivery_men/helper.php';
+    $deliveryMan = getDeliveryMenHelper()->getDataById($deliveryManId);
+    $userId = $deliveryMan[getDeliveryMenHelper()->userId];
+    require_once __DIR__ . '/../../../include/users_sessions/helper.php';
+    $token = getUsersSessionsHelper()->getToken($userId, 2);
+    if ($token != null) {
+      sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, "مرحبا بك", "يرجى قبول الطلب شكرا لك");
+    }
+
     return ["success" => "true"];
   }
   // function executeAddDataAndRejectPrevious($acceptanceId, $deliveryManId, $orderDeliveryId)
