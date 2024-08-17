@@ -1,4 +1,5 @@
 <?php
+require_once 'sql.php';
 class UsersSessionsHelper extends UsersSessionsSql
 {
   function getToken($userId, $appId)
