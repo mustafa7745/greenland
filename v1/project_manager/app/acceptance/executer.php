@@ -1,11 +1,11 @@
 <?php
 namespace Manager;
 
-require_once (getPath() . 'tables/categories/attribute.php');
+// require_once (getPath() . 'tables/categories/attribute.php');
 
-// require_once "../../../ids_controller/helper.php";
+// // require_once "../../../ids_controller/helper.php";
 
-require_once (getSuPath() . 'app/products_images/helper.php');
+// require_once (getSuPath() . 'app/products_images/helper.php');
 
 
 require_once ('helper.php');
@@ -92,6 +92,8 @@ class AcceptanceExecuter
     require_once __DIR__ . '/../../app/delivery_men/helper.php';
     $deliveryMan = getDeliveryMenHelper()->getDataById($deliveryManId);
     $userId = $deliveryMan[getDeliveryMenHelper()->userId];
+    require_once __DIR__ . '/../../app/users/helper.php';
+    $user = getUsersHelper()->getDataById($userId);
     require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
     $token = getUsersSessionsHelper()->getToken($userId, 2);
     // print_r("project". json_encode($project));
