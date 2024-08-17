@@ -1,5 +1,6 @@
 <?php
 namespace Manager;
+
 require_once 'helper.php';
 class AcceptanceExecuter
 {
@@ -11,6 +12,17 @@ class AcceptanceExecuter
     /**
      *  START TRANSACTION FOR SQL
      */
+    require_once __DIR__ . '/../../app/orders/helper.php';
+    $orderDelivery = getOrdersDeliveryHelper()->getDataById($orderDeliveryId);
+    $orderId = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    $order = getOrdersHelper()->getDataById($orderId);
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
+
     shared_execute_sql("START TRANSACTION");
     $acceptance = $helper->getData2($orderDeliveryId);
     if (count($acceptance) == 0) {
