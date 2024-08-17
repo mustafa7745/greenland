@@ -165,7 +165,7 @@ class OrdersProductsExecuter
       require_once __DIR__ . '/../../app/users/helper.php';
       $user = getUsersHelper()->getDataById($userId);
       require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
-      $token = getUsersSessionsHelper()->getToken($userId, 3);
+      $token = getUsersSessionsHelper()->getToken($userId, 2);
       if ($token != null) {
         require_once __DIR__ . '/../../../include/projects/helper.php';
         $project = getProjectsHelper()->getDataById(1);
