@@ -94,11 +94,15 @@ class AcceptanceExecuter
     $userId = $deliveryMan[getDeliveryMenHelper()->userId];
     require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
     $token = getUsersSessionsHelper()->getToken($userId, 2);
+    print_r("project".$project);
+    print_r("user".$userId);
+
     print_r("token".$token);
+
     if ($token != null) {
       sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, "مرحبا بك", "يرجى قبول الطلب شكرا لك");
     }
-    shared_execute_sql("COMMIT");
+    // shared_execute_sql("COMMIT");
 
     return ["success" => "true"];
   }
