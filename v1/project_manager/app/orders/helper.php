@@ -250,6 +250,12 @@ class OrdersProductsHelper extends OrdersProductsSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
+  function getOrderProductsByOrderId2($orderId)
+  {
+    $sql = $this->readByOrderId2Sql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
 }
 $orders_products_helper = null;
 function getOrdersProductsHelper()

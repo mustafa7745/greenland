@@ -6,7 +6,13 @@ class CollectionsExecuter
 {
   function executeGetData($deliveryManId)
   {
-    return getCollectionsHelper()->getData($deliveryManId);
+    require_once __DIR__ . '/../../app/orders/executer.php';
+    $orderExecuter = getOrdersExecuter();
+    $collections = getCollectionsHelper()->getData($deliveryManId);
+    for ($i = 0; $i < count($collections); $i++) {
+      $orderId = $collections[getCollectionsHelper()->orderId];
+      $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
+    }
   }
   function executeAddData($name, $image)
   {

@@ -10,7 +10,7 @@ class CollectionsSql extends \CollectionsAttribute
         $table_name = $this->table_name;
         $columns = "*";
         $innerJoin = "";
-        $condition = $this->deliveryManId = $deliveryManId;
+        $condition = "$this->deliveryManId = $deliveryManId AND $this->isCollect = $this->UNCOLLECTED_STATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
 }

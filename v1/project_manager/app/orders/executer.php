@@ -145,6 +145,18 @@ class OrdersExecuter extends OrdersSql
     return ["success" => "true"];
     // return $data;
   }
+  function executeGetFinalOrderPriceWithoutDeliveryPrice($orderId)
+  {
+    $finalPrice = 0;
+    // 1) products final price
+    $productFinalPrice = 0;
+    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderId2($orderId);
+    for ($i = 0; $i < count($orderProducts); $i++) {
+      $productFinalPrice += $orderProducts["avg"];
+    }
+    $finalPrice = $productFinalPrice;
+    return $finalPrice;
+  }
 }
 $orders_executer = null;
 function getOrdersExecuter()
