@@ -152,7 +152,7 @@ class OrdersExecuter extends OrdersSql
     $productFinalPrice = 0;
     $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderId2($orderId);
     for ($i = 0; $i < count($orderProducts); $i++) {
-      $productFinalPrice += $orderProducts["avg"];
+      $productFinalPrice += $orderProducts[$i]["avg"];
     }
     $finalPrice = $productFinalPrice;
     return $finalPrice;
