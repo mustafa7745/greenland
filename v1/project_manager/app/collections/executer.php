@@ -23,7 +23,7 @@ class CollectionsExecuter
     shared_execute_sql("START TRANSACTION");
     $idsString = convertIdsListToStringSql($ids);
     getCollectionsHelper()->getDataByIds($idsString);
-    getCollectionsHelper()->updateIsCollect($idsString, count($$ids));
+    getCollectionsHelper()->updateIsCollect($idsString, count($ids));
     // 
     shared_execute_sql("COMMIT");
 
