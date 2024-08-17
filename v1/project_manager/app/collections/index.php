@@ -17,6 +17,13 @@ class Collections
         // getProjectLoginTokenData("RUN_APP", $s);
         return getCollectionsExecuter()->executeGetData(getInputDeliveryManId());
     }
+    function collect()
+    {
+        // checkPermission("READ_GROUPS");
+        // $s = getMainRunApp();
+        // getProjectLoginTokenData("RUN_APP", $s);
+        return getCollectionsExecuter()->executeCollectData(getIds());
+    }
     
 }
 

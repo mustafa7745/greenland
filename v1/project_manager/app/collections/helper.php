@@ -11,6 +11,18 @@ class CollectionsHelper extends CollectionsSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
+  function getDataByIds($ids)
+  {
+    $sql = $this->readByIdsSql($ids);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
+  function updateIsCollect($ids)
+  {
+    $sql = $this->updateIsCollectSql($ids);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
 }
 
 $collections_helper = null;

@@ -15,58 +15,19 @@ class CollectionsExecuter
     }
     return $collections;
   }
-  function executeAddData($name, $image)
+  function executeCollectData($ids)
   {
-    $categories_helper = getCategoriesHelper();
-    // $image = $this->getInputCategoryImage();
-    $full_path_directory = $categories_helper->path_image();
-    // 
-    createDirectory($full_path_directory);
-    // 
-
-
-
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-
-
-    // $category_id = uniqid(rand(), false);
-    $id = getId(getIdsControllerHelper()->getData($categories_helper->table_name));
-
-    // getIdsControllerHelper()->updateId($categories_helper->table_name);
-
-    $image_name = uniqid(rand(), false) . ".jpg";
-
-    $productGroupId = getId(getIdsControllerHelper()->getData($categories_helper->table_name));
-
-    getProductsGroupsHelper()->addData($productGroupId, $id, "الرئيسية");
-    $dataAfterAdd = $categories_helper->addData($id, $name, $image_name);
-
-
-    // $dataAfterAdd = $categories_helper->getDataById($id);
-
-    /**
-     * ADD INSERTED VALUES TO ProjectINSERtOperations TABLE
-     */
-
-    // sharedAddUserInsertOperation($data->getProjectId(), $data->getPermissionId(), $data->getUserSessionId(), $dataAfterAdd);
-
-    // sleep(30);
-
-    $full_path_file = $full_path_directory . $image_name;
-    // print_r($full_path_file2);
-    if (file_put_contents($full_path_file, base64_decode($image)) === false) {
-      shared_execute_sql("ROLLBACK");
-      // shared_execute_sql("ROLLBACK");
-      FAIL_WHEN_ADD_FILE();
-    }
-
+    $idsString = convertIdsListToStringSql($ids);
+    getCollectionsHelper()->getDataByIds($idsString);
+    getCollectionsHelper()->updateIsCollect($idsString);
+    // 
     shared_execute_sql("COMMIT");
 
-    return $dataAfterAdd;
+    return ['success', 'true'];
 
 
   }

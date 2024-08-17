@@ -34,29 +34,18 @@ function convertIdsListToStringSql($ids)
 
 function sendMessageToTobic($json, $topic, $title, $body): bool
 {
-    $sendMessage = new SendFCM();
-    return $sendMessage->sendMessageToTobic($json, $topic, $title, $body);
+  $sendMessage = new SendFCM();
+  return $sendMessage->sendMessageToTobic($json, $topic, $title, $body);
 }
 function sendMessageToOne($json, $token, $title, $body): bool
 {
-    $sendMessage = new SendFCM();
-    return $sendMessage->sendMessageToOne($json, $token, $title, $body);
+  $sendMessage = new SendFCM();
+  return $sendMessage->sendMessageToOne($json, $token, $title, $body);
 }
 
 
 
-function getIds($data, $name)
-{
-  $ids = "";
 
-  for ($i = 0; $i < count($data); $i++) {
-    if (count($data) == $i + 1) {
-      $ids = $ids . "'{$data[$i][$name]}'";
-    } else
-      $ids = $ids . "'{$data[$i][$name]}',";
-  }
-  return $ids;
-}
 
 function createDirectory($full_path_directory)
 {
@@ -181,6 +170,20 @@ function checkIsJson($data, $name)
     exitFromScript($ar, $en);
   }
 }
+
+function getIds()
+{
+
+  $name = "ids";
+  if (!isset(getPostData3()[$name])) {
+    $ar = "IDS_EMPTY_OR_NOT_FOUND";
+    $en = "IDS_EMPTY_OR_NOT_FOUND";
+    exitFromScript($ar, $en);
+  }
+  $value = getPostData3()[$name];
+  return $value;
+}
+
 
 function getColumnImagePath($columns, $key_path)
 {
