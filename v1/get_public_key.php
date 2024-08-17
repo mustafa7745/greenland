@@ -1,6 +1,5 @@
 <?php
-
-
+header("Access-Control-Allow-Origin:*");
 $publickey = fread(fopen(__DIR__ . "/include/keys/publicKey.pem", "r"), 10000);
 
 // $key = shared_execute_read1_no_json_sql("SELECT server_key_public FROM server_keys WHERE server_key_id = '1'")[0];
