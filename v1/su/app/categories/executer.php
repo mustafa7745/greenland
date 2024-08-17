@@ -80,12 +80,9 @@ class CategoriesExecuter
      */
     shared_execute_sql("START TRANSACTION");
 
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateName($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
+    getCategoriesHelper()->updateName($id,$newValue);
+    $dataAfterUpdate = getCategoriesHelper()->getDataById($id);
+    
     /**
      * ADD Updated VALUE TO UserUpdatedOperations TABLE
      */

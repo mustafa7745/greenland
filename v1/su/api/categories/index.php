@@ -58,7 +58,7 @@ class ThisClass
     // 
     private function updateName(): string
     {
-        $resultData = $this->controller->updateName($this->getInputAppId(), $this->getInputAppPackageName());
+        $resultData = $this->controller->updateName();
         return json_encode($resultData);
     }
     private function updateSha(): string

@@ -35,9 +35,9 @@ class Categories
 
     function updateName($id, $newValue)
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateName($resultData, $id, $newValue);
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getCategoriesExecuter()->executeUpdateName(getInputCategoryId(), getInputCategoryName());
     }
 
     function updateSha($id, $newValue)
