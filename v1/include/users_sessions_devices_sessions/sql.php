@@ -14,16 +14,16 @@ class UsersSessionsSql extends \UsersSessionsAttribute
     }
 }
 
-require_once (getPath() . 'tables/devices_sessions/attribute.php');
+// require_once (getPath() . 'tables/devices_sessions/attribute.php');
 
-class DevicesSessionsSql extends \DevicesSessionsAttribute
-{
-    function readByIdSql($id): string
-    {
-        $table_name = $this->table_name;
-        $columns = $this->id;
-        $innerJoin = "";
-        $condition = "$this->id = $id";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
-    }
-}
+// class DevicesSessionsSql extends \DevicesSessionsAttribute
+// {
+//     function readByIdSql($id): string
+//     {
+//         $table_name = $this->table_name;
+//         $columns = $this->id;
+//         $innerJoin = "";
+//         $condition = "$this->id = $id";
+//         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+//     }
+// }

@@ -92,7 +92,7 @@ class AcceptanceExecuter
     require_once __DIR__ . '/../../app/delivery_men/helper.php';
     $deliveryMan = getDeliveryMenHelper()->getDataById($deliveryManId);
     $userId = $deliveryMan[getDeliveryMenHelper()->userId];
-    require_once __DIR__ . '/../../../include/users_sessions/helper.php';
+    require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
     $token = getUsersSessionsHelper()->getToken($userId, 2);
     if ($token != null) {
       sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, "مرحبا بك", "يرجى قبول الطلب شكرا لك");
