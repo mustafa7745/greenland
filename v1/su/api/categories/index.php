@@ -28,7 +28,7 @@ class ThisClass
         } elseif (getTag() == "updateName") {
             return $this->updateName();
         } elseif (getTag() == "updateImage") {
-            return $this->updateName();
+            return $this->updateImage();
         } elseif (getTag() == "updateSha") {
             return $this->updateSha();
         } elseif (getTag() == "updateVersion") {
