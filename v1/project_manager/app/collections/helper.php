@@ -17,11 +17,16 @@ class CollectionsHelper extends CollectionsSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
-  function updateIsCollect($ids)
+  function updateIsCollect($ids, $count)
   {
     $sql = $this->updateIsCollectSql($ids);
-    $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != $count) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      exitFromScript($ar, $en);
+    }
   }
 }
 
