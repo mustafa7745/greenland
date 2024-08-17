@@ -10,7 +10,7 @@ class CollectionsSql extends \CollectionsAttribute
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->deliveryManId`,`$this->orderId`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "(NULL, $userId,$deliveryManId,'$date','$date')";
+        $values = "(NULL,$deliveryManId ,$userId,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

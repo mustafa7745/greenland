@@ -10,7 +10,7 @@ class CollectionsExecuter
     $orderExecuter = getOrdersExecuter();
     $collections = getCollectionsHelper()->getData($deliveryManId);
     for ($i = 0; $i < count($collections); $i++) {
-      $orderId = $collections[getCollectionsHelper()->orderId];
+      $orderId = $collections[$i][getCollectionsHelper()->orderId];
       $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
     }
     return $collections;
