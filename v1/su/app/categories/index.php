@@ -33,7 +33,7 @@ class Categories
     }
 
 
-    function updateName($id, $newValue)
+    function updateName()
     {
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
