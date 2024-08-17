@@ -14,7 +14,7 @@ class AcceptanceExecuter
      */
     require_once __DIR__ . '/../../app/orders/helper.php';
     $orderDelivery = getOrdersDeliveryHelper()->getDataById($orderDeliveryId);
-    $orderId = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    $orderId = $orderDelivery[getOrdersDeliveryHelper()->orderId];
     $order = getOrdersHelper()->getDataById($orderId);
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
