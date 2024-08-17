@@ -64,7 +64,7 @@ class CategoriesHelper extends CategoriesSql
   function updateName($id, $name)
   {
 
-    $sql = $this->update_name_sql("'$name'", "'$id'");
+    $sql = $this->updateName("'$id'", "'$name'");
 
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
