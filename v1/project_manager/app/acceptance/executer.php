@@ -102,9 +102,9 @@ class AcceptanceExecuter
     // print_r("token".$token);
 
     if ($token != null) {
-    require_once __DIR__ . '/../../../include/send_message.php';
-      
-      sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, "مرحبا بك", "يرجى قبول الطلب شكرا لك");
+      require_once __DIR__ . '/../../../include/send_message.php';
+      $title = "مرحبا بك" . $user[getUsersHelper()->name];
+      sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, "يرجى قبول الطلب شكرا لك");
     }
     // shared_execute_sql("COMMIT");
 
