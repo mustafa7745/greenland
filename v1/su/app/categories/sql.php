@@ -31,4 +31,13 @@ class CategoriesSql extends \CategoriesAttribute
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
+    protected function updateNameSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->name = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
 }
