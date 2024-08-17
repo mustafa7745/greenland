@@ -1,21 +1,8 @@
 <?php
 namespace Manager;
-
-// require_once (getPath() . 'tables/categories/attribute.php');
-
-// // require_once "../../../ids_controller/helper.php";
-
-// require_once (getSuPath() . 'app/products_images/helper.php');
-
-
-require_once ('helper.php');
+require_once 'helper.php';
 class AcceptanceExecuter
 {
-  function executeGetData($userId)
-  {
-    $data = getUsersLocationsHelper()->getData($userId);
-    return $data;
-  }
   function executeAddData($deliveryManId, $orderDeliveryId)
   {
     require_once (getPath() . '/ids_controller/helper.php');
@@ -87,8 +74,9 @@ class AcceptanceExecuter
       getReservationsHelper()->updateAcceptanceId(getId($resrvation), $acceptanceId);
 
     }
-    require_once __DIR__ . '/../../../include/projects/helper.php';
-    $project = getProjectsHelper()->getDataById(1);
+    shared_execute_sql("COMMIT");
+
+
     require_once __DIR__ . '/../../app/delivery_men/helper.php';
     $deliveryMan = getDeliveryMenHelper()->getDataById($deliveryManId);
     $userId = $deliveryMan[getDeliveryMenHelper()->userId];
@@ -96,129 +84,15 @@ class AcceptanceExecuter
     $user = getUsersHelper()->getDataById($userId);
     require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
     $token = getUsersSessionsHelper()->getToken($userId, 3);
-    // print_r("project". json_encode($project));
-    // print_r("user".$userId);
-
-    // print_r("token".$token);
-
     if ($token != null) {
+      require_once __DIR__ . '/../../../include/projects/helper.php';
+      $project = getProjectsHelper()->getDataById(1);
       require_once __DIR__ . '/../../../include/send_message.php';
       $title = "مرحبا بك: " . $user[getUsersHelper()->name];
       sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, "يرجى قبول الطلب شكرا لك");
     }
-    // shared_execute_sql("COMMIT");
 
     return ["success" => "true"];
-  }
-  // function executeAddDataAndRejectPrevious($acceptanceId, $deliveryManId, $orderDeliveryId)
-  // {
-  //   // getInputDeliver
-  //   $helper = getAcceptanceHelper();
-  //   /**
-  //    *  START TRANSACTION FOR SQL
-  //    */
-  //   shared_execute_sql("START TRANSACTION");
-  //   // $helper->updateName()
-
-  //   require_once (getManagerPath() . 'app/reservations/helper.php');
-  //   $resrvation = getReservationsHelper()->getData($deliveryManId);
-  //   $resrvation = getReservationsHelper()->getDataById(getId($resrvation));
-  //   // 
-  //   getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
-
-
-  //   // $category_id = uniqid(rand(), false);
-  //   // $id = getId(getIdsControllerHelper()->getData($helper->table_name));
-  //   $helper->addData($deliveryManId, $orderDeliveryId);
-  //   // $dataAfterAdd = $helper->getDataById($id);
-
-  //   // print_r($dataAfterAdd);
-  //   /**
-  //    * ADD INSERTED VALUES TO ProjectINSERtOperations TABLE
-  //    */
-
-  //   shared_execute_sql("COMMIT");
-  //   return ["success" => "true"];
-  //   ;
-  // }
-  function executeSearchData($search)
-  {
-    return getAppsHelper()->searchData($search);
-  }
-  function executeUpdateName($id, $newValue)
-  {
-
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateName($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
-    shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
-  }
-  function executeUpdateSha($id, $newValue)
-  {
-
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateSha($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
-    shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
-  }
-  function executeUpdateVersion($id, $newValue)
-  {
-
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateVersion($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
-    shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
   }
 }
 $acceptance_executer = null;
@@ -226,7 +100,7 @@ function getAcceptanceExecuter()
 {
   global $acceptance_executer;
   if ($acceptance_executer == null) {
-    $acceptance_executer = (new AcceptanceExecuter());
+    $acceptance_executer = new AcceptanceExecuter();
   }
   return $acceptance_executer;
 }
