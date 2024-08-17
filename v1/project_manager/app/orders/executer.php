@@ -186,6 +186,7 @@ class OrdersProductsExecuter
 
     return $orderProducts;
   }
+
 }
 $orders_products_executer = null;
 function getOrdersProductsExecuter()
@@ -215,5 +216,23 @@ function getOrdersStatusExecuter()
     $orders_status_executer = (new OrdersStatusExecuter());
   }
   return $orders_status_executer;
+}
+// 
+class OrdersDeliveryExecuter
+{
+  function executeGetUncollectedOrders($deliveryManId)
+  {
+    $data = getOrdersDeliveryHelper()->getDataUncollected($deliveryManId);
+    return $data;
+  }
+}
+$orders_delivery_executer = null;
+function getOrdersDeliveryExecuter()
+{
+  global $orders_delivery_executer;
+  if ($orders_delivery_executer == null) {
+    $orders_delivery_executer = new OrdersDeliveryExecuter();
+  }
+  return $orders_delivery_executer;
 }
 

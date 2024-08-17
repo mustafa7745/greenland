@@ -310,6 +310,13 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
     return $data[0];
   }
 
+  function getDataUncollected($id)
+  {
+    $sql = $this->readByDeliveryManIdAndIsCollectSql("'$id'", $this->UNCOLLECTED_STATE);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
+
   function addData($orderId, $price, $userLocationId)
   {
     $sql = $this->addSql("'$orderId'", "'$price'", "'$userLocationId'");

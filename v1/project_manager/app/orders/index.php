@@ -50,6 +50,14 @@ class Orders
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersProductsExecuter()->executeGetData(getInputOrderId());
     }
+    function readUncollectedOrders()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getOrdersDeliveryExecuter()->executeGetUncollectedOrders(getInputDeliveryManId());
+    }
     function readOrderStatus()
     {
         // $s = getMainRunApp();

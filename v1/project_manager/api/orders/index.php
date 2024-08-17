@@ -25,6 +25,8 @@ class ThisClass
             return $this->readOrderProducts();
         } elseif (getTag() == "updateSystemOrderNumber") {
             return $this->updateSystemOrderNumber();
+        } elseif (getTag() == "readUncollectedOrders") {
+            return $this->readUncollectedOrders();
         } elseif (getTag() == "readOrderStatus") {
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
@@ -58,6 +60,12 @@ class ThisClass
     private function readOrderProducts(): string
     {
         $resultData = $this->controller->readOrderProducts();
+        return json_encode($resultData);
+
+    }
+    private function readOrderreadUncollectedOrdersProducts(): string
+    {
+        $resultData = $this->controller->readUncollectedOrders();
         return json_encode($resultData);
 
     }

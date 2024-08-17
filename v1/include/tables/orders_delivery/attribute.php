@@ -11,9 +11,14 @@ class OrdersDeliveryAttribute
   public $orderId = "orderId";
   public $userLocationId = "userLocationId";
   public $deliveryManId = "deliveryManId";
+  public $isCollect = "isCollect";
   public $isWithOrder = "isWithOrder";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
   //////////
+
+  public $COLLECTED_STATE = 1;
+  public $UNCOLLECTED_STATE = 0;
+
  
 }
