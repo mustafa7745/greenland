@@ -129,6 +129,19 @@ class OrdersExecuter extends OrdersSql
      * COMMIT
      */
     shared_execute_sql("COMMIT");
+    $order = getOrdersHelper()->getDataById($orderId);
+    $userId = $order[getOrdersHelper()->userId];
+    require_once __DIR__ . '/../../app/users/helper.php';
+    $user = getUsersHelper()->getDataById($userId);
+    require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
+    $token = getUsersSessionsHelper()->getToken($userId, 2);
+    if ($token != null) {
+      require_once __DIR__ . '/../../../include/projects/helper.php';
+      $project = getProjectsHelper()->getDataById(1);
+      require_once __DIR__ . '/../../../include/send_message.php';
+      $title = "مرحبا بك: " . $user[getUsersHelper()->name];
+      sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, "يتم الان تجهيز طلبك");
+    }
     return ["success" => "true"];
     // return $data;
   }
@@ -161,18 +174,7 @@ class OrdersProductsExecuter
       getOrdersHelper()->updateStatus(getId($order), $situatinId);
       getOrdersStatusHelper()->addData(getId($order), $situatinId);
       //
-      $userId = $order[getOrdersHelper()->userId];
-      require_once __DIR__ . '/../../app/users/helper.php';
-      $user = getUsersHelper()->getDataById($userId);
-      require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
-      $token = getUsersSessionsHelper()->getToken($userId, 2);
-      if ($token != null) {
-        require_once __DIR__ . '/../../../include/projects/helper.php';
-        $project = getProjectsHelper()->getDataById(1);
-        require_once __DIR__ . '/../../../include/send_message.php';
-        $title = "مرحبا بك: " . $user[getUsersHelper()->name];
-        sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, "يتم الان تجهيز طلبك");
-      }
+
     }
 
     // $order = getOrdersHelper()->getOrder($order_id);
