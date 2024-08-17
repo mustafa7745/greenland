@@ -74,6 +74,17 @@ class CategoriesHelper extends CategoriesSql
       exitFromScript($ar, $en);
     }
   }
+  function updateImage($id, $name)
+  {
+    $sql = $this->updateImageSql("'$id'", "'$name'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      exitFromScript($ar, $en);
+    }
+  }
   function updateSha($id, $name)
   {
 

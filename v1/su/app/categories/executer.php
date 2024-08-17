@@ -80,18 +80,50 @@ class CategoriesExecuter
      */
     shared_execute_sql("START TRANSACTION");
 
-    getCategoriesHelper()->updateName($id,$newValue);
+    getCategoriesHelper()->updateName($id, $newValue);
     $dataAfterUpdate = getCategoriesHelper()->getDataById($id);
-    
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
+  function executeUpdateImage($id, $image)
+  {
+
+    $categories_helper = getCategoriesHelper();
+    // $image = $this->getInputCategoryImage();
+    $full_path_directory = $categories_helper->path_image();
+    // 
+    createDirectory($full_path_directory);
+    // 
+
+    $preImage = $categories_helper->getDataById($id)[$categories_helper->image];
+
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+
+    $image_name = uniqid(rand(), false) . ".jpg";
+
+    $categories_helper->updateImage($id, $image_name);
+    $dataAfterUpdate = $categories_helper->getDataById($id);
+
+    $full_path_file = $full_path_directory . $image_name;
+    // print_r($full_path_file2);
+    if (file_put_contents($full_path_file, base64_decode($image)) === false) {
+      shared_execute_sql("ROLLBACK");
+      // shared_execute_sql("ROLLBACK");
+      FAIL_WHEN_ADD_FILE();
+    }
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    $full_path_file = $full_path_directory . $preImage;
+    unlink($full_path_file);
     return $dataAfterUpdate;
   }
   function executeUpdateSha($id, $newValue)
