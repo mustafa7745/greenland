@@ -1,60 +1,10 @@
 <?php
 namespace DeliveryMen;
 
-require_once ('sql.php');
+require_once 'sql.php';
 // 
 class OrdersHelper extends OrdersSql
 {
-  function checkIfhaveOrderNotComplete($userId)
-  {
-    $sql = $this->readSituationSql("'$userId'");
-    // print_r($sql);
-    $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) > 0) {
-      $ar = "يوجد طلب معلق";
-      $en = "USER_HAVE_INCOMPLETE_ORDER_BEFORE";
-      exitFromScript($ar, $en);
-    }
-  }
-  function checkIfOrderNotComplete($orderId)
-  {
-    $sql = $this->readSituationByIdSql("'$orderId'");
-    // print_r($sql);
-    $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) > 0) {
-      return null;
-    }
-    return $data[0];
-  }
-  function addOrder($id, $userId)
-  {
-    $sql = $this->addSql("'$id'", "'$userId'");
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_ADD_ORDER";
-      $en = "DATA_NOT_EFFECTED_WHEN_ADD_ORDER";
-      exitFromScript($ar, $en);
-    }
-  }
-  function getOrder($order_id)
-  {
-    $sql = $this->read_by_id_sql("'$order_id'");
-    $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 1) {
-      $ar = "ORDER_ID_ERROR";
-      $en = "ORDER_ID_ERROR";
-      exitFromScript($ar, $en);
-    }
-    return $data[0];
-  }
-  function getData($userId, $offset)
-  {
-    $sql = $this->readSql("'$userId'", $offset);
-    // print_r($sql);
-    $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
-  }
   function getDataById($orderId)
   {
     $sql = $this->readByIdSql("'$orderId'");
@@ -90,7 +40,7 @@ class OrdersHelper extends OrdersSql
       exitFromScript($ar, $en);
     }
   }
-  
+
 }
 $orders_helper = null;
 function getOrdersHelper()
@@ -161,74 +111,6 @@ class OrdersProductsHelper extends OrdersProductsSql
     // unset($project_currency["currency_id"]);
     $r = array("orderId" => $order_id, "products" => $orderProducts, "delivery" => $delivery, 'discount' => null, "productsFinalPrice" => $products_final_price, "finalPrice" => $final_price);
     return $r;
-  }
-  function getOrderProductsByOrderWithItsStuff($order)
-  {
-    // 
-    $ordersGetter = getOrdersGetter($order);
-    $order_id = $ordersGetter->getOrderId();
-    $orderProducts = $this->getOrderProductsByOrderId($order_id);
-    $currency_id = $ordersGetter->getCurrencyId();
-    require_once (getPath() . "app/user_app/currencies/helper.php");
-    $currency = getProjectsCurrenciesHelper()->ge($currency_id);
-    $final_price = 0.0;
-    for ($i = 0; $i < count($orderProducts); $i++) {
-      $final_price = $final_price + $orderProducts[$i]["avg"];
-    }
-    $products_final_price = $final_price;
-
-    // 
-    $delivery = getOrdersDeliveryHelper()->checkIfhaveOrderDelivery($order_id);
-    $isDeliveryWithOrder = null;
-    $delivery_price = 0;
-    if ($delivery != null) {
-      $delivery_price = getOrdersDeliveryGetter($delivery)->getOrderDeliveryPrice();
-      $final_price = $final_price + $delivery_price;
-
-      $orderDeliveryGetter = getOrdersDeliveryGetter($delivery);
-      $s = $orderDeliveryGetter->getOrderDeliveryIsWithOrder();
-      if ($s == "1") {
-        $isDeliveryWithOrder = $s;
-      }
-    }
-    $discount = getOrdersDiscountsHelper()->checkIfhaveOrderDiscount($order_id);
-    if ($discount != null) {
-      $ordersDiscountsGetter = getOrdersDiscountsGetter($discount);
-      // 
-      $amount = $ordersDiscountsGetter->getOrderDiscountAmount();
-      $discount_type = $ordersDiscountsGetter->getOrderDiscountType();
-      if ($isDeliveryWithOrder != null) {
-
-        if ($discount_type == "1") {
-          $final_price = $final_price - ($final_price * $amount / 100);
-        } else {
-          $final_price = $final_price - $amount;
-        }
-      } else {
-        $final_price = $final_price - $delivery_price;
-
-        if ($discount_type == "1") {
-          $final_price = $final_price - ($products_final_price * $amount / 100);
-        } else {
-          $final_price = $products_final_price - $amount;
-        }
-      }
-
-    }
-    $final_price = round($final_price);
-    $r = array("order_id" => $order_id, "products" => $orderProducts, "currency" => $currency, "discount" => $discount, "delivery" => $delivery, "products_final_price" => $products_final_price, "final_price" => $final_price, );
-    return $r;
-  }
-  function addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity)
-  {
-    $sql = $this->addSql("'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED";
-      $en = "DATA_NOT_EFFECTED";
-      exitFromScript($ar, $en);
-    }
   }
   function getOrderProductsByOrderId($orderId)
   {
@@ -329,7 +211,7 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
       exitFromScript($ar, $en);
     }
   }
-  
+
 }
 $orders_delivery_helper = null;
 function getOrdersDeliveryHelper()
