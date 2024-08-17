@@ -5,6 +5,7 @@ class UsersSessionsHelper extends UsersSessionsSql
   function getToken($userId, $appId)
   {
     $sql = $this->readTokenSql("'$userId'", "'$appId'");
+    print_r($sql);
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) == 1) {
       $data[0][$this->devices_sessions_attribute->appToken];
