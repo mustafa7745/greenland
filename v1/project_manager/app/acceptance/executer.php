@@ -95,7 +95,7 @@ class AcceptanceExecuter
     require_once __DIR__ . '/../../app/users/helper.php';
     $user = getUsersHelper()->getDataById($userId);
     require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
-    $token = getUsersSessionsHelper()->getToken($userId, 2);
+    $token = getUsersSessionsHelper()->getToken($userId, 3);
     // print_r("project". json_encode($project));
     // print_r("user".$userId);
 
@@ -103,7 +103,7 @@ class AcceptanceExecuter
 
     if ($token != null) {
       require_once __DIR__ . '/../../../include/send_message.php';
-      $title = "مرحبا بك" . $user[getUsersHelper()->name];
+      $title = " :مرحبا بك" . $user[getUsersHelper()->name];
       sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, "يرجى قبول الطلب شكرا لك");
     }
     // shared_execute_sql("COMMIT");
