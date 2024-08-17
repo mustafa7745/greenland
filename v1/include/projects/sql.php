@@ -1,5 +1,5 @@
 <?php
-require_once (getPath() . 'tables/ids_controller/attribute.php');
+require_once (getPath() . 'tables/projects/attribute.php');
 
 class ProjectsSql extends \ProjectsAttribute
 {
