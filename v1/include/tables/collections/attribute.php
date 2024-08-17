@@ -1,7 +1,7 @@
 <?php
 // require_once 'post_data.php';
 
-
+require_once __DIR__ . '/../delivery_men/attribute.php';
 class CollectionsAttribute
 {
   public $table_name = "collections";
