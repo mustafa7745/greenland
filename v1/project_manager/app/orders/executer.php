@@ -110,7 +110,7 @@ class OrdersExecuter extends OrdersSql
     return $data;
   }
   // 
- 
+
   function executeSearchData($orderId)
   {
     $data = getOrdersHelper()->searchDataById($orderId);
@@ -211,6 +211,19 @@ class OrdersProductsExecuter
     $data = getOrdersProductsHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;
+  }
+  function executeDeleteData($ids)
+  {
+    $idsString = convertIdsListToStringSql($ids);
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    getOrdersProductsHelper()->deleteData($idsString, count($ids));
+    // getOrdersProductsHelper()->updateQuantity($id, $newValue);
+    // $data = getOrdersProductsHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return ['success' => "true"];
   }
 }
 $orders_products_executer = null;

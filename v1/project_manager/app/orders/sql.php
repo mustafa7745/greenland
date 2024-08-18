@@ -131,6 +131,13 @@ class OrdersProductsSql extends \OrdersProductsAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    protected function deleteSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id IN ($ids)";
+        /////
+        return delete_sql($table_name, $condition);
+    }
 
 }
 /********/

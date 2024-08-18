@@ -34,6 +34,14 @@ class Orders
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersProductsExecuter()->executeUpdateQuantity(getInputOrderProductId(), getInputProductQuantity());
     }
+    function delete()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getOrdersProductsExecuter()->executeDeleteData(getIds());
+    }
     function search()
     {
         // $s = getMainRunApp();

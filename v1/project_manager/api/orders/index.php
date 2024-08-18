@@ -33,9 +33,9 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
-        } elseif (getTag() == "updateSha") {
-            return $this->updateSha();
-        } elseif (getTag() == "updateVersion") {
+        } elseif (getTag() == "delte") {
+            return $this->delete();
+        } elseif (getTag() == "delete") {
             return $this->updateVersion();
         } else {
             UNKOWN_TAG();
@@ -84,6 +84,12 @@ class ThisClass
     {
 
         $resultData = $this->controller->search();
+        return json_encode($resultData);
+    }
+    private function delete(): string
+    {
+
+        $resultData = $this->controller->delete();
         return json_encode($resultData);
     }
     // 

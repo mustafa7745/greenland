@@ -270,6 +270,17 @@ class OrdersProductsHelper extends OrdersProductsSql
       exitFromScript($ar, $en);
     }
   }
+  function deleteData($ids, $count)
+  {
+    $sql = $this->deleteSql($ids);
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != $count) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      exitFromScript($ar, $en);
+    }
+  }
   function getDataById($orderId)
   {
     $sql = $this->readByIdSql("'$orderId'");
