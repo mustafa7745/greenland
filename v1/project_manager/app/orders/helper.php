@@ -64,6 +64,8 @@ class OrdersHelper extends OrdersSql
     print_r($sql);
 
     shared_execute_sql($sql);
+    print_r("dfdfzdf");
+
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
       $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
