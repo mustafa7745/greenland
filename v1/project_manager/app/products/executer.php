@@ -21,6 +21,10 @@ class ProductsExecuter
 
     return $data;
   }
+  function executeGetDataByNumber($number)
+  {
+    return getProductsHelper()->getDataByNumber($number);
+  }
   function executeAddData($categoryId, $name, $number, $postPrice, $image, $productGroupId)
   {
     $helper = getProductsHelper();

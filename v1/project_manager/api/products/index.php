@@ -52,7 +52,7 @@ class ThisClass
     private function search(): string
     {
 
-        $resultData = $this->controller->search($this->getSearch());
+        $resultData = $this->controller->search();
         return json_encode($resultData);
     }
     // 

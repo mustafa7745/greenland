@@ -53,11 +53,9 @@ class Products
         return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
     }
 
-    function search($search)
+    function search()
     {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
+        getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
     }
 
 

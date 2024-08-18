@@ -28,6 +28,19 @@ class ProductsHelper extends ProductsSql
     }
     return $data[0];
   }
+  function getDataByNumber($number)
+  {
+    $sql = $this->readByNumberSql($number);
+
+    $data = shared_execute_read1_no_json_sql($sql);
+
+    if (count($data) != 1) {
+      $ar = $this->name . "_NUMBER_ERROR";
+      $en = $this->name . "_NUMBER_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
   function getDataByIds($ids)
   {
     $sql = $this->readByIdsSql($ids);
@@ -36,7 +49,7 @@ class ProductsHelper extends ProductsSql
   }
   function addData($id, $categoryId, $name, $number, $postPrice, $productGroupId)
   {
-  
+
     $sql = $this->addSql("'$id'", "'$categoryId'", "'$name'", "'$number'", "'$postPrice'", "'$productGroupId'");
 
 
