@@ -61,6 +61,8 @@ class OrdersHelper extends OrdersSql
   {
 
     $sql = $this->updateStatusSql("'$id'", "'$newValue'");
+    print_r($sql);
+
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
