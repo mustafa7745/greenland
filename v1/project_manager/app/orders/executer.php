@@ -180,6 +180,12 @@ class OrdersProductsExecuter
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
     require_once __DIR__ . '/../products/helper.php';
+    $orderProduct = getOrdersProductsHelper()->getDataByOrderIdAndProductId($orderId, $productId);
+    if (count($orderProduct) != 0) {
+      $ar = "هذا المنتج موجود في الطلب";
+      $en = "هذا المنتج موجود في الطلب";
+      exitFromScript($ar, $en);
+    }
     $product = getProductsHelper()->getDataById($productId);
     $productName = $product[getProductsHelper()->name];
     $productPrice = $product[getProductsHelper()->postPrice];

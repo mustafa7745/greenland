@@ -113,6 +113,15 @@ class OrdersProductsSql extends \OrdersProductsAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByOrderIdAndProductIdSql($orderId, $productId): string
+    {
+        $table_name = $this->table_name;
+        $columns = $this->id;
+        $innerJoin = "";
+        $condition = "$this->orderId = $orderId AND $this->productId = $productId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     protected function updateQuantitySql($id, $newValue): string
     {
         $date = getCurruntDate();
