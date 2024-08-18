@@ -29,12 +29,14 @@ class ThisClass
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
             return $this->add();
-        }elseif (getTag() == "addProductToOrder") {
+        } elseif (getTag() == "addProductToOrder") {
             return $this->addProductToOrder();
         } elseif (getTag() == "search") {
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
+        } elseif (getTag() == "cencelOrder") {
+            return $this->cencelOrder();
         } elseif (getTag() == "delete") {
             return $this->delete();
         } else {
@@ -102,6 +104,11 @@ class ThisClass
     private function updateQuantity(): string
     {
         $resultData = $this->controller->updateQuantity();
+        return json_encode($resultData);
+    }
+    private function cencelOrder(): string
+    {
+        $resultData = $this->controller->cencelOrder();
         return json_encode($resultData);
     }
     private function updateSha(): string

@@ -194,6 +194,28 @@ class OrdersProductsExecuter
     return ["success" => "true"];
 
   }
+  function executeCencelOrder($orderId, $description)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+
+    $order = getOrdersHelper()->getDataById($orderId);
+    // 
+
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    getOrdersHelper()->updateStatus($orderId, getOrdersHelper()->ORDER_CENCELED);
+
+    require_once __DIR__ . '/../orders_cenceled/helper.php';
+    getOrdersCenceledHelper()->addData($orderId, $description);
+    shared_execute_sql("COMMIT");
+    return $orderProducts;
+  }
   function executeGetData($orderId)
   {
     /**
