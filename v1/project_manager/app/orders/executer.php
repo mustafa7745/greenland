@@ -209,7 +209,9 @@ class OrdersProductsExecuter
       $en = "هذا الطلب تم انجازه";
       exitFromScript($ar, $en);
     }
-    getOrdersHelper()->updateStatus($orderId, getOrdersHelper()->ORDER_CENCELED);
+    $situationId = getOrdersHelper()->ORDER_CENCELED;
+    getOrdersHelper()->updateStatus($orderId, $situationId);
+    getOrdersStatusHelper()->addData($orderId, $situationId);
     getOrdersCenceledHelper()->addData($orderId, $description);
     shared_execute_sql("COMMIT");
     return ['success' => 'true'];
