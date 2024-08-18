@@ -1,6 +1,8 @@
 <?php
 require_once 'post_data.php';
 
+require_once __DIR__ . '/../products/attribute.php';
+
 
 class OrdersProductsAttribute
 {
