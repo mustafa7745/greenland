@@ -185,6 +185,7 @@ class OrdersProductsExecuter
     $productPrice = $product[getProductsHelper()->postPrice];
     getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     shared_execute_sql("COMMIT");
+    return ["success" => "true"];
 
   }
   function executeGetData($orderId)
