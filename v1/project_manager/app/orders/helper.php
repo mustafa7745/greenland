@@ -273,7 +273,7 @@ class OrdersProductsHelper extends OrdersProductsSql
   function deleteData($ids, $count)
   {
     $sql = $this->deleteSql($ids);
-    print_r($sql);
+    // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != $count) {
       shared_execute_sql("rollback");
@@ -328,7 +328,7 @@ class OrdersStatusHelper extends OrdersStatusSql
     // print_r($data);
     return $data;
   }
- 
+
 }
 $orders_status_helper = null;
 function getOrdersStatusHelper()
