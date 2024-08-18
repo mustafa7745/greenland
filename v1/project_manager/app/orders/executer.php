@@ -210,11 +210,9 @@ class OrdersProductsExecuter
       exitFromScript($ar, $en);
     }
     getOrdersHelper()->updateStatus($orderId, getOrdersHelper()->ORDER_CENCELED);
-
-    require_once __DIR__ . '/../orders_cenceled/helper.php';
     getOrdersCenceledHelper()->addData($orderId, $description);
     shared_execute_sql("COMMIT");
-    return $orderProducts;
+    return ['success' => 'true'];
   }
   function executeGetData($orderId)
   {

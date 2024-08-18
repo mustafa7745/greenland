@@ -48,6 +48,7 @@ class Orders
         // // print_r(getModelMainRunApp()->app->projectId);
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        require_once __DIR__ . '/../orders_cenceled/helper.php';
         return getOrdersProductsExecuter()->executeCencelOrder(getInputOrderId(), getInputOrderCencelDescription());
     }
     function delete()
