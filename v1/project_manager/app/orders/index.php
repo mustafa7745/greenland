@@ -18,6 +18,14 @@ class Orders
         $projectId = getModelMainRunApp()->app->projectId;
         return getOrdersExecuter()->executeAddData($userId, getInputOrderProductsIdsWithQnt(), $projectId, getInputUserLocationId());
     }
+    function addProductToOrder()
+    {
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        // $projectId = getModelMainRunApp()->app->projectId;
+        return getOrdersProductsExecuter()->executeAddData(getInputOrderId(), getInputProductId(), getInputProductQuantity());
+    }
     function read()
     {
         // $s = getMainRunApp();

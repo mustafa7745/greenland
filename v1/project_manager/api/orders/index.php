@@ -29,6 +29,8 @@ class ThisClass
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
             return $this->add();
+        }elseif (getTag() == "addProductToOrder") {
+            return $this->addProductToOrder();
         } elseif (getTag() == "search") {
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
@@ -74,6 +76,12 @@ class ThisClass
     private function add(): string
     {
         $resultData = $this->controller->add();
+        return json_encode($resultData);
+
+    }
+    private function addProductToOrder(): string
+    {
+        $resultData = $this->controller->addProductToOrder();
         return json_encode($resultData);
 
     }

@@ -172,6 +172,21 @@ function getOrdersExecuter()
 /********/
 class OrdersProductsExecuter
 {
+  function executeAddData($orderId, $productId, $productQuantity)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    require_once __DIR__ . '/../products/helper.php';
+    $product = getProductsHelper()->getDataById($productId);
+    $productName = $product[getProductsHelper()->name];
+    $productPrice = $product[getProductsHelper()->postPrice];
+    getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
+    shared_execute_sql("COMMIT");
+
+  }
   function executeGetData($orderId)
   {
     /**
