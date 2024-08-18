@@ -7,7 +7,7 @@ class OrdersCenceledHelper extends OrdersCenceledSql
 {
   function addData($orderId, $description)
   {
-    $sql = $this->addSql($orderId, $description);
+    $sql = $this->addSql("'$orderId'", "'$description'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
