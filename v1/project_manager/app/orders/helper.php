@@ -261,7 +261,7 @@ class OrdersProductsHelper extends OrdersProductsSql
   function updateQuantity($id, $newValue)
   {
 
-    $sql = $this->updateQuantity("'$id'", "'$newValue'");
+    $sql = $this->updateQuantitySql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
