@@ -55,7 +55,7 @@ class Products
 
     function search()
     {
-        getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
+       return getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
     }
 
 
