@@ -25,16 +25,14 @@ class ThisClass
             return $this->readOrderProducts();
         } elseif (getTag() == "updateSystemOrderNumber") {
             return $this->updateSystemOrderNumber();
-        } elseif (getTag() == "readUncollectedOrders") {
-            return $this->readUncollectedOrders();
         } elseif (getTag() == "readOrderStatus") {
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
             return $this->add();
         } elseif (getTag() == "search") {
             return $this->search();
-        } elseif (getTag() == "updateName") {
-            return $this->updateName();
+        } elseif (getTag() == "updateQuantity") {
+            return $this->updateQuantity();
         } elseif (getTag() == "updateSha") {
             return $this->updateSha();
         } elseif (getTag() == "updateVersion") {
@@ -89,9 +87,9 @@ class ThisClass
         return json_encode($resultData);
     }
     // 
-    private function updateName(): string
+    private function updateQuantity(): string
     {
-        $resultData = $this->controller->updateName($this->getInputAppId(), $this->getInputAppPackageName());
+        $resultData = $this->controller->updateQuantity();
         return json_encode($resultData);
     }
     private function updateSha(): string

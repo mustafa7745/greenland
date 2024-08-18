@@ -69,6 +69,7 @@ class OrdersHelper extends OrdersSql
       exitFromScript($ar, $en);
     }
   }
+
   function updateSystemOrderNumber($id, $newValue)
   {
 
@@ -256,6 +257,30 @@ class OrdersProductsHelper extends OrdersProductsSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
+
+  function updateQuantity($id, $newValue)
+  {
+
+    $sql = $this->updateQuantity("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+  }
+  function getDataById($orderId)
+  {
+    $sql = $this->readByIdSql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "ORDER_P_ID_ERROR";
+      $en = "ORDER_P_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
 }
 $orders_products_helper = null;
 function getOrdersProductsHelper()
@@ -291,6 +316,7 @@ class OrdersStatusHelper extends OrdersStatusSql
     // print_r($data);
     return $data;
   }
+ 
 }
 $orders_status_helper = null;
 function getOrdersStatusHelper()

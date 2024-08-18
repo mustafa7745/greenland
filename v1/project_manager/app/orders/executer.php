@@ -109,6 +109,8 @@ class OrdersExecuter extends OrdersSql
     $data = getOrdersHelper()->getData();
     return $data;
   }
+  // 
+ 
   function executeSearchData($orderId)
   {
     $data = getOrdersHelper()->searchDataById($orderId);
@@ -198,7 +200,18 @@ class OrdersProductsExecuter
 
     return $orderProducts;
   }
-
+  function executeUpdateQuantity($id, $newValue)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    getOrdersProductsHelper()->getDataById($id);
+    getOrdersProductsHelper()->updateQuantity($id, $newValue);
+    $data = getOrdersProductsHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return $data;
+  }
 }
 $orders_products_executer = null;
 function getOrdersProductsExecuter()

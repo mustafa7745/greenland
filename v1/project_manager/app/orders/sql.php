@@ -66,6 +66,7 @@ class OrdersSql extends \OrdersAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+
     protected function updateSystemOrderNumberSql($id, $newValue): string
     {
         $date = getCurruntDate();
@@ -109,6 +110,24 @@ class OrdersProductsSql extends \OrdersProductsAttribute
         $columns = "({$this->productPrice} * {$this->productQuantity}) as avg";
         $innerJoin = "";
         $condition = "$this->orderId = $orderId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+    protected function updateQuantitySql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->productQuantity = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    function readByIdSql($id): string
+    {
+        $table_name = $this->table_name;
+        $columns = " * ";
+        $innerJoin = "";
+        $condition = "$this->id = $id FOR UPDATE";
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
