@@ -33,10 +33,8 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
-        } elseif (getTag() == "delte") {
-            return $this->delete();
         } elseif (getTag() == "delete") {
-            return $this->updateVersion();
+            return $this->delete();
         } else {
             UNKOWN_TAG();
         }
