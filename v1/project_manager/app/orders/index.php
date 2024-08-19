@@ -12,7 +12,7 @@ class Orders
 
     function add()
     {
-        return getOrdersExecuter()->executeAddData(getInputOrderId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId());
+        return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId());
     }
     function addProductToOrder()
     {
