@@ -18,7 +18,7 @@ class ProductsSql extends \ProductsAttribute
     {
         $table_name = $this->table_name;
         $innerJoin = "";
-        $columns = "$this->id ,$this->name ,$this->postPrice";
+        $columns = "$this->id ,$this->name ,$this->postPrice,$this->number";
         $condition = "1";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
