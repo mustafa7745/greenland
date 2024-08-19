@@ -61,7 +61,7 @@ class OrdersSql extends \OrdersAttribute
     {
         $table_name = $this->table_name;
         $columns = " * ";
-        $innerJoin = "";
+        $innerJoin = $this->INNER_JOIN();
         $condition = "$this->userId = $userId";
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
