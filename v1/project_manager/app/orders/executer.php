@@ -9,9 +9,7 @@ class OrdersExecuter extends OrdersSql
   function executeAddData($userId, $order_products, $projectId, $userLocationId)
   {
     $helper = getOrdersHelper();
-
     $helper->checkIfhaveOrderNotComplete($userId);
-
     $ids = [];
     for ($i = 0; $i < count($order_products); $i++) {
       array_push($ids, $order_products[$i]["id"]);
@@ -86,7 +84,7 @@ class OrdersExecuter extends OrdersSql
       getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
-    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1($orderId);
+    // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
 
     /**
      * ADD INSERTED VALUES TO UserINSERtOperations TABLE
@@ -99,7 +97,7 @@ class OrdersExecuter extends OrdersSql
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $orderProducts;
+    return ["success" => "true"];
 
 
   }

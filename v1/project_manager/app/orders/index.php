@@ -14,9 +14,9 @@ class Orders
     {
         $s = getMainRunApp();
         $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         $projectId = getModelMainRunApp()->app->projectId;
-        return getOrdersExecuter()->executeAddData($userId, getInputOrderProductsIdsWithQnt(), $projectId, getInputUserLocationId());
+        return getOrdersExecuter()->executeAddData(getInputOrderId(), getInputOrderProductsIdsWithQnt(), $projectId, getInputUserLocationId());
     }
     function addProductToOrder()
     {
