@@ -15,7 +15,7 @@ class Users
         // $s = getMainRunApp();
         // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
         // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
-        return getReservationsExecuter()->executeGetData(getInputUserPhone3());
+        return getUsersExecuter()->executeGetData(getInputUserPhone3());
     }
 }
 
