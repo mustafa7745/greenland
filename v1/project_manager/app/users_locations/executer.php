@@ -7,6 +7,7 @@ class UsersLocationsExecuter
   function executeGetData($userId)
   {
     $data = getUsersLocationsHelper()->getData($userId);
+    $data['price'] = 650;
     return $data;
   }
   function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone)
