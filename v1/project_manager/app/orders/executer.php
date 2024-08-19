@@ -256,6 +256,10 @@ class OrdersProductsExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
+  function executeGetOrdersByUserId($userId)
+  {
+    return getOrdersHelper()->getDataByUserId($userId);
+  }
   function executeDeleteData($ids)
   {
     $idsString = convertIdsListToStringSql($ids);

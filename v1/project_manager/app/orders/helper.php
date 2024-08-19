@@ -38,6 +38,12 @@ class OrdersHelper extends OrdersSql
     }
     return $data[0];
   }
+  function getDataByUserId($userId)
+  {
+    $sql = $this->readByUserIdSql("'$userId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
   function searchDataById($id)
   {
     $sql = $this->searchSql("'$id'");

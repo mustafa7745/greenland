@@ -57,6 +57,15 @@ class OrdersSql extends \OrdersAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByUserIdSql($userId): string
+    {
+        $table_name = $this->table_name;
+        $columns = " * ";
+        $innerJoin = "";
+        $condition = "$this->userId = $userId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     protected function updateStatusSql($id, $newValue): string
     {
         $date = getCurruntDate();

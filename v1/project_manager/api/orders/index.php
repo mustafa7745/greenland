@@ -37,6 +37,8 @@ class ThisClass
             return $this->updateQuantity();
         } elseif (getTag() == "cencelOrder") {
             return $this->cencelOrder();
+        } elseif (getTag() == "readOrdersOfUsers") {
+            return $this->readOrdersOfUsers();
         } elseif (getTag() == "delete") {
             return $this->delete();
         } else {
@@ -100,6 +102,11 @@ class ThisClass
     private function cencelOrder(): string
     {
         $resultData = $this->controller->cencelOrder();
+        return json_encode($resultData);
+    }
+    private function readOrdersOfUsers(): string
+    {
+        $resultData = $this->controller->readOrdersOfUsers();
         return json_encode($resultData);
     }
 }

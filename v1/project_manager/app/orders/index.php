@@ -51,6 +51,15 @@ class Orders
         require_once __DIR__ . '/../orders_cenceled/helper.php';
         return getOrdersProductsExecuter()->executeCencelOrder(getInputOrderId(), getInputOrderCencelDescription());
     }
+    function readOrdersOfUsers()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        require_once __DIR__ . '/../users/helper.php';
+        return getOrdersProductsExecuter()->executeGetOrdersByUserId(getInputUserId());
+    }
     function delete()
     {
         // $s = getMainRunApp();
