@@ -12,11 +12,7 @@ class Orders
 
     function add()
     {
-        $s = getMainRunApp();
-        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        $projectId = getModelMainRunApp()->app->projectId;
-        return getOrdersExecuter()->executeAddData(getInputOrderId(), getInputOrderProductsIdsWithQnt(), $projectId, getInputUserLocationId());
+        return getOrdersExecuter()->executeAddData(getInputOrderId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId());
     }
     function addProductToOrder()
     {
