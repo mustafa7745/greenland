@@ -22,7 +22,7 @@ class OrdersExecuter extends OrdersSql
      */
     shared_execute_sql("START TRANSACTION");
 
-    require_once (getUserPath() . "app/products/helper.php");
+    require_once __DIR__ . "/../products/helper.php";
     $products = getProductsHelper()->getDataByIds($idsStringSql);
 
 
@@ -41,7 +41,7 @@ class OrdersExecuter extends OrdersSql
     /**
      * ADD ORDER DATA
      */
-    require_once (getUserPath() . "app/ids_controller/helper.php");
+    require_once __DIR__ . "/../../../include/ids_controller/helper.php";
 
     $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
     getOrdersHelper()->addOrder($orderId, $userId);
@@ -56,7 +56,7 @@ class OrdersExecuter extends OrdersSql
     $project_lat = (getLatLong($project))[0];
     $project_long = (getLatLong($project))[1];
     // 
-    require_once (getUserPath() . "app/users_locations/helper.php");
+    require_once __DIR__ . "app/users_locations/helper.php";
 
     $userLocation = getUsersLocationsHelper()->getDataById($userLocationId);
     $user_lat = (getLatLong($userLocation))[0];
