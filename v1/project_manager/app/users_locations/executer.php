@@ -11,10 +11,12 @@ class UsersLocationsExecuter
     $project = getProjectsHelper()->getDataById(1);
     $project_lat = (getLatLong($project))[0];
     $project_long = (getLatLong($project))[1];
+    50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
     for ($i = 0; $i < count($data); $i++) {
       $user_lat = (getLatLong($data[$i]))[0];
       $user_long = (getLatLong($data[$i]))[1];
-      $data[$i]['price'] = $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
+      $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
+      $data[$i]['price'] = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
     }
 
     return $data;
