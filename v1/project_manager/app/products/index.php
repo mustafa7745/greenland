@@ -24,6 +24,13 @@ class Products
         // getProjectLoginTokenData("RUN_APP", $s);
         return getProductsExecuter()->executeGetData();
     }
+    function readAll()
+    {
+        // checkPermission("READ_GROUPS");
+        // $s = getMainRunApp();
+        // getProjectLoginTokenData("RUN_APP", $s);
+        return getProductsExecuter()->executeGetAllData();
+    }
     function add()
     {
         // checkPermission("READ_GROUPS");

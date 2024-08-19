@@ -19,17 +19,19 @@ class ThisClass
 
     function main(): string
     {
-        if (getTag()  == "read") {
+        if (getTag() == "read") {
             return $this->read();
-        } elseif (getTag()  == "add") {
+        } elseif (getTag() == "add") {
             return $this->add();
-        }elseif (getTag()  == "search") {
+        } elseif (getTag() == "readAll") {
+            return $this->readAll();
+        } elseif (getTag() == "search") {
             return $this->search();
-        } elseif (getTag()  == "updateName") {
+        } elseif (getTag() == "updateName") {
             return $this->updateName();
-        } elseif (getTag()  == "updateSha") {
+        } elseif (getTag() == "updateSha") {
             return $this->updateSha();
-        } elseif (getTag()  == "updateVersion") {
+        } elseif (getTag() == "updateVersion") {
             return $this->updateVersion();
         } else {
             UNKOWN_TAG();
@@ -39,6 +41,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function readAll(): string
+    {
+        $resultData = $this->controller->readAll();
         return json_encode($resultData);
 
     }

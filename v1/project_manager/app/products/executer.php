@@ -21,6 +21,11 @@ class ProductsExecuter
 
     return $data;
   }
+  function executeGetAllData()
+  {
+    $data = getProductsHelper()->getAllData();
+    return $data;
+  }
   function executeGetDataByNumber($number)
   {
     return getProductsHelper()->getDataByNumber($number);

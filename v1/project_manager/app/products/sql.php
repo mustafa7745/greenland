@@ -14,6 +14,14 @@ class ProductsSql extends \ProductsAttribute
         $condition = "$this->table_name.$this->categoryId = $categoryId";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readAllSql(): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = "";
+        $columns = "$this->id ,$this->name ,$this->postPrice";
+        $condition = "1";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
