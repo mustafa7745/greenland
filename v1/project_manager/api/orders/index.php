@@ -48,55 +48,46 @@ class ThisClass
     {
         $resultData = $this->controller->read();
         return json_encode($resultData);
-
     }
     private function updateSystemOrderNumber(): string
     {
         $resultData = $this->controller->updateSystemOrderNumber();
         return json_encode($resultData);
-
     }
 
     private function readOrderProducts(): string
     {
         $resultData = $this->controller->readOrderProducts();
         return json_encode($resultData);
-
     }
     private function readOrderreadUncollectedOrdersProducts(): string
     {
         $resultData = $this->controller->readUncollectedOrders();
         return json_encode($resultData);
-
     }
     private function readOrderStatus(): string
     {
         $resultData = $this->controller->readOrderStatus();
         return json_encode($resultData);
-
     }
     private function add(): string
     {
         $resultData = $this->controller->add();
         return json_encode($resultData);
-
     }
     private function addProductToOrder(): string
     {
         $resultData = $this->controller->addProductToOrder();
         return json_encode($resultData);
-
     }
 
     private function search(): string
     {
-
         $resultData = $this->controller->search();
         return json_encode($resultData);
     }
     private function delete(): string
     {
-
         $resultData = $this->controller->delete();
         return json_encode($resultData);
     }
@@ -109,16 +100,6 @@ class ThisClass
     private function cencelOrder(): string
     {
         $resultData = $this->controller->cencelOrder();
-        return json_encode($resultData);
-    }
-    private function updateSha(): string
-    {
-        $resultData = $this->controller->updateSha($this->getInputAppId(), $this->getInputAppSha());
-        return json_encode($resultData);
-    }
-    private function updateVersion(): string
-    {
-        $resultData = $this->controller->updateVersion($this->getInputAppId(), $this->getInputAppVersion());
         return json_encode($resultData);
     }
 }
