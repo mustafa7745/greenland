@@ -6,9 +6,15 @@ class UsersLocationsExecuter
 {
   function executeGetData($userId)
   {
+    require_once __DIR__ . '/../../../include/projects/helper.php';
     $data = getUsersLocationsHelper()->getData($userId);
+    $project = getProjectsHelper()->getDataById(1);
+    $project_lat = (getLatLong($project))[0];
+    $project_long = (getLatLong($project))[1];
     for ($i = 0; $i < count($data); $i++) {
-      $data[$i]['price'] = 650;
+      $user_lat = (getLatLong($data[$i]))[0];
+      $user_long = (getLatLong($data[$i]))[1];
+      $data[$i]['price'] = $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
     }
 
     return $data;
