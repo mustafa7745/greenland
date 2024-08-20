@@ -237,11 +237,11 @@ class OrdersProductsExecuter
 
       $idsString = convertIdsListToStringSql($ids);
 
-      print_r($ids);
-      print_r($idsString);
+      // print_r($ids);
+      // print_r($idsString);
 
-      exitFromScript(json_encode($ids), "ffdf");
-      getAcceptanceHelper()->deleteData($idsString, $ids);
+      // exitFromScript(json_encode($ids), "ffdf");
+      getAcceptanceHelper()->deleteData($idsString, count($ids));
     }
     shared_execute_sql("COMMIT");
     return ['success' => 'true'];
