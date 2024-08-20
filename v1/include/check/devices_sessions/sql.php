@@ -40,8 +40,9 @@ class DevicesSessionsSql extends \DevicesSessionsAttribute
     }
     protected function updateTokensql($id, $newValue): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->appToken = $newValue";
+        $set_query = "SET $this->appToken = $newValue ,$this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
