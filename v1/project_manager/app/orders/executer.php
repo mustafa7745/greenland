@@ -240,7 +240,7 @@ class OrdersProductsExecuter
       print_r($ids);
       print_r($idsString);
 
-      exitFromScript(json_encode($ids), $en);
+      exitFromScript(json_encode($ids), "ffdf");
       getAcceptanceHelper()->deleteData($idsString, $ids);
     }
     shared_execute_sql("COMMIT");
