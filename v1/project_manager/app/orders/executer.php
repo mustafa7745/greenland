@@ -190,6 +190,12 @@ class OrdersProductsExecuter
      */
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
     require_once __DIR__ . '/../products/helper.php';
     $orderProduct = getOrdersProductsHelper()->getDataByOrderIdAndProductId($orderId, $productId);
     if (count($orderProduct) != 0) {
@@ -230,9 +236,9 @@ class OrdersProductsExecuter
     $acceptance = getAcceptanceHelper()->getDataByOrderDeliveryIdAndStatus(getId($orderDelivery), getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
     if (count($acceptance) == 1) {
       $acceptance = $acceptance[0];
-      
+
       $ids = [getId($acceptance)];
-     
+
 
 
       $idsString = convertIdsListToStringSql($ids);
