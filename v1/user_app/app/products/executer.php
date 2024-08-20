@@ -20,6 +20,7 @@ class ProductsExecuter
     }
     if (count($ids) > 0) {
       $idsString = convertIdsListToStringSql($ids);
+      require_once __DIR__ .'/../products_images/helper.php';
       $images = getProductsImagesHelper()->getData($idsString);
       for ($i = 0; $i < count($data); $i++) {
         $newImages = [];
