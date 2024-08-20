@@ -11,7 +11,7 @@ class ReservationsExecuter
     if (count($data) == 1) {
       return ["success" => "true"];
     }
-    if (count($data) > 1) { 
+    if (count($data) > 1) {
       $ar = "طلبات حجز كثيرة كثيرة";
       $en = "طلبات حجز كثيرة كثيرة";
       exitFromScript($ar, $en);
@@ -24,6 +24,9 @@ class ReservationsExecuter
       require_once (getDeliveryPath() . 'app/orders/helper.php');
       $orderDelivery = getOrdersDeliveryHelper()->getDataById(getOrderDeliveryId($acceptance));
       $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+      if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+        return ["success" => "false"];
+      }
       $ordersProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1(getId($order));
       $ordersProducts["acceptStatus"] = getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS;
       $ordersProducts["systemOrderNumber"] = $order[getOrdersHelper()->systemOrderNumber];
@@ -35,13 +38,16 @@ class ReservationsExecuter
     }
     // 
     $acceptance = getAcceptanceHelper()->getData($deliveryManId, getAcceptanceHelper()->ACCEPTED_STATUS);
-    
+
     if ($acceptance != null) {
 
       require_once (getDeliveryPath() . 'app/orders/helper.php');
 
       $orderDelivery = getOrdersDeliveryHelper()->getDataById(getOrderDeliveryId($acceptance));
       $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+      if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+        return ["success" => "false"];
+      }
       // print_r($order);
       $situatinId = $order[getOrdersHelper()->situationId];
       if ($situatinId != getOrdersHelper()->ORDER_COMPLETED and $situatinId != getOrdersHelper()->ORDER_CENCELED) {
