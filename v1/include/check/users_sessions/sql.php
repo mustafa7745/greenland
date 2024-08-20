@@ -25,8 +25,8 @@ class UsersSessionSql extends \UsersSessionsAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->userId`,`$this->deviceSessionId`,`$this->createdAt`)";
-        $values = "(Null,$userId,$deviceSessionId,'$date')";
+        $columns = "(`$this->id`,`$this->userId`,`$this->deviceSessionId`,`$this->createdAt`,`$this->lastLoginAt`)";
+        $values = "(Null,$userId,$deviceSessionId,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
