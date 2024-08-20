@@ -226,6 +226,7 @@ class OrdersProductsExecuter
     getOrdersCenceledHelper()->addData($orderId, $description);
     $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
 
+    require_once __DIR__ . '/../acceptance/helper.php';
     $acceptance = getAcceptanceHelper()->getDataByOrderDeliveryIdAndStatus(getId($orderDelivery), getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
     if (count($acceptance) == 1) {
       $acceptance = $acceptance[0];
