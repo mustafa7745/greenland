@@ -10,6 +10,11 @@ class ReservationsExecuter
     if (count($data) == 1) {
       return ["success" => "true"];
     }
+    if (count($data) > 1) { 
+      $ar = "طلبات حجز كثيرة كثيرة";
+      $en = "طلبات حجز كثيرة كثيرة";
+      exitFromScript($ar, $en);
+    }
 
     require_once (getDeliveryPath() . 'app/acceptance/helper.php');
 
