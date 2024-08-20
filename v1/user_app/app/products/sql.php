@@ -8,8 +8,8 @@ class ProductsSql extends \ProductsAttribute
     function readSql($categoryId): string
     {
         $table_name = $this->table_name;
-        $innerJoin = "";
-        $columns = getColumnImagePath(" * ", "product_image_path");
+        $innerJoin = $this->INNER_JOIN();
+        $columns = getColumnImagePath("$this->table_name.$this->id,$this->table_name.$this->prePrice,$this->table_name.$this->postPrice,$this->table_name.$this->categoryId,$this->table_name.$this->createdAt,$this->table_name.$this->updatedAt ,$this->table_name.$this->name, {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id' , {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'", "category_image_path");
         $condition = "$this->table_name.$this->categoryId = $categoryId";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
