@@ -89,33 +89,18 @@ class AcceptanceHelper extends AcceptanceSql
       exitFromScript($ar, $en);
     }
   }
-  function updateSha($id, $name)
+  function deleteData($ids, $count)
   {
-
-    $sql = $this->update_sha_sql("'$name'", "'$id'");
-
+    $sql = $this->deleteSql($ids);
+    // print_r($sql);
     shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
+    if (mysqli_affected_rows(getDB()->conn) != $count) {
       shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
+      $ar = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
       exitFromScript($ar, $en);
     }
   }
-  function updateVersion($id, $name)
-  {
-
-    $sql = $this->update_version_sql("'$name'", "'$id'");
-
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      exitFromScript($ar, $en);
-    }
-  }
-
 }
 
 $uacceptance_helper = null;

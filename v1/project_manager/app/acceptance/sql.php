@@ -50,4 +50,11 @@ class AcceptanceSql extends \AcceptanceAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+    protected function deleteSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id IN ($ids)";
+        /////
+        return delete_sql($table_name, $condition);
+    }
 }
