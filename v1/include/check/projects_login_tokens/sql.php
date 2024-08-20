@@ -32,16 +32,18 @@ class ProjectsLoginTokensSql extends \ProjectsLoginTokensAttribute
 
     function addSql($userSessionId, $token, $projectId, $expireAt): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->userSessionId`,`$this->token`,$this->projectId,`$this->expireAt`)";
-        $values = "(NUll,$userSessionId, $token,$projectId, $expireAt)";
+        $columns = "(`$this->id`,`$this->userSessionId`,`$this->token`,$this->projectId,`$this->expireAt`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "(NUll,$userSessionId, $token,$projectId, $expireAt,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
     protected function updateTokensql($id, $newValue, $expireAt): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->token = $newValue , $this->expireAt = $expireAt";
+        $set_query = "SET $this->token = $newValue , $this->expireAt = $expireAt, $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);

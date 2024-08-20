@@ -23,9 +23,10 @@ class DevicesSessionsIpsSql extends \DevicesSessionsIpsAttribute
     }
     function addSql($deviceSessionId, $ip): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->deviceSessionId`,`$this->ip`)";
-        $values = "(NULL,$deviceSessionId,$ip)";
+        $columns = "(`$this->id`,`$this->deviceSessionId`,`$this->ip`,`$this->createdAt`)";
+        $values = "(NULL,$deviceSessionId,$ip,'$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

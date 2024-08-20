@@ -23,9 +23,10 @@ class UsersSessionSql extends \UsersSessionsAttribute
     }
     function addSql($userId, $deviceSessionId): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->userId`,`$this->deviceSessionId`)";
-        $values = "(Null,$userId,$deviceSessionId)";
+        $columns = "(`$this->id`,`$this->userId`,`$this->deviceSessionId`,`$this->createdAt`)";
+        $values = "(Null,$userId,$deviceSessionId,'$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

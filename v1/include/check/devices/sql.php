@@ -15,9 +15,10 @@ class DevicesSql extends \DevicesAttribute
     }
     function addSql($id, $info, $publicKey): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->info`,`$this->publicKey`)";
-        $values = "($id,$info,$publicKey)";
+        $columns = "(`$this->id`,`$this->info`,`$this->publicKey`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$info,$publicKey,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

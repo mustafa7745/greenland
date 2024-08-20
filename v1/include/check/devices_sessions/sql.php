@@ -31,9 +31,10 @@ class DevicesSessionsSql extends \DevicesSessionsAttribute
     }
     function addSql($deviceId, $appId, $appToken): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->deviceId`,`$this->appId`,`$this->appToken`)";
-        $values = "(NULL,$deviceId,$appId,$appToken)";
+        $columns = "(`$this->id`,`$this->deviceId`,`$this->appId`,`$this->appToken`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "(NULL,$deviceId,$appId,$appToken,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

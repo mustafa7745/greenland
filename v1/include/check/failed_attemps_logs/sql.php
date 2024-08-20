@@ -7,9 +7,10 @@ class FailedAttempsLogsSql extends \FailedAttempsLogsAttribute
 
     function insertSql($deviceSessionIpId, $permissionId): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->deviceSessionIpId`,`$this->permissionId`)";
-        $values = "(null,$deviceSessionIpId,$permissionId)";
+        $columns = "(`$this->id`,`$this->deviceSessionIpId`,`$this->permissionId`,`$this->createdAt`)";
+        $values = "(null,$deviceSessionIpId,$permissionId,'$date')";
         // print_r(shared_insert_sql($table_name, $columns, $values));
         return shared_insert_sql($table_name, $columns, $values);
     }

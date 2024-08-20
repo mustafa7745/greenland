@@ -5,15 +5,6 @@ require_once (getPath() . 'tables/managers/attribute.php');
 
 class ManagersSql extends \ManagersAttribute
 {  
-    function addSql($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone): string
-    {
-        $date = getCurruntDate();
-        $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->userId`,`$this->city`,`$this->street`,`$this->latLong`,`$this->contactPhone`,`$this->nearTo`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$userId,$city,$street,$latLong,$contactPhone,$nearTo,'$date','$date')";
-        /////
-        return shared_insert_sql($table_name, $columns, $values);
-    }
     function readByUserIdsql($userId): string
     {
         $table_name = $this->table_name;
