@@ -67,7 +67,8 @@ class OrdersExecuter
     // print_r($distanse);
     $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
     // 
-    getOrdersDeliveryHelper()->addData($orderId, $order_price_delivery, $userLocationId);
+    $orderDeliveryId = uniqid(rand(), false);
+    getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId);
 
 
     // $order = getOrdersHelper()->getOrder($order_id);
