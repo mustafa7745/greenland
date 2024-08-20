@@ -109,6 +109,7 @@ class OrdersExecuter extends OrdersSql
      * COMMIT
      */
     shared_execute_sql("COMMIT");
+    getDeliveryMenExecuter()->sendMessageToDeliveryMan($deliveryManId);
     return ["success" => "true"];
 
 
