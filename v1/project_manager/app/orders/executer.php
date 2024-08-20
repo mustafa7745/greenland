@@ -286,7 +286,15 @@ class OrdersProductsExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-    getOrdersProductsHelper()->getDataById($id);
+    $orderProduct = getOrdersProductsHelper()->getDataById($id);
+    $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
     getOrdersProductsHelper()->updateQuantity($id, $newValue);
     $data = getOrdersProductsHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
@@ -303,6 +311,14 @@ class OrdersProductsExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
+    $orderProduct = getOrdersProductsHelper()->getDataById($ids[0]);
+    $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
     getOrdersProductsHelper()->deleteData($idsString, count($ids));
     // getOrdersProductsHelper()->updateQuantity($id, $newValue);
     // $data = getOrdersProductsHelper()->getDataById($id);
