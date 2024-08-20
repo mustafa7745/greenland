@@ -86,6 +86,7 @@ class OrdersExecuter extends OrdersSql
       $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
       //
       ///////// 2)
+      require_once __DIR__ . "/../acceptance/helper.php";
 
       $acceptanceId = getId(getIdsControllerHelper()->getData(getAcceptanceHelper()->table_name));
       getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
