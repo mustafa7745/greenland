@@ -84,6 +84,7 @@ class AcceptanceExecuter
      */
     shared_execute_sql("START TRANSACTION");
 
+
     $acceptance = $this->executeGetData($deliveryManId, getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
     // print_r($acceptance);
     if (count($acceptance) != 1) {
@@ -96,9 +97,15 @@ class AcceptanceExecuter
 
     require_once __DIR__ . '/../../app/orders/helper.php';
     $orderDelivery = getOrdersDeliveryHelper()->getDataById(getOrderDeliveryId($acceptance));
-    getOrdersDeliveryHelper()->updateDeliveryManId(getId($orderDelivery), $deliveryManId);
+    
     $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
     // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    getOrdersDeliveryHelper()->updateDeliveryManId(getId($orderDelivery), $deliveryManId);
     // print_r($order);
     // exitFromScript("",json_encode($order));
     $situatinId = getOrdersHelper()->ORDER_ASSIGNED_DELIVERY_MAN;
