@@ -6,6 +6,9 @@ class ReservationsExecuter
 {
   function executeGetData($deliveryManId)
   {
+    $ar = "طلبات حجز كثيرة كثيرة";
+      $en = "طلبات حجز كثيرة كثيرة";
+      exitFromScript($ar, $en);
     $data = getReservationsHelper()->getData($deliveryManId);
     if (count($data) == 1) {
       return ["success" => "true"];
@@ -51,12 +54,7 @@ class ReservationsExecuter
         return $ordersProducts;
         // return;
       }
-
-
       return ["success" => "false"];
-
-
-
     }
     return ["success" => "false"];
     // return $data;
