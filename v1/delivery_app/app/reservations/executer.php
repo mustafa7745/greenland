@@ -24,12 +24,12 @@ class ReservationsExecuter
       require_once (getDeliveryPath() . 'app/orders/helper.php');
       $orderDelivery = getOrdersDeliveryHelper()->getDataById(getOrderDeliveryId($acceptance));
       $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
-      $ar = $order[getOrdersHelper()->situationId] . "," . getOrdersHelper()->ORDER_COMPLETED . "," . getOrdersHelper()->ORDER_CENCELED . "," . $order[getOrdersHelper()->id];
-      $en = "طلبات حجز كثيرة كثيرة";
-      exitFromScript($ar, $en);
-      // if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
-      //   return ["success" => "false"];
-      // }
+      // $ar = $order[getOrdersHelper()->situationId] . "," . getOrdersHelper()->ORDER_COMPLETED . "," . getOrdersHelper()->ORDER_CENCELED . "," . $order[getOrdersHelper()->id];
+      // $en = "طلبات حجز كثيرة كثيرة";
+      // exitFromScript($ar, $en);
+      if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+        return ["success" => "false"];
+      }
       $ordersProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1(getId($order));
       $ordersProducts["acceptStatus"] = getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS;
       $ordersProducts["systemOrderNumber"] = $order[getOrdersHelper()->systemOrderNumber];
