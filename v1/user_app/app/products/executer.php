@@ -27,7 +27,7 @@ class ProductsExecuter
         $productId = getId($data[$i]);
         for ($im = 0; $im < count($images); $im++) {
           if ($productId == $images[$im]["productId"]) {
-            $images[$im]['image'] = $images[$im]['image'] . $images[$im]['product_image_path'];
+            $images[$im]['image'] = $images[$im]['product_image_path'] . $images[$im]['image'];
             array_push($newImages, $images[$im]);
           }
         }
