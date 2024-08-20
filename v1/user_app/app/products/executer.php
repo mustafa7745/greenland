@@ -25,8 +25,8 @@ class ProductsExecuter
         $newImages = [];
         $productId = getId($data[$i]);
         for ($im=0; $im < count($images); $im++) { 
-          if ($productId == $images[$i]["productId"]) {
-            array_push($newImages,$images[$i]["image"]);
+          if ($productId == $images[$im]["productId"]) {
+            array_push($newImages,$images[$im]["image"]);
           }
         }
         $data[$i]["productImages"] = $newImages;
