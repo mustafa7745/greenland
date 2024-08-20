@@ -86,10 +86,7 @@ class OrdersExecuter extends OrdersSql
       $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
       //
       ///////// 2)
-      require_once __DIR__ . "/../acceptance/helper.php";
 
-      $acceptanceId = getId(getIdsControllerHelper()->getData(getAcceptanceHelper()->table_name));
-      getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
 
       $orderDeliveryId = uniqid(rand(), false);
       getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId);
@@ -101,6 +98,7 @@ class OrdersExecuter extends OrdersSql
       $resrvation = getReservationsHelper()->getData($deliveryManId);
       $resrvation = getReservationsHelper()->getDataById(getId($resrvation));
       // 2) Update Reservation status to Accepted
+      require_once __DIR__ . "/../acceptance/helper.php";
       getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
       // 3) Add Request Accept To Acceptance Table
       $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
