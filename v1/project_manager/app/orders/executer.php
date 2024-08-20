@@ -230,9 +230,17 @@ class OrdersProductsExecuter
     $acceptance = getAcceptanceHelper()->getDataByOrderDeliveryIdAndStatus(getId($orderDelivery), getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
     if (count($acceptance) == 1) {
       $acceptance = $acceptance[0];
-      $ids = ["'{getId($acceptance)}'"];
+      
+      $ids = [getId($acceptance)];
+     
+
 
       $idsString = convertIdsListToStringSql($ids);
+
+      print_r($ids);
+      print_r($idsString);
+
+      exitFromScript(json_encode($ids), $en);
       getAcceptanceHelper()->deleteData($idsString, $ids);
     }
     shared_execute_sql("COMMIT");
