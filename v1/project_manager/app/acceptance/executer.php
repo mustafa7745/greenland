@@ -48,12 +48,6 @@ class AcceptanceExecuter
       $en = "طلبات انتظار كثيرة";
       exitFromScript($ar, $en);
     }
-
-
-
-
-
-    ;
   }
   private function processAcceptance($helper, $deliveryManId, $orderDeliveryId, $acceptance, $level = 1)
   {

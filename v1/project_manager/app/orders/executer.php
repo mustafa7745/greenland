@@ -6,7 +6,7 @@ require_once ('sql.php');
 require_once ('helper.php');
 class OrdersExecuter extends OrdersSql
 {
-  function executeAddData($userId, $order_products, $projectId, $userLocationId)
+  function executeAddData($userId, $order_products, $projectId, $userLocationId, $deliveryManId)
   {
     $helper = getOrdersHelper();
     $helper->checkIfhaveOrderNotComplete($userId);
@@ -47,26 +47,7 @@ class OrdersExecuter extends OrdersSql
     getOrdersHelper()->addOrder($orderId, $userId);
 
 
-    /**
-     * ADD DELIVERY DATA
-     */
-    require_once __DIR__ . '/../../../include/projects/helper.php';
 
-    $project = getProjectsHelper()->getDataById($projectId);
-    $project_lat = (getLatLong($project))[0];
-    $project_long = (getLatLong($project))[1];
-    // 
-    require_once __DIR__ . "/../users_locations/helper.php";
-
-    $userLocation = getUsersLocationsHelper()->getDataById($userLocationId);
-    $user_lat = (getLatLong($userLocation))[0];
-    $user_long = (getLatLong($userLocation))[1];
-    // 
-    $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
-    // print_r($distanse);
-    $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
-    // 
-    getOrdersDeliveryHelper()->addData($orderId, $order_price_delivery, $userLocationId);
 
 
     // $order = getOrdersHelper()->getOrder($order_id);
@@ -80,19 +61,51 @@ class OrdersExecuter extends OrdersSql
       $productPrice = $products[$i][getProductsHelper()->postPrice];
       $final_sum = $final_sum + $productPrice;
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
-      $id = uniqid(rand(), false);
       getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
-    // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
+    if ($deliveryManId != null) {
+      ////// 1)
+      /**
+       * ADD DELIVERY DATA
+       */
+      require_once __DIR__ . '/../../../include/projects/helper.php';
 
-    /**
-     * ADD INSERTED VALUES TO UserINSERtOperations TABLE
-     */
+      $project = getProjectsHelper()->getDataById($projectId);
+      $project_lat = (getLatLong($project))[0];
+      $project_long = (getLatLong($project))[1];
+      // 
+      require_once __DIR__ . "/../users_locations/helper.php";
 
-    // sharedAddUserInsertOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $orderProducts);
+      $userLocation = getUsersLocationsHelper()->getDataById($userLocationId);
+      $user_lat = (getLatLong($userLocation))[0];
+      $user_long = (getLatLong($userLocation))[1];
+      // 
+      $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
+      // print_r($distanse);
+      $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
+      //
+      ///////// 2)
 
-    // print_r($orderProducts);
+      $acceptanceId = getId(getIdsControllerHelper()->getData(getAcceptanceHelper()->table_name));
+      getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
+
+      $orderDeliveryId = uniqid(rand(), false);
+      getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId);
+
+
+
+      // 1) Get Reservation Data
+      require_once (getManagerPath() . 'app/reservations/helper.php');
+      $resrvation = getReservationsHelper()->getData($deliveryManId);
+      $resrvation = getReservationsHelper()->getDataById(getId($resrvation));
+      // 2) Update Reservation status to Accepted
+      getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
+      // 3) Add Request Accept To Acceptance Table
+      $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
+      getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
+
+    }
     /**
      * COMMIT
      */

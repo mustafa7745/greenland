@@ -10,9 +10,6 @@ class ReservationsExecuter
     $user = getUsersHelper()->getData($phone);
     require_once (getManagerPath() . 'app/delivery_men/helper.php');
     $deliveryMan = getDeliveryMenHelper()->getDataById(getId($user));
-    // 
-    // print_r("dede");
-    
     $reservation = getReservationsHelper()->getData(getId($deliveryMan));
     return $user;
   }
