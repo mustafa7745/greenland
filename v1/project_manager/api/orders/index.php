@@ -29,9 +29,9 @@ class ThisClass
             return $this->updateType();
         } elseif (getTag() == "updateAmount") {
             return $this->updateAmount();
-        }elseif (getTag() == "updateAmount") {
+        }elseif (getTag() == "deleteOrderDiscount") {
             return $this->deleteOrderDiscount();
-        } elseif (getTag() == "deleteOrderDiscount") {
+        } elseif (getTag() == "readOrderStatus") {
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
             return $this->add();

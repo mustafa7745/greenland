@@ -123,7 +123,7 @@ class Orders
     }
     function deleteOrderDiscount()
     {
-        return getOrdersDiscountsExecuter()->executeDeleteData(getInputOrderDiscountId2());
+        return getOrdersDiscountsExecuter()->executeDeleteData(getInputOrderDiscountId());
     }
 
 
