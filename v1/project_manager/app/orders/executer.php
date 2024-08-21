@@ -267,15 +267,13 @@ class OrdersProductsExecuter
       $situatinId = getOrdersHelper()->ORDER_VIEWD;
       getOrdersHelper()->updateStatus(getId($order), $situatinId);
       getOrdersStatusHelper()->addData(getId($order), $situatinId);
-      //
-
     }
 
     // $order = getOrdersHelper()->getOrder($order_id);
     // $currency_id = getOrdersHelper()->getOrderCurrencyId($order);
     // require_once (getPath() . "app/user_app/projects_currencies/helper.php");
     // $project_currency = getProjectsCurrenciesHelper()->getDataByCurrencyIdAndProjectId($currency_id, $project_id);
-    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
+    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff3($orderId);
     shared_execute_sql("COMMIT");
 
     return $orderProducts;

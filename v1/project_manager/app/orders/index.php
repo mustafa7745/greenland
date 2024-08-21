@@ -14,7 +14,6 @@ class Orders
     {
 
         require_once __DIR__ . '/../delivery_men/executer.php';
-
         return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId(), getInputDeliveryManId());
     }
     function addProductToOrder()

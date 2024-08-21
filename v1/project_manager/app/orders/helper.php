@@ -183,61 +183,11 @@ class OrdersProductsHelper extends OrdersProductsSql
     $r = array("orderId" => $order_id, "order" => $order, "products" => $orderProducts, "delivery" => $delivery, 'discount' => null, "productsFinalPrice" => $products_final_price, "finalPrice" => $final_price);
     return $r;
   }
-  function getOrderProductsByOrderWithItsStuff($order)
+  function getOrderProductsByOrderWithItsStuff3($order_id)
   {
-    // 
-    $ordersGetter = getOrdersGetter($order);
-    $order_id = $ordersGetter->getOrderId();
-    $orderProducts = $this->getOrderProductsByOrderId($order_id);
-    $currency_id = $ordersGetter->getCurrencyId();
-    require_once (getPath() . "app/user_app/currencies/helper.php");
-    $currency = getProjectsCurrenciesHelper()->ge($currency_id);
-    $final_price = 0.0;
-    for ($i = 0; $i < count($orderProducts); $i++) {
-      $final_price = $final_price + $orderProducts[$i]["avg"];
-    }
-    $products_final_price = $final_price;
-
-    // 
+    $order = getOrdersHelper()->getDataById($order_id);
     $delivery = getOrdersDeliveryHelper()->checkIfhaveOrderDelivery($order_id);
-    $isDeliveryWithOrder = null;
-    $delivery_price = 0;
-    if ($delivery != null) {
-      $delivery_price = getOrdersDeliveryGetter($delivery)->getOrderDeliveryPrice();
-      $final_price = $final_price + $delivery_price;
-
-      $orderDeliveryGetter = getOrdersDeliveryGetter($delivery);
-      $s = $orderDeliveryGetter->getOrderDeliveryIsWithOrder();
-      if ($s == "1") {
-        $isDeliveryWithOrder = $s;
-      }
-    }
-    $discount = getOrdersDiscountsHelper()->checkIfhaveOrderDiscount($order_id);
-    if ($discount != null) {
-      $ordersDiscountsGetter = getOrdersDiscountsGetter($discount);
-      // 
-      $amount = $ordersDiscountsGetter->getOrderDiscountAmount();
-      $discount_type = $ordersDiscountsGetter->getOrderDiscountType();
-      if ($isDeliveryWithOrder != null) {
-
-        if ($discount_type == "1") {
-          $final_price = $final_price - ($final_price * $amount / 100);
-        } else {
-          $final_price = $final_price - $amount;
-        }
-      } else {
-        $final_price = $final_price - $delivery_price;
-
-        if ($discount_type == "1") {
-          $final_price = $final_price - ($products_final_price * $amount / 100);
-        } else {
-          $final_price = $products_final_price - $amount;
-        }
-      }
-
-    }
-    $final_price = round($final_price);
-    $r = array("order_id" => $order_id, "products" => $orderProducts, "currency" => $currency, "discount" => $discount, "delivery" => $delivery, "products_final_price" => $products_final_price, "final_price" => $final_price, );
+    $r = array("order" => $order, "products" => null, "delivery" => $delivery, 'discount' => null);
     return $r;
   }
   function addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity)
@@ -384,9 +334,9 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
     return $data;
   }
 
-  function addData($id,$orderId, $price, $userLocationId)
+  function addData($id, $orderId, $price, $userLocationId)
   {
-    $sql = $this->addSql("'$id'","'$orderId'", "'$price'", "'$userLocationId'");
+    $sql = $this->addSql("'$id'", "'$orderId'", "'$price'", "'$userLocationId'");
     // print_r($sql); 
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
