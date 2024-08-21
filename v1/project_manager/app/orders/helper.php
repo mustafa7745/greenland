@@ -157,6 +157,9 @@ class OrdersProductsHelper extends OrdersProductsSql
     $discount = getOrdersDiscountsHelper()->getDataByOrderId($order_id);
     if ($discount != null) {
       // 
+      print_r($discount);
+      print_r($discount['amount']);
+
       $amount = $discount[getOrdersDiscountsHelper()->amount];
       $discount_type = $discount[getOrdersDiscountsHelper()->type];
       if ($isDeliveryWithOrder != null) {
