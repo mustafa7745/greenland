@@ -291,7 +291,7 @@ class OrdersDiscountsSql extends \OrdersDiscountsAttribute
     protected function deleteSql($id): string
     {
         $table_name = $this->table_name;
-        $condition = "$this->id  $id";
+        $condition = "$this->id = $id";
         /////
         return delete_sql($table_name, $condition);
     }
