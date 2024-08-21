@@ -154,33 +154,31 @@ class OrdersProductsHelper extends OrdersProductsSql
         $isDeliveryWithOrder = $s;
       }
     }
-    // $discount = getOrdersDiscountsHelper()->checkIfhaveOrderDiscount($order_id);
-    // if ($discount != null) {
-    //   $ordersDiscountsGetter = getOrdersDiscountsGetter($discount);
-    //   // 
-    //   $amount = $ordersDiscountsGetter->getOrderDiscountAmount();
-    //   $discount_type = $ordersDiscountsGetter->getOrderDiscountType();
-    //   if ($isDeliveryWithOrder != null) {
+    $discount = getOrdersDiscountsHelper()->getDataByOrderId($order_id);
+    if ($discount != null) {
+      // 
+      $amount = $discount[getOrdersDiscountsHelper()->amount];
+      $discount_type = $discount[getOrdersDiscountsHelper()->type];
+      if ($isDeliveryWithOrder != null) {
 
-    //     if ($discount_type == "1") {
-    //       $final_price = $final_price - ($final_price * $amount / 100);
-    //     } else {
-    //       $final_price = $final_price - $amount;
-    //     }
-    //   } else {
-    //     $final_price = $final_price - $delivery_price;
+        if ($discount_type == "1") {
+          $final_price = $final_price - ($final_price * $amount / 100);
+        } else {
+          $final_price = $final_price - $amount;
+        }
+      } else {
+        $final_price = $final_price - $delivery_price;
 
-    //     if ($discount_type == "1") {
-    //       $final_price = $final_price - ($products_final_price * $amount / 100);
-    //     } else {
-    //       $final_price = $products_final_price - $amount;
-    //     }
-    //   }
-
-    // }
+        if ($discount_type == "1") {
+          $final_price = $final_price - ($products_final_price * $amount / 100);
+        } else {
+          $final_price = $products_final_price - $amount;
+        }
+      }
+    }
     // $final_price = ($final_price);
     // unset($project_currency["currency_id"]);
-    $r = array("orderId" => $order_id, "order" => $order, "products" => $orderProducts, "delivery" => $delivery, 'discount' => null, "productsFinalPrice" => $products_final_price, "finalPrice" => $final_price);
+    $r = array("orderId" => $order_id, "order" => $order, "products" => $orderProducts, "delivery" => $delivery, 'discount' => $discount, "productsFinalPrice" => $products_final_price, "finalPrice" => $final_price);
     return $r;
   }
   function getOrderProductsByOrderWithItsStuff3($order_id)
@@ -374,6 +372,39 @@ function getOrdersDeliveryHelper()
   global $orders_delivery_helper;
   if ($orders_delivery_helper == null) {
     $orders_delivery_helper = (new OrdersDeliveryHelper());
+  }
+  return $orders_delivery_helper;
+}
+
+class OrdersDiscountsHelper extends OrdersDiscountsSql
+{
+  function getDataById($id)
+  {
+    $sql = $this->readByIdSql("'$id'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "ID_ERROR";
+      $en = "ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
+  function getDataByOrderId($orderId)
+  {
+    $sql = $this->readByOrderIdSql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      return null;
+    }
+    return $data[0];
+  }
+}
+$orders_delivery_helper = null;
+function getOrdersDiscountsHelper()
+{
+  global $orders_delivery_helper;
+  if ($orders_delivery_helper == null) {
+    $orders_delivery_helper = new OrdersDiscountsHelper();
   }
   return $orders_delivery_helper;
 }

@@ -239,3 +239,28 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
     }
 }
 
+require_once (getPath() . 'tables/orders_delivery/attribute.php');
+
+class OrdersDiscountsSql extends \OrdersDiscountsAttribute
+{
+    function readByIdSql($id): string
+    {
+        $table_name = $this->table_name;
+        $columns = "*";
+        $innerJoin = "";
+        $condition = "$this->id = $id FOR UPDATE";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+    function readByOrderIdSql($orderId): string
+    {
+        $table_name = $this->table_name;
+        $columns = "*";
+        $innerJoin = "";
+        $condition = "$this->orderId = $orderId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+}
+
+
