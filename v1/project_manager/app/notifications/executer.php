@@ -6,12 +6,12 @@ class NotificationsExecuter
 {
   function executeAddData($title, $description)
   {
-    $sendMessage = sendMessageToTobic(1, "hello", "mustafa");
+    $sendMessage = sendMessageToTobic(1, $title, $description);
     if ($sendMessage) {
       $id = uniqid(rand(), false);
       return getNotificationsHelper()->addData($id, $title, $description);
     }
-    exitFromScript("CONT SEND FCM","CANT");
+    exitFromScript("CONT SEND FCM", "CANT");
   }
 
 
