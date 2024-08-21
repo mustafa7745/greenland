@@ -37,6 +37,7 @@ function sendMessageToTobic($topic, $title, $body): bool
   require_once __DIR__ . "/../projects/helper.php";
   $project = getProjectsHelper()->getDataById(1);
   $json = $project[getProjectsHelper()->serviceAccountKey];
+  require_once __DIR__ . "/../../include/send_message.php";
   $sendMessage = new SendFCM();
   return $sendMessage->sendMessageToTobic($json, $topic, $title, $body);
 }
