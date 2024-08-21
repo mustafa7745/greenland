@@ -379,6 +379,24 @@ class OrdersDiscountsExecuter
     $id = uniqid(rand(), false);
     return getOrdersDiscountsHelper()->addData($id, $orderId, $amount, $type);
   }
+  function executeUpdateType($id, $type)
+  {
+    shared_execute_sql("START TRANSACTION");
+    $updatedData = getOrdersDiscountsHelper()->updateType($id, $type);
+    shared_execute_sql("COMMIT");
+    return $updatedData;
+  }
+  function executeUpdateAmount($id, $amount)
+  {
+    shared_execute_sql("START TRANSACTION");
+    $updatedData = getOrdersDiscountsHelper()->updateAmount($id, $amount);
+    shared_execute_sql("COMMIT");
+    return $updatedData;
+  }
+  function executeDeleteData($id)
+  {
+    return getOrdersDiscountsHelper()->deleteData($id);
+  }
 
 }
 $orders_discounts_executer = null;

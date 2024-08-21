@@ -413,6 +413,43 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
     }
     return $this->getDataById($id);
   }
+  function updateType($id, $newValue)
+  {
+    $sql = $this->updateTypeSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
+  function updateAmount($id, $newValue)
+  {
+    $sql = $this->updateAmountSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
+  function deleteData($id)
+  {
+    $sql = $this->deleteSql("'$id'");
+    // print_r($sql);
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      exitFromScript($ar, $en);
+    }
+    
+  }
 }
 $orders_discount_helper = null;
 function getOrdersDiscountsHelper()

@@ -270,6 +270,31 @@ class OrdersDiscountsSql extends \OrdersDiscountsAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    protected function updateTypeSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->type = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateAmountSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->amount = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function deleteSql($id): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id  $id";
+        /////
+        return delete_sql($table_name, $condition);
+    }
 }
 
 

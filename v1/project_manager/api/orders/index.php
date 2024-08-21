@@ -25,7 +25,13 @@ class ThisClass
             return $this->readOrderProducts();
         } elseif (getTag() == "updateSystemOrderNumber") {
             return $this->updateSystemOrderNumber();
-        } elseif (getTag() == "readOrderStatus") {
+        } elseif (getTag() == "updateType") {
+            return $this->updateType();
+        } elseif (getTag() == "updateAmount") {
+            return $this->updateAmount();
+        }elseif (getTag() == "updateAmount") {
+            return $this->deleteOrderDiscount();
+        } elseif (getTag() == "deleteOrderDiscount") {
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
             return $this->add();
@@ -56,6 +62,21 @@ class ThisClass
     private function updateSystemOrderNumber(): string
     {
         $resultData = $this->controller->updateSystemOrderNumber();
+        return json_encode($resultData);
+    }
+    private function updateType(): string
+    {
+        $resultData = $this->controller->updateType();
+        return json_encode($resultData);
+    }
+    private function updateAmount(): string
+    {
+        $resultData = $this->controller->updateAmount();
+        return json_encode($resultData);
+    }
+    private function deleteOrderDiscount(): string
+    {
+        $resultData = $this->controller->deleteOrderDiscount();
         return json_encode($resultData);
     }
 

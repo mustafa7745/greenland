@@ -16,10 +16,7 @@ class Orders
         require_once __DIR__ . '/../delivery_men/executer.php';
         return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId(), getInputDeliveryManId());
     }
-    function addDiscount()
-    {
-        return getOrdersDiscountsExecuter()->executeAddData(getInputOrderId(), getInputOrderDiscountAmount(), getInputOrderDiscountType());
-    }
+
     function addProductToOrder()
     {
         // $s = getMainRunApp();
@@ -110,14 +107,24 @@ class Orders
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersStatusExecuter()->executeGetData(getInputOrderId());
     }
-    // function readOrderProducts($order_id)
-    // {
-    //     $resultData = $this->check->check("READ_CATEGORIES");
-    //     return getOrdersProductsExecuter()->getData($order_id, $resultData->getProjectIdFromApp());
-    // }
-    // function readOrderStatus($order_id)
-    // {
-    //     $resultData = $this->check->check("READ_CATEGORIES");
-    //     return getOrdersStatusExecuter()->getData($order_id);
-    // }
+
+    ////
+    function addDiscount()
+    {
+        return getOrdersDiscountsExecuter()->executeAddData(getInputOrderId(), getInputOrderDiscountAmount(), getInputOrderDiscountType());
+    }
+    function updateType()
+    {
+        return getOrdersDiscountsExecuter()->executeUpdateType(getInputOrderDiscountId(), getInputOrderDiscountType());
+    }
+    function updateAmount()
+    {
+        return getOrdersDiscountsExecuter()->executeUpdateAmount(getInputOrderDiscountId(), getInputOrderDiscountAmount());
+    }
+    function deleteOrderDiscount()
+    {
+        return getOrdersDiscountsExecuter()->executeDeleteData(getInputOrderDiscountId());
+    }
+
+
 }
