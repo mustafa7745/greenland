@@ -157,8 +157,8 @@ class OrdersProductsHelper extends OrdersProductsSql
     $discount = getOrdersDiscountsHelper()->getDataByOrderId($order_id);
     if ($discount != null) {
       // 
-      print_r($discount);
-      print_r($discount['amount']);
+      // print_r($discount);
+      // print_r($discount['amount']);
 
       $amount = $discount[getOrdersDiscountsHelper()->amount];
       $discount_type = $discount[getOrdersDiscountsHelper()->type];
@@ -402,12 +402,12 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
     return $data[0];
   }
 }
-$orders_delivery_helper = null;
+$orders_discount_helper = null;
 function getOrdersDiscountsHelper()
 {
-  global $orders_delivery_helper;
-  if ($orders_delivery_helper == null) {
-    $orders_delivery_helper = new OrdersDiscountsHelper();
+  global $orders_discount_helper;
+  if ($orders_discount_helper == null) {
+    $orders_discount_helper = new OrdersDiscountsHelper();
   }
-  return $orders_delivery_helper;
+  return $orders_discount_helper;
 }
