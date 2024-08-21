@@ -32,8 +32,11 @@ function convertIdsListToStringSql($ids)
   return $result;
 }
 
-function sendMessageToTobic($json, $topic, $title, $body): bool
+function sendMessageToTobic($topic, $title, $body): bool
 {
+  require_once __DIR__ . "/../projects/helper.php";
+  $project = getProjectsHelper()->getDataById(1);
+  $json = $project[getProjectsHelper()->serviceAccountKey];
   $sendMessage = new SendFCM();
   return $sendMessage->sendMessageToTobic($json, $topic, $title, $body);
 }
