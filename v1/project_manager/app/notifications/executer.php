@@ -6,7 +6,7 @@ class NotificationsExecuter
 {
   function executeAddData($title, $description)
   {
-    $sendMessage = sendMessageToTobic(1, $title, $description);
+    $sendMessage = sendMessageToTobic(2, $title, $description);
     if ($sendMessage) {
       $id = uniqid(rand(), false);
       return getNotificationsHelper()->addData($id, $title, $description);
