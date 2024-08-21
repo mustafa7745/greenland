@@ -8,7 +8,7 @@ class ThisClass
   {
     // print_r(getId(array("id"=>123)));
     $runApp = getModelMainRunApp();
-    print_r($runApp);
+    // print_r($runApp);
     
     return json_encode(array("success" => $runApp->app->id));
   }
