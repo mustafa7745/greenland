@@ -371,4 +371,23 @@ function getOrdersDeliveryExecuter()
   }
   return $orders_delivery_executer;
 }
+// 
+class OrdersDiscountsExecuter
+{
+  function executeAddData($orderId, $amount, $type)
+  {
+    $id = uniqid(rand(), false);
+    return getOrdersDiscountsHelper()->addData($id, $orderId, $amount, $type);
+  }
+
+}
+$orders_discounts_executer = null;
+function getOrdersDiscountsExecuter()
+{
+  global $orders_discounts_executer;
+  if ($orders_discounts_executer == null) {
+    $orders_discounts_executer = new OrdersDiscountsExecuter();
+  }
+  return $orders_discounts_executer;
+}
 

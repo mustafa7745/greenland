@@ -386,8 +386,8 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
     $sql = $this->readByIdSql("'$id'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
-      $ar = "ID_ERROR";
-      $en = "ID_ERROR";
+      $ar = "ORDER_ID_ERROR";
+      $en = "ORDER_ID_ERROR";
       exitFromScript($ar, $en);
     }
     return $data[0];
@@ -400,6 +400,18 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
       return null;
     }
     return $data[0];
+  }
+  function addData($id, $orderId, $amount, $type)
+  {
+    $sql = $this->addSql("'$id'", "'$orderId'", "'$amount'", "'$type'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_ADD_D_ORDER";
+      $en = "DATA_NOT_EFFECTED_WHEN_ADD_ORDER";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
   }
 }
 $orders_discount_helper = null;

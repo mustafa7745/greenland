@@ -65,7 +65,7 @@ class OrdersSql extends \OrdersAttribute
         $columns = "$this->table_name.$this->id, $this->table_name.$this->createdAt, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
         $condition = "$this->userId = $userId";
         /////
-        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition , 5);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 5);
     }
     protected function updateStatusSql($id, $newValue): string
     {
@@ -191,7 +191,7 @@ require_once (getPath() . 'tables/orders_delivery/attribute.php');
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
-    function addSql($id,$orderId, $price, $userLocationId): string
+    function addSql($id, $orderId, $price, $userLocationId): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
@@ -243,6 +243,15 @@ require_once (getPath() . 'tables/orders_discounts/attribute.php');
 
 class OrdersDiscountsSql extends \OrdersDiscountsAttribute
 {
+    function addSql($id, $orderId, $amount, $type): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $columns = "(`$this->id`,`$this->orderId`,`$this->amount`,`$this->type`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$orderId,$amount, $type,'$date','$date')";
+        /////
+        return shared_insert_sql($table_name, $columns, $values);
+    }
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
