@@ -1,33 +1,32 @@
 <?php
 namespace SU1;
 
-require_once (getPath() . 'tables/categories/attribute.php');
+require_once (getPath() . 'tables/offers/attribute.php');
 
-class CategoriesSql extends \CategoriesAttribute
+class OffersSql extends \OffersAttribute
 {
-    function readSql(): string
-    {
-        $table_name = $this->table_name;
-        $columns = getColumnImagePath(" * ", "category_image_path");
-        $innerJoin = "";
-        $condition = "1";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
-    }
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
-        $columns = getColumnImagePath(" * ", "category_image_path");
-
+        $columns = "*";
         $innerJoin = "";
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function addSql($id, $name, $image): string
+    function readSql(): string
+    {
+        $table_name = $this->table_name;
+        $columns = "*";
+        $innerJoin = "";
+        $condition = "1";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+    function addSql($id, $name, $description, $price): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->name`,`$this->image`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$name,$image,'$date','$date')";
+        $columns = "(`$this->id`,`$this->name`,`$this->description`,`$this->price`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$name,$description,$price,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
@@ -40,11 +39,20 @@ class CategoriesSql extends \CategoriesAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
-    protected function updateImageSql($id, $newValue): string
+    protected function updatePriceSql($id, $newValue): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->image = $newValue, $this->updatedAt = '$date'";
+        $set_query = "SET $this->price = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateDescriptionSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->description = $newValue, $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
