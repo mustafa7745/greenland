@@ -7,10 +7,16 @@ class HomeExecuter
   {
     require_once __DIR__ . '/../ads/helper.php';
     $ads = getAdsHelper()->getData();
+    for ($i = 0; $i < count($ads); $i++) {
+      $ads[$i]['image'] = $ads[$i]['ads_image_path'] . $ads[$i]['image'];
+    }
     require_once __DIR__ . '/../categories/helper.php';
     $categories = getCategoriesHelper()->getData();
     require_once __DIR__ . '/../offers/helper.php';
     $offers = getOffersHelper()->getData();
+    for ($i = 0; $i < count($ads); $i++) {
+      $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
+    }
     return ['ads' => $ads, 'categories' => $categories, 'offers' => $offers];
   }
 }
