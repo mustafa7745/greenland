@@ -58,9 +58,9 @@ class OffersHelper extends OffersSql
 
   }
 
-  function addData($id, $name, $description, $price)
+  function addData($id, $name, $description, $price, $image, $expireAt)
   {
-    $sql = $this->addSql("'$id'", "'$name'", "'$description'", "'$price'");
+    $sql = $this->addSql("'$id'", "'$name'", "'$description'", "'$image'", "'$price'", "'$expireAt'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

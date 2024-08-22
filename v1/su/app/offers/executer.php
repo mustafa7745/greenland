@@ -8,15 +8,29 @@ class OffersExecuter
   {
     return getOffersHelper()->getData();
   }
-  function executeAddData($name, $description, $price)
+  function executeAddData($name, $description, $price, $image, $expireAt)
   {
+
+
+    $helper = getOffersHelper();
+    $full_path_directory = $helper->path_image();
+    // 
+    createDirectory($full_path_directory);
 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
+    $image_name = uniqid(rand(), false) . ".jpg";
     $id = uniqid(rand(), false);
-    $dataAfterAdd = getOffersHelper()->addData($id, $name, $description, $price);
+    $dataAfterAdd = $helper->addData($id, $name, $description, $image_name, $price, $expireAt);
+
+    // 
+    $full_path_file = $full_path_directory . $image_name;
+    if (file_put_contents($full_path_file, base64_decode($image)) === false) {
+      shared_execute_sql("ROLLBACK");
+      FAIL_WHEN_ADD_FILE();
+    }
     shared_execute_sql("COMMIT");
     return $dataAfterAdd;
   }

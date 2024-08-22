@@ -8,7 +8,12 @@ class OffersAttribute
     public $price = "price";
     public $name = "name";
     public $description = "description";
+    public $image = "image";
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
     public $expireAt = "createdAt";
+    function path_image()
+    {
+      return __DIR__ . "/../../images/offers/";
+    }
 }
