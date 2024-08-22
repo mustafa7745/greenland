@@ -38,7 +38,7 @@ function getInputOfferName()
 }
 function getInputOfferImage()
 {
-    $name = "inputOfferName";
+    $name = "inputOfferImage";
     if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
         EMPTY_OR_NOT_FOUND($name);
     }
