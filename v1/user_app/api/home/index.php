@@ -20,6 +20,9 @@ class ThisClass
     {
         if (getTag() == "read") {
             return $this->read();
+        }
+        elseif(getTag() == "readWithUser") {
+            return $this->readWithUser();
         } else {
             UNKOWN_TAG();
         }
@@ -28,6 +31,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function readWithUser(): string
+    {
+        $resultData = $this->controller->readWithUser();
         return json_encode($resultData);
 
     }

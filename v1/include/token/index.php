@@ -195,6 +195,7 @@ function getUserLoginToken($permissionName, $runApp)
     return new ModelUserLoginUserSession($modalUserLoginToken,$modelUserSession);
 }
 
+
 function getManagerLoginToken($permissionName, $runApp)
 {
     $token = getInputLoginToken();
