@@ -13,7 +13,7 @@ class AdsHelper extends AdsSql
   }
   function getDataById($id)
   {
-    $sql = $this->readByIdSql($id);
+    $sql = $this->readByIdSql("'$id'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = "ads" . "_ID_ERROR";
@@ -61,7 +61,7 @@ class AdsHelper extends AdsSql
   function addData($id, $description, $image)
   {
     $sql = $this->addSql("'$id'", "'$description'", "'$image'");
-    print_r($sql);
+    // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

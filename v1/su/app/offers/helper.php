@@ -13,7 +13,7 @@ class OffersHelper extends OffersSql
   }
   function getDataById($id)
   {
-    $sql = $this->readByIdSql($id);
+    $sql = $this->readByIdSql("'$id'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = $this->name . "_ID_ERROR";
