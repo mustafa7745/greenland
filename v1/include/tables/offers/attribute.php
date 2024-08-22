@@ -11,7 +11,7 @@ class OffersAttribute
     public $image = "image";
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
-    public $expireAt = "createdAt";
+    public $expireAt = "expireAt";
     function path_image()
     {
       return __DIR__ . "/../../images/offers/";
