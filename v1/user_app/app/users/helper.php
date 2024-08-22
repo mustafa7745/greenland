@@ -9,7 +9,10 @@ class UsersHelper extends UsersSql
   {
     $sql = $this->readByIdSql("'$userId'");
     $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
+    $ar = "USER_ID";
+    $en = "USER_ID";
+    exitFromScript($ar, $en);
+    return $data[0];
   }
 }
 
