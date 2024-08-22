@@ -15,4 +15,8 @@ class AdsAttribute
     {
         return __DIR__ . "/../../images/ads/";
     }
+
+    public $ENABLED_STATUS = 1;
+    public $DISABLED_STATUS = 0;
+
 }

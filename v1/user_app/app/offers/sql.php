@@ -8,10 +8,11 @@ class OffersSql extends \OffersAttribute
    
     function readSql(): string
     {
+        $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = getColumnImagePath(" * ", "offer_image_path");
         $innerJoin = "";
-        $condition = "1";
+        $condition = "DATE($this->expireAt) >  DATE('$date')";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
    
