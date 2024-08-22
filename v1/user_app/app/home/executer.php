@@ -14,7 +14,7 @@ class HomeExecuter
     $categories = getCategoriesHelper()->getData();
     require_once __DIR__ . '/../offers/helper.php';
     $offers = getOffersHelper()->getData();
-    for ($i = 0; $i < count($ads); $i++) {
+    for ($i = 0; $i < count($offers); $i++) {
       $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
     }
     return ['ads' => $ads, 'categories' => $categories, 'offers' => $offers];
