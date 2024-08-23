@@ -6,7 +6,11 @@ class OffersExecuter
 {
   function executeGetData()
   {
-    return getOffersHelper()->getData();
+    $offers = getOffersHelper()->getData();
+    for ($i = 0; $i < count($offers); $i++) {
+      $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
+    }
+    return $offers;
   }
   function executeAddData($name, $description, $price, $image, $expireAt)
   {

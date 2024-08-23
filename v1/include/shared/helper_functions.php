@@ -32,6 +32,11 @@ function convertIdsListToStringSql($ids)
   return $result;
 }
 
+function successReturn()
+{
+  return ['success' => 'true'];
+}
+
 function sendMessageToTobic($topic, $title, $body): bool
 {
   require_once __DIR__ . "/../projects/helper.php";

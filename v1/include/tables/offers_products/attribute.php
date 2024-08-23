@@ -13,5 +13,5 @@ class OffersProductsAttribute
     public $productId = "productId";
     public $productQuantity = "productQuantity";
     public $updatedAt = "updatedAt";
-    public $expireAt = "createdAt";
+    public $createdAt = "createdAt";
 }
