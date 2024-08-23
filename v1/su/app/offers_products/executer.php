@@ -4,9 +4,9 @@ namespace SU1;
 require_once 'helper.php';
 class OffersProductsExecuter
 {
-  function executeGetData()
+  function executeGetData($offerId)
   {
-    return getOffersProductsHelper()->getData();
+    return getOffersProductsHelper()->getData($offerId);
   }
   function executeAddData($offerId, $productId, $productQuantity)
   {
