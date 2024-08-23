@@ -7,7 +7,7 @@ class OffersProductsHelper extends OffersProductsSql
 {
   function getData($offerId)
   {
-    $sql = $this->readSql($offerId);
+    $sql = $this->readSql("'$offerId'");
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
