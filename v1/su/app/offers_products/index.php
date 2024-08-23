@@ -23,7 +23,7 @@ class OffersProducts
         // checkPermission("READ_GROUPS");
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        return getOffersProductsExecuter()->executeAddData(getInputOfferName(), getInputOfferDescription(), getInputOfferPrice(), getInputOfferImage(), getInputOfferExpireAt());
+        return getOffersProductsExecuter()->executeAddData(getInputOfferId(), getInputProductId(), getInputProductQuantity());
     }
 
 
