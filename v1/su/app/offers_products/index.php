@@ -23,6 +23,7 @@ class OffersProducts
         // checkPermission("READ_GROUPS");
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
+        require_once __DIR__ . '/../../../include/tables/orders_products/attribute.php';
         return getOffersProductsExecuter()->executeAddData(getInputOfferId(), getInputProductId(), getInputProductQuantity());
     }
 
