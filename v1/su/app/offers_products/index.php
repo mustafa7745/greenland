@@ -31,6 +31,7 @@ class OffersProducts
     {
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
+        require_once __DIR__ . '/../../../include/tables/orders/attribute.php';
         return getOffersProductsExecuter()->executeUpdateQuantity(getInputOfferProductId(), getInputProductQuantity());
     }
    
