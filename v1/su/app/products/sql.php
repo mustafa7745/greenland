@@ -24,6 +24,14 @@ class ProductsSql extends \ProductsAttribute
         $condition = "$this->table_name.$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByNumberSql($number): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = "";
+        $columns = "$this->table_name.$this->id ,$this->table_name.$this->name";
+        $condition = "$this->table_name.$this->number = $number";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function addSql($id, $categoryId, $name, $number, $postPrice, $productGroupId): string
     {
         $date = getCurruntDate();

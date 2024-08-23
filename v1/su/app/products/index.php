@@ -32,32 +32,11 @@ class Products
         return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
     }
 
-
-    function updateName($id, $newValue)
+    function search()
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateName($resultData, $id, $newValue);
-    }
-
-    function updateSha($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateSha($resultData, $id, $newValue);
-    }
-    function updateVersion($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
-    }
-
-    function search($search)
-    {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
     }
 
 

@@ -30,7 +30,7 @@ class ProductsHelper extends ProductsSql
   }
   function addData($id, $categoryId, $name, $number, $postPrice, $productGroupId)
   {
-  
+
     $sql = $this->addSql("'$id'", "'$categoryId'", "'$name'", "'$number'", "'$postPrice'", "'$productGroupId'");
 
 
@@ -51,66 +51,17 @@ class ProductsHelper extends ProductsSql
     return $this->getDataById($id);
   }
 
-  function searchData($search)
+  function getDataByNumber($number)
   {
-    $sql = $this->search_sql($search);
+    $sql = $this->readByNumberSql("'$number'");
     $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
-  }
-
-
-  // function getDataById($id)
-  // {
-  //   $sql = $this->read_by_id_sql("'$id'");
-  //   $data = shared_execute_read_no_json_sql($sql)->data;
-  //   if (count($data) != 1) {
-  //     $ar = $this->name . "_ID_ERROR";
-  //     $en = $this->name . "_ID_ERROR";
-  //     exitFromScript($ar, $en);
-  //   }
-  //   return $data[0];
-  // }
-
-  function updateName($id, $name)
-  {
-
-    $sql = $this->update_name_sql("'$name'", "'$id'");
-
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+    if (count($data) != 1) {
+      $ar = $this->name . "_NUMBER_ERROR";
+      $en = $this->name . "_NUMBER_ERROR";
       exitFromScript($ar, $en);
     }
+    return $data[0];
   }
-  function updateSha($id, $name)
-  {
-
-    $sql = $this->update_sha_sql("'$name'", "'$id'");
-
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      exitFromScript($ar, $en);
-    }
-  }
-  function updateVersion($id, $name)
-  {
-
-    $sql = $this->update_version_sql("'$name'", "'$id'");
-
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      exitFromScript($ar, $en);
-    }
-  }
-
 }
 
 $products_helper = null;

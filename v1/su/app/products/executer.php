@@ -147,6 +147,12 @@ class ProductsExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
+
+  function executeGetDataByNumber($number)
+  {
+    return getProductsHelper()->getDataByNumber($number);
+  }
+  
 }
 
 $products_executer = null;
