@@ -52,5 +52,6 @@ function getInputOfferExpireAt()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkIfNumber($value);
     return $value;
 }

@@ -23,6 +23,7 @@ class OffersExecuter
     shared_execute_sql("START TRANSACTION");
     $image_name = uniqid(rand(), false) . ".jpg";
     $id = uniqid(rand(), false);
+    $expireAt = date('Y-m-d', strtotime(getCurruntDate() . " + $expireAt days"));
     $dataAfterAdd = $helper->addData($id, $name, $description, $image_name, $price, $expireAt);
 
     // 
