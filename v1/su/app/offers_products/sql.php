@@ -16,8 +16,8 @@ class OffersProductsSql extends \OffersProductsAttribute
     function readSql($offerId): string
     {
         $table_name = $this->table_name;
-        $columns = "*";
-        $innerJoin = "";
+        $innerJoin = $this->INNER_JOIN();
+        $columns = "$this->table_name.$this->id,$this->table_name.$this->productQuantity ,{$this->products_attribute->table_name}.{$this->products_attribute->name},{$this->products_attribute->table_name}.{$this->products_attribute->postPrice}";
         $condition = "$this->offerId = $offerId";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
