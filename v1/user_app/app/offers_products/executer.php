@@ -37,7 +37,7 @@ class OffersProductsExecuter
           if ($products[$i][getProductsHelper()->id] == $value[getOffersProductsHelper()->productId]) {
             $data[$i]['id'] = $value[getOffersProductsHelper()->id];
             $data[$i]['product'] = $products[$i];
-            $data[$i]['id'] = $value[getOffersProductsHelper()->productQuantity];
+            $data[$i][getOffersProductsHelper()->productQuantity] = $value[getOffersProductsHelper()->productQuantity];
           }
         }
       }
