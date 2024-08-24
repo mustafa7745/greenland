@@ -6,12 +6,7 @@ class ThisClass
 {
   function main(): string
   {
-    // // print_r(getId(array("id"=>123)));
-    // $runApp = (new RunApp())->runApp();
-    // return json_encode(array("success" => getProjectId(getApp($runApp))));
     $runApp = getModelMainRunApp();
-    // print_r($runApp);
-    
     return json_encode(array("success" => $runApp->app->id));
   }
 }
