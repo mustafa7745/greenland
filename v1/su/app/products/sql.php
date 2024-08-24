@@ -15,6 +15,8 @@ class ProductsSql extends \ProductsAttribute
         $postPrice = "$this->table_name . $this->postPrice";
         $categoryId = "$this->table_name . $this->categoryId";
         $number = "$this->table_name . $this->number";
+        $order = "$this->table_name . $this->number";
+
 
         $createdAt = "$this->table_name . $this->createdAt";
         $updatedAt = "$this->table_name . $this->updatedAt";
@@ -22,7 +24,7 @@ class ProductsSql extends \ProductsAttribute
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
 
-        $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->categoryId = $categoryId_P";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
