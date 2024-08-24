@@ -10,15 +10,15 @@ class ProductsSql extends \ProductsAttribute
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
         // 
-        $id = $this->table_name . $this->id;
-        $prePrice = $this->table_name . $this->prePrice;
-        $postPrice = $this->table_name . $this->postPrice;
-        $categoryId = $this->table_name . $this->categoryId;
-        $createdAt = $this->table_name . $this->createdAt;
-        $updatedAt = $this->table_name . $this->updatedAt;
+        $id = "$this->table_name . $this->id";
+        $prePrice = "$this->table_name . $this->prePrice";
+        $postPrice = "$this->table_name . $this->postPrice";
+        $categoryId = "$this->table_name . $this->categoryId";
+        $createdAt = "$this->table_name . $this->createdAt";
+        $updatedAt = "$this->table_name . $this->updatedAt";
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
-        $name = $this->table_name . $this->name;
+        $name = "$this->table_name . $this->name";
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->categoryId = $categoryId";
