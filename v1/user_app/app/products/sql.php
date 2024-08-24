@@ -37,8 +37,10 @@ class ProductsSql extends \ProductsAttribute
     function readByIdsSql($ids): string
     {
         $table_name = $this->table_name;
-        $innerJoin = "";
-        $columns = "*";
+        $innerJoin = $this->INNER_JOIN();
+
+        $columns = "$this->table_name.$this->id ,$this->table_name.$this->name, {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id' , {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
+
         $condition = "$this->table_name.$this->id IN ($ids)";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
