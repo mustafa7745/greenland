@@ -14,7 +14,7 @@ class ProductsSql extends \ProductsAttribute
         $prePrice = "$this->table_name . $this->prePrice";
         $postPrice = "$this->table_name . $this->postPrice";
         $categoryId = "$this->table_name . $this->categoryId";
-        $number = "$this->table_name . $this->categoryId";
+        $number = "$this->table_name . $this->number";
 
         $createdAt = "$this->table_name . $this->createdAt";
         $updatedAt = "$this->table_name . $this->updatedAt";
