@@ -8,6 +8,7 @@ class OffersProductsExecuter
   {
     $data = getOffersProductsHelper()->getData($offerId);
 
+    print_r($data);
     $ids = [];
     for ($i = 0; $i < count($data); $i++) {
       array_push($ids, $data[$i][getOffersProductsHelper()->productId]);
