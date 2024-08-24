@@ -14,13 +14,15 @@ class ProductsSql extends \ProductsAttribute
         $prePrice = "$this->table_name . $this->prePrice";
         $postPrice = "$this->table_name . $this->postPrice";
         $categoryId = "$this->table_name . $this->categoryId";
+        $number = "$this->table_name . $this->categoryId";
+
         $createdAt = "$this->table_name . $this->createdAt";
         $updatedAt = "$this->table_name . $this->updatedAt";
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
 
-        $columns = "$id,$prePrice,$postPrice,$categoryId,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->categoryId = $categoryId_P";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
@@ -30,7 +32,7 @@ class ProductsSql extends \ProductsAttribute
         $innerJoin = $this->INNER_JOIN();
 
         $columns = "$this->table_name.$this->id ,$this->table_name.$this->name, {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id' , {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
-        
+
         $condition = "$this->table_name.$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
