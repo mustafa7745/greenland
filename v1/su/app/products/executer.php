@@ -6,6 +6,8 @@ class ProductsExecuter
 {
   function executeGetData()
   {
+    require_once __DIR__ . '/../../app/categories/helper.php';
+
     return getProductsHelper()->getData(getInputCategoryId());
   }
   function executeGetDataByNumber($number)
