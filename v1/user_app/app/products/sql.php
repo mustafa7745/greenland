@@ -5,7 +5,7 @@ require_once (getPath() . 'tables/products/attribute.php');
 
 class ProductsSql extends \ProductsAttribute
 {
-    function readSql($categoryId): string
+    function readSql($categoryId_P): string
     {
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
@@ -21,7 +21,7 @@ class ProductsSql extends \ProductsAttribute
         $name = "$this->table_name . $this->name";
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
-        $condition = "$this->table_name.$this->categoryId = $categoryId";
+        $condition = "$this->table_name.$this->categoryId = $categoryId_P";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
     function readByIdSql($id): string
