@@ -33,9 +33,21 @@ class ProductsSql extends \ProductsAttribute
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
 
-        $columns = "$this->table_name.$this->id ,$this->table_name.$this->name, {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id' , {$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
+        $id = "$this->table_name . $this->id";
+        $prePrice = "$this->table_name . $this->prePrice";
+        $postPrice = "$this->table_name . $this->postPrice";
+        $categoryId = "$this->table_name . $this->categoryId";
+        $number = "$this->table_name . $this->number";
+        $order = "$this->table_name . `$this->order`";
 
-        $condition = "$this->table_name.$this->id = $id";
+
+        $createdAt = "$this->table_name . $this->createdAt";
+        $updatedAt = "$this->table_name . $this->updatedAt";
+        $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
+        $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
+        $name = "$this->table_name . $this->name";
+        $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $condition = "$this->table_name.$this->id = $id FOR UPDATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
     function readByNumberSql($number): string
@@ -54,5 +66,75 @@ class ProductsSql extends \ProductsAttribute
         $values = "($id,$categoryId, $name, $number, $postPrice, $productGroupId ,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
+    }
+    protected function updateNameSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->name = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateNumberSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->number = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateOrderSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET `$this->order` = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updatePostPriceSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->postPrice = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updatePrePriceSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->prePrice = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateGroupSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->productGroupId = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateAvailableSql($id): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->isAvailable = NOT $this->isAvailable, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function deleteSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id IN ($ids)";
+        /////
+        return delete_sql($table_name, $condition);
     }
 }

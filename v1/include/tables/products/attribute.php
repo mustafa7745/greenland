@@ -12,6 +12,7 @@ class ProductsAttribute
   public $productGroupId = "productGroupId";
   public $number = "number";
   public $order = "order";
+  public $isAvailable = "isAvailable";
   public $categoryId = "categoryId";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
@@ -42,4 +43,8 @@ class ProductsAttribute
       FORIGN_KEY_ID_INNER_JOIN($this->products_groups_attribute->NATIVE_INNER_JOIN(), $this->table_name, $this->productGroupId);
     return $inner;
   }
+
+  public $AVAILABLE = 1;
+  public $NOT_AVAILABLE = 0;
+
 }

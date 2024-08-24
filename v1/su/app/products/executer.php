@@ -1,23 +1,21 @@
 <?php
 namespace SU1;
 
-require_once (getPath() . 'tables/categories/attribute.php');
-
-// require_once "../../../ids_controller/helper.php";
-require_once (getSuPath() . 'app/ids_controller/helper.php');
-require_once (getSuPath() . 'app/products_images/helper.php');
-
-
-require_once ('helper.php');
+require_once 'helper.php';
 class ProductsExecuter
 {
   function executeGetData()
   {
     return getProductsHelper()->getData(getInputCategoryId());
   }
+  function executeGetDataByNumber($number)
+  {
+    return getProductsHelper()->getDataByNumber($number);
+  }
   function executeAddData($categoryId, $name, $number, $postPrice, $image, $productGroupId)
   {
     $helper = getProductsHelper();
+    require_once __DIR__ . '/../../app/products_images/helper.php';
     $productImageshelper = getProductsImagesHelper();
 
     // $image = $this->getInputCategoryImage();
@@ -36,6 +34,8 @@ class ProductsExecuter
 
 
     // $category_id = uniqid(rand(), false);
+    require_once __DIR__ . '/../../app/ids_controller/helper.php';
+
     $productId = getId(getIdsControllerHelper()->getData($helper->table_name));
     $productImageId = getId(getIdsControllerHelper()->getData($productImageshelper->table_name));
 
@@ -45,16 +45,6 @@ class ProductsExecuter
     $product = $helper->addData($productId, $categoryId, $name, $number, $postPrice, $productGroupId);
     $productImage = $productImageshelper->addData($productImageId, $productId, $image_name);
 
-
-    // $dataAfterAdd = $helper->getDataById($id);
-
-    /**
-     * ADD INSERTED VALUES TO ProjectINSERtOperations TABLE
-     */
-
-    // sharedAddUserInsertOperation($data->getProjectId(), $data->getPermissionId(), $data->getUserSessionId(), $dataAfterAdd);
-
-    // sleep(30);
 
     $full_path_file = $full_path_directory . $image_name;
     // print_r($full_path_file2);
@@ -68,10 +58,6 @@ class ProductsExecuter
 
     return $product;
   }
-  function executeSearchData($search)
-  {
-    return getAppsHelper()->searchData($search);
-  }
   function executeUpdateName($id, $newValue)
   {
 
@@ -79,80 +65,107 @@ class ProductsExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateName($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateName($id, $newValue);
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
-  function executeUpdateSha($id, $newValue)
+  function executeUpdateNumber($id, $newValue)
   {
 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateSha($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateNumber($id, $newValue);
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
-  function executeUpdateVersion($id, $newValue)
+  function executeUpdateOrder($id, $newValue)
   {
 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateVersion($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateOrder($id, $newValue);
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
-
-  function executeGetDataByNumber($number)
+  function executeUpdateGroup($id, $newValue)
   {
-    return getProductsHelper()->getDataByNumber($number);
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateGroup($id, $newValue);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
   }
-  
+  function executeUpdatePostPrice($id, $newValue)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $data = getProductsHelper()->getDataById($id);
+    $postPrice = $data[getProductsHelper()->postPrice];
+    if ($newValue > $postPrice) {
+      $dataAfterUpdate = getProductsHelper()->updatePrePrice($id, $newValue);
+    }
+    $dataAfterUpdate = getProductsHelper()->updatePostPrice($id, $newValue);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
+  function executeUpdateAvailable($id)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateAvailable($id);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
+  function executeDeleteData($ids)
+  {
+    $idsString = convertIdsListToStringSql($ids);
+
+    shared_execute_sql("START TRANSACTION");
+    getOffersProductsHelper()->deleteData($idsString, count($ids));
+    shared_execute_sql("COMMIT");
+    return successReturn();
+  }
 }
 
 $products_executer = null;

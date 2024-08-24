@@ -19,18 +19,26 @@ class ThisClass
 
     function main(): string
     {
-        if (getTag()  == "read") {
+        if (getTag() == "read") {
             return $this->read();
-        } elseif (getTag()  == "add") {
+        } elseif (getTag() == "add") {
             return $this->add();
-        }elseif (getTag()  == "search") {
+        } elseif (getTag() == "search") {
             return $this->search();
-        } elseif (getTag()  == "updateName") {
+        } elseif (getTag() == "updateName") {
             return $this->updateName();
-        } elseif (getTag()  == "updateSha") {
-            return $this->updateSha();
-        } elseif (getTag()  == "updateVersion") {
-            return $this->updateVersion();
+        } elseif (getTag() == "updateAvailable") {
+            return $this->updateAvailable();
+        } elseif (getTag() == "updateNumber") {
+            return $this->updateNumber();
+        } elseif (getTag() == "updateGroup") {
+            return $this->updateGroup();
+        } elseif (getTag() == "updatePostPrice") {
+            return $this->updatePostPrice();
+        } elseif (getTag() == "updateOrder") {
+            return $this->updateOrder();
+        } elseif (getTag() == "delete") {
+            return $this->delete();
         } else {
             UNKOWN_TAG();
         }
@@ -58,17 +66,37 @@ class ThisClass
     // 
     private function updateName(): string
     {
-        $resultData = $this->controller->updateName($this->getInputAppId(), $this->getInputAppPackageName());
+        $resultData = $this->controller->updateName();
         return json_encode($resultData);
     }
-    private function updateSha(): string
+    private function updateAvailable(): string
     {
-        $resultData = $this->controller->updateSha($this->getInputAppId(), $this->getInputAppSha());
+        $resultData = $this->controller->updateAvailable();
         return json_encode($resultData);
     }
-    private function updateVersion(): string
+    private function updateNumber(): string
     {
-        $resultData = $this->controller->updateVersion($this->getInputAppId(), $this->getInputAppVersion());
+        $resultData = $this->controller->updateNumber();
+        return json_encode($resultData);
+    }
+    private function updateOrder(): string
+    {
+        $resultData = $this->controller->updateOrder();
+        return json_encode($resultData);
+    }
+    private function updatePostPrice(): string
+    {
+        $resultData = $this->controller->updatePostPrice();
+        return json_encode($resultData);
+    }
+    private function updateGroup(): string
+    {
+        $resultData = $this->controller->updateGroup();
+        return json_encode($resultData);
+    }
+    private function delete(): string
+    {
+        $resultData = $this->controller->delete();
         return json_encode($resultData);
     }
 }
