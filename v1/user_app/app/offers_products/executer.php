@@ -6,12 +6,12 @@ class OffersProductsExecuter
 {
   function executeGetData($offerId)
   {
-    $data = getOffersProductsHelper()->getData($offerId);
+    $offerProducts = getOffersProductsHelper()->getData($offerId);
 
-    print_r($data);
+    print_r($offerProducts);
     $ids = [];
-    for ($i = 0; $i < count($data); $i++) {
-      array_push($ids, $data[$i][getOffersProductsHelper()->productId]);
+    for ($i = 0; $i < count($offerProducts); $i++) {
+      array_push($ids, $offerProducts[$i][getOffersProductsHelper()->productId]);
     }
     // 
     if (count($ids) > 0) {
@@ -30,8 +30,9 @@ class OffersProductsExecuter
           }
         }
         $products[$i]["productImages"] = $newImages;
-        $data["products"] = $products;
-      }
+       
+      } 
+      $offerProducts["products"] = $products;
     }
     return $data;
   }
