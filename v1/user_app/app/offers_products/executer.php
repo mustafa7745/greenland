@@ -7,7 +7,7 @@ class OffersProductsExecuter
   function executeGetData($offerId)
   {
     $offerProducts = getOffersProductsHelper()->getData($offerId);
-
+    $data = [];
     print_r($offerProducts);
     $ids = [];
     for ($i = 0; $i < count($offerProducts); $i++) {
@@ -30,11 +30,22 @@ class OffersProductsExecuter
           }
         }
         $products[$i]["productImages"] = $newImages;
-       
-      } 
-      $offerProducts["products"] = $products;
+      }
+      // 
+      for ($i = 0; $i < count($products); $i++) {
+        foreach ($offerProducts as $key => $value) {
+          if ($products[$i][getProductsHelper()->id] == $value[getOffersProductsHelper()->productId]) {
+            $data[$i]['id'] = $value[getOffersProductsHelper()->id];
+            $data[$i]['product'] = $products[$i];
+            $data[$i]['id'] = $value[getOffersProductsHelper()->productQuantity];
+          }
+        }
+      }
+
+      // $data["products"] = $products;
+      // $offerProducts["products"] = $products;
     }
-    return $offerProducts;
+    return $data;
   }
 }
 
