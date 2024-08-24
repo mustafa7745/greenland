@@ -34,7 +34,7 @@ class OffersProductsExecuter
       } 
       $offerProducts["products"] = $products;
     }
-    return $data;
+    return $offerProducts;
   }
 }
 
