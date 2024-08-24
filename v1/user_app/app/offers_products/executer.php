@@ -8,26 +8,30 @@ class OffersProductsExecuter
   {
     $data = getOffersProductsHelper()->getData($offerId);
 
-    // $ids = [];
-    // for ($i = 0; $i < count($data); $i++) {
-    //   array_push($ids, $data[$i][getOffersProductsHelper()->productId]);
-    // }
-    // if (count($ids) > 0) {
-    //   $idsString = convertIdsListToStringSql($ids);
-    //   require_once __DIR__ . '/../products_images/helper.php';
-    //   $images = getProductsImagesHelper()->getData($idsString);
-    //   for ($i = 0; $i < count($data); $i++) {
-    //     $newImages = [];
-    //     $productId = getId($data[$i]);
-    //     for ($im = 0; $im < count($images); $im++) {
-    //       if ($productId == $images[$im]["productId"]) {
-    //         $images[$im]['image'] = $images[$im]['product_image_path'] . $images[$im]['image'];
-    //         array_push($newImages, $images[$im]);
-    //       }
-    //     }
-    //     $data[$i]["productImages"] = $newImages;
-    //   }
-    // }
+    $ids = [];
+    for ($i = 0; $i < count($data); $i++) {
+      array_push($ids, $data[$i][getOffersProductsHelper()->productId]);
+    }
+    // 
+    if (count($ids) > 0) {
+      $idsString = convertIdsListToStringSql($ids);
+      require_once __DIR__ . '/../products/helper.php';
+      $products = getProductsHelper()->getDataByIds($idsString);
+      require_once __DIR__ . '/../products_images/helper.php';
+      $images = getProductsImagesHelper()->getData($idsString);
+      for ($i = 0; $i < count($products); $i++) {
+        $newImages = [];
+        $productId = getId($products[$i]);
+        for ($im = 0; $im < count($images); $im++) {
+          if ($productId == $images[$im]["productId"]) {
+            $images[$im]['image'] = $images[$im]['product_image_path'] . $images[$im]['image'];
+            array_push($newImages, $images[$im]);
+          }
+        }
+        $products[$i]["productImages"] = $newImages;
+        $data["products"] = $products;
+      }
+    }
     return $data;
   }
 }
