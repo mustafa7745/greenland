@@ -14,8 +14,8 @@ class OffersProducts
     function read()
     {
         // checkPermission("READ_GROUPS");
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
+        // $s = getMainRunApp();
+        // getProjectLoginTokenData("RUN_APP", $s);
         return getOffersProductsExecuter()->executeGetData(getInputOfferId());
     }
 }
