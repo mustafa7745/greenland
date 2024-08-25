@@ -128,10 +128,8 @@ class CategoriesExecuter
     $dataAfterUpdate = $categories_helper->getDataById($id);
 
     $full_path_file = $full_path_directory . $image_name;
-    // print_r($full_path_file2);
     if (file_put_contents($full_path_file, base64_decode($image)) === false) {
       shared_execute_sql("ROLLBACK");
-      // shared_execute_sql("ROLLBACK");
       FAIL_WHEN_ADD_FILE();
     }
     /**
