@@ -16,6 +16,7 @@ class ProductsSql extends \ProductsAttribute
         $categoryId = "$this->table_name . $this->categoryId";
         $number = "$this->table_name . $this->number";
         $order = "$this->table_name . `$this->order`";
+        $available = "$this->table_name . $this->isAvailable";
 
 
         $createdAt = "$this->table_name . $this->createdAt";
@@ -24,7 +25,7 @@ class ProductsSql extends \ProductsAttribute
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
 
-        $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$available, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->categoryId = $categoryId_P";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
@@ -39,6 +40,8 @@ class ProductsSql extends \ProductsAttribute
         $categoryId = "$this->table_name . $this->categoryId";
         $number = "$this->table_name . $this->number";
         $order = "$this->table_name . `$this->order`";
+        $available = "$this->table_name . $this->isAvailable";
+
 
 
         $createdAt = "$this->table_name . $this->createdAt";
@@ -46,7 +49,7 @@ class ProductsSql extends \ProductsAttribute
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
-        $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$available, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$id = $id_P FOR UPDATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
