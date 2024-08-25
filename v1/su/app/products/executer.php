@@ -164,6 +164,7 @@ class ProductsExecuter
     $idsString = convertIdsListToStringSql($ids);
 
     shared_execute_sql("START TRANSACTION");
+    require_once __DIR__ . '/../products_images/helper.php';
     $images = getProductsImagesHelper()->getDataByProductsIds($ids);
 
     if (count($images) != 0) {
