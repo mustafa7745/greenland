@@ -52,7 +52,7 @@ class CategoriesSql extends \CategoriesAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->order = $newValue, $this->updatedAt = '$date'";
+        $set_query = "SET `$this->order` = $newValue, $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
