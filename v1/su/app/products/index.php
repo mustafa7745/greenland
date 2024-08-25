@@ -23,6 +23,8 @@ class Products
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
         require_once __DIR__ . '/../categories/sql.php';
+        require_once __DIR__ . '/../products_images/sql.php';
+
         return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
     }
     function search()
