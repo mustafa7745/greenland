@@ -75,7 +75,7 @@ class CategoriesHelper extends CategoriesSql
   function deleteData($ids, $count)
   {
     $sql = $this->deleteSql($ids);
-    print_r($sql);
+    // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != $count) {
       shared_execute_sql("rollback");

@@ -146,7 +146,7 @@ class CategoriesExecuter
 
     shared_execute_sql("START TRANSACTION");
     require_once __DIR__ . '/../products/helper.php';
-    $data = getCategoriesHelper()->getDataById($idsString);
+    $data = getCategoriesHelper()->getDataByIds($idsString);
     $innerData = getProductsHelper()->getDataByCategoriesIds($idsString);
 
     if (count($innerData) != 0) {
