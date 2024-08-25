@@ -72,6 +72,19 @@ class CategoriesHelper extends CategoriesSql
     return $this->getDataById($id);
 
   }
+  function updateName($id, $name)
+  {
+    $sql = $this->updateNameSql("'$id'", "'$name'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+
+  }
   function deleteData($ids, $count)
   {
     $sql = $this->deleteSql($ids);
