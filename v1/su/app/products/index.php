@@ -22,6 +22,7 @@ class Products
         // checkPermission("READ_GROUPS");
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
+        require_once __DIR__ . '/../categories/sql.php';
         return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
     }
     function search()
