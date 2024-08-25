@@ -88,6 +88,22 @@ class CategoriesExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
+  function executeUpdateOrder($id, $newValue)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+
+    getCategoriesHelper()->updateOrder($id, $newValue);
+    $dataAfterUpdate = getCategoriesHelper()->getDataById($id);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
   function executeUpdateImage($id, $image)
   {
 
@@ -126,55 +142,26 @@ class CategoriesExecuter
     unlink($full_path_file);
     return $dataAfterUpdate;
   }
-  function executeUpdateSha($id, $newValue)
+  function executeDeleteData($ids)
   {
+    $idsString = convertIdsListToStringSql($ids);
 
-    /**
-     *  START TRANSACTION FOR SQL
-     */
     shared_execute_sql("START TRANSACTION");
+    require_once __DIR__ . '/../products/helper.php';
+    $data = getCategoriesHelper()->getDataById($idsString);
+    $innerData = getProductsHelper()->getDataByCategoriesIds($idsString);
 
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateSha($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
+    if (count($innerData) != 0) {
+      $ar = "قد يكون هناك عناصر موجودة ضمن العناصر المحددة";
+      $en = "قد يكون هناك عناصر موجودة ضمن العناصر المحددة";
+      exitFromScript($ar, $en);
+    }
+    getCategoriesHelper()->deleteData($idsString, count($ids));
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
-  }
-  function executeUpdateVersion($id, $newValue)
-  {
-
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateVersion($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
-    shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    for ($i = 0; $i < count($data); $i++) {
+      unlink(getCategoriesHelper()->path_image() . $data[$i]['image']);
+    }
+    return successReturn();
   }
 }
 

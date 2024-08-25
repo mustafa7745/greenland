@@ -10,13 +10,6 @@ require_once 'executer.php';
 
 class Categories
 {
-    // private $check;
-
-    // public function __construct()
-    // {
-    //     $this->check = new CheckPermission();
-    // }
-
     function read()
     {
         // checkPermission("READ_GROUPS");
@@ -31,8 +24,6 @@ class Categories
         getProjectLoginTokenData("RUN_APP", $s);
         return getCategoriesExecuter()->executeAddData(getInputCategoryName(), getInputCategoryImage());
     }
-
-
     function updateName()
     {
         $s = getMainRunApp();
@@ -46,28 +37,18 @@ class Categories
         return getCategoriesExecuter()->executeUpdateImage(getInputCategoryId(), getInputCategoryImage());
     }
 
-    function updateSha($id, $newValue)
+    function updateOrder()
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateSha($resultData, $id, $newValue);
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getCategoriesExecuter()->executeUpdateOrder(getInputCategoryId(), getInputCategoryOrder());
     }
-    function updateVersion($id, $newValue)
+    function delete()
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getCategoriesExecuter()->executeDeleteData(getIds());
     }
-
-    function search($search)
-    {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
-    }
-
-
-
 }
 
 

@@ -53,6 +53,15 @@ class ProductsSql extends \ProductsAttribute
         $condition = "$id = $id_P FOR UPDATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByCategoriesIdsSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = $this->INNER_JOIN();
+        $id = "$this->table_name . $this->id";
+        $columns = $id;
+        $condition = "$id IN ($ids) ";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function readByNumberSql($number): string
     {
         $table_name = $this->table_name;

@@ -22,6 +22,14 @@ class CategoriesSql extends \CategoriesAttribute
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByIdsSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $columns = $this->image;
+        $innerJoin = "";
+        $condition = "$this->id IN ($ids) FOR UPDATE";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function addSql($id, $name, $image): string
     {
         $date = getCurruntDate();
@@ -40,6 +48,15 @@ class CategoriesSql extends \CategoriesAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+    protected function updateOrderSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->order = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
     protected function updateImageSql($id, $newValue): string
     {
         $date = getCurruntDate();
@@ -48,5 +65,12 @@ class CategoriesSql extends \CategoriesAttribute
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function deleteSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id IN ($ids)";
+        /////
+        return delete_sql($table_name, $condition);
     }
 }

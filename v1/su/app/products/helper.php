@@ -23,6 +23,12 @@ class ProductsHelper extends ProductsSql
     }
     return $data[0];
   }
+  function getDataByCategoriesIds($ids)
+  {
+    $sql = $this->readByCategoriesIdsSql($ids);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
   function getDataByNumber($number)
   {
     $sql = $this->readByNumberSql("'$number'");
