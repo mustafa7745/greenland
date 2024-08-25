@@ -33,7 +33,7 @@ class ProductsImages
     }
 
 
-    function delete($id, $newValue)
+    function delete()
     {
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
