@@ -65,85 +65,21 @@ class ProductsImagesExecuter
 
 
   }
-  function executeSearchData($search)
+  function executeDeleteData($ids)
   {
-    return getAppsHelper()->searchData($search);
-  }
-  function executeUpdateName($id, $newValue)
-  {
+    $idsString = convertIdsListToStringSql($ids);
 
-    /**
-     *  START TRANSACTION FOR SQL
-     */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateName($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
+    require_once __DIR__ . '/../products_images/helper.php';
+    $images = getProductsImagesHelper()->getDataByIds($idsString);
+    getProductsImagesHelper()->deleteData($idsString, count($ids));
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    for ($i = 0; $i < count($images); $i++) {
+      unlink(getProductsHelper()->path_image() . $images[$i]['image']);
+    }
+    return successReturn();
   }
-  function executeUpdateSha($id, $newValue)
-  {
 
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateSha($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
-    shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
-  }
-  function executeUpdateVersion($id, $newValue)
-  {
-
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateVersion($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
-    /**
-     * COMMIT
-     */
-    shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
-  }
 }
 
 $products_images_executer = null;

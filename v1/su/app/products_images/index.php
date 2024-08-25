@@ -33,35 +33,12 @@ class ProductsImages
     }
 
 
-    function updateName($id, $newValue)
+    function delete($id, $newValue)
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateName($resultData, $id, $newValue);
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getProductsImagesExecuter()->executeDeleteData(getIds());
     }
-
-    function updateSha($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateSha($resultData, $id, $newValue);
-    }
-    function updateVersion($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
-    }
-
-    function search($search)
-    {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
-    }
-
-
-
 }
 
 

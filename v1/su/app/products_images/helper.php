@@ -15,7 +15,20 @@ class ProductsImagesHelper extends ProductsImagesSql
   }
   function getDataById($id)
   {
-    $sql = $this->readByIdSql($id);
+    $sql = $this->readByIdSql("'$id'");
+
+    $data = shared_execute_read1_no_json_sql($sql);
+
+    if (count($data) != 1) {
+      $ar = $this->name . "_ID_ERROR";
+      $en = $this->name . "_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
+  function getDataByIds($ids)
+  {
+    $sql = $this->readByIdsSql($ids);
 
     $data = shared_execute_read1_no_json_sql($sql);
 
@@ -47,63 +60,15 @@ class ProductsImagesHelper extends ProductsImagesSql
     }
     return $this->getDataById($id);
   }
-
-  function searchData($search)
+  function deleteData($ids, $count)
   {
-    $sql = $this->search_sql($search);
-    $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
-  }
-
-
-  // function getDataById($id)
-  // {
-  //   $sql = $this->read_by_id_sql("'$id'");
-  //   $data = shared_execute_read_no_json_sql($sql)->data;
-  //   if (count($data) != 1) {
-  //     $ar = $this->name . "_ID_ERROR";
-  //     $en = $this->name . "_ID_ERROR";
-  //     exitFromScript($ar, $en);
-  //   }
-  //   return $data[0];
-  // }
-
-  function updateName($id, $name)
-  {
-
-    $sql = $this->update_name_sql("'$name'", "'$id'");
-
+    $sql = $this->deleteSql($ids);
+    // print_r($sql);
     shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
+    if (mysqli_affected_rows(getDB()->conn) != $count) {
       shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
-      exitFromScript($ar, $en);
-    }
-  }
-  function updateSha($id, $name)
-  {
-
-    $sql = $this->update_sha_sql("'$name'", "'$id'");
-
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      exitFromScript($ar, $en);
-    }
-  }
-  function updateVersion($id, $name)
-  {
-
-    $sql = $this->update_version_sql("'$name'", "'$id'");
-
-    shared_execute_sql($sql);
-    if (mysqli_affected_rows(getDB()->conn) != 1) {
-      shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
+      $ar = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
       exitFromScript($ar, $en);
     }
   }

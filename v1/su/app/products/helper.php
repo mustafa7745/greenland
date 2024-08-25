@@ -125,7 +125,7 @@ class ProductsHelper extends ProductsSql
   }
   function deleteData($ids, $count)
   {
-    $sql = getOffersProductsHelper()->deleteSql($ids);
+    $sql = $this->deleteSql($ids);
     // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != $count) {

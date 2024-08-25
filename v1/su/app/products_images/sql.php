@@ -21,6 +21,14 @@ class ProductsImagesSql extends \ProductsImagesAttribute
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByIdsSql($id): string
+    {
+        $table_name = $this->table_name;
+        $columns = getColumnImagePath(" * ", "product_image_path");
+        $innerJoin = "";
+        $condition = "$this->id IN ($id)";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function readByProductsIdsSql($ids): string
     {
         $table_name = $this->table_name;
@@ -37,5 +45,12 @@ class ProductsImagesSql extends \ProductsImagesAttribute
         $values = "($id, $productId, $image, '$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
+    }
+    protected function deleteSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id IN ($ids)";
+        /////
+        return delete_sql($table_name, $condition);
     }
 }
