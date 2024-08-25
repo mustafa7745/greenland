@@ -172,7 +172,7 @@ class ProductsExecuter
       $en = "قد يكون هناك صور موجودة ضمن العناصر المحددة";
       exitFromScript($ar, $en);
     }
-    getOffersProductsHelper()->deleteData($idsString, count($ids));
+    getProductsHelper()->deleteData($idsString, count($ids));
     shared_execute_sql("COMMIT");
     return successReturn();
   }
