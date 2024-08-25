@@ -28,7 +28,7 @@ class ProductsSql extends \ProductsAttribute
         $condition = "$this->table_name.$this->categoryId = $categoryId_P";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function readByIdSql($id): string
+    function readByIdSql($id_P): string
     {
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
@@ -47,7 +47,7 @@ class ProductsSql extends \ProductsAttribute
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
         $columns = "$id,$prePrice,$postPrice,$categoryId, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
-        $condition = "$this->table_name.$this->id = $id FOR UPDATE";
+        $condition = "$id = $id_P FOR UPDATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
     function readByNumberSql($number): string
