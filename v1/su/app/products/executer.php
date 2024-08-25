@@ -165,7 +165,7 @@ class ProductsExecuter
 
     shared_execute_sql("START TRANSACTION");
     require_once __DIR__ . '/../products_images/helper.php';
-    $images = getProductsImagesHelper()->getDataByProductsIds($ids);
+    $images = getProductsImagesHelper()->getDataByProductsIds($idsString);
 
     if (count($images) != 0) {
       $ar = "قد يكون هناك صور موجودة ضمن العناصر المحددة";
