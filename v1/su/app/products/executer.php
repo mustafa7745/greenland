@@ -164,6 +164,13 @@ class ProductsExecuter
     $idsString = convertIdsListToStringSql($ids);
 
     shared_execute_sql("START TRANSACTION");
+    $images = getProductsImagesHelper()->getDataByProductsIds($ids);
+
+    if (count($images) != 0) {
+      $ar = "قد يكون هناك صور موجودة ضمن العناصر المحددة";
+      $en = "قد يكون هناك صور موجودة ضمن العناصر المحددة";
+      exitFromScript($ar, $en);
+    }
     getOffersProductsHelper()->deleteData($idsString, count($ids));
     shared_execute_sql("COMMIT");
     return successReturn();

@@ -26,6 +26,12 @@ class ProductsImagesHelper extends ProductsImagesSql
     }
     return $data[0];
   }
+  function getDataByProductsIds($ids)
+  {
+    $sql = $this->readByProductsIdsSql($ids);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
   function addData($id, $productId, $image)
   {
     // print_r($name);

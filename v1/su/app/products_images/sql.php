@@ -21,6 +21,14 @@ class ProductsImagesSql extends \ProductsImagesAttribute
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByProductsIdsSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $columns = $this->id;
+        $innerJoin = "";
+        $condition = "$this->id IN ($ids)";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function addSql($id, $productId, $image): string
     {
         $date = getCurruntDate();
