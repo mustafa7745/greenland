@@ -24,7 +24,7 @@ class ProductsImagesSql extends \ProductsImagesAttribute
     function readByIdsSql($id): string
     {
         $table_name = $this->table_name;
-        $columns = getColumnImagePath(" * ", "product_image_path");
+        $columns = $this->image;
         $innerJoin = "";
         $condition = "$this->id IN ($id)";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);

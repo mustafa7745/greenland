@@ -74,8 +74,12 @@ class ProductsImagesExecuter
     $images = getProductsImagesHelper()->getDataByIds($idsString);
     getProductsImagesHelper()->deleteData($idsString, count($ids));
     shared_execute_sql("COMMIT");
+    print_r($images);
+
     for ($i = 0; $i < count($images); $i++) {
-      unlink(getProductsHelper()->path_image() . $images[$i]['image']);
+      $image = getProductsHelper()->path_image() . $images[$i]['image'];
+      print_r($image);
+      unlink($image);
     }
     return successReturn();
   }
