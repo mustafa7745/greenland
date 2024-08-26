@@ -4,7 +4,7 @@
 //    echo $_GET['hub_challenge'];
 //    exit;
 // }
-
+require_once __DIR__ . '/../v1/include/shared/helper_functions.php';
 $w = new ApiWhatsapp();
 // $hub_verify_token = "token123";
 // if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token']) && $_GET["hub_verify_token"] === $hub_verify_token){
