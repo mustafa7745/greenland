@@ -17,7 +17,9 @@ $w = new ApiWhatsapp();
 // exit();
 
 // $w = new ApiWhatsapp();
-$w->sendMessageText("967774519161", "Hello mustafa");
+$phone_number =  $r['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+
+$w->sendMessageText("967774519161", $phone_number);
 
 // $r = file_get_contents("php://input");
 // // file_put_contents("r22.txt",$r);
