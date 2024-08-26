@@ -20,7 +20,7 @@ $w = new ApiWhatsapp();
 // $r = file_get_contents("php://input");
 // print_r($r);
 
-$input = json_decode(file_get_contents('php://input'), true);
+$input = file_get_contents('php://input');
 
 
 $phone_number =  $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
