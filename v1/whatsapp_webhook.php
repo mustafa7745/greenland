@@ -24,8 +24,8 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 if (isset($data)) {
     $w->sendMessageText("967774519161", "dfgrg");
-    $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
-    $w->sendMessageText("967774519161", $phone_number);
+    // $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+    // $w->sendMessageText("967774519161", $phone_number);
 }
 
 
