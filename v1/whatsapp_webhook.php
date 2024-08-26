@@ -18,6 +18,7 @@ $w = new ApiWhatsapp();
 
 // $w = new ApiWhatsapp();
 $r = file_get_contents("php://input");
+print_r($r);
 
 $phone_number =  $r['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
 
