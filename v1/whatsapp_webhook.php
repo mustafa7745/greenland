@@ -21,11 +21,13 @@ $w = new ApiWhatsapp();
 // print_r($r);
 
 $input = file_get_contents('php://input');
+if (isset($input)) {
+    $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+    $w->sendMessageText("967774519161", $phone_number);
+}
 
 
-$phone_number =  $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
 
-$w->sendMessageText("967774519161", $phone_number);
 
 // $r = file_get_contents("php://input");
 // // file_put_contents("r22.txt",$r);
@@ -50,7 +52,7 @@ $w->sendMessageText("967774519161", $phone_number);
 // }
 
 // if($list_reply_id){
-    
+
 
 // $sql = "SELECT * from message_menus INNER JOIN
 // products ON message_menus.message_menu_id = products.message_menu_id
@@ -75,8 +77,8 @@ $w->sendMessageText("967774519161", $phone_number);
 //         $sections[$i]["title"] =$title;
 //         $sections[$i]["rows"] =[json_decode($row)];
 //         }
-        
-   
+
+
 //   $header = $data[0]['message_menu_header'];
 //   $body = $data[0]['message_menu_body'];
 //   $footer = $data[0]['message_menu_footer'];
@@ -89,10 +91,10 @@ $w->sendMessageText("967774519161", $phone_number);
 //        $footer,
 //        $button,
 //        $sections);
-       
+
 //  exit();
 //       }
-    
+
 //     else{
 // $sql = "SELECT *,(SELECT static_value FROM static WHERE static_name = 'contact_info') as contact from messages where product_id = (SELECT product_id from products WHERE product_sub_title = '$list_reply_title')";
 // $result = $fun->exec_one_sql($sql);
@@ -109,24 +111,24 @@ $w->sendMessageText("967774519161", $phone_number);
 //           $contact = $data[0]["contact"];
 //           $w->sendImage($phone_number, $link);
 //           $w->sendMessageText($phone_number, $message."\n".$contact);
-         
+
 //       }
 // }
 
-        
+
 //     }
-    
-    
+
+
 // }  
-    
-    
 
 
- 
+
+
+
 // }
 // else
 // if(!empty($message)){
-    
+
 
 // $sql = "SELECT * from message_menus INNER JOIN
 // products ON message_menus.message_menu_id = products.message_menu_id
@@ -151,14 +153,14 @@ $w->sendMessageText("967774519161", $phone_number);
 //         $sections[$i]["rows"] =[json_decode($row)];
 //         }
 //      }     
-   
+
 //   $header = $data[0]['message_menu_header'];
 //   $body = $data[0]['message_menu_body'];
 //   $footer = $data[0]['message_menu_footer'];
 //   $button = $data[0]['message_menu_button_name'];
- 
-    
-    
+
+
+
 
 // // $w->sendMessageText($phone_number, "مرحبا بك  ".$name );
 // $w->sendInterActiveList(
@@ -169,7 +171,7 @@ $w->sendMessageText("967774519161", $phone_number);
 //        $button,
 //        $sections);
 //  exit();
- 
+
 // }
 
 
@@ -200,7 +202,7 @@ $w->sendMessageText("967774519161", $phone_number);
 //     }
 
 //     function sendMessageText($to, $text) {
-        
+
 //         $url = 'https://graph.facebook.com/'.$this->VERSION.'/'.$this->PHONE_NUMBER_ID.'/messages';
 //         $data = [
 //             "messaging_product" => "whatsapp",
@@ -212,7 +214,7 @@ $w->sendMessageText("967774519161", $phone_number);
 //                 "body" => $text
 //             ]
 //         ];
-        
+
 //         $curl = curl_init();
 //         curl_setopt($curl, CURLOPT_URL, $url);
 //         curl_setopt($curl, CURLOPT_POST, true);
@@ -230,7 +232,7 @@ $w->sendMessageText("967774519161", $phone_number);
 //         return json_decode($resp);
 //     }
 //     function sendImage($to, $link) {
-        
+
 //         $url = 'https://graph.facebook.com/'.$this->VERSION.'/'.$this->PHONE_NUMBER_ID.'/messages';
 //         $data = [
 //             "messaging_product" => "whatsapp",
@@ -241,7 +243,7 @@ $w->sendMessageText("967774519161", $phone_number);
 //                 "link" => $link
 //             ]
 //         ];
-        
+
 //         $curl = curl_init();
 //         curl_setopt($curl, CURLOPT_URL, $url);
 //         curl_setopt($curl, CURLOPT_POST, true);
