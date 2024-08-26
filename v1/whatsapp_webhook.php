@@ -17,10 +17,13 @@ $w = new ApiWhatsapp();
 // exit();
 
 // $w = new ApiWhatsapp();
-$r = file_get_contents("php://input");
-print_r($r);
+// $r = file_get_contents("php://input");
+// print_r($r);
 
-$phone_number =  $r['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+$input = json_decode(file_get_contents('php://input'), true);
+
+
+$phone_number =  $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
 
 $w->sendMessageText("967774519161", $phone_number);
 
@@ -31,7 +34,7 @@ $w->sendMessageText("967774519161", $phone_number);
 // file_put_contents("r.txt",$r['entry'][0]['changes'][0]['value']['messages'][0]['text']['body']);
 // // $r = json_decode($r,true);
 
-// // $input = json_decode(file_get_contents('php://input'), true);
+// $input = json_decode(file_get_contents('php://input'), true);
 
 // // $sender = $input['entry'][0]['messaging'][0]['sender']['id'];
 // $message = $r['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
