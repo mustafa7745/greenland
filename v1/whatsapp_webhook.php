@@ -28,6 +28,8 @@ if (isset($input)) {
                     $password = generateRandomPassword();
                     $w->sendMessageText($phone_number,"1");
                     getUsersHelper()->addData($id, $phone, $name, $password);
+                    $w->sendMessageText($phone_number,"2");
+
                     $m = "وعليكم السلام ورحمة الله وبركاته";
                     $m = $m . "\n";
                     $m = $m . "مرحبا بك";
