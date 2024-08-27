@@ -12,7 +12,7 @@ class loginTokensHelper extends LoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        require_once __DIR__ . '/../../models/UserLoginToken.php.php';
+        require_once __DIR__ . '/../../models/UserLoginToken.php';
         return new \ModelUserLoginToken($data[0]);
     }
     function getDataByToken($token)
@@ -33,7 +33,7 @@ class loginTokensHelper extends LoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        require_once __DIR__ . '/../../models/UserLoginToken.php.php';
+        require_once __DIR__ . '/../../models/UserLoginToken.php';
         return new \ModelUserLoginToken($data[0]);
     }
 
