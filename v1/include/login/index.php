@@ -42,7 +42,7 @@ function loginAll()
     if ($userSession == null) {
         $userSession = getUsersSessionsHelper()->addData($user->id, $runApp->deviceSession->id);
     }
-    print_r($userSession);
+    print_r($runApp);
     require_once __DIR__ . "/../models/Login.php";
     return new ModelLogin($user, $userSession, $runApp);
     //  ["user" => $user, "userSession" => $userSession, "runApp" => $runApp];
