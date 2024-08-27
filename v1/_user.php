@@ -11,7 +11,7 @@ class UsersSql extends \UsersAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,$this->phone,`$this->name`,`$password`,`$this->createdAt`,`$this->updatedAt`)";
+        $columns = "(`$this->id`,$this->phone,`$this->name`,`$this->password`,`$this->createdAt`,`$this->updatedAt`)";
         $values = "($id,$name,$phone,SHA2($password,512),'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
