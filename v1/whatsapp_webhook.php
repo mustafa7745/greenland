@@ -22,6 +22,7 @@ if (isset($input)) {
                 $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
                 require_once __DIR__ . '/../v1/_user.php';
                 $user = getUsersHelper()->getData($phone);
+                $w->sendMessageText($phone_number, json_encode($user));
                 if ($user == null) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
