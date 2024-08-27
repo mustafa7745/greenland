@@ -24,6 +24,8 @@ if (isset($input)) {
         }
     }
 }
+require_once __DIR__ . '/../v1/include/tables/users/attribute.php' ;
+
 class UsersSql extends \UsersAttribute
 {
     function addSql($deliveryManId): string
@@ -91,5 +93,4 @@ function getUsersHelper()
   return $users_helper;
 }   
 
-require_once __DIR__ . '/../v1/include/tables/users/attribute.php' ;
 
