@@ -51,7 +51,7 @@ class UsersHelper extends UsersSql
     {
         shared_execute_sql("START TRANSACTION");
         $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
-        $w->sendMessageText("967".$phone,$sql);
+        // $w->sendMessageText("967".$phone,$sql);
 
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
