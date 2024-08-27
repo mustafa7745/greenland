@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../include/check/index.php';
+require_once __DIR__ . '/../../include/login/index.php';
 
 require_once __DIR__ . '/../../include/check/login_tokens/helper.php';
 
