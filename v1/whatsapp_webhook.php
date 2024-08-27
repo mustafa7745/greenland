@@ -29,8 +29,8 @@ if (isset($input)) {
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
     if (str_starts_with($phone_number, "967")) {
         if (strlen($phone_number) == 12) {
-            $phone_number = trim($phone_number,"967");
-            $w->sendMessageText("967774519161", $phone_number);
+            $phoneNumber = trim($phone_number, "967");
+            $w->sendMessageText($phone_number, $phoneNumber);
         }
     }
 
