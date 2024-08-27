@@ -11,11 +11,12 @@ $input = file_get_contents('php://input');
 $input = json_decode($input, true);
 
 if (isset($input)) {
-    $message = $r['entry'][0]['changes'][0];
-    $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
-    $w->sendMessageText($phone_number,json_encode($message));
+    $message = $input['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
+    
 
     if ($message == "السلام عليكم") {
+        $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+    // $w->sendMessageText($phone_number,"fdgfghf");
         if (str_starts_with($phone_number, "967")) {
             if (strlen($phone_number) == 12) {
                 $phone = substr($phone_number, 3, 11);
