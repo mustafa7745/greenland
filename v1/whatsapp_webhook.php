@@ -11,7 +11,7 @@ $input = file_get_contents('php://input');
 $input = json_decode($input, true);
 
 if (isset($input)) {
-    $message = $r['entry'][0]['changes'][0]['value'];
+    $message = $r['entry'][0]['changes'][0];
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
     $w->sendMessageText($phone_number,json_encode($message));
 
