@@ -1,5 +1,5 @@
 <?php
-require_once $path . 'check/login_tokens/helper.php';
+require_once __DIR__ . '/../../include/check/login_tokens/helper.php';
 
 use function Check\getLoginTokensHelper;
 
@@ -27,7 +27,7 @@ class ThisClass
   {
     shared_execute_sql("START TRANSACTION");
     $login = loginAll();
-    $userLoginToken = getUserLoginTokenFromUserSession($login->userSession->id, 1);
+    $userLoginToken = $this->getUserLoginTokenFromUserSession($login->userSession->id, 1);
     $data2 = json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
     $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
     shared_execute_sql("COMMIT");
