@@ -35,7 +35,6 @@ class UsersSessionsHelper extends UsersSessionSql
     function addData($userId, $deviceSessionId)
     {
         $sql = $this->addSql("'$userId'", "'$deviceSessionId'");
-        // print_r($sql);
         // exitFromScript($sql,$sql);
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
@@ -44,6 +43,8 @@ class UsersSessionsHelper extends UsersSessionSql
             $en = "DATA_NOT_EFFECTED";
             exitFromScript($ar, $en);
         }
+        print_r($sql);
+
         return $this->getData($userId, $deviceSessionId);
     }
 }
