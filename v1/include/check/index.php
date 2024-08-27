@@ -112,7 +112,7 @@ class RunApp
     {
         $permissionName = "INIT_DEVICE_SESSION_IP";
         $permission = getPermissionsHelper()->getDataByName($permissionName);
-        getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->id);
+        getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->groupId);
         $deviceSessionIp = Check\getDevicesSessionIpsHelper()->getDataByDeviceSessionIdAndIp($deviceSession->id, getIp());
         if ($deviceSessionIp == null) {
             $deviceSessionIp = Check\getDevicesSessionIpsHelper()->addData($deviceSession->id, getIp());
