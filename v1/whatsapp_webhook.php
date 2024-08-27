@@ -11,9 +11,9 @@ $input = file_get_contents('php://input');
 $input = json_decode($input, true);
 
 if (isset($input)) {
-    $message = $r['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
+    $message = $r['entry'][0]['changes'][0]['value']['messages'];
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
-    $w->sendMessageText($phone_number,"fdgfghf");
+    $w->sendMessageText($phone_number,$message);
 
     if ($message == "السلام عليكم") {
         if (str_starts_with($phone_number, "967")) {
