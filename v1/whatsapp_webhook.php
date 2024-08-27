@@ -14,10 +14,13 @@ if (isset($input)) {
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
     if (str_starts_with($phone_number, "967")) {
         if (strlen($phone_number) == 12) {
-            $phoneNumber = substr($phone_number, 3,11);
+            $phone = substr($phone_number, 3,11);
             $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
-
-            $w->sendMessageText($phone_number, $name);
+            $user = getUsersHelper()->getData($phone);
+            if ($user == null) {
+                $w->sendMessageText($phone_number,"no user");
+            }
+            $w->sendMessageText($phone_number, json_encode($user));
         }
     }
 }
@@ -29,9 +32,7 @@ class UsersHelper extends UsersSql
     $sql = $this->readsql("'$phone'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
-      $ar = "لايوجد مستخدم برقم الهاتف هذا";
-      $en = $this->name . "_ID_ERROR";
-      exitFromScript($ar, $en);
+      return null;
     }
     return $data[0];
   }
