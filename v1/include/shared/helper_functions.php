@@ -207,7 +207,7 @@ function getColumnImagePath($columns, $key_path)
 class ApiWhatsapp
 {
   private $TOKEN = "EAAc0tHqynBsBOwa9lDcM37eZBcXxZCzlWZAwWgYMZBuedWLial5IJdXQOzWMHg8ZALZCYdtIHTfn5ZAjR7p2pngwZAAexMyCFvs7JqQqbOvGp6NO3AeZCVaxYGezIiwslyGN7rfW5omtM1PjyZAGYmcqLswy5I9uPktHO3pffeGgdmJbu5zCCPTbgQy2QlJZAawKZAZA4YHCW11MiW7uCV0J5BRZAygqHSDYXmgQdUZAi8ZD";
-  private $VERSION = "v18.0";
+  private $VERSION = "v20.0";
   private $PHONE_NUMBER_ID = "136302776242131";
   private $BUSINESS_ACCOUNT = "122387020968327";
 
