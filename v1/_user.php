@@ -43,7 +43,7 @@ class UsersHelper extends UsersSql
         $sql = $this->readsql("'$phone'");
         $data = shared_execute_read1_no_json_sql($sql);
         if (count($data) == 0) {
-            return null;
+            return null; 
         }
         return $data[0];
     }
