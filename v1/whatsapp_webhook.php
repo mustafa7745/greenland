@@ -20,8 +20,8 @@ $w = new ApiWhatsapp();
 // $r = file_get_contents("php://input");
 // print_r($r);
 
-// $input = file_get_contents('php://input');
-// $input = json_decode($input, true);
+$input = file_get_contents('php://input');
+$input = json_decode($input, true);
 $w->sendMessageText("967774519161", "dggd");
 
 // if (isset($input)) {
