@@ -19,7 +19,9 @@ if (isset($input)) {
             $w->sendMessageText($phone_number,"1");
 
             require_once __DIR__ .'/../v1/_user.php';
+            $w->sendMessageText($phone_number,"3");
             $user = getUsersHelper()->getData($phone);
+            $w->sendMessageText($phone_number,"5");
             if ($user == null) {
                 $w->sendMessageText($phone_number,"no user");
             }else
