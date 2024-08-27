@@ -10,9 +10,9 @@ class ThisClass
   {
     shared_execute_sql("START TRANSACTION");
     // $login = login();
-    $runApp = (new RunApp())->runApp();
+    $runApp = getMainRunApp();
     // print_r($runApp);
-    $loginToken = refreshToken($runApp, 1);
+    $loginToken = refreshUserLoginToken($runApp, 1);
     // print_r($loginToken);
     $data2 = json_encode(
       array("token" => getLoginToken($loginToken), "expire_at" => getExpireAt($loginToken))

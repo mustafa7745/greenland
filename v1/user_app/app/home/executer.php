@@ -21,9 +21,9 @@ class HomeExecuter
   }
   function executeGetDataWithUser()
   {
-    $s = getMainRunApp();
+    $runApp = getMainRunApp();
     // print_r(getModelMainRunApp()->app->projectId);
-    $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+    $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $runApp);
     $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
     require_once __DIR__ . '/../users/helper.php';
     $user = getUsersHelper()->getDataById($userId);

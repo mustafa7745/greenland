@@ -23,7 +23,8 @@ class loginTokensHelper extends LoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/UserLoginToken.php';
+        return new \ModelUserLoginToken($data[0]);
     }
     function getDataById($id)
     {
