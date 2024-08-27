@@ -52,9 +52,9 @@ function generateRandomPassword($length = 5)
     }
     return $randomPassword;
 }
-require_once __DIR__ . '/../v1/_user.php';
+// require_once __DIR__ . '/../v1/_user.php';
 
-getUsersHelper()->addData(10, 7745191617, "musisf", "dggdg","dgg");
+// getUsersHelper()->addData(10, 7745191617, "musisf", "dggdg","dgg");
 // require_once __DIR__ . '/../v1/_user.php';
 
 // $id = uniqid(rand(), false);
