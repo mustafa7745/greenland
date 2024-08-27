@@ -89,7 +89,7 @@ class RunApp
         if ($device == null) {
             $device = Check\getDevicesHelper()->addData(getPostData1()->deviceId, getPostData1()->deviceInfo, getPostData1()->devicePublicKey);
         }
-        if (getPublicKey($device) != getPostData1()->devicePublicKey) {
+        if ($device->publicKey != getPostData1()->devicePublicKey) {
             $device = Check\getDevicesHelper()->updatePublicKey(getPostData1()->deviceId, getPostData1()->devicePublicKey);
         }
         return $this->initDeviceSession($app, $device);
