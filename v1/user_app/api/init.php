@@ -6,7 +6,7 @@ class ThisClass
 {
   function main(): string
   {
-    $runApp = getModelMainRunApp();
+    $runApp = getMainRunApp();
     return json_encode(array("success" => $runApp->app->id));
   }
 }
