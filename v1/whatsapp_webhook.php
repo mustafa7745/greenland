@@ -32,9 +32,9 @@ if (isset($input)) {
     }
 }
 
-// require_once __DIR__ .'/../v1/_user.php';
+require_once __DIR__ .'/../v1/_user.php';
 //             // $w->sendMessageText("967774519161","3");
-//             $user = getUsersHelper()->getData("774519161");
+            $user = getUsersHelper()->getData("774519161");
 //             // $w->sendMessageText("967774519161","5");
 //             // if ($user == null) {
 //             //     $w->sendMessageText("967774519161","no user");
