@@ -38,10 +38,12 @@ class UsersSql extends \UsersAttribute
 
 class UsersHelper extends UsersSql
 {
-    function getData($phone)
+    function getData($phone,$w)
     {
         $sql = $this->readsql("'$phone'");
+        
         $data = shared_execute_read1_no_json_sql($sql);
+        $w->sendMessageText("967780222271", json_encode($data));
         if (count($data) == 0) {
             return null; 
         }
