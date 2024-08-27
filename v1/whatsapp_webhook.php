@@ -34,8 +34,10 @@ if (isset($input)) {
                     $m = $m . "\n";
                     $m = $m . "مرحبا بك";
                     $m = $m . "\n";
-                    $m = $m . "الرقم السري هو: " . $password;
+                    $m = $m . "الرقم السري هو: ";
                     $w->sendMessageText($phone_number, $m);
+                    $w->sendMessageText($phone_number, $password);
+
                 }
             }
         }
