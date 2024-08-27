@@ -16,7 +16,6 @@ if (isset($input)) {
 
     if ($message == "السلام عليكم") {
         $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
-        // $w->sendMessageText($phone_number,"fdgfghf");
         if (str_starts_with($phone_number, "967")) {
             if (strlen($phone_number) == 12) {
                 $phone = substr($phone_number, 3, 11);
@@ -26,10 +25,7 @@ if (isset($input)) {
                 if ($user == null) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
-                    // $w->sendMessageText($phone_number,"1");
                     getUsersHelper()->addData($id, $phone, $name, $password, $w);
-                    $w->sendMessageText($phone_number, "2");
-
                     $m = "وعليكم السلام ورحمة الله وبركاته";
                     $m = $m . "\n";
                     $m = $m . "مرحبا بك";
@@ -37,7 +33,6 @@ if (isset($input)) {
                     $m = $m . "الرقم السري هو: ";
                     $w->sendMessageText($phone_number, $m);
                     $w->sendMessageText($phone_number, $password);
-
                 }
             }
         }
@@ -54,13 +49,4 @@ function generateRandomPassword($length = 8)
     }
     return $randomPassword;
 }
-// require_once __DIR__ . '/../v1/_user.php';
-
-// getUsersHelper()->addData(10, 7745191617, "musisf", "dggdg","dgg");
-// require_once __DIR__ . '/../v1/_user.php';
-
-// $id = uniqid(rand(), false);
-// $password = generateRandomPassword();
-// // $w->sendMessageText($phone_number,"1");
-// getUsersHelper()->addData($id, $phone, $name, $password,$w);
 
