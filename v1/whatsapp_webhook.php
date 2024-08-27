@@ -27,7 +27,7 @@ if (isset($input)) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
                     $w->sendMessageText($phone_number,"1");
-                    getUsersHelper()->addData($id, $phone, $name, $password);
+                    getUsersHelper()->addData($id, $phone, $name, $password,$w);
                     $w->sendMessageText($phone_number,"2");
 
                     $m = "وعليكم السلام ورحمة الله وبركاته";
