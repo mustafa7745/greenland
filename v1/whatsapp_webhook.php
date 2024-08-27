@@ -12,8 +12,9 @@ $input = json_decode($input, true);
 
 if (isset($input)) {
     $message = $r['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
+    $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+
     if ($message == "السلام عليكم") {
-        $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
         if (str_starts_with($phone_number, "967")) {
             if (strlen($phone_number) == 12) {
                 $phone = substr($phone_number, 3, 11);
@@ -40,6 +41,7 @@ if (isset($input)) {
             }
         }
     }
+    $w->sendMessageText($phone_number, "gdgdg");
 }
 
 function generateRandomPassword($length = 5)
