@@ -1,5 +1,7 @@
 <?php 
 require_once __DIR__ . '/../v1/include/tables/users/attribute.php' ;
+require_once __DIR__ . '/../v1/include/shared/shared_sql.php' ;
+
 
 class UsersSql extends \UsersAttribute
 {
