@@ -8,7 +8,7 @@ class UsersSessionsHelper extends UsersSessionSql
     function getData($userId, $deviceSessionId)
     {
         $sql = $this->readSql("'$userId'", "'$deviceSessionId'");
-        // print_r($sql);
+        print_r($sql);
         $data = shared_execute_read1_no_json_sql($sql);
         print_r($data);
 
