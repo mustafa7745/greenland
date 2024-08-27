@@ -15,8 +15,9 @@ if (isset($input)) {
     if (str_starts_with($phone_number, "967")) {
         if (strlen($phone_number) == 12) {
             $phoneNumber = substr($phone_number, 3,11);
+            $name = $input['entry'][0]['changes'][0]['value']['contacts'];
 
-            $w->sendMessageText($phone_number, json_encode($input));
+            $w->sendMessageText($phone_number, json_encode($name));
         }
     }
 }
