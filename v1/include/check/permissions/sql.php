@@ -7,7 +7,7 @@ class PermissionsSql extends \PermissionsAttribute
     function readByNameSql($name): string
     {
         $table_name = $this->table_name;
-        $columns = "$this->id";
+        $columns = "*";
         $innerJoin = "";
         $condition = "$this->name = $name";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
