@@ -40,6 +40,8 @@ function loginAll()
 
     $userSession = getUsersSessionsHelper()->getData($user->id, $runApp->deviceSession->id);
     if ($userSession == null) {
+    print_r("mustafa22");
+
         $userSession = getUsersSessionsHelper()->addData($user->id, $runApp->deviceSession->id);
     }
     print_r($userSession);
