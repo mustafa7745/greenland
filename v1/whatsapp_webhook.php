@@ -24,10 +24,10 @@ $w = new ApiWhatsapp();
 // $input = json_decode($input, true);
 $w->sendMessageText("967774519161", "dggd");
 
-if (isset($input)) {
-    // $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
-    // $w->sendMessageText("967774519161", $phone_number);
-}
+// if (isset($input)) {
+//     // $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+//     // $w->sendMessageText("967774519161", $phone_number);
+// }
 
 
 
