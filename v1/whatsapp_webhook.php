@@ -26,7 +26,6 @@ if (isset($input)) {
                 if ($user == null) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
-                    shared_execute_sql("START TRANSACTION");
                     getUsersHelper()->addData($id, $phone, $name, $password);
                     $m = "وعليكم السلام ورحمة الله وبركاته";
                     $m = $m . "\n";
