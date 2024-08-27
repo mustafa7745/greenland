@@ -10,10 +10,11 @@ class UsersSessionsHelper extends UsersSessionSql
         $sql = $this->readSql("'$userId'", "'$deviceSessionId'");
         // print_r($sql);
         $data = shared_execute_read1_no_json_sql($sql);
+        print_r($data);
+
         if (count($data) != 1) {
             return null;
         }
-        print_r($data);
         require_once __DIR__ . '/../../models/UserSession.php';
         return new \ModelUserSession($data[0]); 
     }
