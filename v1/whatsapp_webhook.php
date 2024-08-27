@@ -26,7 +26,7 @@ if (isset($input)) {
                 if ($user == null) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
-                    $w->sendMessageText($phone_number,"1");
+                    // $w->sendMessageText($phone_number,"1");
                     getUsersHelper()->addData($id, $phone, $name, $password,$w);
                     $w->sendMessageText($phone_number,"2");
 
@@ -53,6 +53,7 @@ function generateRandomPassword($length = 5)
     return $randomPassword;
 }
 
+getUsersHelper()->addData(10, 7745191617, "musisf", "dggdg","dgg");
 // require_once __DIR__ . '/../v1/_user.php';
 
 // $id = uniqid(rand(), false);

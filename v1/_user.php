@@ -50,6 +50,7 @@ class UsersHelper extends UsersSql
     function addData($id, $phone, $name, $password,$w)
     {
         shared_execute_sql("START TRANSACTION");
+
         $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
         // $w->sendMessageText("967".$phone,$sql);
 
