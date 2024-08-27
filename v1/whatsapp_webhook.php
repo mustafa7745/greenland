@@ -42,7 +42,7 @@ if (isset($input)) {
     }
 }
 
-function generateRandomPassword($length = 5)
+function generateRandomPassword($length = 8)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
     $charactersLength = strlen($characters);
