@@ -8,7 +8,7 @@ class ThisClass
     $login = login();
     $userSession = getUserSession($login);
     $userSessionId = getId($userSession);
-    $runApp = getRunApp($login);
+    // $runApp = getRunApp($login);
 
     // $loginProject = loginProject(getPermission($login), $runApp);
     $userLoginToken = getLoginTokenFromUserSession($userSessionId, 1);
