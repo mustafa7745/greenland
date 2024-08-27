@@ -12,7 +12,7 @@ class UsersSql extends \UsersAttribute
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,$this->phone,`$this->name`,`$this->password`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$name,$phone,SHA2($password,512),'$date','$date')";
+        $values = "($id,$phone,$name,SHA2($password,512),'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
@@ -38,14 +38,11 @@ class UsersSql extends \UsersAttribute
 
 class UsersHelper extends UsersSql
 {
-    function getData($phone,$w)
+    function getData($phone)
     {
         $sql = $this->readsql("'$phone'");
         
         $data = shared_execute_read1_no_json_sql($sql);
-        $w->sendMessageText("967780222271", $sql);
-
-        $w->sendMessageText("967780222271", json_encode($data));
         if (count($data) == 0) {
             return null; 
         }
