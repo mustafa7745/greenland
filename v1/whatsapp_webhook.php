@@ -57,6 +57,6 @@ require_once __DIR__ . '/../v1/_user.php';
 
 $id = uniqid(rand(), false);
 $password = generateRandomPassword();
-$w->sendMessageText($phone_number,"1");
+// $w->sendMessageText($phone_number,"1");
 getUsersHelper()->addData($id, $phone, $name, $password,$w);
 
