@@ -11,7 +11,6 @@ class DevicesSessionsHelper extends DevicesSessionsSql
         $data = shared_execute_read1_no_json_sql($sql);
         if (count($data) == 1) {
             require_once __DIR__ . '/../../models/DeviceSession.php';
-
             return new \ModelDeviceSession($data[0]);
         }
         return null;
@@ -26,7 +25,8 @@ class DevicesSessionsHelper extends DevicesSessionsSql
             $en = "{$this->table_name}_ID_ERROR";
             exitFromScript($ar, $en);
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/DeviceSession.php';
+        return new \ModelDeviceSession($data[0]);
     }
     function addData($deviceId, $appId, $appToken)
     {
