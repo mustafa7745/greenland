@@ -21,12 +21,8 @@ if (isset($input)) {
             if (strlen($phone_number) == 12) {
                 $phone = substr($phone_number, 3, 11);
                 $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
-                $w->sendMessageText($phone_number, "1");
-
                 require_once __DIR__ . '/../v1/_user.php';
-                $w->sendMessageText($phone_number, "3");
                 $user = getUsersHelper()->getData($phone);
-                $w->sendMessageText($phone_number, "5");
                 if ($user == null) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
@@ -38,8 +34,7 @@ if (isset($input)) {
                     $m = $m . "\n";
                     $m = "الرقم السري هو: " . $password;
                     $w->sendMessageText($phone_number, $m);
-                }else
-                $w->sendMessageText($phone_number,"nodffd");
+                }
             }
         }
     }
