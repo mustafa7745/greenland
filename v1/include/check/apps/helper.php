@@ -14,7 +14,9 @@ class AppsHelper extends AppsSql
             $en = "APP_NOT_AUTH";
             exitFromScript($ar, $en);
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/App.php';
+
+        return new \ModelApp($data[0]);
     }
 
 }

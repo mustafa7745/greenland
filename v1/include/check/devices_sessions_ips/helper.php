@@ -10,7 +10,9 @@ class DevicesSessionsIpsHelper extends DevicesSessionsIpsSql
         $sql = $this->readSql("'$deviceSessionId'", "'$ip'");
         $data = shared_execute_read1_no_json_sql($sql);
         if (count($data) == 1) {
-            return $data[0];
+            require_once __DIR__ . '/../../models/DeviceSessionIp.php';
+
+            return new \ModelDeviceSessionIp($data[0]) ;
         }
         return null;
     }

@@ -6,28 +6,13 @@ class ThisClass
   {
     shared_execute_sql("START TRANSACTION");
     $login = loginAll();
-    // $userSession = getUserSession($login);
-    // $userSessionId = getId($userSession);
-    // // $runApp = getRunApp($login);
 
-    // // $loginProject = loginProject(getPermission($login), $runApp);
-    $userLoginToken = getLoginTokenFromUserSession($login->userSession->id, 1);
+    $userLoginToken = getUserLoginTokenFromUserSession($login->userSession->id, 1);
     // print_r($userLoginToken);
 
-    $data2 = json_encode(
-      array("token" => getLoginToken($userLoginToken), "expire_at" => getExpireAt($userLoginToken))
-    );
+    $data2 = json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
     // print_r($data2);
-    $encryptedData = encrypt(
-      $data2,
-      getPublicKeyFormat(
-        getPublicKey(
-          getDevice(
-            getRunApp($login)
-          )
-        )
-      )
-    );
+    $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
     // setcookie("mustafa","12345");
     shared_execute_sql("COMMIT");
     return json_encode(

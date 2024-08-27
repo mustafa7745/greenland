@@ -14,7 +14,7 @@ use function Check\getProjectsLoginTokensHelper;
 
 function loginAll()
 {
-    $runApp = getModelMainRunApp();
+    $runApp = getMainRunApp();
     $permissionName = "LOGIN";
     //MUST TRANSFORM
     $permission = getPermissionsHelper()->getDataByName($permissionName);
@@ -43,7 +43,7 @@ function loginAll()
         $userSession = getUsersSessionsHelper()->addData($user->id, $runApp->deviceSession->id);
     }
     require_once __DIR__ . "/../models/Login.php";
-    return new ModelLogin($user,$userSession,$runApp);
+    return new ModelLogin($user, $userSession, $runApp);
     //  ["user" => $user, "userSession" => $userSession, "runApp" => $runApp];
 }
 function login()
@@ -91,23 +91,20 @@ function loginProject($permission, $runApp)
     }
     return $project;
 }
-function getLoginTokenFromUserSession($userSessionId, $loginTokenDuration)
+function getUserLoginTokenFromUserSession($userSessionId, $loginTokenDuration)
 {
 
     $loginToken = getLoginTokensHelper()->getData($userSessionId);
     if ($loginToken == null) {
-
         $loginTokenString = uniqid(rand(), false);
         $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
         $loginToken = getLoginTokensHelper()->addData($userSessionId, $loginTokenString, $expireAt);
     } else {
 
-        if (strtotime(getCurruntDate()) > strtotime(getExpireAt($loginToken))) {
+        if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
             $loginTokenString = uniqid(rand(), false);
             $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-
-            $loginToken = getLoginTokensHelper()->updateToken(getId($loginToken), $loginTokenString, $expireAt);
-
+            $loginToken = getLoginTokensHelper()->updateToken($loginToken->id, $loginTokenString, $expireAt);
         }
     }
     return $loginToken;

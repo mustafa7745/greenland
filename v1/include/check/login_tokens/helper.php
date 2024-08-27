@@ -12,7 +12,8 @@ class loginTokensHelper extends LoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/UserLoginToken.php.php';
+        return new \ModelUserLoginToken($data[0]);
     }
     function getDataByToken($token)
     {
@@ -32,7 +33,8 @@ class loginTokensHelper extends LoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/UserLoginToken.php.php';
+        return new \ModelUserLoginToken($data[0]);
     }
 
     function addData($userSessionId, $loginToken, $expireAt)
@@ -51,13 +53,14 @@ class loginTokensHelper extends LoginTokensSql
     }
     function updateToken($id, $newValue, $expireAt)
     {
-        $sql = $this->updateTokensql("'$id'", "'$newValue'","'$expireAt'");
+        $sql = $this->updateTokensql("'$id'", "'$newValue'", "'$expireAt'");
         // print_r($sql);
         // exitFromScript($sql,$sql);
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
             shared_execute_sql("rollback");
-            $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_TOKEN";;
+            $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_TOKEN";
+            ;
             $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_TOKEN";
             exitFromScript($ar, $en);
         }

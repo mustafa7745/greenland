@@ -1,9 +1,13 @@
 <?php
+
+require_once 'User.php';
+require_once 'UserSession.php';
+require_once 'RunApp.php';
 class ModelLogin
 {
-    public $user;
-    public $userSession;
-    public $runApp;
+    public ModelUser $user;
+    public ModelUserSession $userSession;
+    public ModelRunApp $runApp;
     public function __construct($user, $userSession, $runApp)
     {
         $this->user = $user;
