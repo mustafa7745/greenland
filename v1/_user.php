@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../v1/include/tables/users/attribute.php' ;
 require_once __DIR__ . '/../v1/include/shared/shared_sql.php' ;
 require_once __DIR__ . '/../v1/include/shared/shared_executer.php' ;
+require_once __DIR__ . '/../v1/include/database_connection/database.php' ;
+
 
 
 
