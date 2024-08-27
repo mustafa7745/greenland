@@ -1,19 +1,35 @@
 <?php
-require_once "../../include/login/index.php";
+require_once $path . 'check/login_tokens/helper.php';
+
+use function Check\getLoginTokensHelper;
+
 class ThisClass
 {
+  function getUserLoginTokenFromUserSession($userSessionId, $loginTokenDuration)
+  {
+    $loginToken = getLoginTokensHelper()->getData($userSessionId);
+    if ($loginToken == null) {
+      $loginTokenString = uniqid(rand(), false);
+      $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+      $loginToken = getLoginTokensHelper()->addData($userSessionId, $loginTokenString, $expireAt);
+    } else {
+
+      if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
+        $loginTokenString = uniqid(rand(), false);
+        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+        $loginToken = getLoginTokensHelper()->updateToken($loginToken->id, $loginTokenString, $expireAt);
+      }
+    }
+    return $loginToken;
+  }
+
   function main(): string
   {
     shared_execute_sql("START TRANSACTION");
     $login = loginAll();
-
     $userLoginToken = getUserLoginTokenFromUserSession($login->userSession->id, 1);
-    // print_r($userLoginToken);
-
     $data2 = json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
-    // print_r($data2);
     $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
-    // setcookie("mustafa","12345");
     shared_execute_sql("COMMIT");
     return json_encode(
       array(

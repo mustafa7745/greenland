@@ -2,14 +2,13 @@
 require_once "../../include/check/index.php";
 require_once $path . 'check/projects/helper.php';
 require_once $path . 'check/users_sessions/helper.php';
-require_once $path . 'check/login_tokens/helper.php';
 require_once $path . 'check/projects_login_tokens/helper.php';
 
 
 use function Check\getProjectsHelper;
 use function Check\getUsersHelper;
 use function Check\getUsersSessionsHelper;
-use function Check\getLoginTokensHelper;
+
 use function Check\getProjectsLoginTokensHelper;
 
 function loginAll()
@@ -97,24 +96,7 @@ function loginProject($permission, $runApp)
     }
     return $project;
 }
-function getUserLoginTokenFromUserSession($userSessionId, $loginTokenDuration)
-{
 
-    $loginToken = getLoginTokensHelper()->getData($userSessionId);
-    if ($loginToken == null) {
-        $loginTokenString = uniqid(rand(), false);
-        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-        $loginToken = getLoginTokensHelper()->addData($userSessionId, $loginTokenString, $expireAt);
-    } else {
-
-        if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
-            $loginTokenString = uniqid(rand(), false);
-            $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-            $loginToken = getLoginTokensHelper()->updateToken($loginToken->id, $loginTokenString, $expireAt);
-        }
-    }
-    return $loginToken;
-}
 function getLoginTokenFromUserSessionAndProjectId($userSessionId, $projectId, $loginTokenDuration)
 {
     $projectLoginToken = getProjectsLoginTokensHelper()->getData($userSessionId, $projectId);
