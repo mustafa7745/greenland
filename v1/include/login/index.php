@@ -12,7 +12,40 @@ use function Check\getUsersSessionsHelper;
 use function Check\getLoginTokensHelper;
 use function Check\getProjectsLoginTokensHelper;
 
+function loginAll()
+{
+    $runApp = getModelMainRunApp();
+    $permissionName = "LOGIN";
+    //MUST TRANSFORM
+    $permission = getPermissionsHelper()->getDataByName($permissionName);
+    getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
+    $failedCount = getFailedAttempsLogsHelper()->getData($runApp->device->id, $permission->id);
+    if (getDeviceCount($failedCount) > 3) {
+        P_BLOCKED($permissionName);
+    }
+    if (getIpCount($failedCount) > 3) {
+        P_BLOCKED($permissionName);
+    }
 
+    $user = getUsersHelper()->getData(getInputUserPhone(), getInputUserPassword());
+
+    if ($user == null) {
+        $ar = "اسم المستخدم او كلمة المرور غير صحيحة";
+        // $en = "USER_NAME_OR_PASSWORD_ERROR";
+        $en = "اسم المستخدم او كلمة المرور غير صحيحة";
+        getFailedAttempsLogsHelper()->addData($runApp->deviceSession->id, $permission->id);
+        shared_execute_sql("COMMIT");
+        exitFromScript($ar, $en);
+    }
+
+    $userSession = getUsersSessionsHelper()->getData($user->id, $runApp->deviceSession->id);
+    if ($userSession == null) {
+        $userSession = getUsersSessionsHelper()->addData($user->id, $runApp->deviceSession->id);
+    }
+    require_once __DIR__ . "/../models/Login.php";
+    return new ModelLogin($user,$userSession,$runApp);
+    //  ["user" => $user, "userSession" => $userSession, "runApp" => $runApp];
+}
 function login()
 {
     $runApp = (new RunApp())->runApp();
@@ -28,7 +61,7 @@ function login()
     }
 
     $user = getUsersHelper()->getData(getInputUserPhone(), getInputUserPassword());
-    
+
     if ($user == null) {
         $ar = "اسم المستخدم او كلمة المرور غير صحيحة";
         // $en = "USER_NAME_OR_PASSWORD_ERROR";
@@ -37,12 +70,12 @@ function login()
         shared_execute_sql("COMMIT");
         exitFromScript($ar, $en);
     }
-    
+
     $userSession = getUsersSessionsHelper()->getData(getId($user), getId(getDeviceSession($runApp)));
     if ($userSession == null) {
         $userSession = getUsersSessionsHelper()->addData(getId($user), getId(getDeviceSession($runApp)));
     }
-    
+
     return ["user" => $user, "userSession" => $userSession, "permission" => $permission, "runApp" => $runApp];
 }
 function loginProject($permission, $runApp)
@@ -60,21 +93,21 @@ function loginProject($permission, $runApp)
 }
 function getLoginTokenFromUserSession($userSessionId, $loginTokenDuration)
 {
-    
+
     $loginToken = getLoginTokensHelper()->getData($userSessionId);
     if ($loginToken == null) {
-        
+
         $loginTokenString = uniqid(rand(), false);
         $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
         $loginToken = getLoginTokensHelper()->addData($userSessionId, $loginTokenString, $expireAt);
     } else {
-        
+
         if (strtotime(getCurruntDate()) > strtotime(getExpireAt($loginToken))) {
             $loginTokenString = uniqid(rand(), false);
             $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-            
+
             $loginToken = getLoginTokensHelper()->updateToken(getId($loginToken), $loginTokenString, $expireAt);
-            
+
         }
     }
     return $loginToken;

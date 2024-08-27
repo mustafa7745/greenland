@@ -13,7 +13,8 @@ class PermissionsHelper extends PermissionsSql
             $en = "{$this->table_name}_NAME_ERROR";
             exitFromScript($ar, $en);
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/Permission.php';
+        return new ModelPermission($data[0]);
     }
 }
 $permissions1_helper = null;

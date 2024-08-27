@@ -3,6 +3,14 @@ function getId($data)
 {
     return $data["id"];
 }
+function getName($data)
+{
+    return $data["name"];
+}
+function getPhoneFromData($data)
+{
+    return $data["name"];
+}
 function getUserLocationId($data)
 {
     return $data["userLocationId"];

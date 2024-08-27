@@ -12,7 +12,8 @@ class UsersHelper extends UsersSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/User.php';
+        return new \ModelUser($data[0]);
     }
 }
 $users1_helper = null;

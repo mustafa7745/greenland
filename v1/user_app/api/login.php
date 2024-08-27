@@ -5,13 +5,13 @@ class ThisClass
   function main(): string
   {
     shared_execute_sql("START TRANSACTION");
-    $login = login();
-    $userSession = getUserSession($login);
-    $userSessionId = getId($userSession);
-    // $runApp = getRunApp($login);
+    $login = loginAll();
+    // $userSession = getUserSession($login);
+    // $userSessionId = getId($userSession);
+    // // $runApp = getRunApp($login);
 
-    // $loginProject = loginProject(getPermission($login), $runApp);
-    $userLoginToken = getLoginTokenFromUserSession($userSessionId, 1);
+    // // $loginProject = loginProject(getPermission($login), $runApp);
+    $userLoginToken = getLoginTokenFromUserSession($login->userSession->id, 1);
     // print_r($userLoginToken);
 
     $data2 = json_encode(
