@@ -16,11 +16,15 @@ if (isset($input)) {
         if (strlen($phone_number) == 12) {
             $phone = substr($phone_number, 3,11);
             $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
+            $w->sendMessageText($phone_number,"1");
+
             $user = getUsersHelper()->getData($phone);
             if ($user == null) {
                 $w->sendMessageText($phone_number,"no user");
-            }
+            }else
             $w->sendMessageText($phone_number, json_encode($user));
+            $w->sendMessageText($phone_number,"2");
+
         }
     }
 }
