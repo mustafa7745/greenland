@@ -29,11 +29,10 @@ if (isset($input)) {
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
     if (str_starts_with($phone_number, "967")) {
         if (strlen($phone_number) == 12) {
-            $phoneNumber = trim($phone_number, "967");
+            $phoneNumber = substr($phone_number, 2,11);
             $w->sendMessageText($phone_number, $phoneNumber);
         }
     }
-
 }
 
 
