@@ -7,12 +7,12 @@ require_once __DIR__ . '/../v1/include/check/middleware.php';
 
 class UsersSql extends \UsersAttribute
 {
-    function addSql($id, $name, $password): string
+    function addSql($id, $phone, $name, $password): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->name`,SHA2($password,512),`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$name,$password,'$date','$date')";
+        $columns = "(`$this->id`,$this->phone,`$this->name`,SHA2($password,512),`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$name,$phone,$password,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
@@ -47,13 +47,13 @@ class UsersHelper extends UsersSql
         }
         return $data[0];
     }
-    function addData($id, $name, $password)
+    function addData($id, $phone, $name, $password)
     {
-        $sql = $this->addSql("'$id'", "'$name'", "'$password'");
+        $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
-          shared_execute_sql("rollback");
-          exit;
+            shared_execute_sql("rollback");
+            exit;
         }
     }
     function getDataById($id)
