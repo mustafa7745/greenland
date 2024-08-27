@@ -23,23 +23,24 @@ if (isset($input)) {
             $user = getUsersHelper()->getData($phone);
             $w->sendMessageText($phone_number,"5");
             if ($user == null) {
+                $id = uniqid(rand(),false);
+                getUsersHelper()->addData($id,$name,'ffe');
                 $w->sendMessageText($phone_number,"no user");
-            }else
-            $w->sendMessageText($phone_number, json_encode($user));
-            $w->sendMessageText($phone_number,"2");
-
+            }
         }
     }
 }
 
-require_once __DIR__ .'/../v1/_user.php';
-//             // $w->sendMessageText("967774519161","3");
-            $user = getUsersHelper()->getData("774519161");
-//             // $w->sendMessageText("967774519161","5");
-//             // if ($user == null) {
-//             //     $w->sendMessageText("967774519161","no user");
-//             // }else
-//             // $w->sendMessageText("967774519161", json_encode($user));
-//             // $w->sendMessageText("967774519161","2");
+function generateRandomPassword($length = 5) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
+    $charactersLength = strlen($characters);
+    $randomPassword = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomPassword .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomPassword;
+}
+
+echo generateRandomPassword();
 
 
