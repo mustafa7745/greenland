@@ -15,7 +15,7 @@ class Orders
         $s = getMainRunApp();
         $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        $projectId = getModelMainRunApp()->app->projectId;
+        $projectId = getMainRunApp()->app->projectId;
         return getOrdersExecuter()->executeAddData($userId, getInputOrderProductsIdsWithQnt(), $projectId, getInputUserLocationId());
     }
     function read()

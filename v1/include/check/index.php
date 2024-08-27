@@ -41,25 +41,6 @@ function getMainRunApp()
     return $runApp;
 }
 
-$modelRunApp = null;
-function getModelMainRunApp()
-{
-    global $modelRunApp;
-    if ($modelRunApp == null) {
-        $runApp = getMainRunApp();
-        require_once getPath() . 'models/RunApp.php';
-        // print_r($runApp);
-        $app = new ModelApp(getApp($runApp));
-        $device = new ModelDevice(getDevice($runApp));
-        $deviceSession = new ModelDeviceSession(getDeviceSession($runApp));
-        $deviceSessionIp = new ModelDeviceSessionIp(getDeviceSessionIp($runApp));
-
-        $modelRunApp = new ModelRunApp($app, $device, $deviceSession, $deviceSessionIp);
-        // return $modelRunApp;
-    }
-    return $modelRunApp;
-}
-
 class RunApp
 {
     function runApp()
