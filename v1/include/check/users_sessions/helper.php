@@ -13,6 +13,7 @@ class UsersSessionsHelper extends UsersSessionSql
         if (count($data) != 1) {
             return null;
         }
+        print_r($data);
         require_once __DIR__ . '/../../models/UserSession.php';
         return new \ModelUserSession($data[0]); 
     }
