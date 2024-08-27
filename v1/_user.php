@@ -75,13 +75,13 @@ class UsersHelper extends UsersSql
     }
 }
 
-$users_helper = null;
+$users3_helper = null;
 function getUsersHelper()
 {
-    global $users_helper;
-    if ($users_helper == null) {
-        $users_helper = (new UsersHelper());
+    global $users3_helper;
+    if ($users3_helper == null) {
+        $users3_helper = (new UsersHelper());
     }
-    return $users_helper;
+    return $users3_helper;
 }
 
