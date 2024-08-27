@@ -13,7 +13,8 @@ class UsersSessionsHelper extends UsersSessionSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/UserSession.php';
+        return new \ModelUserSession($data[0]); 
     }
     function getDataById($id)
     {
@@ -25,7 +26,8 @@ class UsersSessionsHelper extends UsersSessionSql
             $en = "ID_ERROR";
             exitFromScript($ar, $en);
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/Permission.php';
+        return new \ModelUserSession($data[0]); 
     }
 
     function addData($userId, $deviceSessionId)
