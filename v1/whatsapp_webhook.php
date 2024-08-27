@@ -26,6 +26,7 @@ if (isset($input)) {
                     $id = uniqid(rand(), false);
                     $password = generateRandomPassword();
                     getUsersHelper()->addData($id, $phone, $name, $password, $w);
+
                     $m = "وعليكم السلام ورحمة الله وبركاته";
                     $m = $m . "\n";
                     $m = $m . "مرحبا بك";
@@ -33,6 +34,8 @@ if (isset($input)) {
                     $m = $m . "الرقم السري هو: ";
                     $w->sendMessageText($phone_number, $m);
                     $w->sendMessageText($phone_number, $password);
+                    shared_execute_sql("COMMIT");
+                    exit;
                 }
             }
         }
