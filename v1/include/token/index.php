@@ -27,33 +27,7 @@ use function Check\getManagersHelper;
 use function Check\getManagersLoginTokensHelper;
 
 
-function refreshProjectLoginToken($runApp, $loginTokenDuration = 1)
-{
-    $token = getInputProjectLoginToken();
-    $projectLoginToken = getProjectsLoginTokensHelper()->getDataByToken($token);
-    $permissionName = "REFRESH_LOGIN_TOKEN";
-    $permission = getPermissionsHelper()->getDataByName($permissionName);
-    getPermissionsGroupsHelper()->getData($permissionName, getId($permission), getGroupId(getApp($runApp)));
-    $failedCount = getFailedAttempsLogsHelper()->getData(getId(getDevice($runApp)), getId($permission));
-    // print_r($failedCount);
-    if (getDeviceCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-    if (getIpCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-    // 
-    if ($projectLoginToken == null) {
-        INVALID_TOKEN($runApp, $permission);
-    } else {
-        if (strtotime(getCurruntDate()) > strtotime(getExpireAt($projectLoginToken))) {
-            $loginTokenString = uniqid(rand(), false);
-            $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-            $projectLoginToken = getProjectsLoginTokensHelper()->updateToken(getId($projectLoginToken), $loginTokenString, $expireAt);
-        }
-    }
-    return $projectLoginToken;
-}
+
 
 function refreshManagerLoginToken($runApp, $loginTokenDuration = 1)
 {
@@ -83,14 +57,14 @@ function refreshManagerLoginToken($runApp, $loginTokenDuration = 1)
     }
     return $managerLoginToken;
 }
-function getProjectLoginTokenData($permissionName, $runApp, $loginTokenDuration = 1)
+function getProjectLoginTokenData($permissionName, $runApp)
 {
     $token = getInputProjectLoginToken();
     $projectLoginToken = getProjectsLoginTokensHelper()->getDataByToken($token);
     // 
     $permission = getPermissionsHelper()->getDataByName($permissionName);
-    getPermissionsGroupsHelper()->getData($permissionName, getId($permission), getGroupId(getApp($runApp)));
-    $failedCount = getFailedAttempsLogsHelper()->getData(getId(getDevice($runApp)), getId($permission));
+    getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
+    $failedCount = getFailedAttempsLogsHelper()->getData($runApp->device->id, $permission->id);
     // print_r($failedCount);
     if (getDeviceCount($failedCount) > 3) {
         P_BLOCKED($permissionName);
@@ -102,7 +76,7 @@ function getProjectLoginTokenData($permissionName, $runApp, $loginTokenDuration 
     if ($projectLoginToken == null) {
         INVALID_TOKEN($runApp, $permission);
     } else {
-        if (strtotime(getCurruntDate()) > strtotime(getExpireAt($projectLoginToken))) {
+        if (strtotime(getCurruntDate()) > strtotime($projectLoginToken->expireAt)) {
             TOKEN_NEED_UPDATE();
         }
     }
