@@ -11,26 +11,6 @@ require_once $path . 'check/permissions_groups/helper.php';
 require_once $path . 'check/users/helper.php';
 require_once $path . 'check/failed_attemps_logs/helper.php';
 
-
-function checkPermission($permissionName)
-{
-    // getRunApp()
-    $runApp = getMainRunApp();
-    $permission = getPermissionsHelper()->getDataByName($permissionName);
-    getPermissionsGroupsHelper()->getData($permissionName, getId($permission), getGroupId(getApp($runApp)));
-    $failedCount = getFailedAttempsLogsHelper()->getData(getId(getDevice($runApp)), getId($permission));
-
-    if (getDeviceCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-    if (getIpCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-}
-
-
-
-
 $runApp = null;
 function getMainRunApp()
 {
@@ -40,7 +20,6 @@ function getMainRunApp()
     }
     return $runApp;
 }
-
 class RunApp
 {
     function runApp()

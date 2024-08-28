@@ -1,14 +1,9 @@
 <?php
-require_once "../../include/check/index.php";
-require_once $path . 'check/projects/helper.php';
-require_once $path . 'check/users_sessions/helper.php';
+require_once __DIR__ . '/../check/index.php';
+require_once __DIR__ . '/../check/users_sessions/helper.php';
 
-
-use function Check\getProjectsHelper;
 use function Check\getUsersHelper;
 use function Check\getUsersSessionsHelper;
-
-
 
 function loginAll()
 {
@@ -38,7 +33,7 @@ function loginAll()
 
     $userSession = getUsersSessionsHelper()->getData($user->id, $runApp->deviceSession->id);
     if ($userSession == null) {
-    // print_r("mustafa22");
+        // print_r("mustafa22");
 
         $userSession = getUsersSessionsHelper()->addData($user->id, $runApp->deviceSession->id);
     }
@@ -49,38 +44,6 @@ function loginAll()
     require_once __DIR__ . "/../models/Login.php";
     return new ModelLogin($user, $userSession, $runApp);
     //  ["user" => $user, "userSession" => $userSession, "runApp" => $runApp];
-}
-function login()
-{
-    $runApp = (new RunApp())->runApp();
-    $permissionName = "LOGIN";
-    $permission = getPermissionsHelper()->getDataByName($permissionName);
-    getPermissionsGroupsHelper()->getData($permissionName, getId($permission), getGroupId(getApp($runApp)));
-    $failedCount = getFailedAttempsLogsHelper()->getData(getId(getDevice($runApp)), getId($permission));
-    if (getDeviceCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-    if (getIpCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-
-    $user = getUsersHelper()->getData(getInputUserPhone(), getInputUserPassword());
-
-    if ($user == null) {
-        $ar = "اسم المستخدم او كلمة المرور غير صحيحة";
-        // $en = "USER_NAME_OR_PASSWORD_ERROR";
-        $en = "اسم المستخدم او كلمة المرور غير صحيحة";
-        getFailedAttempsLogsHelper()->addData(getId(getDeviceSessionIp($runApp)), getId($permission));
-        shared_execute_sql("COMMIT");
-        exitFromScript($ar, $en);
-    }
-
-    $userSession = getUsersSessionsHelper()->getData(getId($user), getId(getDeviceSession($runApp)));
-    if ($userSession == null) {
-        $userSession = getUsersSessionsHelper()->addData(getId($user), getId(getDeviceSession($runApp)));
-    }
-
-    return ["user" => $user, "userSession" => $userSession, "permission" => $permission, "runApp" => $runApp];
 }
 
 
