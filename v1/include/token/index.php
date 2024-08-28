@@ -202,8 +202,8 @@ function getDeliveryManLoginToken($permissionName, $runApp)
     $loginToken = getDeliveryMenLoginTokensHelper()->getDataByToken($token);
     // $permissionName = "REFRESH_LOGIN_TOKEN";
     $permission = getPermissionsHelper()->getDataByName($permissionName);
-    getPermissionsGroupsHelper()->getData($permissionName, getId($permission), getGroupId(getApp($runApp)));
-    $failedCount = getFailedAttempsLogsHelper()->getData(getId(getDevice($runApp)), getId($permission));
+    getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
+    $failedCount = getFailedAttempsLogsHelper()->getData($runApp->device->id, $permission->id);
     // print_r($failedCount);
     if (getDeviceCount($failedCount) > 3) {
         P_BLOCKED($permissionName);
@@ -215,16 +215,16 @@ function getDeliveryManLoginToken($permissionName, $runApp)
     if ($loginToken == null) {
         INVALID_TOKEN($runApp, $permission);
     } else {
-        if (strtotime(getCurruntDate()) > strtotime(getExpireAt($loginToken))) {
+        if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
             TOKEN_NEED_UPDATE();
         }
     }
     // 
-    $userSession = getUsersSessionsHelper()->getDataById(getUserSessionId($loginToken));
+    // $userSession = getUsersSessionsHelper()->getDataById($loginToken->userSessionId);
     // 
-    $modalDeliveryManLoginToken = new ModelDeliveryManLoginToken($loginToken);
-    $modelUserSession = new ModelUserSession($userSession);
-    return new ModelUDeliveryManLoginUserSession($modalDeliveryManLoginToken, $modelUserSession);
+    // $modalDeliveryManLoginToken = new ModelDeliveryManLoginToken($loginToken);
+    // $modelUserSession = new ModelUserSession($userSession);
+    return $loginToken;
 }
 
 function INVALID_TOKEN($runApp, $permission)

@@ -21,14 +21,14 @@ class Reservations
     {
         $s = getMainRunApp();
         $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $deliveryManId = $modelDeliveryManLoginTokenUserSession->deliveryManId;
         return getReservationsExecuter()->executeGetData($deliveryManId);
     }
     function add()
     {
         $s = getMainRunApp();
         $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $deliveryManId = $modelDeliveryManLoginTokenUserSession->deliveryManId;
         return getReservationsExecuter()->executeAddData($deliveryManId);
     }
 
