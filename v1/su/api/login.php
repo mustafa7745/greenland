@@ -26,7 +26,7 @@ class ThisClass
   function loginProject($runApp)
   {
     require_once __DIR__ . '/../../include/check/projects/helper.php';
-    $project = getProjectsHelper()->getData(getInputProjectNumber(), getInputProjectPassword());
+    $project = Check\getProjectsHelper()->getData(getInputProjectNumber(), getInputProjectPassword());
     if ($project == null) {
       $ar = ",اسم المستخدم او كلمة المرور غير صحيحة";
       // $en = "USER_NAME_OR_PASSWORD_ERROR";
