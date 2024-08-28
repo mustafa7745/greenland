@@ -12,7 +12,7 @@ class ThisClass
     shared_execute_sql("START TRANSACTION");
     $login = loginAll();
     // $runApp = getRunApp($login);
-    $loginProject = $this->loginProject(getPermission($login), $login->runApp);
+    $loginProject = $this->loginProject($login->runApp);
     $projectLoginToken = $this->getLoginTokenFromUserSessionAndProjectId($login->userSession->id, getId($loginProject), 1);
     $data2 = json_encode(array("token" => $projectLoginToken->token, "expire_at" => $projectLoginToken->expireAt));
     $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
@@ -23,7 +23,7 @@ class ThisClass
       )
     );
   }
-  function loginProject($permission, $runApp)
+  function loginProject($runApp)
   {
 
     $project = getProjectsHelper()->getData(getInputProjectNumber(), getInputProjectPassword());
@@ -31,7 +31,7 @@ class ThisClass
       $ar = ",اسم المستخدم او كلمة المرور غير صحيحة";
       // $en = "USER_NAME_OR_PASSWORD_ERROR";
       $en = ",اسم المستخدم او كلمة المرور غير صحيحة";
-      getFailedAttempsLogsHelper()->addData($runApp->deviceSession->id, $permission->id);
+      // getFailedAttempsLogsHelper()->addData($runApp->deviceSession->id, $permission->id);
       exitFromScript($ar, $en);
     }
     return $project;
