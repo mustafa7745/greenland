@@ -54,34 +54,7 @@ function refreshProjectLoginToken($runApp, $loginTokenDuration = 1)
     }
     return $projectLoginToken;
 }
-function refreshDeliveryManLoginToken($runApp, $loginTokenDuration = 1)
-{
-    $helper = getDeliveryMenLoginTokensHelper();
-    $token = getInputDeliveryMenLoginToken();
-    $deliveryManLoginToken = $helper->getDataByToken($token);
-    $permissionName = "REFRESH_LOGIN_TOKEN";
-    $permission = getPermissionsHelper()->getDataByName($permissionName);
-    getPermissionsGroupsHelper()->getData($permissionName, getId($permission), getGroupId(getApp($runApp)));
-    $failedCount = getFailedAttempsLogsHelper()->getData(getId(getDevice($runApp)), getId($permission));
-    // print_r($failedCount);
-    if (getDeviceCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-    if (getIpCount($failedCount) > 3) {
-        P_BLOCKED($permissionName);
-    }
-    // 
-    if ($deliveryManLoginToken == null) {
-        INVALID_TOKEN($runApp, $permission);
-    } else {
-        if (strtotime(getCurruntDate()) > strtotime(getExpireAt($deliveryManLoginToken))) {
-            $loginTokenString = uniqid(rand(), false);
-            $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-            $deliveryManLoginToken = getDeliveryMenLoginTokensHelper()->updateToken(getId($deliveryManLoginToken), $loginTokenString, $expireAt);
-        }
-    }
-    return $deliveryManLoginToken;
-}
+
 function refreshManagerLoginToken($runApp, $loginTokenDuration = 1)
 {
     $helper = getManagersLoginTokensHelper();

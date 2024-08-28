@@ -12,7 +12,8 @@ class DeliveryMenLoginTokensHelper extends DeliveryMenLoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/DeliveryManLoginToken.php';
+        return new \ModelDeliveryManLoginToken($data[0]);
     }
     function getDataByToken($token)
     {
@@ -22,7 +23,8 @@ class DeliveryMenLoginTokensHelper extends DeliveryMenLoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/DeliveryManLoginToken.php';
+        return new \ModelDeliveryManLoginToken($data[0]);
     }
     function getDataById($id)
     {
@@ -32,7 +34,8 @@ class DeliveryMenLoginTokensHelper extends DeliveryMenLoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/DeliveryManLoginToken.php';
+        return new \ModelDeliveryManLoginToken($data[0]);
     }
 
     function addData($userSessionId, $token, $deliveryManId, $expireAt)
