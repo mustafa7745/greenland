@@ -12,7 +12,8 @@ class ManagersLoginTokensHelper extends ManagersLoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/ManagerLoginToken.php';
+        return new \ModelManagerLoginToken($data[0]);
     }
     function getDataByToken($token)
     {
@@ -22,7 +23,8 @@ class ManagersLoginTokensHelper extends ManagersLoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/ManagerLoginToken.php';
+        return new \ModelManagerLoginToken($data[0]);
     }
     function getDataById($id)
     {
@@ -32,7 +34,8 @@ class ManagersLoginTokensHelper extends ManagersLoginTokensSql
         if (count($data) != 1) {
             return null;
         }
-        return $data[0];
+        require_once __DIR__ . '/../../models/ManagerLoginToken.php';
+        return new \ModelManagerLoginToken($data[0]);
     }
 
     function addData($userSessionId, $token, $managerId, $expireAt)
