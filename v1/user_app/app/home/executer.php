@@ -20,7 +20,10 @@ class HomeExecuter
     require_once __DIR__ . '/../products/helper.php';
 
     $discounts = getProductsHelper()->getDataWithDiscounts();
-    return ['user' => null,'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
+    for ($i = 0; $i < count($discounts); $i++) {
+      $discounts[$i]['productImages'] = [];
+    }
+    return ['user' => null, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
   }
   function executeGetDataWithUser()
   {
@@ -46,6 +49,9 @@ class HomeExecuter
     require_once __DIR__ . '/../products/helper.php';
 
     $discounts = getProductsHelper()->getDataWithDiscounts();
+    for ($i = 0; $i < count($discounts); $i++) {
+      $discounts[$i]['productImages'] = [];
+    }
     return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
   }
 }
