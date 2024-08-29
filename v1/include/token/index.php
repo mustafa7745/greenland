@@ -134,18 +134,3 @@ function getManagerLoginToken($permissionName, $runApp)
 }
 
 
-function INVALID_TOKEN($runApp, $permission)
-{
-    $ar = "ERROR_REFRESH_TOKEN";
-    $en = "ERROR_REFRESH_TOKEN";
-    // sleep(5);
-    getFailedAttempsLogsHelper()->addData(getId(getDeviceSessionIp($runApp)), getId($permission));
-    shared_execute_sql("COMMIT");
-    exitFromScript($ar, $en, 400, 5002);
-}
-function TOKEN_NEED_UPDATE()
-{
-    $ar = "TOKEN_NEED_UPDATE";
-    $en = "TOKEN_NEED_UPDATE";
-    exitFromScript($ar, $en, 400, 5001);
-}
