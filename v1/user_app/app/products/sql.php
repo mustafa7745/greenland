@@ -19,8 +19,9 @@ class ProductsSql extends \ProductsAttribute
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
+        $isAvailable = "$this->table_name . $this->isAvailable";
 
-        $columns = "$id,$prePrice,$postPrice,$categoryId,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->categoryId = $categoryId_P";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
@@ -48,9 +49,10 @@ class ProductsSql extends \ProductsAttribute
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
+        $isAvailable = "$this->table_name . $this->isAvailable";
 
-        $columns = "$id,$prePrice,$postPrice,$categoryId,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
-
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+       
         $condition = "$this->table_name.$this->id IN ($ids)";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
