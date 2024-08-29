@@ -17,7 +17,10 @@ class HomeExecuter
     for ($i = 0; $i < count($offers); $i++) {
       $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
     }
-    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => []];
+    require_once __DIR__ . '/../products/helper.php';
+
+    $discounts = getProductsHelper()->getDataWithDiscounts();
+    return ['ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
   }
   function executeGetDataWithUser()
   {
@@ -40,7 +43,10 @@ class HomeExecuter
     for ($i = 0; $i < count($offers); $i++) {
       $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
     }
-    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => []];
+    require_once __DIR__ . '/../products/helper.php';
+
+    $discounts = getProductsHelper()->getDataWithDiscounts();
+    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
   }
 }
 
