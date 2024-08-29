@@ -17,7 +17,7 @@ class HomeExecuter
     for ($i = 0; $i < count($offers); $i++) {
       $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
     }
-    return ['user' => null, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers];
+    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => []];
   }
   function executeGetDataWithUser()
   {
@@ -40,7 +40,7 @@ class HomeExecuter
     for ($i = 0; $i < count($offers); $i++) {
       $offers[$i]['image'] = $offers[$i]['offer_image_path'] . $offers[$i]['image'];
     }
-    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers];
+    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => []];
   }
 }
 
