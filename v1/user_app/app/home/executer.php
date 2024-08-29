@@ -20,7 +20,7 @@ class HomeExecuter
     require_once __DIR__ . '/../products/helper.php';
 
     $discounts = getProductsHelper()->getDataWithDiscounts();
-    return ['ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
+    return ['user' => null,'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => $discounts];
   }
   function executeGetDataWithUser()
   {
