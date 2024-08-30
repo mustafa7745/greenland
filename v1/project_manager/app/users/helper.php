@@ -27,7 +27,7 @@ class UsersHelper extends UsersSql
   }
   function getDataById($id)
   {
-    $sql = $this->readByIdSql($id);
+    $sql = $this->readByIdSql("'$id'");
 
     $data = shared_execute_read1_no_json_sql($sql);
 
@@ -43,7 +43,7 @@ class UsersHelper extends UsersSql
     shared_execute_sql("START TRANSACTION");
 
     $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
-    print_r($sql);
+    // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       $ar = "DATA_NOT_EFFECTED_WHEN_ADD";
