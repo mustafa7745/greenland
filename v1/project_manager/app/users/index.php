@@ -29,7 +29,7 @@ class Users
         // $s = getMainRunApp();
         // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
         // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
-        return getUsersExecuter()->executeUpdateName(getInputUserId(), getInputUserPhone3());
+        return getUsersExecuter()->executeUpdateName(getInputUserId(), getInputUserName());
     }
     function updatePassword()
     {
