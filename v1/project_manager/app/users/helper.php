@@ -43,6 +43,7 @@ class UsersHelper extends UsersSql
     shared_execute_sql("START TRANSACTION");
 
     $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
+    print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       $ar = "DATA_NOT_EFFECTED_WHEN_ADD";
