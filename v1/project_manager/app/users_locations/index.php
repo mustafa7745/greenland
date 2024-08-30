@@ -10,12 +10,6 @@ require_once 'executer.php';
 
 class UsersLocations
 {
-    // private $check;
-
-    // public function __construct()
-    // {
-    //     $this->check = new CheckPermission();
-    // }
 
     function read()
     {
@@ -26,41 +20,46 @@ class UsersLocations
     }
     function add()
     {
-        $s = getMainRunApp();
-        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeAddData($userId, getInputUserLocationCity(), getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone());
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), getInputUserLocationCity(), getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone());
     }
-
-
-    function updateName($id, $newValue)
+    function updateStreet()
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateName($resultData, $id, $newValue);
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeUpdateStreet(getInputUserLocationId(), getInputUserLocationStreet());
     }
-
-    function updateSha($id, $newValue)
+    function updateUrl()
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateSha($resultData, $id, $newValue);
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeUpdateUrl(getInputUserLocationId(), getInputUserLocationUrl());
     }
-    function updateVersion($id, $newValue)
+    function updateNearTo()
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeUpdateStreet(getInputUserLocationId(), getInputUserLocationNearTo());
     }
-
-    function search($search)
+    function updateLatLong()
     {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeUpdateLatLong(getInputUserLocationId(), getInputUserLocationLatLong());
     }
-
-
+    function updateContactPhone()
+    {
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeUpdateStreet(getInputUserLocationId(), getInputUserLocationContactPhone());
+    }
 
 }
 

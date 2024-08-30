@@ -19,18 +19,20 @@ class ThisClass
 
     function main(): string
     {
-        if (getTag()  == "read") {
+        if (getTag() == "read") {
             return $this->read();
-        } elseif (getTag()  == "add") {
+        } elseif (getTag() == "add") {
             return $this->add();
-        }elseif (getTag()  == "search") {
-            return $this->search();
-        } elseif (getTag()  == "updateName") {
-            return $this->updateName();
-        } elseif (getTag()  == "updateSha") {
-            return $this->updateSha();
-        } elseif (getTag()  == "updateVersion") {
-            return $this->updateVersion();
+        } elseif (getTag() == "updateStreet") {
+            return $this->updateStreet();
+        } elseif (getTag() == "updateNearTo") {
+            return $this->updateNearTo();
+        } elseif (getTag() == "updateContactPhone") {
+            return $this->updateContactPhone();
+        } elseif (getTag() == "updateLatLong") {
+            return $this->updateLatLong();
+        } elseif (getTag() == "updateUrl") {
+            return $this->updateUrl();
         } else {
             UNKOWN_TAG();
         }
@@ -48,28 +50,35 @@ class ThisClass
         return json_encode($resultData);
 
     }
+    private function updateUrl(): string
+    {
+        $resultData = $this->controller->updateUrl();
+        return json_encode($resultData);
 
-    private function search(): string
+    }
+    private function updateLatLong(): string
     {
+        $resultData = $this->controller->updateLatLong();
+        return json_encode($resultData);
 
-        $resultData = $this->controller->search($this->getSearch());
-        return json_encode($resultData);
     }
-    // 
-    private function updateName(): string
+    private function updateContactPhone(): string
     {
-        $resultData = $this->controller->updateName($this->getInputAppId(), $this->getInputAppPackageName());
+        $resultData = $this->controller->updateContactPhone();
         return json_encode($resultData);
+
     }
-    private function updateSha(): string
+    private function updateNearTo(): string
     {
-        $resultData = $this->controller->updateSha($this->getInputAppId(), $this->getInputAppSha());
+        $resultData = $this->controller->updateNearTo();
         return json_encode($resultData);
+
     }
-    private function updateVersion(): string
+    private function updateStreet(): string
     {
-        $resultData = $this->controller->updateVersion($this->getInputAppId(), $this->getInputAppVersion());
+        $resultData = $this->controller->updateStreet();
         return json_encode($resultData);
+
     }
 }
 

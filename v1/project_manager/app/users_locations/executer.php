@@ -41,85 +41,77 @@ class UsersLocationsExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterAdd;
   }
-  function executeSearchData($search)
-  {
-    return getAppsHelper()->searchData($search);
-  }
-  function executeUpdateName($id, $newValue)
+  function executeUpdateStreet($id, $newValue)
   {
 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateName($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
+    $dataAfterUpdate = getUsersLocationsHelper()->updateStreet($id, $newValue);
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
-  function executeUpdateSha($id, $newValue)
+  function executeUpdateUrl($id, $newValue)
   {
 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateSha($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
+    $dataAfterUpdate = getUsersLocationsHelper()->updateUrl($id, $newValue);
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
-  function executeUpdateVersion($id, $newValue)
+  function executeUpdateLatLong($id, $newValue)
   {
 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-
-    $apps_helper = getAppsHelper();
-    $app = $apps_helper->getDataById($id);
-    $updated_id = getId($app);
-    $preValue = getPackageName($app);
-    $apps_helper->updateVersion($id, $newValue);
-    $dataAfterUpdate = $apps_helper->getDataById($id);
-    /**
-     * ADD Updated VALUE TO UserUpdatedOperations TABLE
-     */
-    // sharedAddUserUpdateOperation($data->getUserId(), $data->getPermissionId(), $data->getUserSessionId(), $updated_id, $preValue, $newValue);
-
+    $dataAfterUpdate = getUsersLocationsHelper()->updateLatLong($id, $newValue);
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
+  function executeUpdateContactPhone($id, $newValue)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $dataAfterUpdate = getUsersLocationsHelper()->updateContactPhone($id, $newValue);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
+  function executeUpdateNearTo($id, $newValue)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $dataAfterUpdate = getUsersLocationsHelper()->updateNearTo($id, $newValue);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
+ 
 }
 $users_locations_executer = null;
 function getUsersLocationsExecuter()

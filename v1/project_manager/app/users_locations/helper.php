@@ -5,19 +5,15 @@ require_once ('sql.php');
 // 
 class UsersLocationsHelper extends UsersLocationsSql
 {
-  // public $name = "APP";
   function getData($userId)
   {
     $sql = $this->readByUserIdsql("'$userId'");
-    // $ar = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
-    // $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
-    // exitFromScript($ar, $en);
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
   function getDataById($id)
   {
-    $sql = $this->readByIdSql($id);
+    $sql = $this->readByIdSql("'$id'");
 
     $data = shared_execute_read1_no_json_sql($sql);
 
@@ -30,18 +26,8 @@ class UsersLocationsHelper extends UsersLocationsSql
   }
   function addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone)
   {
-
     $sql = $this->addSql("'$id'", "'$userId'", "'$city'", "'$street'", "'$latLong'", "'$nearTo'", "'$contactPhone'");
-
-
     shared_execute_sql($sql);
-
-    // $ar = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . mysqli_affected_rows(getDB()->conn) . $id;
-    // $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . mysqli_affected_rows(getDB()->conn) . $sql;
-    // exitFromScript($ar, $en);
-
-    // print_r($id);
-
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
       $ar = "DATA_NOT_EFFECTED_WHEN_ADD_Cate";
@@ -50,67 +36,66 @@ class UsersLocationsHelper extends UsersLocationsSql
     }
     return $this->getDataById($id);
   }
-
-  function searchData($search)
+  function updateStreet($id, $newValue)
   {
-    $sql = $this->search_sql($search);
-    $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
-  }
-
-
-  // function getDataById($id)
-  // {
-  //   $sql = $this->read_by_id_sql("'$id'");
-  //   $data = shared_execute_read_no_json_sql($sql)->data;
-  //   if (count($data) != 1) {
-  //     $ar = $this->name . "_ID_ERROR";
-  //     $en = $this->name . "_ID_ERROR";
-  //     exitFromScript($ar, $en);
-  //   }
-  //   return $data[0];
-  // }
-
-  function updateName($id, $name)
-  {
-
-    $sql = $this->update_name_sql("'$name'", "'$id'");
-
+    $sql = $this->updateStreetSql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_NAME";
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
       exitFromScript($ar, $en);
     }
+    return $this->getDataById($id);
   }
-  function updateSha($id, $name)
+  function updateUrl($id, $newValue)
   {
-
-    $sql = $this->update_sha_sql("'$name'", "'$id'");
-
+    $sql = $this->updateUrlSql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
       exitFromScript($ar, $en);
     }
+    return $this->getDataById($id);
   }
-  function updateVersion($id, $name)
+  function updateLatLong($id, $newValue)
   {
-
-    $sql = $this->update_version_sql("'$name'", "'$id'");
-
+    $sql = $this->updateLatLongSql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
-      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
-      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_SHA";
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
       exitFromScript($ar, $en);
     }
+    return $this->getDataById($id);
   }
-
+  function updateNearTo($id, $newValue)
+  {
+    $sql = $this->updateNearToSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
+  function updateContactPhone($id, $newValue)
+  {
+    $sql = $this->updateContactPhoneSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
 }
 
 $users_locations_helper = null;
