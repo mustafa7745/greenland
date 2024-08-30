@@ -17,5 +17,27 @@ class Users
         // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
         return getUsersExecuter()->executeGetData(getInputUserPhone3());
     }
+    function add()
+    {
+        // $s = getMainRunApp();
+        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
+        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        return getUsersExecuter()->executeAddData(getInputUserName(), getInputUserPhone3());
+    }
+    function updateName()
+    {
+        // $s = getMainRunApp();
+        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
+        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        return getUsersExecuter()->executeUpdateName(getInputUserId(), getInputUserPhone3());
+    }
+    function updatePassword()
+    {
+        // $s = getMainRunApp();
+        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
+        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        return getUsersExecuter()->executeUpdatePassword(getInputUserId(), getInputUserPassword());
+
+    }
 }
 

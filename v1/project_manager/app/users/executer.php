@@ -8,7 +8,27 @@ class UsersExecuter
   {
     return getUsersHelper()->getData($phone);
   }
+  function executeAddData($name, $phone)
+  {
+    $user = getUsersHelper()->getData2($phone);
+    if ($user == null) {
+      $id = uniqid(rand(), false);
+      $password = generateRandomPassword();
+      return getUsersHelper()->addData($id, $phone, $name, $password);
+    }
+    $ar = "ايوجد مستخدم برقم الهاتف هذا";
+    $en = "ايوجد مستخدم برقم الهاتف هذا";
+    exitFromScript($ar, $en);
+  }
 
+  function executeUpdateName($id, $newValue)
+  {
+    return getUsersHelper()->updateName($id, $newValue);
+  }
+  function executeUpdatePassword($id, $newValue)
+  {
+    return getUsersHelper()->updatePassword($id, $newValue);
+  }
 
 }
 $users_executer = null;

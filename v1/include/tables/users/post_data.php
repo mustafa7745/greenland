@@ -64,6 +64,17 @@ function getInputUserLocationId()
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
+function getInputUserPassword3()
+{
+    $name = "inputUserPassword";
+    // print_r($this->getPostData3()[$name]);
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    return $value;
+}
 function getInputUserLocationUserId()
 {
    
@@ -98,6 +109,20 @@ function getInputUserLocationCity()
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
+
+
+function getInputUserName()
+{
+   
+    $name = "inputUserName";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    return $value;
+}
+
 function getInputUserLocationStreet()
 {
     $name = "inputUserLocationStreet";

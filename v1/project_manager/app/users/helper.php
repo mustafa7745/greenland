@@ -12,7 +12,16 @@ class UsersHelper extends UsersSql
     if (count($data) != 1) {
       $ar = "لايوجد مستخدم برقم الهاتف هذا";
       $en = $this->name . "_ID_ERROR";
-      exitFromScript($ar, $en);
+      exitFromScript($ar, $en, 400, 1400);
+    }
+    return $data[0];
+  }
+  function getData2($phone)
+  {
+    $sql = $this->readsql("'$phone'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      return null;
     }
     return $data[0];
   }
@@ -28,6 +37,44 @@ class UsersHelper extends UsersSql
       exitFromScript($ar, $en);
     }
     return $data[0];
+  }
+  function addData($id, $phone, $name, $password)
+  {
+    shared_execute_sql("START TRANSACTION");
+
+    $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      $ar = "DATA_NOT_EFFECTED_WHEN_ADD";
+      $en = "DATA_NOT_EFFECTED_WHEN_ADD";
+      exitFromScript($ar, $en);
+    }
+    $this->getDataById($id);
+  }
+  function updatePassword($id, $newValue)
+  {
+    $sql = $this->updatePasswordSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    $this->getDataById($id);
+  }
+  function updateName($id, $newValue)
+  {
+    $sql = $this->updateNameSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    $this->getDataById($id);
+
   }
 }
 
