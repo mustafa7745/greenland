@@ -48,7 +48,7 @@ class UsersHelper extends UsersSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD";
       exitFromScript($ar, $en);
     }
-    $this->getDataById($id);
+    return $this->getDataById($id);
   }
   function updatePassword($id, $newValue)
   {
