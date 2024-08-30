@@ -60,7 +60,8 @@ class UsersHelper extends UsersSql
       $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
       exitFromScript($ar, $en);
     }
-    $this->getDataById($id);
+    return $this->getDataById($id);
+
   }
   function updateName($id, $newValue)
   {
@@ -72,7 +73,8 @@ class UsersHelper extends UsersSql
       $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
       exitFromScript($ar, $en);
     }
-    $this->getDataById($id);
+    return $this->getDataById($id);
+
 
   }
 }
