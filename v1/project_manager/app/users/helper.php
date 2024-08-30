@@ -40,8 +40,6 @@ class UsersHelper extends UsersSql
   }
   function addData($id, $phone, $name, $password)
   {
-    shared_execute_sql("START TRANSACTION");
-
     $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
     // print_r($sql);
     shared_execute_sql($sql);
