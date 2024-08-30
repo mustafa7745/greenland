@@ -36,7 +36,7 @@ class Users
         // $s = getMainRunApp();
         // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
         // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
-        return getUsersExecuter()->executeUpdatePassword(getInputUserId(), getInputUserPassword());
+        return getUsersExecuter()->executeUpdatePassword(getInputUserId(), getInputUserPassword3());
 
     }
 }
