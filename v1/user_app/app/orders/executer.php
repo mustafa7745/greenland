@@ -8,7 +8,7 @@ class OrdersExecuter
   function executeAddData($userId, $order_products, $projectId, $userLocationId)
   {
     $helper = getOrdersHelper();
-
+    // 1) Ch
     $helper->checkIfhaveOrderNotComplete($userId);
 
     $ids = [];
@@ -68,7 +68,7 @@ class OrdersExecuter
     $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
     // 
     $orderDeliveryId = uniqid(rand(), false);
-    getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId);
+    getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $order_price_delivery, $userLocationId);
 
 
     // $order = getOrdersHelper()->getOrder($order_id);
