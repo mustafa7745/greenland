@@ -29,7 +29,7 @@ class ThisClass
             return $this->updateType();
         } elseif (getTag() == "updateAmount") {
             return $this->updateAmount();
-        }elseif (getTag() == "deleteOrderDiscount") {
+        } elseif (getTag() == "deleteOrderDiscount") {
             return $this->deleteOrderDiscount();
         } elseif (getTag() == "readOrderStatus") {
             return $this->readOrderStatus();
@@ -43,6 +43,8 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
+        } elseif (getTag() == "updateActualPrice") {
+            return $this->updateActualPrice();
         } elseif (getTag() == "cencelOrder") {
             return $this->cencelOrder();
         } elseif (getTag() == "readOrdersOfUsers") {
@@ -125,6 +127,11 @@ class ThisClass
     private function updateQuantity(): string
     {
         $resultData = $this->controller->updateQuantity();
+        return json_encode($resultData);
+    }
+    private function updateActualPrice(): string
+    {
+        $resultData = $this->controller->updateActualPrice();
         return json_encode($resultData);
     }
     private function cencelOrder(): string

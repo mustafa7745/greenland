@@ -298,6 +298,7 @@ class OrdersProductsExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
+
   function executeGetOrdersByUserId($userId)
   {
     return getOrdersHelper()->getDataByUserId($userId);
@@ -359,6 +360,26 @@ class OrdersDeliveryExecuter
   function executeGetUncollectedOrders($deliveryManId)
   {
     $data = getOrdersDeliveryHelper()->getDataUncollected($deliveryManId);
+    return $data;
+  }
+  function executeUpdateActualPrice($id, $newValue)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $orderProduct = getOrdersProductsHelper()->getDataById($id);
+    $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
+    getOrdersDeliveryHelper()->updateActualPrice($id, $newValue);
+    $data = getOrdersProductsHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
     return $data;
   }
 }

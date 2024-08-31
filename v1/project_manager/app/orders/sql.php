@@ -141,6 +141,7 @@ class OrdersProductsSql extends \OrdersProductsAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+   
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
@@ -233,6 +234,15 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $set_query = "SET $this->deliveryManId = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateActualPriceSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->actualPrice = $newValue, $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
