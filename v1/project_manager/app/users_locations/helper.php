@@ -24,9 +24,9 @@ class UsersLocationsHelper extends UsersLocationsSql
     }
     return $data[0];
   }
-  function addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone)
+  function addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone, $url)
   {
-    $sql = $this->addSql("'$id'", "'$userId'", "'$city'", "'$street'", "'$latLong'", "'$nearTo'", "'$contactPhone'");
+    $sql = $this->addSql("'$id'", "'$userId'", "'$city'", "'$street'", "'$latLong'", "'$nearTo'", "'$contactPhone'", "'$url'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

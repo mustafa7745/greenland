@@ -20,7 +20,7 @@ class UsersLocationsExecuter
 
     return $data;
   }
-  function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone)
+  function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone, $url)
   {
     $helper = getUsersLocationsHelper();
     /**
@@ -31,7 +31,7 @@ class UsersLocationsExecuter
     // $category_id = uniqid(rand(), false);
     require_once __DIR__ . '/../ids_controller/helper.php';
     $id = getId(getIdsControllerHelper()->getData($helper->table_name));
-    $dataAfterAdd = $helper->addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone);
+    $dataAfterAdd = $helper->addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone, $url);
     // $dataAfterAdd = $helper->getDataById($id);
 
     // print_r($dataAfterAdd);
@@ -112,7 +112,7 @@ class UsersLocationsExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
- 
+
 }
 $users_locations_executer = null;
 function getUsersLocationsExecuter()
