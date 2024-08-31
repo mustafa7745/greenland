@@ -13,14 +13,14 @@ class Orders
     {
         $s = getMainRunApp();
         $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $modelDeliveryManLoginTokenUserSession->deliveryManId;
         return getOrdersExecuter()->executeOrderInRoad(getInputOrderId());
     }
     function checkCode()
     {
         $s = getMainRunApp();
         $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $deliveryManId = $modelDeliveryManLoginTokenUserSession->deliveryManId;
         return getOrdersExecuter()->executeCheckCode($deliveryManId, getInputOrderId(), getInputOrderCode());
     }
 
