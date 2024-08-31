@@ -368,8 +368,8 @@ class OrdersDeliveryExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-    $orderProduct = getOrdersProductsHelper()->getDataById($id);
-    $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+    $orderDelivery = getOrdersDeliveryHelper()->getDataById($id);
+    $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
