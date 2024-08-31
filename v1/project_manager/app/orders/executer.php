@@ -378,7 +378,7 @@ class OrdersDeliveryExecuter
     }
     // 
     getOrdersDeliveryHelper()->updateActualPrice($id, $newValue);
-    $data = getOrdersProductsHelper()->getDataById($id);
+    $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;
   }
