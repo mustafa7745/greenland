@@ -261,12 +261,7 @@ class OrdersProductsHelper extends OrdersProductsSql
   {
     $sql = $this->readByOrderId3Sql("'$orderId'");
     $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 1) {
-      $ar = "ORDER_P_ID_ERROR";
-      $en = "ORDER_P_ID_ERROR";
-      exitFromScript($ar, $en);
-    }
-    return $data[0];
+    return $data;
   }
 }
 $orders_products_helper = null;
