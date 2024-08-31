@@ -54,12 +54,12 @@ require_once (getPath() . 'tables/orders_products/attribute.php');
 
 class OrdersProductsSql extends \OrdersProductsAttribute
 {
-    function addSql($orderId, $productId, $productName, $productPrice, $productQuantity): string
+    function addSql($id, $orderId, $productId, $productName, $productPrice, $productQuantity): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->orderId`,`$this->productId`,`$this->productName`,`$this->productPrice`,`$this->productQuantity`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "(NULL,$orderId,$productId,$productName,$productPrice,$productQuantity,'$date','$date')";
+        $values = "($id,$orderId,$productId,$productName,$productPrice,$productQuantity,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

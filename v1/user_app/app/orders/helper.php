@@ -173,9 +173,9 @@ class OrdersProductsHelper extends OrdersProductsSql
     $r = array("order_id" => $order_id, "products" => $orderProducts, "currency" => $currency, "discount" => $discount, "delivery" => $delivery, "products_final_price" => $products_final_price, "final_price" => $final_price, );
     return $r;
   }
-  function addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity)
+  function addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity)
   {
-    $sql = $this->addSql("'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
+    $sql = $this->addSql($id, "'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

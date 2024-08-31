@@ -56,12 +56,13 @@ class OrdersExecuter extends OrdersSql
 
     $final_sum = 0.0;
     for ($i = 0; $i < count($products); $i++) {
+      $id = uniqid(rand(), false);
       $productId = $products[$i][getProductsHelper()->id];
       $productName = $products[$i][getProductsHelper()->name];
       $productPrice = $products[$i][getProductsHelper()->postPrice];
       $final_sum = $final_sum + $productPrice;
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
-      getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
+      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
     if ($deliveryManId != null) {
@@ -206,7 +207,8 @@ class OrdersProductsExecuter
     $product = getProductsHelper()->getDataById($productId);
     $productName = $product[getProductsHelper()->name];
     $productPrice = $product[getProductsHelper()->postPrice];
-    getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
+    $id = uniqid(rand(), false);
+    getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     shared_execute_sql("COMMIT");
     return ["success" => "true"];
 

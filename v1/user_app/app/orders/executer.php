@@ -83,7 +83,7 @@ class OrdersExecuter
       $final_sum = $final_sum + $productPrice;
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
       $id = uniqid(rand(), false);
-      getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
+      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
     $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1($orderId);
