@@ -209,8 +209,9 @@ class OrdersProductsExecuter
     $productPrice = $product[getProductsHelper()->postPrice];
     $id = uniqid(rand(), false);
     getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+    $data = getOrdersProductsHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
-    return ["success" => "true"];
+    return $data;
 
   }
   function executeCencelOrder($orderId, $description)
