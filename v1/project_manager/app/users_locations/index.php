@@ -44,7 +44,7 @@ class UsersLocations
         // $s = getMainRunApp();
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeUpdateStreet(getInputUserLocationId(), getInputUserLocationNearTo());
+        return getUsersLocationsExecuter()->executeUpdateNearTo(getInputUserLocationId(), getInputUserLocationNearTo());
     }
     function updateLatLong()
     {
@@ -58,7 +58,7 @@ class UsersLocations
         // $s = getMainRunApp();
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeUpdateStreet(getInputUserLocationId(), getInputUserLocationContactPhone());
+        return getUsersLocationsExecuter()->executeUpdateContactPhone(getInputUserLocationId(), getInputUserLocationContactPhone());
     }
 
 }
