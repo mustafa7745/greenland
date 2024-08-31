@@ -273,7 +273,9 @@ class OrdersProductsExecuter
     // $currency_id = getOrdersHelper()->getOrderCurrencyId($order);
     // require_once (getPath() . "app/user_app/projects_currencies/helper.php");
     // $project_currency = getProjectsCurrenciesHelper()->getDataByCurrencyIdAndProjectId($currency_id, $project_id);
-    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
+    // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
+    $orderProducts = getOrdersProductsHelper()->getDataById($orderId);
+
     shared_execute_sql("COMMIT");
 
     return $orderProducts;
