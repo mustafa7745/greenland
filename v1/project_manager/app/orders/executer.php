@@ -278,10 +278,12 @@ class OrdersProductsExecuter
     // $project_currency = getProjectsCurrenciesHelper()->getDataByCurrencyIdAndProjectId($currency_id, $project_id);
     // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
     $orderProducts = getOrdersProductsHelper()->getDataByOrderId($orderId);
+    $delivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
+    $discount = getOrdersDiscountsHelper()->getDataByOrderId($orderId);
 
     shared_execute_sql("COMMIT");
 
-    return ['products' => $orderProducts];
+    return ['products' => $orderProducts, 'delivery' => $delivery, 'discount' => $discount];
   }
   function executeUpdateQuantity($id, $newValue)
   {

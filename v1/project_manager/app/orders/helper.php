@@ -191,9 +191,9 @@ class OrdersProductsHelper extends OrdersProductsSql
     $r = array("order" => $order, "products" => null, "delivery" => $delivery, 'discount' => null);
     return $r;
   }
-  function addOrderProducts($id,$orderId, $productId, $productName, $productPrice, $productQuantity)
+  function addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity)
   {
-    $sql = $this->addSql("'$id'","'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
+    $sql = $this->addSql("'$id'", "'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
@@ -233,7 +233,7 @@ class OrdersProductsHelper extends OrdersProductsSql
       exitFromScript($ar, $en);
     }
   }
-  
+
   function deleteData($ids, $count)
   {
     $sql = $this->deleteSql($ids);
@@ -331,6 +331,15 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
       $ar = "ORDER_ID_ERROR_IN_DLV";
       $en = "ORDER_ID_ERROR_IN_DLV";
       exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
+  function getDataByOrderId2($orderId)
+  {
+    $sql = $this->readByOrderIdSql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      return null;
     }
     return $data[0];
   }
@@ -467,7 +476,7 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
       $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
       exitFromScript($ar, $en);
     }
-    
+
   }
 }
 $orders_discount_helper = null;
