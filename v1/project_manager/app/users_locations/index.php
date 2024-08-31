@@ -23,7 +23,7 @@ class UsersLocations
         // $s = getMainRunApp();
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), getInputUserLocationCity(), getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone());
+        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), "صنعاء", getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone());
     }
     function updateStreet()
     {
