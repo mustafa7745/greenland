@@ -281,7 +281,7 @@ class OrdersProductsExecuter
 
     shared_execute_sql("COMMIT");
 
-    return $orderProducts;
+    return ['products' => $orderProducts];
   }
   function executeUpdateQuantity($id, $newValue)
   {
