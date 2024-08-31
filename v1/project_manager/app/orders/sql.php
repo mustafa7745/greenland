@@ -114,6 +114,15 @@ class OrdersProductsSql extends \OrdersProductsAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByOrderId3Sql($orderId): string
+    {
+        $table_name = $this->table_name;
+        $columns = "*";
+        $innerJoin = "";
+        $condition = "$this->orderId = $orderId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function readByOrderId2Sql($orderId): string
     {
         $table_name = $this->table_name;

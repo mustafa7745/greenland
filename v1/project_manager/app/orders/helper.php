@@ -246,9 +246,20 @@ class OrdersProductsHelper extends OrdersProductsSql
       exitFromScript($ar, $en);
     }
   }
-  function getDataById($orderId)
+  function getDataById($id)
   {
-    $sql = $this->readByIdSql("'$orderId'");
+    $sql = $this->readByIdSql("'$id'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "ORDER_P_ID_ERROR";
+      $en = "ORDER_P_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
+  function getDataByOrderId($orderId)
+  {
+    $sql = $this->readByOrderId3Sql("'$orderId'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = "ORDER_P_ID_ERROR";
