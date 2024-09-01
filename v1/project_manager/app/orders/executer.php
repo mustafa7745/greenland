@@ -280,10 +280,11 @@ class OrdersProductsExecuter
     $orderProducts = getOrdersProductsHelper()->getDataByOrderId($orderId);
     $delivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
     $discount = getOrdersDiscountsHelper()->getDataByOrderId($orderId);
+    $offers = getOrdersOffersHelper()->getDataByOrderId($orderId);
 
     shared_execute_sql("COMMIT");
 
-    return ['products' => $orderProducts, 'delivery' => $delivery, 'discount' => $discount];
+    return ['products' => $orderProducts, 'delivery' => $delivery, 'discount' => $discount, 'offers' => $offers];
   }
   function executeUpdateQuantity($id, $newValue)
   {

@@ -10,9 +10,10 @@ class OrdersOffersAttribute
     public $table_name = "orders_offers";
     public $id = "id";
     public $offerId = "offerId";
+    public $offerName = "offerName";
     public $orderId = "orderId";
     public $offerQuantity = "offerQuantity";
     public $offerPrice = "offerPrice";
     public $updatedAt = "updatedAt";
-    public $expireAt = "createdAt";
+    public $createdAt = "createdAt";
 }

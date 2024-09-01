@@ -170,7 +170,59 @@ class OrdersProductsSql extends \OrdersProductsAttribute
 
 }
 /********/
+require_once (getPath() . 'tables/orders_offers/attribute.php');
 
+class OrdersOffersSql extends \OrdersOffersAttribute
+{
+    function addSql($id, $orderId, $offerName, $offerId, $offerQuantity, $offerPrice): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $columns = "(`$this->id`,`$this->orderId`,`$this->offerName`,`$this->offerId`,`$this->offerQuantity`,`$this->offerPrice`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$orderId,$offerName,$offerId,$offerQuantity,$offerPrice,'$date','$date')";
+        /////
+        return shared_insert_sql($table_name, $columns, $values);
+    }
+
+    function readByOrderIdSql($orderId): string
+    {
+        $table_name = $this->table_name;
+        $columns = "*";
+        $innerJoin = "";
+        $condition = "$this->orderId = $orderId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+
+
+    protected function updateQuantitySql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->offerQuantity = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+
+    function readByIdSql($id): string
+    {
+        $table_name = $this->table_name;
+        $columns = " * ";
+        $innerJoin = "";
+        $condition = "$this->id = $id FOR UPDATE";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+    protected function deleteSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $condition = "$this->id IN ($ids)";
+        /////
+        return delete_sql($table_name, $condition);
+    }
+
+}
 /********/
 require_once (getPath() . 'tables/orders_status/attribute.php');
 

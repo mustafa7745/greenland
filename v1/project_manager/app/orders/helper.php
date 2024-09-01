@@ -274,6 +274,75 @@ function getOrdersProductsHelper()
   return $orders_products_helper;
 }
 /********/
+
+// ==========//
+class OrdersOffersHelper extends OrdersOffersSql
+{
+  function addOrderProducts($id, $orderId, $offerName, $offerId, $offerQuantity, $offerPrice)
+  {
+    $sql = $this->addSql("'$id'", "'$orderId'", "'$offerName'", "'$offerId'", "'$offerQuantity'", "'$offerPrice'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED";
+      $en = "DATA_NOT_EFFECTED";
+      exitFromScript($ar, $en);
+    }
+  }
+  function getDataByOrderId($orderId)
+  {
+    $sql = $this->readByOrderIdSql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
+
+  function updateQuantity($id, $newValue)
+  {
+    $sql = $this->updateQuantitySql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+  }
+
+  function deleteData($ids, $count)
+  {
+    $sql = $this->deleteSql($ids);
+    // print_r($sql);
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != $count) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_DELETE_";
+      exitFromScript($ar, $en);
+    }
+  }
+  function getDataById($id)
+  {
+    $sql = $this->readByIdSql("'$id'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "ORDER_P_ID_ERROR";
+      $en = "ORDER_P_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
+}
+$orders_offers_helper = null;
+function getOrdersOffersHelper()
+{
+  global $orders_offers_helper;
+  if ($orders_offers_helper == null) {
+    $orders_offers_helper = (new OrdersOffersHelper());
+  }
+  return $orders_offers_helper;
+}
+// =========//
+
 class OrdersStatusHelper extends OrdersStatusSql
 {
   function addData($orderId, $situationId)
