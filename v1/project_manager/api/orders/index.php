@@ -45,6 +45,8 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
+        }elseif (getTag() == "updateOfferQuantity") {
+            return $this->updateOfferQuantity();
         } elseif (getTag() == "updateActualPrice") {
             return $this->updateActualPrice();
         } elseif (getTag() == "cencelOrder") {
