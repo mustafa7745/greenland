@@ -370,7 +370,7 @@ class OrdersOffersExecuter
     $offerName = $offer[getOffersHelper()->name];
     $offerPrice = $offer[getOffersHelper()->price];
     $id = uniqid(rand(), false);
-    getOrdersOffersHelper()->addOrderOffers($id, $orderId, $offerName, $offerId, $offerPrice, $offerQuantity);
+    getOrdersOffersHelper()->addOrderOffers($id, $orderId, $offerName, $offerId, $offerQuantity, $offerPrice);
     $data = getOrdersOffersHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;
