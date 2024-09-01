@@ -39,6 +39,8 @@ class ThisClass
             return $this->addDiscount();
         } elseif (getTag() == "addProductToOrder") {
             return $this->addProductToOrder();
+        } elseif (getTag() == "addOfferToOrder") {
+            return $this->addOfferToOrder();
         } elseif (getTag() == "search") {
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
@@ -49,6 +51,8 @@ class ThisClass
             return $this->cencelOrder();
         } elseif (getTag() == "readOrdersOfUsers") {
             return $this->readOrdersOfUsers();
+        } elseif (getTag() == "deleteOffers") {
+            return $this->deleteOffers();
         } elseif (getTag() == "delete") {
             return $this->delete();
         } else {
@@ -112,6 +116,11 @@ class ThisClass
         $resultData = $this->controller->addProductToOrder();
         return json_encode($resultData);
     }
+    private function addOfferToOrder(): string
+    {
+        $resultData = $this->controller->addOfferToOrder();
+        return json_encode($resultData);
+    }
 
     private function search(): string
     {
@@ -123,10 +132,20 @@ class ThisClass
         $resultData = $this->controller->delete();
         return json_encode($resultData);
     }
+    private function deleteOffers(): string
+    {
+        $resultData = $this->controller->deleteOffers();
+        return json_encode($resultData);
+    }
     // 
     private function updateQuantity(): string
     {
         $resultData = $this->controller->updateQuantity();
+        return json_encode($resultData);
+    }
+    private function updateOfferQuantity(): string
+    {
+        $resultData = $this->controller->updateOfferQuantity();
         return json_encode($resultData);
     }
     private function updateActualPrice(): string

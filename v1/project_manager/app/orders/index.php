@@ -25,6 +25,14 @@ class Orders
         // $projectId = getModelMainRunApp()->app->projectId;
         return getOrdersProductsExecuter()->executeAddData(getInputOrderId(), getInputProductId(), getInputProductQuantity());
     }
+    function addOfferToOrder()
+    {
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        // $projectId = getModelMainRunApp()->app->projectId;
+        return getOrdersOffersExecuter()->executeAddData(getInputOrderId(), getInputOfferId(), getInputOfferQuantity());
+    }
     function read()
     {
         // $s = getMainRunApp();
@@ -40,6 +48,14 @@ class Orders
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersProductsExecuter()->executeUpdateQuantity(getInputOrderProductId(), getInputProductQuantity());
+    }
+    function updateOfferQuantity()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getOrdersOffersExecuter()->executeUpdateQuantity(getInputOfferId(), getInputOfferQuantity());
     }
     function updateActualPrice()
     {
@@ -74,6 +90,14 @@ class Orders
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersProductsExecuter()->executeDeleteData(getIds());
+    }
+    function deleteOffers()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getOrdersOffersExecuter()->executeDeleteData(getIds());
     }
     function search()
     {

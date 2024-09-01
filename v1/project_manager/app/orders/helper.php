@@ -278,7 +278,7 @@ function getOrdersProductsHelper()
 // ==========//
 class OrdersOffersHelper extends OrdersOffersSql
 {
-  function addOrderProducts($id, $orderId, $offerName, $offerId, $offerQuantity, $offerPrice)
+  function addOrderOffers($id, $orderId, $offerName, $offerId, $offerQuantity, $offerPrice)
   {
     $sql = $this->addSql("'$id'", "'$orderId'", "'$offerName'", "'$offerId'", "'$offerQuantity'", "'$offerPrice'");
     shared_execute_sql($sql);
@@ -330,6 +330,12 @@ class OrdersOffersHelper extends OrdersOffersSql
       exitFromScript($ar, $en);
     }
     return $data[0];
+  }
+  function getDataByOrderIdAndOfferId($orderId, $offerId)
+  {
+    $sql = $this->readByOrderIdAndOfferIdSql("'$orderId'", "'$offerId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
   }
 }
 $orders_offers_helper = null;

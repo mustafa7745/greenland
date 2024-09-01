@@ -193,6 +193,15 @@ class OrdersOffersSql extends \OrdersOffersAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByOrderIdAndOfferIdSql($orderId, $offerId): string
+    {
+        $table_name = $this->table_name;
+        $columns = $this->id;
+        $innerJoin = "";
+        $condition = "$this->orderId = $orderId AND $this->offerId = $offerId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
 
 
     protected function updateQuantitySql($id, $newValue): string

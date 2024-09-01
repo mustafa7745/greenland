@@ -343,6 +343,92 @@ function getOrdersProductsExecuter()
   return $orders_products_executer;
 }
 /********/
+
+class OrdersOffersExecuter
+{
+  function executeAddData($orderId, $offerId, $offerQuantity)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
+    require_once __DIR__ . '/../offers/helper.php';
+    $orderOffer = getOrdersOffersHelper()->getDataByOrderIdAndOfferId($orderId, $offerId);
+    if (count($orderOffer) != 0) {
+      $ar = "هذا العرض موجود في الطلب";
+      $en = "هذا العرض موجود في الطلب";
+      exitFromScript($ar, $en);
+    }
+    $offer = getOffersHelper()->getDataById($offerId);
+    $offerName = $product[getOffersHelper()->name];
+    $offerPrice = $product[getOffersHelper()->price];
+    $id = uniqid(rand(), false);
+    getOrdersOffersHelper()->addOrderOffers($id, $orderId, $offerId, $offerName, $offerPrice, $offerQuantity);
+    $data = getOrdersOffersHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return $data;
+
+  }
+  function executeUpdateQuantity($id, $newValue)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $orderProduct = getOrdersProductsHelper()->getDataById($id);
+    $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
+    getOrdersOffersHelper()->updateQuantity($id, $newValue);
+    $data = getOrdersOffersHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return $data;
+  }
+  function executeDeleteData($ids)
+  {
+    $idsString = convertIdsListToStringSql($ids);
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $orderOffers = getOrdersOffersHelper()->getDataById($ids[0]);
+    $order = getOrdersHelper()->getDataById($orderOffers[getOrdersOffersHelper()->orderId]);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    getOrdersOffersHelper()->deleteData($idsString, count($ids));
+    // getOrdersProductsHelper()->updateQuantity($id, $newValue);
+    // $data = getOrdersProductsHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return ['success' => "true"];
+  }
+}
+$orders_offers_executer = null;
+function getOrdersOffersExecuter()
+{
+  global $orders_offers_executer;
+  if ($orders_offers_executer == null) {
+    $orders_offers_executer = (new OrdersOffersExecuter());
+  }
+  return $orders_offers_executer;
+}
+// ************ //
+
 class OrdersStatusExecuter
 {
   function executeGetData($orderId)
