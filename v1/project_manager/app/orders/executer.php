@@ -451,6 +451,11 @@ function getOrdersStatusExecuter()
 // 
 class OrdersDeliveryExecuter
 {
+  function executeGetData($orderId)
+  {
+    $data = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
+    return $data;
+  }
   function executeGetUncollectedOrders($deliveryManId)
   {
     $data = getOrdersDeliveryHelper()->getDataUncollected($deliveryManId);
