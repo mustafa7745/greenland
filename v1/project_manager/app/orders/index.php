@@ -55,7 +55,7 @@ class Orders
         // // print_r(getModelMainRunApp()->app->projectId);
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getOrdersOffersExecuter()->executeUpdateQuantity(getInputOfferId(), getInputOfferQuantity());
+        return getOrdersOffersExecuter()->executeUpdateQuantity(getInputOrderOfferId(), getInputOfferQuantity());
     }
     function updateActualPrice()
     {
