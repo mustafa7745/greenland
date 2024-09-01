@@ -367,8 +367,8 @@ class OrdersOffersExecuter
       exitFromScript($ar, $en);
     }
     $offer = getOffersHelper()->getDataById($offerId);
-    $offerName = $product[getOffersHelper()->name];
-    $offerPrice = $product[getOffersHelper()->price];
+    $offerName = $offer[getOffersHelper()->name];
+    $offerPrice = $offer[getOffersHelper()->price];
     $id = uniqid(rand(), false);
     getOrdersOffersHelper()->addOrderOffers($id, $orderId, $offerId, $offerName, $offerPrice, $offerQuantity);
     $data = getOrdersOffersHelper()->getDataById($id);
