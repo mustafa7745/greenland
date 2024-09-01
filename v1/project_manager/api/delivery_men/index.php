@@ -21,6 +21,8 @@ class ThisClass
     {
         if (getTag() == "search") {
             return $this->search();
+        } elseif (getTag() == "readById") {
+            return $this->readById();
         } else {
             UNKOWN_TAG();
         }
@@ -30,6 +32,11 @@ class ThisClass
     private function search(): string
     {
         $resultData = $this->controller->search();
+        return json_encode($resultData);
+    }
+    private function readById(): string
+    {
+        $resultData = $this->controller->readById();
         return json_encode($resultData);
     }
 }

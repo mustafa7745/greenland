@@ -37,6 +37,17 @@ class DeliveryMenHelper extends DeliveryMenSql
     }
     return $data[0];
   }
+  function getDataById2($id)
+  {
+    $sql = $this->readById2Sql("'$id'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = $this->name . "_ID_ERROR";
+      $en = $this->name . "_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
 
 }
 

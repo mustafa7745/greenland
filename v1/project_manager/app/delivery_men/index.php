@@ -17,5 +17,12 @@ class DeliveryMen
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getDeliveryMenHelper()->getDataByUserPhone(getInputUserPhone3());
     }
+    function readById()
+    {
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getDeliveryMenHelper()->getDataById2(getInputDeliveryManId());
+    }
 }
 
