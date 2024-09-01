@@ -317,6 +317,15 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+    protected function updatePriceSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->price = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
 }
 
 require_once (getPath() . 'tables/orders_discounts/attribute.php');

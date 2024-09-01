@@ -476,6 +476,26 @@ class OrdersDeliveryExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
+  function executeUpdatePrice($id, $newValue)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $orderDelivery = getOrdersDeliveryHelper()->getDataById($id);
+    $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
+    getOrdersDeliveryHelper()->updatePrice($id, $newValue);
+    $data = getOrdersDeliveryHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return $data;
+  }
 }
 $orders_delivery_executer = null;
 function getOrdersDeliveryExecuter()

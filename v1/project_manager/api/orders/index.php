@@ -45,10 +45,12 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
-        }elseif (getTag() == "updateOfferQuantity") {
+        } elseif (getTag() == "updateOfferQuantity") {
             return $this->updateOfferQuantity();
         } elseif (getTag() == "updateActualPrice") {
             return $this->updateActualPrice();
+        } elseif (getTag() == "updatePrice") {
+            return $this->updatePrice();
         } elseif (getTag() == "cencelOrder") {
             return $this->cencelOrder();
         } elseif (getTag() == "readOrdersOfUsers") {
@@ -153,6 +155,11 @@ class ThisClass
     private function updateActualPrice(): string
     {
         $resultData = $this->controller->updateActualPrice();
+        return json_encode($resultData);
+    }
+    private function updatePrice(): string
+    {
+        $resultData = $this->controller->updatePrice();
         return json_encode($resultData);
     }
     private function cencelOrder(): string
