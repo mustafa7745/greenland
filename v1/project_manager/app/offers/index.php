@@ -8,22 +8,12 @@ require_once "../../../include/token/index.php";
 // To Get Executer
 require_once 'executer.php';
 
-class Products
+class Offers
 {
-
-
-
-    function readAll()
-    {
-        return getProductsExecuter()->executeGetAllData();
-    }
     function search()
     {
-        return getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
+        return getOffersExecuter()->executeGetDataByName(getInputOfferName());
     }
-
-
-
 }
 
 

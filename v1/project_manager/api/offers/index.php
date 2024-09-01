@@ -1,40 +1,32 @@
 <?php
 namespace Manager;
 
-require_once "../../app/products/index.php";
+require_once "../../app/offers/index.php";
 
 
 class ThisClass
 {
     // use \AppsPostData;
-    public Products $controller;
+    public Offers $controller;
     // 
 
     function __construct()
     {
         //
-        $this->controller = new Products();
+        $this->controller = new Offers();
     }
 
 
     function main(): string
     {
-        if (getTag() == "readAll") {
-            return $this->readAll();
-        } elseif (getTag() == "search") {
+        if (getTag() == "search") {
             return $this->search();
         } else {
             UNKOWN_TAG();
         }
     }
     //Main Functin CRUD
-   
-    private function readAll(): string
-    {
-        $resultData = $this->controller->readAll();
-        return json_encode($resultData);
-    }
-   
+
     private function search(): string
     {
         $resultData = $this->controller->search();
