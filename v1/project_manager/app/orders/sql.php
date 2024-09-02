@@ -20,7 +20,7 @@ class OrdersSql extends \OrdersAttribute
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
 
-        $columns = "$this->table_name.$this->id,$this->table_name.$this->systemOrderNumber, $this->table_name.$this->createdAt, $this->table_name.$this->situationId, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
+        $columns = "$this->table_name.$this->id,$this->table_name.$this->code,$this->table_name.$this->systemOrderNumber, $this->table_name.$this->createdAt, $this->table_name.$this->situationId, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
         $condition = "$this->table_name.$this->id = $id";
         /////
         return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
