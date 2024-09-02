@@ -26,7 +26,7 @@ class UsersSql extends \UsersAttribute
     function readByIdsql($id): string
     {
         $table_name = $this->table_name;
-        $columns = " * ";
+        $columns = "$this->id, $this->name, $this->phone, $this->createdAt, $this->updatedAt";
         $innerJoin = "";
         $condition = "$this->id = $id FOR UPDATE";
         /////

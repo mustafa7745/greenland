@@ -17,6 +17,13 @@ class Users
         // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
         return getUsersExecuter()->executeGetData(getInputUserPhone3());
     }
+    function readById()
+    {
+        // $s = getMainRunApp();
+        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
+        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        return getUsersExecuter()->executeGetDataById(getInputUserId());
+    }
     function add()
     {
         // $s = getMainRunApp();
