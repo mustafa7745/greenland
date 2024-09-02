@@ -65,7 +65,7 @@ class OrdersSql extends \OrdersAttribute
         $columns = "$this->table_name.$this->id,$this->table_name.$this->situationId, $this->table_name.$this->createdAt, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
         $condition = "$this->userId = $userId";
         /////
-        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 5);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 30);
     }
     protected function updateStatusSql($id, $newValue): string
     {
