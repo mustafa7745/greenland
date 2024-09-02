@@ -527,8 +527,19 @@ class OrdersDiscountsExecuter
 {
   function executeAddData($orderId, $amount, $type)
   {
+    shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
     $id = uniqid(rand(), false);
-    return getOrdersDiscountsHelper()->addData($id, $orderId, $amount, $type);
+    $dataAfterAdd = getOrdersDiscountsHelper()->addData($id, $orderId, $amount, $type);
+    shared_execute_sql("COMMIT");
+
+    return $dataAfterAdd;
   }
   function executeUpdateType($id, $type)
   {
