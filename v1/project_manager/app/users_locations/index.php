@@ -18,12 +18,19 @@ class UsersLocations
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getUsersLocationsExecuter()->executeGetData(getInputUserId());
     }
+    function readById()
+    {
+        // $s = getMainRunApp();
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getUsersLocationsExecuter()->executeGetDataById(getInputUserLocationId());
+    }
     function add()
     {
         // $s = getMainRunApp();
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), "صنعاء", getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone(),getInputUserLocationUrl());
+        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), "صنعاء", getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone(), getInputUserLocationUrl());
     }
     function updateStreet()
     {

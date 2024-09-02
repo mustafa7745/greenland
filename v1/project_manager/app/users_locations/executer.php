@@ -20,6 +20,10 @@ class UsersLocationsExecuter
 
     return $data;
   }
+  function executeGetDataById($id)
+  {
+    return getUsersLocationsHelper()->getDataById($id);
+  }
   function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone, $url)
   {
     $helper = getUsersLocationsHelper();

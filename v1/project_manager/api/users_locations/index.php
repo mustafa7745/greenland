@@ -21,6 +21,8 @@ class ThisClass
     {
         if (getTag() == "read") {
             return $this->read();
+        } elseif (getTag() == "readById") {
+            return $this->readById();
         } elseif (getTag() == "add") {
             return $this->add();
         } elseif (getTag() == "updateStreet") {
@@ -41,6 +43,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function readById(): string
+    {
+        $resultData = $this->controller->readById();
         return json_encode($resultData);
 
     }
