@@ -251,7 +251,7 @@ class OrdersStatusSql extends \OrdersStatusAttribute
     {
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
-        $columns = "$this->table_name.$this->id, $this->table_name.$this->orderId, $this->table_name.$this->createdAt,{$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
+        $columns = "$this->table_name.$this->id,$this->table_name.$this->situationId, $this->table_name.$this->orderId, $this->table_name.$this->createdAt,{$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
         $condition = "$this->orderId = $orderId";
         /////
         return shared_read_order_sql($table_name, $columns, $innerJoin, $condition, "{$this->table_name}" . "." . "{$this->createdAt}", "ASC");
