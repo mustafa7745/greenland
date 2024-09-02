@@ -23,9 +23,9 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "readOrderProducts") {
             return $this->readOrderProducts();
-        } elseif (getTag() == "readOrderProducts") {
-            return $this->readOrderCenceled();
         } elseif (getTag() == "readOrderCenceled") {
+            return $this->readOrderCenceled();
+        } elseif (getTag() == "readOrderDelivery") {
             return $this->readOrderDelivery();
         } elseif (getTag() == "updateSystemOrderNumber") {
             return $this->updateSystemOrderNumber();
