@@ -39,7 +39,7 @@ class ThisClass
         $resultData = $this->controller->read();
         return json_encode($resultData);
     }
-    private function rereadByIdd(): string
+    private function readById(): string
     {
         $resultData = $this->controller->readById();
         return json_encode($resultData);
