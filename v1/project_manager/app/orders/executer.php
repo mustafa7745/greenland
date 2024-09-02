@@ -453,8 +453,19 @@ class OrdersDeliveryExecuter
 {
   function executeGetData($orderId)
   {
-    $data = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
-    return $data;
+    $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
+    require_once __DIR__ . "/../acceptance/helper.php";
+    $acceptance = getAcceptanceHelper()->getData($orderDelivery[getOrdersDeliveryHelper()->id]);
+    // if ($acceptance != null) {
+    //   require_once (getManagerPath() . "app/delivery_men/helper.php");
+    //   $deliveryMan = getDeliveryMenHelper()->getDataById2($acceptance[getAcceptanceHelper()->deliveryManId]);
+    //   $user = getUsersHelper()->getDataById($userId);
+    //   $acceptance["deliveryMan"] = $deliveryMan;
+    // }
+
+    $orderDelivery['acceptance'] = $acceptance;
+    return $orderDelivery;
+    // return $data;
   }
   function executeGetUncollectedOrders($deliveryManId)
   {

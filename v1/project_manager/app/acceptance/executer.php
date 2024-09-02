@@ -4,6 +4,17 @@ namespace Manager;
 require_once 'helper.php';
 class AcceptanceExecuter
 {
+  function executeGetData($orderDeliveryId)
+  {
+    $acceptance = getAcceptanceHelper()->getData($orderDeliveryId);
+    if ($acceptance != null) {
+      require_once (getManagerPath() . "app/delivery_men/helper.php");
+      $deliveryMan = getDeliveryMenHelper()->getDataById2($acceptance[getAcceptanceHelper()->deliveryManId]);
+      $user = getUsersHelper()->getDataById($userId);
+      $acceptance["deliveryMan"] = $deliveryMan;
+    }
+    return $acceptance;
+  }
   function executeAddData($deliveryManId, $orderDeliveryId)
   {
     require_once (getPath() . '/ids_controller/helper.php');

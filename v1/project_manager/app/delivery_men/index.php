@@ -22,7 +22,9 @@ class DeliveryMen
         // $s = getMainRunApp();
         // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getDeliveryMenHelper()->getDataById2(getInputDeliveryManId());
+        $deliveryMan = getDeliveryMenHelper()->getDataById2(getInputDeliveryManId());
+        // 
+        return $deliveryMan;
     }
 }
 
