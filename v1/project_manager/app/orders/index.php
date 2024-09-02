@@ -139,6 +139,15 @@ class Orders
         // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersProductsExecuter()->executeGetData(getInputOrderId());
     }
+    function readOrderCenceled()
+    {
+        // $s = getMainRunApp();
+        // // print_r(getModelMainRunApp()->app->projectId);
+        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        require_once __DIR__ . '/../orders_cenceled/helper.php';
+        return getOrdersCenceledHelper()->getDataByOrderId(getInputOrderId());
+    }
     function readUncollectedOrders()
     {
         // $s = getMainRunApp();

@@ -14,4 +14,13 @@ class OrdersCenceledSql extends \OrdersCenceledAttribute
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
+    function readByOrderIdSql($orderId): string
+    {
+        $table_name = $this->table_name;
+        $columns = " * ";
+        $innerJoin = "";
+        $condition = "$this->orderId = $orderId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
 }

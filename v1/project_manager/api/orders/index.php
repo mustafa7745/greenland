@@ -23,7 +23,9 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "readOrderProducts") {
             return $this->readOrderProducts();
-        } elseif (getTag() == "readOrderDelivery") {
+        } elseif (getTag() == "readOrderProducts") {
+            return $this->readOrderCenceled();
+        } elseif (getTag() == "readOrderCenceled") {
             return $this->readOrderDelivery();
         } elseif (getTag() == "updateSystemOrderNumber") {
             return $this->updateSystemOrderNumber();
@@ -100,6 +102,11 @@ class ThisClass
     private function readOrderProducts(): string
     {
         $resultData = $this->controller->readOrderProducts();
+        return json_encode($resultData);
+    }
+    private function readOrderCenceled(): string
+    {
+        $resultData = $this->controller->readOrderCenceled();
         return json_encode($resultData);
     }
     private function readOrderreadUncollectedOrdersProducts(): string

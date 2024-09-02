@@ -16,6 +16,17 @@ class OrdersCenceledHelper extends OrdersCenceledSql
       exitFromScript($ar, $en);
     }
   }
+  function getDataByOrderId($orderId)
+  {
+    $sql = $this->readByOrderIdSql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "CENc_ID_ERROR";
+      $en = "CENc_ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
 }
 
 $orders_cenceled_helper = null;
