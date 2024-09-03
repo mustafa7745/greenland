@@ -1,4 +1,5 @@
 <?php
+require_once 'helper.php';
 class OrderContent
 {
     function executeGetData($orderId)
