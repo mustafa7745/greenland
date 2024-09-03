@@ -6,9 +6,9 @@ require_once 'sql.php';
 class CollectionsHelper extends CollectionsSql
 {
 
-  function addData($userId, $deliveryManId)
+  function addData($userId, $deliveryManId, $sum)
   {
-    $sql = $this->addSql("'$userId'", "'$deliveryManId'");
+    $sql = $this->addSql("'$userId'", "'$deliveryManId'", "'$sum'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

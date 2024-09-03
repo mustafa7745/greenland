@@ -222,3 +222,17 @@ function getOrdersDeliveryHelper()
   }
   return $orders_delivery_helper;
 }
+
+
+class OrdersDiscountsHelper extends OrdersDiscountsSql
+{
+}
+$orders_discount_helper = null;
+function getOrdersDiscountsHelper()
+{
+  global $orders_discount_helper;
+  if ($orders_discount_helper == null) {
+    $orders_discount_helper = new OrdersDiscountsHelper();
+  }
+  return $orders_discount_helper;
+}

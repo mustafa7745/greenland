@@ -10,6 +10,8 @@ class CollectionsAttribute
   public $id = "id";
   public $orderId = "orderId";
   public $deliveryManId = "deliveryManId";
+  public $price = "price";
+
   public $isCollect = "isCollect";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";

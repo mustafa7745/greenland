@@ -33,8 +33,34 @@ class OrdersExecuter
     $situatinId = getOrdersHelper()->ORDER_COMPLETED;
     getOrdersHelper()->updateStatus(getId($order), $situatinId);
     getOrdersStatusHelper()->addData(getId($order), $situatinId);
+    // 
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $data = (new \OrderContent());
+    $data->executeGetData($orderId);
+
+    $sum = 0;
+
+    foreach ($data->products as $key => $value) {
+      $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
+    }
+    foreach ($data->offers as $key => $value) {
+      $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
+    }
+    if ($data->discount != null) {
+      require_once __DIR__ . '/../orders/helper.php';
+      $helper = getOrdersDiscountsHelper();
+      $amount = $data->discount[$helper->amount];
+      $type = $data->discount[$helper->type];
+
+      if ($type == $helper->PERCENTAGE_TYPE) {
+        $discount = ($sum * $amount) / 100;
+        $sum = $sum - $discount;
+      } else {
+        $sum = $sum - $amount;
+      }
+    }
     require_once __DIR__ . '/../collections/helper.php';
-    getCollectionsHelper()->addData($orderId, $deliveryManId);
+    getCollectionsHelper()->addData($orderId, $deliveryManId, $sum);
     shared_execute_sql("COMMIT");
     return ["success" => "false"];
   }

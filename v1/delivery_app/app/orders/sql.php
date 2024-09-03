@@ -182,3 +182,10 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
     }
 }
 
+require_once (getPath() . 'tables/orders_discounts/attribute.php');
+
+
+class OrdersDiscountSql extends \OrdersDiscountsAttribute
+{
+
+}
