@@ -274,7 +274,7 @@ class OrdersProductsExecuter
     $data = (new \OrderContent());
     $data->executeGetData($orderId);
     shared_execute_sql("COMMIT");
-    return json_encode($data);
+    return $data;
   }
   function executeUpdateQuantity($id, $newValue)
   {
