@@ -9,40 +9,34 @@ class CollectionsExecuter
     require_once __DIR__ . '/../../app/orders/executer.php';
     $orderExecuter = getOrdersExecuter();
     $collections = getCollectionsHelper()->getData($deliveryManId);
-    for ($i = 0; $i < count($collections); $i++) {
-      $sum = 0;
-      $orderId = $collections[$i][getCollectionsHelper()->orderId];
-      require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
-      $data = (new \OrderContent());
-      $data->executeGetData($orderId);
+    // for ($i = 0; $i < count($collections); $i++) {
+    //   // $sum = 0;
+    //   // $orderId = $collections[$i][getCollectionsHelper()->orderId];
+    //   // require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    //   // $data = (new \OrderContent());
+    //   // $data->executeGetData($orderId);
 
-      foreach ($data->products as $key => $value) {
-        $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
-      }
-      foreach ($data->offers as $key => $value) {
-        $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
-      }
-      if ($data->discount != null) {
-        require_once __DIR__ . '/../orders/helper.php';
-        $helper = getOrdersDiscountsHelper();
-        $amount = $data->discount[$helper->amount];
-        $type = $data->discount[$helper->type];
+    //   // foreach ($data->products as $key => $value) {
+    //   //   $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
+    //   // }
+    //   // foreach ($data->offers as $key => $value) {
+    //   //   $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
+    //   // }
+    //   // if ($data->discount != null) {
+    //   //   require_once __DIR__ . '/../orders/helper.php';
+    //   //   $helper = getOrdersDiscountsHelper();
+    //   //   $amount = $data->discount[$helper->amount];
+    //   //   $type = $data->discount[$helper->type];
 
-        if ($type == $helper->PERCENTAGE_TYPE) {
-          // print_r($amount);
-          $discount = ($sum * $amount) / 100;
-          // print_r($discount);
-          // print_r($sum);
-
-
-          $sum = $sum - $discount;
-        } else {
-          $sum = $sum - $amount;
-        }
-      }
-      // $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
-      $collections[$i]['price'] = $sum;
-    }
+    //   //   if ($type == $helper->PERCENTAGE_TYPE) {
+    //   //     $discount = ($sum * $amount) / 100;
+    //   //     $sum = $sum - $discount;
+    //   //   } else {
+    //   //     $sum = $sum - $amount;
+    //   //   }
+    //   // }
+    //   // $collections[$i]['price'] = $sum;
+    // }
     return $collections;
   }
   function executeCollectData($ids)
