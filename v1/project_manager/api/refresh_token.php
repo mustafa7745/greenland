@@ -1,6 +1,5 @@
 <?php
 require_once "../../include/login/index.php";
-require_once __DIR__ . '/../../include/check/managers_login_tokens/helper.php';
 
 class ThisClass
 {
@@ -22,7 +21,7 @@ class ThisClass
   }
   function refreshManagerLoginToken($runApp, $loginTokenDuration = 1)
   {
-
+    require_once __DIR__ . '/../../include/check/managers_login_tokens/helper.php';
     $helper = Check\getManagersLoginTokensHelper();
     $token = getInputManagerLoginToken();
     $managerLoginToken = $helper->getDataByToken($token);
@@ -44,7 +43,7 @@ class ThisClass
       if (strtotime(getCurruntDate()) > strtotime($managerLoginToken->expireAt)) {
         $loginTokenString = uniqid(rand(), false);
         $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
-        $managerLoginToken = Check\getDeliveryMenLoginTokensHelper()->updateToken($managerLoginToken->id, $loginTokenString, $expireAt);
+        $managerLoginToken = $helper->updateToken($managerLoginToken->id, $loginTokenString, $expireAt);
       }
     }
     return $managerLoginToken;
