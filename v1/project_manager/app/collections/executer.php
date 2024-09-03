@@ -9,8 +9,8 @@ class CollectionsExecuter
     require_once __DIR__ . '/../../app/orders/executer.php';
     $orderExecuter = getOrdersExecuter();
     $collections = getCollectionsHelper()->getData($deliveryManId);
-    $sum = 0;
     for ($i = 0; $i < count($collections); $i++) {
+      $sum = 0;
       $orderId = $collections[$i][getCollectionsHelper()->orderId];
       require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
       $data = (new \OrderContent());
