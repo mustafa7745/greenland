@@ -19,6 +19,9 @@ class CollectionsExecuter
       foreach ($data->products as $key => $value) {
         $sum = $sum + $value['productPrice'];
       }
+      foreach ($data->offers as $key => $value) {
+        $sum = $sum + $value['offerPrice'];
+      }
       // $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
       $collections[$i]['price'] = $sum;
     }
