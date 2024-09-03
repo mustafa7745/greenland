@@ -61,7 +61,7 @@ class AcceptanceExecuter
     $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
 
     $helper->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
-    print_r("fefg");
+    // print_r("fefg");
 
     if ($level == 2) {
       $acceptanceId = getId($acceptance);
