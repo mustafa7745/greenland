@@ -59,9 +59,10 @@ class AcceptanceExecuter
     getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
     // 3) Add Request Accept To Acceptance Table
     $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
-    print_r("fefg");
 
     $helper->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
+    print_r("fefg");
+
     if ($level == 2) {
       $acceptanceId = getId($acceptance);
       $acceptance = $helper->getDataById($acceptanceId);
