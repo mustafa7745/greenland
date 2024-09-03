@@ -22,6 +22,17 @@ class CollectionsExecuter
       foreach ($data->offers as $key => $value) {
         $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
       }
+      if ($data->discount != null) {
+        require_once __DIR__ . '/../orders/helper.php';
+        $helper = getOrdersDiscountsHelper();
+        $amount = $data->discount[$helper->amount];
+        if ($amount == $helper->PERCENTAGE_TYPE) {
+          $discount = ($sum * $amount) / 100;
+          $sum = $sum - $discount;
+        } else {
+          $sum = $sum - $amount;
+        }
+      }
       // $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
       $collections[$i]['price'] = $sum;
     }
