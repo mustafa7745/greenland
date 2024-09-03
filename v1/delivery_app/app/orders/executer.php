@@ -54,7 +54,7 @@ class OrdersExecuter
 
       if ($type == $helper->PERCENTAGE_TYPE) {
         $discount = ($sum * $amount) / 100;
-        $sum = $sum - $discount;
+        $sum = $sum - (100 * round($discount / 100));
       } else {
         $sum = $sum - $amount;
       }

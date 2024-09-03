@@ -51,6 +51,7 @@ class AcceptanceExecuter
   }
   private function processAcceptance($helper, $deliveryManId, $orderDeliveryId, $acceptance, $level = 1)
   {
+    print_r("fefg");
     // 1) Get Reservation Data
     require_once (getManagerPath() . 'app/reservations/helper.php');
     $resrvation = getReservationsHelper()->getData($deliveryManId);
