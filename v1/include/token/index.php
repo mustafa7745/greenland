@@ -105,6 +105,7 @@ function getDeliveryManLoginToken($permissionName, $runApp)
 
 function getManagerLoginToken($permissionName, $runApp)
 {
+    require_once __DIR__ . '/../check/managers_login_tokens/helper.php';
     $token = getInputManagerLoginToken();
     $loginToken = getManagersLoginTokensHelper()->getDataByToken($token);
     // $permissionName = "REFRESH_LOGIN_TOKEN";
