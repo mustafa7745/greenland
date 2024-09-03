@@ -102,7 +102,7 @@ class OrdersExecuter
     require_once __DIR__ . '/../../../include/shared/helper_functions.php';
     $w = new \ApiWhatsapp();
     $message = "طلب جديد" ;
-    $w->sendMessageText("967774519161", $m);
+    $w->sendMessageText("967774519161", $message);
     return $orderProducts;
 
 
