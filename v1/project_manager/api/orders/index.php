@@ -21,49 +21,93 @@ class ThisClass
     {
         if (getTag() == "read") {
             return $this->read();
-        } elseif (getTag() == "readOrderProducts") {
+        }
+        // 
+        elseif (getTag() == "readOrderProducts") {
             return $this->readOrderProducts();
-        } elseif (getTag() == "readOrderCenceled") {
+        }
+        // 
+        elseif (getTag() == "readOrderCenceled") {
             return $this->readOrderCenceled();
-        } elseif (getTag() == "readOrderDelivery") {
+        }
+        // 
+        elseif (getTag() == "readOrderDelivery") {
             return $this->readOrderDelivery();
-        } elseif (getTag() == "updateSystemOrderNumber") {
+        }
+        // 
+        elseif (getTag() == "updateSystemOrderNumber") {
             return $this->updateSystemOrderNumber();
-        } elseif (getTag() == "updateType") {
+        }
+        // 
+        elseif (getTag() == "updateType") {
             return $this->updateType();
-        } elseif (getTag() == "updateAmount") {
+        }
+        // 
+        elseif (getTag() == "updateAmount") {
             return $this->updateAmount();
-        } elseif (getTag() == "deleteOrderDiscount") {
+        }
+        // 
+        elseif (getTag() == "deleteOrderDiscount") {
             return $this->deleteOrderDiscount();
-        } elseif (getTag() == "readOrderStatus") {
+        }
+        // 
+        elseif (getTag() == "readOrderStatus") {
             return $this->readOrderStatus();
-        } elseif (getTag() == "add") {
+        }
+        // 
+        elseif (getTag() == "add") {
             return $this->add();
-        } elseif (getTag() == "addDiscount") {
+        }
+        // 
+        elseif (getTag() == "addDiscount") {
             return $this->addDiscount();
-        } elseif (getTag() == "addProductToOrder") {
+        }
+        // 
+        elseif (getTag() == "addProductToOrder") {
             return $this->addProductToOrder();
-        } elseif (getTag() == "addOfferToOrder") {
+        }
+        // 
+        elseif (getTag() == "addOfferToOrder") {
             return $this->addOfferToOrder();
-        } elseif (getTag() == "search") {
+        }
+        // 
+        elseif (getTag() == "search") {
             return $this->search();
-        } elseif (getTag() == "updateQuantity") {
+        }
+        // 
+        elseif (getTag() == "updateQuantity") {
             return $this->updateQuantity();
-        } elseif (getTag() == "updateOfferQuantity") {
+        }
+        // 
+        elseif (getTag() == "updateOfferQuantity") {
             return $this->updateOfferQuantity();
-        } elseif (getTag() == "updateActualPrice") {
+        }
+        // 
+        elseif (getTag() == "updateActualPrice") {
             return $this->updateActualPrice();
-        } elseif (getTag() == "updatePrice") {
+        }
+        // 
+        elseif (getTag() == "updatePrice") {
             return $this->updatePrice();
-        } elseif (getTag() == "cencelOrder") {
+        }
+        // 
+        elseif (getTag() == "cencelOrder") {
             return $this->cencelOrder();
-        } elseif (getTag() == "readOrdersOfUsers") {
+        }
+        // 
+        elseif (getTag() == "readOrdersOfUsers") {
             return $this->readOrdersOfUsers();
-        } elseif (getTag() == "deleteOffers") {
+        }
+        // 
+        elseif (getTag() == "deleteOffers") {
             return $this->deleteOffers();
-        } elseif (getTag() == "delete") {
+        }
+        // 
+        elseif (getTag() == "delete") {
             return $this->delete();
-        } else {
+        }
+        // 
+        else {
             UNKOWN_TAG();
         }
     }
