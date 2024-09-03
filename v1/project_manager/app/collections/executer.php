@@ -26,11 +26,13 @@ class CollectionsExecuter
         require_once __DIR__ . '/../orders/helper.php';
         $helper = getOrdersDiscountsHelper();
         $amount = $data->discount[$helper->amount];
-        if ($amount == $helper->PERCENTAGE_TYPE) {
-          print_r($amount);
+        $type = $data->discount[$helper->type];
+
+        if ($type == $helper->PERCENTAGE_TYPE) {
+          // print_r($amount);
           $discount = ($sum * $amount) / 100;
-          print_r($discount);
-          print_r($sum);
+          // print_r($discount);
+          // print_r($sum);
 
 
           $sum = $sum - $discount;
