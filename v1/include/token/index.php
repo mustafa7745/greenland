@@ -105,7 +105,7 @@ function getDeliveryManLoginToken($permissionName, $runApp)
 
 function getManagerLoginToken($permissionName, $runApp)
 {
-    $token = getInputLoginToken();
+    $token = getInputManagerLoginToken();
     $loginToken = getManagersLoginTokensHelper()->getDataByToken($token);
     // $permissionName = "REFRESH_LOGIN_TOKEN";
     $permission = getPermissionsHelper()->getDataByName($permissionName);
