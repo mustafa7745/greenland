@@ -132,8 +132,12 @@ class OrdersProductsExecuter
     // $currency_id = getOrdersHelper()->getOrderCurrencyId($order);
     // require_once (getPath() . "app/user_app/projects_currencies/helper.php");
     // $project_currency = getProjectsCurrenciesHelper()->getDataByCurrencyIdAndProjectId($currency_id, $project_id);
-    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1($orderId);
-    return $orderProducts;
+    // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1($orderId);
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $data = (new \OrderContent());
+    $data->executeGetData($orderId);
+
+    return $data;
   }
 }
 $orders_products_executer = null;
