@@ -56,26 +56,6 @@ class AcceptanceHelper extends AcceptanceSql
     }
   }
 
-  function searchData($search)
-  {
-    $sql = $this->search_sql($search);
-    $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
-  }
-
-
-  // function getDataById($id)
-  // {
-  //   $sql = $this->read_by_id_sql("'$id'");
-  //   $data = shared_execute_read_no_json_sql($sql)->data;
-  //   if (count($data) != 1) {
-  //     $ar = $this->name . "_ID_ERROR";
-  //     $en = $this->name . "_ID_ERROR";
-  //     exitFromScript($ar, $en);
-  //   }
-  //   return $data[0];
-  // }
-
   function updateStatus($id, $newValue)
   {
 

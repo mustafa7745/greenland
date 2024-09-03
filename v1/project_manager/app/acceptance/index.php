@@ -10,60 +10,16 @@ require_once 'executer.php';
 
 class Acceptance
 {
-    // private $check;
-
-    // public function __construct()
-    // {
-    //     $this->check = new CheckPermission();
-    // }
-
-    function read()
-    {
-        $s = getMainRunApp();
-        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeGetData($userId);
-    }
     function add()
     {
 
-        // require_once (getPath() . 'tables/delivery_men/attribute.php');
-        // require_once (getPath() . 'tables/orders_delivery/attribute.php');
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getAcceptanceExecuter()->executeAddData(getInputDeliveryManId(), getInputOrderDeliveryId());
     }
-
-
-    function updateName($id, $newValue)
+    private function _check($permissionName)
     {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateName($resultData, $id, $newValue);
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
     }
-
-    function updateSha($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateSha($resultData, $id, $newValue);
-    }
-    function updateVersion($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
-    }
-
-    function search($search)
-    {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
-    }
-
-
-
 }
 
