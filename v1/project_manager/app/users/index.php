@@ -12,39 +12,34 @@ class Users
 {
     function read()
     {
-        // $s = getMainRunApp();
-        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $this->_check("RUN_APP");
         return getUsersExecuter()->executeGetData(getInputUserPhone3());
     }
     function readById()
     {
-        // $s = getMainRunApp();
-        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $this->_check("RUN_APP");
         return getUsersExecuter()->executeGetDataById(getInputUserId());
     }
     function add()
     {
-        // $s = getMainRunApp();
-        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $this->_check("RUN_APP");
         return getUsersExecuter()->executeAddData(getInputUserName(), getInputUserPhone3());
     }
     function updateName()
     {
-        // $s = getMainRunApp();
-        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $this->_check("RUN_APP");
         return getUsersExecuter()->executeUpdateName(getInputUserId(), getInputUserName());
     }
     function updatePassword()
     {
-        // $s = getMainRunApp();
-        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $this->_check("RUN_APP");
         return getUsersExecuter()->executeUpdatePassword(getInputUserId(), getInputUserPassword3());
 
+    }
+    private function _check($permissionName)
+    {
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
     }
 }
 

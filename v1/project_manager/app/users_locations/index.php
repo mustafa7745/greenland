@@ -13,60 +13,50 @@ class UsersLocations
 
     function read()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeGetData(getInputUserId());
     }
     function readById()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeGetDataById(getInputUserLocationId());
     }
     function add()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeAddData(getInputUserId(), "صنعاء", getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone(), getInputUserLocationUrl());
     }
     function updateStreet()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeUpdateStreet(getInputUserLocationId(), getInputUserLocationStreet());
     }
     function updateUrl()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeUpdateUrl(getInputUserLocationId(), getInputUserLocationUrl());
     }
     function updateNearTo()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeUpdateNearTo(getInputUserLocationId(), getInputUserLocationNearTo());
     }
     function updateLatLong()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeUpdateLatLong(getInputUserLocationId(), getInputUserLocationLatLong());
     }
     function updateContactPhone()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getUsersLocationsExecuter()->executeUpdateContactPhone(getInputUserLocationId(), getInputUserLocationContactPhone());
     }
+    private function _check($permissionName)
+    {
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
+    }
+
 
 }
 

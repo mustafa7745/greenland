@@ -12,7 +12,13 @@ class Offers
 {
     function search()
     {
+        $this->_check("RUN_APP");
         return getOffersExecuter()->executeGetDataByName(getInputOfferName());
+    }
+    private function _check($permissionName)
+    {
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
     }
 }
 

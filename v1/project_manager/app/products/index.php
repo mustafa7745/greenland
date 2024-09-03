@@ -15,11 +15,18 @@ class Products
 
     function readAll()
     {
+        $this->_check("RUN_APP");
         return getProductsExecuter()->executeGetAllData();
     }
     function search()
     {
+        $this->_check("RUN_APP");
         return getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
+    }
+    private function _check($permissionName)
+    {
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
     }
 
 
