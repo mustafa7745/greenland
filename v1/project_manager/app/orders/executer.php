@@ -277,14 +277,15 @@ class OrdersProductsExecuter
     // require_once (getPath() . "app/user_app/projects_currencies/helper.php");
     // $project_currency = getProjectsCurrenciesHelper()->getDataByCurrencyIdAndProjectId($currency_id, $project_id);
     // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
-    $orderProducts = getOrdersProductsHelper()->getDataByOrderId($orderId);
-    $delivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
-    $discount = getOrdersDiscountsHelper()->getDataByOrderId($orderId);
-    $offers = getOrdersOffersHelper()->getDataByOrderId($orderId);
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $data = (new \OrderContent())->executeGetData($orderId);
+    // $orderProducts = getOrdersProductsHelper()->getDataByOrderId($orderId);
+    // $delivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
+    // $discount = getOrdersDiscountsHelper()->getDataByOrderId($orderId);
+    // $offers = getOrdersOffersHelper()->getDataByOrderId($orderId);
 
     shared_execute_sql("COMMIT");
-
-    return ['products' => $orderProducts, 'delivery' => $delivery, 'discount' => $discount, 'offers' => $offers];
+    return $data;
   }
   function executeUpdateQuantity($id, $newValue)
   {
