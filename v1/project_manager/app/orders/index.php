@@ -36,10 +36,8 @@ class Orders
     }
     function read()
     {
-        // $s = getMainRunApp();
-        // // print_r(getModelMainRunApp()->app->projectId);
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $s = getMainRunApp();
+        getManagerLoginToken("RUN_APP", $s);
         return getOrdersExecuter()->executeGetData();
     }
     function readOrderDelivery()
