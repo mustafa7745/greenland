@@ -51,7 +51,6 @@ class AcceptanceExecuter
   }
   private function processAcceptance($helper, $deliveryManId, $orderDeliveryId, $acceptance, $level = 1)
   {
-    print_r("fefg");
     // 1) Get Reservation Data
     require_once (getManagerPath() . 'app/reservations/helper.php');
     $resrvation = getReservationsHelper()->getData($deliveryManId);
@@ -60,6 +59,8 @@ class AcceptanceExecuter
     getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
     // 3) Add Request Accept To Acceptance Table
     $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
+    print_r("fefg");
+
     $helper->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
     if ($level == 2) {
       $acceptanceId = getId($acceptance);
