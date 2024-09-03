@@ -17,10 +17,10 @@ class CollectionsExecuter
       $data->executeGetData($orderId);
 
       foreach ($data->products as $key => $value) {
-        $sum = $sum + $value['productPrice'];
+        $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
       }
       foreach ($data->offers as $key => $value) {
-        $sum = $sum + $value['offerPrice'];
+        $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
       }
       // $collections[$i]['price'] = $orderExecuter->executeGetFinalOrderPriceWithoutDeliveryPrice($orderId);
       $collections[$i]['price'] = $sum;
