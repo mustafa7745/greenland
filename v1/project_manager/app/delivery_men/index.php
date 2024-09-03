@@ -12,19 +12,20 @@ class DeliveryMen
 {
     function search()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         return getDeliveryMenHelper()->getDataByUserPhone(getInputUserPhone3());
     }
     function readById()
     {
-        // $s = getMainRunApp();
-        // $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        // $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        $this->_check("RUN_APP");
         $deliveryMan = getDeliveryMenHelper()->getDataById2(getInputDeliveryManId());
         // 
         return $deliveryMan;
+    }
+    private function _check($permissionName)
+    {
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
     }
 }
 

@@ -12,17 +12,18 @@ class Collections
 {
     function read()
     {
-        // checkPermission("READ_GROUPS");
-        // $s = getMainRunApp();
-        // getProjectLoginTokenData("RUN_APP", $s);
+        $this->_check("RUN_APP");
         return getCollectionsExecuter()->executeGetData(getInputDeliveryManId());
     }
     function collect()
     {
-        // checkPermission("READ_GROUPS");
-        // $s = getMainRunApp();
-        // getProjectLoginTokenData("RUN_APP", $s);
+        $this->_check("RUN_APP");
         return getCollectionsExecuter()->executeCollectData(getIds());
+    }
+    private function _check($permissionName)
+    {
+        $s = getMainRunApp();
+        getManagerLoginToken($permissionName, $s);
     }
     
 }
