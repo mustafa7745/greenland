@@ -120,12 +120,12 @@ class Orders
     function updateType()
     {
         $this->_check("RUN_APP");
-        return getOrdersDiscountsExecuter()->executeUpdateType(getInputOrderDiscountId(), getInputOrderDiscountType());
+        return getOrdersDiscountsExecuter()->executeUpdateType(getInputOrderId(), getInputOrderDiscountId(), getInputOrderDiscountType());
     }
     function updateAmount()
     {
         $this->_check("RUN_APP");
-        return getOrdersDiscountsExecuter()->executeUpdateAmount(getInputOrderDiscountId(), getInputOrderDiscountAmount());
+        return getOrdersDiscountsExecuter()->executeUpdateAmount(getInputOrderId(), getInputOrderDiscountId(), getInputOrderDiscountAmount());
     }
     function deleteOrderDiscount()
     {

@@ -531,16 +531,30 @@ class OrdersDiscountsExecuter
 
     return $dataAfterAdd;
   }
-  function executeUpdateType($id, $type)
+  function executeUpdateType($orderId, $id, $type)
   {
     shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
     $updatedData = getOrdersDiscountsHelper()->updateType($id, $type);
     shared_execute_sql("COMMIT");
     return $updatedData;
   }
-  function executeUpdateAmount($id, $amount)
+  function executeUpdateAmount($orderId, $id, $amount)
   {
     shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
     $updatedData = getOrdersDiscountsHelper()->updateAmount($id, $amount);
     shared_execute_sql("COMMIT");
     return $updatedData;
