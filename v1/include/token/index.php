@@ -19,6 +19,7 @@ use function Check\getLoginTokensHelper;
 use function Check\getProjectsLoginTokensHelper;
 use function Check\getUsersSessionsHelper;
 use function Check\getDeliveryMenLoginTokensHelper;
+use function Check\getManagersLoginTokensHelper;
 
 
 
@@ -105,7 +106,7 @@ function getDeliveryManLoginToken($permissionName, $runApp)
 function getManagerLoginToken($permissionName, $runApp)
 {
     $token = getInputLoginToken();
-    $loginToken = getLoginTokensHelper()->getDataByToken($token);
+    $loginToken = getManagersLoginTokensHelper()->getDataByToken($token);
     // $permissionName = "REFRESH_LOGIN_TOKEN";
     $permission = getPermissionsHelper()->getDataByName($permissionName);
     getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
@@ -121,16 +122,11 @@ function getManagerLoginToken($permissionName, $runApp)
     if ($loginToken == null) {
         INVALID_TOKEN($runApp, $permission);
     } else {
-        if (strtotime(getCurruntDate()) > strtotime(getExpireAt($loginToken))) {
+        if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
             TOKEN_NEED_UPDATE();
         }
     }
-    // 
-    $userSession = getUsersSessionsHelper()->getDataById(getUserSessionId($loginToken));
-    // 
-    $modalUserLoginToken = new ModelUserLoginToken($loginToken);
-    $modelUserSession = new ModelUserSession($userSession);
-    return new ModelUserLoginUserSession($modalUserLoginToken, $modelUserSession);
+    return $loginToken;
 }
 
 
