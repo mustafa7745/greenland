@@ -264,28 +264,17 @@ class OrdersProductsExecuter
 
     $order = getOrdersHelper()->getDataById($orderId);
     // 
-    // print_r($order);
-    // exitFromScript("",json_encode($order));
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_STARTED) {
       $situatinId = getOrdersHelper()->ORDER_VIEWD;
       getOrdersHelper()->updateStatus(getId($order), $situatinId);
       getOrdersStatusHelper()->addData(getId($order), $situatinId);
     }
-
-    // $order = getOrdersHelper()->getOrder($order_id);
-    // $currency_id = getOrdersHelper()->getOrderCurrencyId($order);
-    // require_once (getPath() . "app/user_app/projects_currencies/helper.php");
-    // $project_currency = getProjectsCurrenciesHelper()->getDataByCurrencyIdAndProjectId($currency_id, $project_id);
-    // $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff2($orderId);
+    // 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
-    $data = (new \OrderContent())->executeGetData($orderId);
-    // $orderProducts = getOrdersProductsHelper()->getDataByOrderId($orderId);
-    // $delivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
-    // $discount = getOrdersDiscountsHelper()->getDataByOrderId($orderId);
-    // $offers = getOrdersOffersHelper()->getDataByOrderId($orderId);
-
+    $data = (new \OrderContent());
+    $data->executeGetData($orderId);
     shared_execute_sql("COMMIT");
-    return $data;
+    return json_encode($data);
   }
   function executeUpdateQuantity($id, $newValue)
   {
