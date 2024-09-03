@@ -27,7 +27,12 @@ class CollectionsExecuter
         $helper = getOrdersDiscountsHelper();
         $amount = $data->discount[$helper->amount];
         if ($amount == $helper->PERCENTAGE_TYPE) {
+          print_r($amount);
           $discount = ($sum * $amount) / 100;
+          print_r($discount);
+          print_r($sum);
+
+
           $sum = $sum - $discount;
         } else {
           $sum = $sum - $amount;
