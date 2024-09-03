@@ -101,7 +101,7 @@ class OrdersExecuter
     shared_execute_sql("COMMIT");
     require_once __DIR__ . '/../../../include/shared/helper_functions.php';
     $w = new \ApiWhatsapp();
-    $message = "طلب جديد" ;
+    $message = "طلب جديد" . "{$orderProducts['orderId']}";
     $w->sendMessageText("967774519161", $message);
     return $orderProducts;
 
