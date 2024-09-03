@@ -88,6 +88,9 @@ class OrdersExecuter
 
     $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1($orderId);
 
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $orderProducts = (new \OrderContent());
+    $orderProducts->executeGetData($orderId);
     /**
      * ADD INSERTED VALUES TO UserINSERtOperations TABLE
      */
