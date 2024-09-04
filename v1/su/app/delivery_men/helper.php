@@ -25,7 +25,7 @@ class DeliveryMenHelper extends DeliveryMenSql
   }
   function addData($id, $userId)
   {
-    $sql = $this->addSql($id, $userId);
+    $sql = $this->addSql("'$id'", "'$userId'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
