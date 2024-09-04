@@ -8,73 +8,17 @@ require_once "../../../include/token/index.php";
 // To Get Executer
 require_once 'executer.php';
 
-class Products
+class Users
 {
     function read()
     {
-        // checkPermission("READ_GROUPS");
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeGetData();
+        $this->_check("RUN_APP");
+        return getUsersExecuter()->executeGetData(getInputUserPhone3());
     }
-    function add()
-    {
-        // checkPermission("READ_GROUPS");
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        require_once __DIR__ . '/../categories/sql.php';
-        require_once __DIR__ . '/../products_images/sql.php';
-
-        return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
-    }
-    function search()
+    private function _check($permissionName)
     {
         $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeGetDataByNumber(getInputProductNumber());
-    }
-    function updateOrder()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdateOrder(getInputProductId(), getInputProductOrder());
-    }
-    function updateName()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdateName(getInputProductId(), getInputProductName());
-    }
-    function updateNumber()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdateNumber(getInputProductId(), getInputProductNumber());
-    }
-    function updateGroup()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdateGroup(getInputProductId(), getInputProductGroupId());
-    }
-    function updatePostPrice()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdatePostPrice(getInputProductId(), getInputProductPostPrice());
-    }
-    function updateAvailable()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdateAvailable(getInputProductId());
-    }
-    function delete()
-    {
-        $s = getMainRunApp();
-        getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeDeleteData(getIds());
+        getProjectLoginTokenData($permissionName, $s);
     }
 }
-
 

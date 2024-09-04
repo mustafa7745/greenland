@@ -9,6 +9,7 @@ class OffersAttribute
     public $name = "name";
     public $description = "description";
     public $image = "image";
+    public $isEnabled = "isEnabled";
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
     public $expireAt = "expireAt";
