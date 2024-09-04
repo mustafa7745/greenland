@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once __DIR__ . '/../../../include/tables/products/attribute.php';
+require_once __DIR__ . '/../../../include/tables/delivery_men/attribute.php';
 
 
 class DeliveryMenSql extends \DeliveryMenAttribute
