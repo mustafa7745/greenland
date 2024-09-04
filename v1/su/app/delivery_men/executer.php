@@ -24,11 +24,11 @@ class DeliveryMenExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-    $user = getUsersHelper()->getDataById($userId);
+    getUsersHelper()->getDataById($userId);
     $id = uniqid(rand(), false);
-    $helper->addData($id, $userId);
+    $dataAfterAdd = $helper->addData($id, $userId);
     shared_execute_sql("COMMIT");
-    return $user;
+    return $dataAfterAdd;
   }
 }
 
