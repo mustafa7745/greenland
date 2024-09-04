@@ -8,7 +8,11 @@ class DeliveryMenExecuter
 {
   function executeGetData($userId)
   {
-    return getDeliveryMenHelper()->getData($userId);
+    $data = getDeliveryMenHelper()->getData($userId);
+    if (count($data) == 1) {
+      return $data[0];
+    }
+    return null;
   }
 
   function executeAddData($userId)

@@ -7,7 +7,7 @@ class DeliveryMenHelper extends DeliveryMenSql
 {
   function getData($userId)
   {
-    $sql = $this->readSql("'$userId'");
+    $sql = $this->searchSql("'$userId'");
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
