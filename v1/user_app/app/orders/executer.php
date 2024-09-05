@@ -7,7 +7,7 @@ class OrdersExecuter
 {
   function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
   {
-    if (count($orderOffers) and count($order_products)) {
+    if (count($orderOffers) == 0 and count($order_products) == 0) {
       $ar = "يجب وجود منتج على الاقل";
       $en = "";
       exitFromScript($ar, $en);
