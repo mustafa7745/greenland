@@ -8,7 +8,7 @@ class OrdersProductsSql extends \OrdersProductsAttribute
     function readByOrderIdSql($orderId): string
     {
         $table_name = $this->table_name;
-        $columns = "$this->id,$this->productId,$this->productName,$this->productPrice,$this->productQuantity,$this->createdAt,$this->updatedAt,({$this->productPrice} * {$this->productQuantity}) as avg";
+        $columns = "*";
         $innerJoin = "";
         $condition = "$this->orderId = $orderId";
         /////
