@@ -118,7 +118,7 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
     }
 }
 /********/
-require_once (getPath() . 'tables/offers/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_offers/attribute.php';
 
 class OrdersOffersSql extends \OrdersOffersAttribute
 {
