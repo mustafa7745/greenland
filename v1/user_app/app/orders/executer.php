@@ -103,15 +103,18 @@ class OrdersExecuter
     getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $order_price_delivery, $userLocationId);
 
 
-
-    for ($i = 0; $i < count($products); $i++) {
-      $productId = $products[$i][getProductsHelper()->id];
-      $productName = $products[$i][getProductsHelper()->name];
-      $productPrice = $products[$i][getProductsHelper()->postPrice];
-      $productQuantity = getQntFromOrderProducts($order_products, $productId);
-      $id = uniqid(rand(), false);
-      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+    if (count($products) != 0) {
+      for ($i = 0; $i < count($products); $i++) {
+        $productId = $products[$i][getProductsHelper()->id];
+        $productName = $products[$i][getProductsHelper()->name];
+        $productPrice = $products[$i][getProductsHelper()->postPrice];
+        $productQuantity = getQntFromOrderProducts($order_products, $productId);
+        $id = uniqid(rand(), false);
+        getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+      }
     }
+
+
 
 
     for ($i = 0; $i < count($offers); $i++) {
