@@ -5,7 +5,7 @@ require_once (getPath() . 'tables/offers/attribute.php');
 
 class OffersSql extends \OffersAttribute
 {
-   
+
     function readSql(): string
     {
         $date = getCurruntDate();
@@ -15,5 +15,13 @@ class OffersSql extends \OffersAttribute
         $condition = "DATE($this->expireAt) >  DATE('$date')";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-   
+    function readByIdsSql($ids): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = "";
+        $columns = "*";
+        $condition = "$this->table_name.$this->id IN ($ids)";
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+
 }

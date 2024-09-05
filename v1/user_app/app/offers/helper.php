@@ -11,6 +11,12 @@ class OffersHelper extends OffersSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
+  function getDataByIds($ids)
+  {
+    $sql = $this->readByIdsSql($ids);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
 }
 
 $offers_helper = null;

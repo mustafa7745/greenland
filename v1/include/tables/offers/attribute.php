@@ -17,4 +17,6 @@ class OffersAttribute
     {
       return __DIR__ . "/../../images/offers/";
     }
+    
+ 
 }

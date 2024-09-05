@@ -5,23 +5,20 @@ namespace UserApp;
 require_once ('helper.php');
 class OrdersExecuter
 {
-  function executeAddData($userId, $order_products, $projectId, $userLocationId)
+  function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
   {
     $helper = getOrdersHelper();
     // 1) Ch
-    $helper->checkIfhaveOrderNotComplete($userId);
+    shared_execute_sql("START TRANSACTION");
 
-    $ids = [];
+    $helper->checkIfhaveOrderNotComplete($userId);
+    // ***** //Start Products
+    $productsIds = [];
     for ($i = 0; $i < count($order_products); $i++) {
-      array_push($ids, $order_products[$i]["id"]);
+      array_push($productsIds, $order_products[$i]["id"]);
     }
 
-
-    $idsStringSql = convertIdsListToStringSql($ids);
-    /**
-     *  START TRANSACTION FOR SQL
-     */
-    shared_execute_sql("START TRANSACTION");
+    $idsStringSql = convertIdsListToStringSql($productsIds);
 
     require_once __DIR__ . "/../../app/products/helper.php";
     $products = getProductsHelper()->getDataByIds($idsStringSql);
@@ -37,6 +34,31 @@ class OrdersExecuter
       $en = "Product_Count_not_same_ProductsDB";
       exitFromScript($ar, $en);
     }
+    // End Products
+
+    // ***** //Start Offers
+    $offerIds = [];
+    for ($i = 0; $i < count($orderOffers); $i++) {
+      array_push($offerIds, $orderOffers[$i]["id"]);
+    }
+
+    $idsStringSql = convertIdsListToStringSql($offerIds);
+
+    require_once __DIR__ . "/../../app/offers/helper.php";
+    $offers = getOffersHelper()->getDataByIds($idsStringSql);
+
+
+    if (count($offers) == 0) {
+      $ar = "IDS_NOT_HAVE_OffersDB";
+      $en = "IDS_NOT_HAVE_offersDB";
+      exitFromScript($ar, $en);
+    }
+    if (count($offers) != count($ids)) {
+      $ar = "Offer_Count_not_same_ProductsDB";
+      $en = "Offer_Count_not_same_ProductsDB";
+      exitFromScript($ar, $en);
+    }
+    // End Offers
 
 
     /**
@@ -71,22 +93,25 @@ class OrdersExecuter
     getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $order_price_delivery, $userLocationId);
 
 
-    // $order = getOrdersHelper()->getOrder($order_id);
-
-
-
-    $final_sum = 0.0;
+    
     for ($i = 0; $i < count($products); $i++) {
       $productId = $products[$i][getProductsHelper()->id];
       $productName = $products[$i][getProductsHelper()->name];
       $productPrice = $products[$i][getProductsHelper()->postPrice];
-      $final_sum = $final_sum + $productPrice;
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
       $id = uniqid(rand(), false);
       getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
-    $orderProducts = getOrdersProductsHelper()->getOrderProductsByOrderWithItsStuff1($orderId);
+
+    for ($i = 0; $i < count($offers); $i++) {
+      $offerId = $offers[$i][getOffersHelper()->id];
+      $offerName = $offers[$i][getOffersHelper()->name];
+      $offerPrice = $offers[$i][getOffersHelper()->price];
+      $offerQuantity = getQntFromOrderProducts($orderOffers, $offerId);
+      $id = uniqid(rand(), false);
+      getOrdersOffersHelper()->addOrderOffer($id, $orderId, $offerId, $offerName, $offerPrice, $offerQuantity);
+    }
 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
     $orderProducts = (new \OrderContent());

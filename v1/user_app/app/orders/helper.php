@@ -259,3 +259,29 @@ function getOrdersDeliveryHelper()
   }
   return $orders_delivery_helper;
 }
+// 
+class OrdersOffersHelper extends OrdersOffersSql
+{
+
+  function addOrderOffer($id, $orderId, $productId, $productName, $productPrice, $productQuantity)
+  {
+    $sql = $this->addSql("'$id'", "'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED";
+      $en = "DATA_NOT_EFFECTED";
+      exitFromScript($ar, $en);
+    }
+  }
+
+}
+$orders_offers_helper = null;
+function getOrdersOffersHelper()
+{
+  global $orders_offers_helper;
+  if ($orders_offers_helper == null) {
+    $orders_offers_helper = new OrdersOffersHelper();
+  }
+  return $orders_offers_helper;
+}

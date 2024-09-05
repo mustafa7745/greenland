@@ -16,4 +16,5 @@ class OrdersOffersAttribute
     public $offerPrice = "offerPrice";
     public $updatedAt = "updatedAt";
     public $createdAt = "createdAt";
+    
 }
