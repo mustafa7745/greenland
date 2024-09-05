@@ -7,56 +7,66 @@ class OrdersExecuter
 {
   function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
   {
+    if (count($orderOffers) and count($order_products)) {
+      $ar = "يجب وجود منتج على الاقل";
+      $en = "";
+      exitFromScript($ar, $en);
+    }
     $helper = getOrdersHelper();
     // 1) Ch
     shared_execute_sql("START TRANSACTION");
 
     $helper->checkIfhaveOrderNotComplete($userId);
     // ***** //Start Products
-    $productsIds = [];
-    for ($i = 0; $i < count($order_products); $i++) {
-      array_push($productsIds, $order_products[$i]["id"]);
-    }
+    if (count($order_products) != 0) {
+      $productsIds = [];
+      for ($i = 0; $i < count($order_products); $i++) {
+        array_push($productsIds, $order_products[$i]["id"]);
+      }
 
-    $idsStringSql = convertIdsListToStringSql($productsIds);
+      $idsStringSql = convertIdsListToStringSql($productsIds);
 
-    require_once __DIR__ . "/../../app/products/helper.php";
-    $products = getProductsHelper()->getDataByIds($idsStringSql);
+      require_once __DIR__ . "/../../app/products/helper.php";
+      $products = getProductsHelper()->getDataByIds($idsStringSql);
 
 
-    if (count($products) == 0) {
-      $ar = "IDS_NOT_HAVE_ProductsDB";
-      $en = "IDS_NOT_HAVE_ProductsDB";
-      exitFromScript($ar, $en);
-    }
-    if (count($products) != count($ids)) {
-      $ar = "Product_Count_not_same_ProductsDB";
-      $en = "Product_Count_not_same_ProductsDB";
-      exitFromScript($ar, $en);
+      if (count($products) == 0) {
+        $ar = "IDS_NOT_HAVE_ProductsDB";
+        $en = "IDS_NOT_HAVE_ProductsDB";
+        exitFromScript($ar, $en);
+      }
+      if (count($products) != count($ids)) {
+        $ar = "Product_Count_not_same_ProductsDB";
+        $en = "Product_Count_not_same_ProductsDB";
+        exitFromScript($ar, $en);
+      }
+
     }
     // End Products
 
     // ***** //Start Offers
-    $offerIds = [];
-    for ($i = 0; $i < count($orderOffers); $i++) {
-      array_push($offerIds, $orderOffers[$i]["id"]);
-    }
+    if (count($orderOffers) != 0) {
+        $offerIds = [];
+        for ($i = 0; $i < count($orderOffers); $i++) {
+          array_push($offerIds, $orderOffers[$i]["id"]);
+        }
 
-    $idsStringSql = convertIdsListToStringSql($offerIds);
+      $idsStringSql = convertIdsListToStringSql($offerIds);
 
-    require_once __DIR__ . "/../../app/offers/helper.php";
-    $offers = getOffersHelper()->getDataByIds($idsStringSql);
+      require_once __DIR__ . "/../../app/offers/helper.php";
+      $offers = getOffersHelper()->getDataByIds($idsStringSql);
 
 
-    if (count($offers) == 0) {
-      $ar = "IDS_NOT_HAVE_OffersDB";
-      $en = "IDS_NOT_HAVE_offersDB";
-      exitFromScript($ar, $en);
-    }
-    if (count($offers) != count($ids)) {
-      $ar = "Offer_Count_not_same_ProductsDB";
-      $en = "Offer_Count_not_same_ProductsDB";
-      exitFromScript($ar, $en);
+      if (count($offers) == 0) {
+        $ar = "IDS_NOT_HAVE_OffersDB";
+        $en = "IDS_NOT_HAVE_offersDB";
+        exitFromScript($ar, $en);
+      }
+      if (count($offers) != count($ids)) {
+        $ar = "Offer_Count_not_same_ProductsDB";
+        $en = "Offer_Count_not_same_ProductsDB";
+        exitFromScript($ar, $en);
+      }
     }
     // End Offers
 
@@ -93,7 +103,7 @@ class OrdersExecuter
     getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $order_price_delivery, $userLocationId);
 
 
-    
+
     for ($i = 0; $i < count($products); $i++) {
       $productId = $products[$i][getProductsHelper()->id];
       $productName = $products[$i][getProductsHelper()->name];
