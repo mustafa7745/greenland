@@ -35,7 +35,7 @@ class OrdersExecuter
         $en = "IDS_NOT_HAVE_ProductsDB";
         exitFromScript($ar, $en);
       }
-      if (count($products) != count($ids)) {
+      if (count($products) != count($productsIds)) {
         $ar = "Product_Count_not_same_ProductsDB";
         $en = "Product_Count_not_same_ProductsDB";
         exitFromScript($ar, $en);
@@ -46,10 +46,10 @@ class OrdersExecuter
 
     // ***** //Start Offers
     if (count($orderOffers) != 0) {
-        $offerIds = [];
-        for ($i = 0; $i < count($orderOffers); $i++) {
-          array_push($offerIds, $orderOffers[$i]["id"]);
-        }
+      $offerIds = [];
+      for ($i = 0; $i < count($orderOffers); $i++) {
+        array_push($offerIds, $orderOffers[$i]["id"]);
+      }
 
       $idsStringSql = convertIdsListToStringSql($offerIds);
 
@@ -62,7 +62,7 @@ class OrdersExecuter
         $en = "IDS_NOT_HAVE_offersDB";
         exitFromScript($ar, $en);
       }
-      if (count($offers) != count($ids)) {
+      if (count($offers) != count($offerIds)) {
         $ar = "Offer_Count_not_same_ProductsDB";
         $en = "Offer_Count_not_same_ProductsDB";
         exitFromScript($ar, $en);
