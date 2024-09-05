@@ -18,6 +18,7 @@ class OrdersExecuter
 
     $helper->checkIfhaveOrderNotComplete($userId);
     // ***** //Start Products
+    $products = [];
     if (count($order_products) != 0) {
       $productsIds = [];
       for ($i = 0; $i < count($order_products); $i++) {
@@ -45,6 +46,8 @@ class OrdersExecuter
     // End Products
 
     // ***** //Start Offers
+    $offers = [];
+
     if (count($orderOffers) != 0) {
       $offerIds = [];
       for ($i = 0; $i < count($orderOffers); $i++) {
@@ -103,16 +106,15 @@ class OrdersExecuter
     getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $order_price_delivery, $userLocationId);
 
 
-    if (count($products) != 0) {
-      for ($i = 0; $i < count($products); $i++) {
-        $productId = $products[$i][getProductsHelper()->id];
-        $productName = $products[$i][getProductsHelper()->name];
-        $productPrice = $products[$i][getProductsHelper()->postPrice];
-        $productQuantity = getQntFromOrderProducts($order_products, $productId);
-        $id = uniqid(rand(), false);
-        getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
-      }
+    for ($i = 0; $i < count($products); $i++) {
+      $productId = $products[$i][getProductsHelper()->id];
+      $productName = $products[$i][getProductsHelper()->name];
+      $productPrice = $products[$i][getProductsHelper()->postPrice];
+      $productQuantity = getQntFromOrderProducts($order_products, $productId);
+      $id = uniqid(rand(), false);
+      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
+
 
 
 
