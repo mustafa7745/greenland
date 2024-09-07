@@ -12,20 +12,20 @@ class Orders
 
     function add()
     {
-        $this->_check("RUN_APP");
+        $loginToken = $this->_check("RUN_APP");
         require_once __DIR__ . '/../delivery_men/executer.php';
-        return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId(), getInputDeliveryManId());
+        return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId(), getInputDeliveryManId(), $loginToken->managerId);
     }
 
     function addProductToOrder()
     {
-        $this->_check("RUN_APP");
-        return getOrdersProductsExecuter()->executeAddData(getInputOrderId(), getInputProductId(), getInputProductQuantity());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersProductsExecuter()->executeAddData(getInputOrderId(), getInputProductId(), getInputProductQuantity(), $loginToken->managerId);
     }
     function addOfferToOrder()
     {
-        $this->_check("RUN_APP");
-        return getOrdersOffersExecuter()->executeAddData(getInputOrderId(), getInputOfferId(), getInputOfferQuantity());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersOffersExecuter()->executeAddData(getInputOrderId(), getInputOfferId(), getInputOfferQuantity(), $loginToken->managerId);
     }
     function read()
     {
@@ -39,29 +39,29 @@ class Orders
     }
     function updateQuantity()
     {
-        $this->_check("RUN_APP");
-        return getOrdersProductsExecuter()->executeUpdateQuantity(getInputOrderProductId(), getInputProductQuantity());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersProductsExecuter()->executeUpdateQuantity(getInputOrderProductId(), getInputProductQuantity(), $loginToken->managerId);
     }
     function updateOfferQuantity()
     {
-        $this->_check("RUN_APP");
-        return getOrdersOffersExecuter()->executeUpdateQuantity(getInputOrderOfferId(), getInputOfferQuantity());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersOffersExecuter()->executeUpdateQuantity(getInputOrderOfferId(), getInputOfferQuantity(), $loginToken->managerId);
     }
     function updateActualPrice()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDeliveryExecuter()->executeUpdateActualPrice(getInputOrderDeliveryId(), getInputOrderDeliveryActualPrice());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDeliveryExecuter()->executeUpdateActualPrice(getInputOrderDeliveryId(), getInputOrderDeliveryActualPrice(), $loginToken->managerId);
     }
     function updatePrice()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDeliveryExecuter()->executeUpdatePrice(getInputOrderDeliveryId(), getInputOrderDeliveryPrice());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDeliveryExecuter()->executeUpdatePrice(getInputOrderDeliveryId(), getInputOrderDeliveryPrice(), $loginToken->managerId);
     }
     function cencelOrder()
     {
-        $this->_check("RUN_APP");
+        $loginToken = $this->_check("RUN_APP");
         require_once __DIR__ . '/../orders_cenceled/helper.php';
-        return getOrdersProductsExecuter()->executeCencelOrder(getInputOrderId(), getInputOrderCencelDescription());
+        return getOrdersProductsExecuter()->executeCencelOrder(getInputOrderId(), getInputOrderCencelDescription(), $loginToken->managerId);
     }
     function readOrdersOfUsers()
     {
@@ -71,13 +71,13 @@ class Orders
     }
     function delete()
     {
-        $this->_check("RUN_APP");
-        return getOrdersProductsExecuter()->executeDeleteData(getIds());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersProductsExecuter()->executeDeleteData(getIds(), $loginToken->managerId);
     }
     function deleteOffers()
     {
-        $this->_check("RUN_APP");
-        return getOrdersOffersExecuter()->executeDeleteData(getIds());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersOffersExecuter()->executeDeleteData(getIds(), $loginToken->managerId);
     }
     function search()
     {
@@ -86,8 +86,8 @@ class Orders
     }
     function updateSystemOrderNumber()
     {
-        $this->_check("RUN_APP");
-        return getOrdersExecuter()->executeUpdateSystemOrder(getInputOrderId(), getInputOrderSystemNumber());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersExecuter()->executeUpdateSystemOrder(getInputOrderId(), getInputOrderSystemNumber(), $loginToken->managerId);
     }
     function readOrderProducts()
     {
@@ -114,23 +114,23 @@ class Orders
     ////
     function addDiscount()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDiscountsExecuter()->executeAddData(getInputOrderId(), getInputOrderDiscountAmount(), getInputOrderDiscountType());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDiscountsExecuter()->executeAddData(getInputOrderId(), getInputOrderDiscountAmount(), getInputOrderDiscountType(), $loginToken->managerId);
     }
     function updateType()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDiscountsExecuter()->executeUpdateType(getInputOrderId(), getInputOrderDiscountId(), getInputOrderDiscountType());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDiscountsExecuter()->executeUpdateType(getInputOrderId(), getInputOrderDiscountId(), getInputOrderDiscountType(), $loginToken->managerId);
     }
     function updateAmount()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDiscountsExecuter()->executeUpdateAmount(getInputOrderId(), getInputOrderDiscountId(), getInputOrderDiscountAmount());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDiscountsExecuter()->executeUpdateAmount(getInputOrderId(), getInputOrderDiscountId(), getInputOrderDiscountAmount(), $loginToken->managerId);
     }
     function deleteOrderDiscount()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDiscountsExecuter()->executeDeleteData(getInputOrderDiscountId());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDiscountsExecuter()->executeDeleteData(getInputOrderId(), getInputOrderDiscountId(), $loginToken->managerId);
     }
 
     private function _check($permissionName)

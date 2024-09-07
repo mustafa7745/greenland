@@ -6,7 +6,7 @@ require_once ('sql.php');
 require_once ('helper.php');
 class OrdersExecuter extends OrdersSql
 {
-  function executeAddData($userId, $order_products, $projectId, $userLocationId, $deliveryManId)
+  function executeAddData($userId, $order_products, $projectId, $userLocationId, $deliveryManId, $managerId)
   {
     $helper = getOrdersHelper();
     $helper->checkIfhaveOrderNotComplete($userId);
@@ -45,7 +45,7 @@ class OrdersExecuter extends OrdersSql
 
     $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
     getOrdersHelper()->addOrder($orderId, $userId);
-
+    getOrdersHelper()->updateManagerId($orderId, $managerId);
 
 
 
@@ -128,12 +128,14 @@ class OrdersExecuter extends OrdersSql
     $data = getOrdersHelper()->searchDataById($orderId);
     return $data;
   }
-  function executeUpdateSystemOrder($orderId, $systemOrderNumber)
+  function executeUpdateSystemOrder($orderId, $systemOrderNumber,$managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
     getOrdersHelper()->updateSystemOrderNumber($orderId, $systemOrderNumber);
     $situatinId = getOrdersHelper()->ORDER_PREPARING;
     getOrdersHelper()->updateStatus($orderId, $situatinId);
@@ -143,7 +145,7 @@ class OrdersExecuter extends OrdersSql
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    $order = getOrdersHelper()->getDataById($orderId);
+    // $order = getOrdersHelper()->getDataById($orderId);
     $userId = $order[getOrdersHelper()->userId];
     require_once __DIR__ . '/../../app/users/helper.php';
     $user = getUsersHelper()->getDataById($userId);
@@ -184,13 +186,15 @@ function getOrdersExecuter()
 /********/
 class OrdersProductsExecuter
 {
-  function executeAddData($orderId, $productId, $productQuantity)
+  function executeAddData($orderId, $productId, $productQuantity, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
       $en = "هذا الطلب تم انجازه";
@@ -214,7 +218,7 @@ class OrdersProductsExecuter
     return $data;
 
   }
-  function executeCencelOrder($orderId, $description)
+  function executeCencelOrder($orderId, $description, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -223,6 +227,7 @@ class OrdersProductsExecuter
 
     $order = getOrdersHelper()->getDataById($orderId);
     // 
+    checkOrderOwner($order, $managerId);
 
 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
@@ -264,13 +269,14 @@ class OrdersProductsExecuter
     shared_execute_sql("START TRANSACTION");
 
     $order = getOrdersHelper()->getDataById($orderId);
-    checkOrderOwner($order, $managerId);
+    // checkOrderOwner($order, $managerId);
 
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_STARTED) {
       $situatinId = getOrdersHelper()->ORDER_VIEWD;
       getOrdersHelper()->updateStatus(getId($order), $situatinId);
       getOrdersStatusHelper()->addData(getId($order), $situatinId);
+      getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
     }
     // 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
@@ -279,7 +285,7 @@ class OrdersProductsExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
-  function executeUpdateQuantity($id, $newValue)
+  function executeUpdateQuantity($id, $newValue, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -287,6 +293,7 @@ class OrdersProductsExecuter
     shared_execute_sql("START TRANSACTION");
     $orderProduct = getOrdersProductsHelper()->getDataById($id);
     $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -304,15 +311,19 @@ class OrdersProductsExecuter
   {
     return getOrdersHelper()->getDataByUserId($userId);
   }
-  function executeDeleteData($ids)
+  function executeDeleteData($ids, $managerId)
   {
     $idsString = convertIdsListToStringSql($ids);
+
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
     $orderProduct = getOrdersProductsHelper()->getDataById($ids[0]);
     $order = getOrdersHelper()->getDataById($orderProduct[getOrdersProductsHelper()->orderId]);
+
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -339,13 +350,15 @@ function getOrdersProductsExecuter()
 
 class OrdersOffersExecuter
 {
-  function executeAddData($orderId, $offerId, $offerQuantity)
+  function executeAddData($orderId, $offerId, $offerQuantity, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
       $en = "هذا الطلب تم انجازه";
@@ -369,7 +382,7 @@ class OrdersOffersExecuter
     return $data;
 
   }
-  function executeUpdateQuantity($id, $newValue)
+  function executeUpdateQuantity($id, $newValue, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -377,6 +390,8 @@ class OrdersOffersExecuter
     shared_execute_sql("START TRANSACTION");
     $orderOffer = getOrdersOffersHelper()->getDataById($id);
     $order = getOrdersHelper()->getDataById($orderOffer[getOrdersOffersHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -389,7 +404,7 @@ class OrdersOffersExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
-  function executeDeleteData($ids)
+  function executeDeleteData($ids, $managerId)
   {
     $idsString = convertIdsListToStringSql($ids);
     /**
@@ -398,6 +413,8 @@ class OrdersOffersExecuter
     shared_execute_sql("START TRANSACTION");
     $orderOffers = getOrdersOffersHelper()->getDataById($ids[0]);
     $order = getOrdersHelper()->getDataById($orderOffers[getOrdersOffersHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -465,7 +482,7 @@ class OrdersDeliveryExecuter
     $data = getOrdersDeliveryHelper()->getDataUncollected($deliveryManId);
     return $data;
   }
-  function executeUpdateActualPrice($id, $newValue)
+  function executeUpdateActualPrice($id, $newValue, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -473,6 +490,8 @@ class OrdersDeliveryExecuter
     shared_execute_sql("START TRANSACTION");
     $orderDelivery = getOrdersDeliveryHelper()->getDataById($id);
     $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -485,7 +504,7 @@ class OrdersDeliveryExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
-  function executeUpdatePrice($id, $newValue)
+  function executeUpdatePrice($id, $newValue, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -493,6 +512,8 @@ class OrdersDeliveryExecuter
     shared_execute_sql("START TRANSACTION");
     $orderDelivery = getOrdersDeliveryHelper()->getDataById($id);
     $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -518,10 +539,12 @@ function getOrdersDeliveryExecuter()
 // 
 class OrdersDiscountsExecuter
 {
-  function executeAddData($orderId, $amount, $type)
+  function executeAddData($orderId, $amount, $type, $managerId)
   {
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -534,10 +557,11 @@ class OrdersDiscountsExecuter
 
     return $dataAfterAdd;
   }
-  function executeUpdateType($orderId, $id, $type)
+  function executeUpdateType($orderId, $id, $type, $managerId)
   {
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -548,10 +572,12 @@ class OrdersDiscountsExecuter
     shared_execute_sql("COMMIT");
     return $updatedData;
   }
-  function executeUpdateAmount($orderId, $id, $amount)
+  function executeUpdateAmount($orderId, $id, $amount, $managerId)
   {
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
@@ -562,9 +588,14 @@ class OrdersDiscountsExecuter
     shared_execute_sql("COMMIT");
     return $updatedData;
   }
-  function executeDeleteData($id)
+  function executeDeleteData($orderId, $orderDiscountId, $managerId)
   {
-    return getOrdersDiscountsHelper()->deleteData($id);
+    shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+    getOrdersDiscountsHelper()->deleteData($orderDiscountId);
+    shared_execute_sql("COMMIT");
+    return;
   }
 
 }
@@ -588,7 +619,5 @@ function checkOrderOwner($order, $managerId)
       $en = "هذا الطلب تم تعيينه لكاشيير اخر";
       exitFromScript($ar, $en);
     }
-  } else {
-    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
   }
 }
