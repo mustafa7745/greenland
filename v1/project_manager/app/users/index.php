@@ -22,8 +22,8 @@ class Users
     }
     function add()
     {
-        $this->_check("RUN_APP");
-        return getUsersExecuter()->executeAddData(getInputUserName(), getInputUserPhone3());
+        $loginToken = $this->_check("RUN_APP");
+        return getUsersExecuter()->executeAddData(getInputUserName(), getInputUserPhone3(), $loginToken->managerId);
     }
     function updateName()
     {
@@ -39,7 +39,7 @@ class Users
     private function _check($permissionName)
     {
         $s = getMainRunApp();
-        getManagerLoginToken($permissionName, $s);
+        return getManagerLoginToken($permissionName, $s);
     }
 }
 
