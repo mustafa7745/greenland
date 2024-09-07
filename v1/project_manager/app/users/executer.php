@@ -12,13 +12,18 @@ class UsersExecuter
   {
     return getUsersHelper()->getDataById($id);
   }
-  function executeAddData($name, $phone)
+  function executeAddData($name, $phone, $managerId)
   {
+    shared_execute_sql("START TRANSACTION");
     $user = getUsersHelper()->getData2($phone);
     if ($user == null) {
       $id = uniqid(rand(), false);
       $password = generateRandomPassword();
-      return getUsersHelper()->addData($id, $phone, $name, $password);
+      $user = getUsersHelper()->addData($id, $phone, $name, $password);
+      $id = uniqid(rand(), false);
+      getManagersUsersHelper()->addData($id, $user['id'], $managerId);
+      shared_execute_sql("COMMIT");
+      return $user;
     }
     $ar = "ايوجد مستخدم برقم الهاتف هذا";
     $en = "ايوجد مستخدم برقم الهاتف هذا";
