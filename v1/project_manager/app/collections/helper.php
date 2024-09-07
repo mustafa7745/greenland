@@ -5,21 +5,21 @@ require_once 'sql.php';
 // 
 class CollectionsHelper extends CollectionsSql
 {
-  function getData($deliveryManId)
+  function getData($deliveryManId, $managerId)
   {
-    $sql = $this->readSql("'$deliveryManId'");
+    $sql = $this->readSql("'$deliveryManId'", "'$managerId'");
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
-  function getDataByIds($ids)
+  function getDataByIds($ids, $managerId)
   {
-    $sql = $this->readByIdsSql($ids);
+    $sql = $this->readByIdsSql($ids, "'$managerId'");
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
-  function updateIsCollect($ids, $count)
+  function updateIsCollect($ids, $count, $managerId)
   {
-    $sql = $this->updateIsCollectSql($ids);
+    $sql = $this->updateIsCollectSql($ids, "'$managerId'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != $count) {
       shared_execute_sql("rollback");

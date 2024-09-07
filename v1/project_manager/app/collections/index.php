@@ -12,20 +12,20 @@ class Collections
 {
     function read()
     {
-        $this->_check("RUN_APP");
-        return getCollectionsExecuter()->executeGetData(getInputDeliveryManId());
+        $loginToken = $this->_check("RUN_APP");
+        return getCollectionsExecuter()->executeGetData(getInputDeliveryManId(), $loginToken->managerId);
     }
     function collect()
     {
-        $this->_check("RUN_APP");
-        return getCollectionsExecuter()->executeCollectData(getIds());
+        $loginToken = $this->_check("RUN_APP");
+        return getCollectionsExecuter()->executeCollectData(getIds(),$loginToken->managerId);
     }
     private function _check($permissionName)
     {
         $s = getMainRunApp();
-        getManagerLoginToken($permissionName, $s);
+        return getManagerLoginToken($permissionName, $s);
     }
-    
+
 }
 
 
