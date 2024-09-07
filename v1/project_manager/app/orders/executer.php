@@ -224,6 +224,7 @@ class OrdersProductsExecuter
     $order = getOrdersHelper()->getDataById($orderId);
     // 
 
+
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
       $ar = "هذا الطلب تم انجازه";
       $en = "هذا الطلب تم انجازه";
@@ -255,7 +256,7 @@ class OrdersProductsExecuter
     shared_execute_sql("COMMIT");
     return ['success' => 'true'];
   }
-  function executeGetData($orderId)
+  function executeGetData($orderId, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -263,6 +264,8 @@ class OrdersProductsExecuter
     shared_execute_sql("START TRANSACTION");
 
     $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+
     // 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_STARTED) {
       $situatinId = getOrdersHelper()->ORDER_VIEWD;
@@ -575,3 +578,18 @@ function getOrdersDiscountsExecuter()
   return $orders_discounts_executer;
 }
 
+
+// SHARED
+function checkOrderOwner($order, $managerId)
+{
+  if ($order[getOrdersHelper()->managerId] != null) {
+    if ($order[getOrdersHelper()->managerId] != $managerId) {
+      $ar = "هذا الطلب تم تعيينه لكاشيير اخر";
+      $en = "هذا الطلب تم تعيينه لكاشيير اخر";
+      exitFromScript($ar, $en);
+    }
+  }
+  else{
+    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->managerId], $managerId);
+  }
+}

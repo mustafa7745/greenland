@@ -91,8 +91,8 @@ class Orders
     }
     function readOrderProducts()
     {
-        $this->_check("RUN_APP");
-        return getOrdersProductsExecuter()->executeGetData(getInputOrderId());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersProductsExecuter()->executeGetData(getInputOrderId(), $loginToken->managerId);
     }
     function readOrderCenceled()
     {

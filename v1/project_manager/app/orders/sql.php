@@ -80,6 +80,15 @@ class OrdersSql extends \OrdersAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+    protected function updateManagerIdSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->managerId = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
 
     protected function updateSystemOrderNumberSql($id, $newValue): string
     {
