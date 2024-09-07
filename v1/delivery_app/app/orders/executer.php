@@ -59,8 +59,9 @@ class OrdersExecuter
         $sum = $sum - $amount;
       }
     }
+    $managerId = $order[getOrdersHelper()->managerId];
     require_once __DIR__ . '/../collections/helper.php';
-    getCollectionsHelper()->addData($orderId, $deliveryManId, $sum);
+    getCollectionsHelper()->addData($orderId, $deliveryManId, $managerId, $sum);
     shared_execute_sql("COMMIT");
     return ["success" => "false"];
   }
