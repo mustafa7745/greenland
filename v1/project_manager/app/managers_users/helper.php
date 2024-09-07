@@ -12,8 +12,8 @@ class ManagersUsersHelper extends ManagersUsersSql
     $data = shared_execute_read1_no_json_sql($sql);
 
     if (count($data) != 1) {
-      $ar = $this->name . "_ID_ERROR";
-      $en = $this->name . "_ID_ERROR";
+      $ar = "MANAGER_USER_ID_ERROR";
+      $en = "MANAGER_USER_ID_ERROR";
       exitFromScript($ar, $en);
     }
     return $data[0];
@@ -30,7 +30,7 @@ class ManagersUsersHelper extends ManagersUsersSql
     }
     return $this->getDataById($id);
   }
- 
+
 }
 
 $users_helper = null;
