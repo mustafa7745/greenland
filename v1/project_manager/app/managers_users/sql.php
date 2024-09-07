@@ -1,7 +1,7 @@
 <?php
 namespace Manager;
 
-require_once (getPath() . 'tables/users_managers/attribute.php');
+require_once (getPath() . 'tables/managers_users/attribute.php');
 
 class ManagersUsersSql extends \ManagersUsersAttribute
 {
