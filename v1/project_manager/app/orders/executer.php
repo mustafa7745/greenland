@@ -588,8 +588,7 @@ function checkOrderOwner($order, $managerId)
       $en = "هذا الطلب تم تعيينه لكاشيير اخر";
       exitFromScript($ar, $en);
     }
-  }
-  else{
-    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->managerId], $managerId);
+  } else {
+    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
   }
 }
