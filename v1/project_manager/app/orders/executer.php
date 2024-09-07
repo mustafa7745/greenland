@@ -128,7 +128,7 @@ class OrdersExecuter extends OrdersSql
     $data = getOrdersHelper()->searchDataById($orderId);
     return $data;
   }
-  function executeUpdateSystemOrder($orderId, $systemOrderNumber,$managerId)
+  function executeUpdateSystemOrder($orderId, $systemOrderNumber, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -228,6 +228,11 @@ class OrdersProductsExecuter
     $order = getOrdersHelper()->getDataById($orderId);
     // 
     checkOrderOwner($order, $managerId);
+    if ($order[getOrdersHelper()->managerId] == null) {
+      getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
+    }
+
+    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
 
 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
