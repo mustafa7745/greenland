@@ -7,6 +7,7 @@ class OrdersAttribute
   public $table_name = "orders";
   public $id = "id";
   public $userId = "userId";
+  public $managerId = "managerId";
   public $situationId = "situationId";
   public $code = "code";
   public $systemOrderNumber = "systemOrderNumber";

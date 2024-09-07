@@ -29,8 +29,8 @@ class Orders
     }
     function read()
     {
-        $this->_check("RUN_APP");
-        return getOrdersExecuter()->executeGetData();
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersExecuter()->executeGetData($loginToken->managerId);
     }
     function readOrderDelivery()
     {
@@ -136,7 +136,7 @@ class Orders
     private function _check($permissionName)
     {
         $s = getMainRunApp();
-        getManagerLoginToken($permissionName, $s);
+        return getManagerLoginToken($permissionName, $s);
     }
 
 

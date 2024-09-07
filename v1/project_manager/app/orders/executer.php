@@ -116,9 +116,9 @@ class OrdersExecuter extends OrdersSql
 
   }
   /********/
-  function executeGetData()
+  function executeGetData($managerId)
   {
-    $data = getOrdersHelper()->getData();
+    $data = getOrdersHelper()->getData($managerId);
     return $data;
   }
   // 

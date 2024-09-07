@@ -56,9 +56,9 @@ class OrdersHelper extends OrdersSql
     }
     return $data[0];
   }
-  function getData()
+  function getData($managerId)
   {
-    $sql = $this->readSql();
+    $sql = $this->readSql("'$managerId'");
     // print_r($sql);
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
