@@ -91,6 +91,10 @@ class ThisClass
             return $this->updatePrice();
         }
         // 
+        elseif (getTag() == "updateUserLocation") {
+            return $this->updateUserLocation();
+        }
+        // 
         elseif (getTag() == "cencelOrder") {
             return $this->cencelOrder();
         }
@@ -218,6 +222,11 @@ class ThisClass
     private function updatePrice(): string
     {
         $resultData = $this->controller->updatePrice();
+        return json_encode($resultData);
+    }
+    private function updateUserLocation(): string
+    {
+        $resultData = $this->controller->updateUserLocation();
         return json_encode($resultData);
     }
     private function cencelOrder(): string
