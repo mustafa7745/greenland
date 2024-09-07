@@ -21,6 +21,7 @@ class UsersExecuter
       $password = generateRandomPassword();
       $user = getUsersHelper()->addData($id, $phone, $name, $password);
       $id = uniqid(rand(), false);
+      require_once __DIR__ . '/../managers_users/helper.php';
       getManagersUsersHelper()->addData($id, $user['id'], $managerId);
       shared_execute_sql("COMMIT");
       return $user;
