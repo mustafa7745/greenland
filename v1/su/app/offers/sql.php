@@ -8,7 +8,7 @@ class OffersSql extends \OffersAttribute
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
-        $columns = "*";
+        $columns = getColumnImagePath(" * ", "offer_image_path");
         $innerJoin = "";
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
