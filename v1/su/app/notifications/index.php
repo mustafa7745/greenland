@@ -12,10 +12,15 @@ class Notifications
 {
     function add()
     {
-        // $s = getMainRunApp();
-        // $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        // $deliveryManId = $modelDeliveryManLoginTokenUserSession->modeDeliveryManLoginToken->deliveryManId;
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
         return getNotificationsExecuter()->executeAddData(getInputNotificationTitle(), getInputNotificationDescription());
+    }
+    function read()
+    {
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getNotificationsExecuter()->executeGetData();
     }
 }
 

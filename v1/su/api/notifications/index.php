@@ -21,6 +21,8 @@ class ThisClass
     {
         if (getTag() == "add") {
             return $this->add();
+        } elseif (getTag() == "read") {
+            return $this->read();
         } else {
             UNKOWN_TAG();
         }
@@ -29,6 +31,12 @@ class ThisClass
     private function add(): string
     {
         $resultData = $this->controller->add();
+        return json_encode($resultData);
+
+    }
+    private function read(): string
+    {
+        $resultData = $this->controller->read();
         return json_encode($resultData);
 
     }

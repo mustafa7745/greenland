@@ -13,6 +13,10 @@ class NotificationsExecuter
     }
     exitFromScript("CONT SEND FCM", "CANT");
   }
+  function executeGetData()
+  {
+    return getNotificationsHelper()->getData();
+  }
 
 
 }
