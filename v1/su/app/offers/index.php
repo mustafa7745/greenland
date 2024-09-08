@@ -42,7 +42,7 @@ class Offers
     {
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        return getOffersExecuter()->executeUpdatePrice(getInputOfferId(), getInputOfferDescription());
+        return getOffersExecuter()->executeUpdatePrice(getInputOfferId(), getInputOfferPrice());
     }
     function updateEnabled()
     {
