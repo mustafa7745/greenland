@@ -16,7 +16,7 @@ class OffersSql extends \OffersAttribute
     function readSql(): string
     {
         $table_name = $this->table_name;
-        $columns = getColumnImagePath(" * ", "offer_image_path");
+        $columns = getColumnImagePath(" * ", "offer_image_path2");
         $innerJoin = "";
         $condition = "1";
         return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->createdAt,$this->updatedAt", "ASC", $condition, 5);
