@@ -9,19 +9,27 @@ require_once "../../../include/token/index.php";
 require_once 'executer.php';
 class Orders
 {
+    function read()
+    {
+        $loginToken = $this->_check();
+        $deliveryManId = $loginToken->deliveryManId;
+        return getOrdersExecuter()->executeGetData($deliveryManId);
+    }
     function orderOnRoad()
     {
-        $s = getMainRunApp();
-        $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        $modelDeliveryManLoginTokenUserSession->deliveryManId;
+        $loginToken = $this->_check();
         return getOrdersExecuter()->executeOrderInRoad(getInputOrderId());
     }
     function checkCode()
     {
-        $s = getMainRunApp();
-        $modelDeliveryManLoginTokenUserSession = getDeliveryManLoginToken("RUN_APP", $s);
-        $deliveryManId = $modelDeliveryManLoginTokenUserSession->deliveryManId;
+        $loginToken = $this->_check();
+        $deliveryManId = $loginToken->deliveryManId;
         return getOrdersExecuter()->executeCheckCode($deliveryManId, getInputOrderId(), getInputOrderCode());
+    }
+    private function _check()
+    {
+        $s = getMainRunApp();
+        return getDeliveryManLoginToken("RUN_APP", $s);
     }
 
 }

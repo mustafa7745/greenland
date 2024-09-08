@@ -166,6 +166,12 @@ function getOrdersStatusHelper()
 // 
 class OrdersDeliveryHelper extends OrdersDeliverySql
 {
+  function getDataByDeliveryManId($deliveryManId)
+  {
+    $sql = $this->readByDeliveryManIdSql("'$deliveryManId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
 
   function getDataById($id)
   {

@@ -4,6 +4,11 @@ namespace DeliveryMen;
 require_once ('helper.php');
 class OrdersExecuter
 {
+
+  function executeGetData($deliveryManId)
+  {
+    return getOrdersDeliveryHelper()->getDataByDeliveryManId($deliveryManId);
+  }
   function executeOrderInRoad($orderId)
   {
     /**

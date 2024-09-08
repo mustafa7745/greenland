@@ -134,7 +134,7 @@ class OrdersStatusSql extends \OrdersStatusAttribute
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
         $columns = "$this->table_name.$this->id, $this->table_name.$this->orderId, $this->table_name.$this->createdAt,{$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
-        $condition = "$this->orderId = $orderId";
+        $condition = "$this->orderId = $orderId AND ($this->situationId <> 1 AND $this->situationId <> 2)";
         /////
         return shared_read_order_sql($table_name, $columns, $innerJoin, $condition, "{$this->table_name}" . "." . "{$this->createdAt}", "ASC");
     }
@@ -144,6 +144,17 @@ require_once (getPath() . 'tables/orders_delivery/attribute.php');
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
+    function readByDeliveryManIdSql($deliveryManId): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = $this->INNER_JOIN();
+        $situationId = "{$this->orders_attribute->table_name}.{$this->orders_attribute->situationId}";
+        $columns = "$this->table_name.$this->id , $this->table_name.$this->orderId , $this->table_name.$this->actualPrice , $this->table_name.$this->userLocationId , {$this->orders_attribute->table_name}.{$this->orders_attribute->userId} , $situationId , {$this->orders_attribute->table_name}.{$this->orders_attribute->systemOrderNumber}";
+        $condition = "$this->table_name.$this->deliveryManId = $deliveryManId AND ($situationId <> 1 AND $situationId <> 2)";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+
     function addSql($orderId, $price, $userLocationId): string
     {
         $date = getCurruntDate();

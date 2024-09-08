@@ -487,11 +487,7 @@ class OrdersDeliveryExecuter
     return $orderDelivery;
     // return $data;
   }
-  function executeGetUncollectedOrders($deliveryManId)
-  {
-    $data = getOrdersDeliveryHelper()->getDataUncollected($deliveryManId);
-    return $data;
-  }
+ 
   function executeUpdateActualPrice($id, $newValue, $managerId)
   {
     /**

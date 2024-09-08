@@ -293,15 +293,6 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function readByDeliveryManIdAndIsCollectSql($deliveryManId, $isCollect): string
-    {
-        $table_name = $this->table_name;
-        $columns = "*";
-        $innerJoin = "";
-        $condition = "$this->deliveryManId = $deliveryManId AND $this->isCollect = $isCollect";
-        /////
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
-    }
 
     function readByOrderIdSql($orderId): string
     {

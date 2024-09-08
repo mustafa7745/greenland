@@ -35,7 +35,7 @@ class Orders
     function readOrderDelivery()
     {
         $loginToken = $this->_check("RUN_APP");
-        return getOrdersDeliveryExecuter()->executeGetData(getInputOrderId(),$loginToken->managerId);
+        return getOrdersDeliveryExecuter()->executeGetData(getInputOrderId(), $loginToken->managerId);
     }
     function updateQuantity()
     {
@@ -105,11 +105,7 @@ class Orders
         require_once __DIR__ . '/../orders_cenceled/helper.php';
         return getOrdersCenceledHelper()->getDataByOrderId(getInputOrderId());
     }
-    function readUncollectedOrders()
-    {
-        $this->_check("RUN_APP");
-        return getOrdersDeliveryExecuter()->executeGetUncollectedOrders(getInputDeliveryManId());
-    }
+
     function readOrderStatus()
     {
         $this->_check("RUN_APP");

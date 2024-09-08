@@ -157,11 +157,7 @@ class ThisClass
         $resultData = $this->controller->readOrderCenceled();
         return json_encode($resultData);
     }
-    private function readOrderreadUncollectedOrdersProducts(): string
-    {
-        $resultData = $this->controller->readUncollectedOrders();
-        return json_encode($resultData);
-    }
+   
     private function readOrderStatus(): string
     {
         $resultData = $this->controller->readOrderStatus();

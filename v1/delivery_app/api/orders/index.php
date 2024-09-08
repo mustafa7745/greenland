@@ -17,7 +17,9 @@ class ThisClass
 
     function main(): string
     {
-        if (getTag() == "orderOnRoad") {
+        if (getTag() == "read") {
+            return $this->read();
+        } elseif (getTag() == "orderOnRoad") {
             return $this->orderOnRoad();
         } elseif (getTag() == "checkCode") {
             return $this->checkCode();
@@ -27,6 +29,12 @@ class ThisClass
     }
     //Main Functin CRUD
 
+    private function read(): string
+    {
+        $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
     private function orderOnRoad(): string
     {
         $resultData = $this->controller->orderOnRoad();
