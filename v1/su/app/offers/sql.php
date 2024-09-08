@@ -19,7 +19,8 @@ class OffersSql extends \OffersAttribute
         $columns = getColumnImagePath(" * ", "offer_image_path");
         $innerJoin = "";
         $condition = "1";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->createdAt,$this->updatedAt", "DESC", $condition, 10);
+
     }
     function addSql($id, $name, $description, $image, $price, $expireAt): string
     {
