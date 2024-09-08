@@ -48,7 +48,7 @@ class OffersHelper extends OffersSql
   }
   function updatePrice($id, $newValue)
   {
-    $sql = $this->updateNameSql("'$id'", "'$newValue'");
+    $sql = $this->updatePriceSql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Price";
