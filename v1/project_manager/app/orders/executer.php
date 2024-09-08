@@ -232,7 +232,7 @@ class OrdersProductsExecuter
     //   getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
     // }
 
-    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
+    // getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
 
 
     if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
@@ -647,4 +647,13 @@ function checkOrderOwner($order, $managerId)
       exitFromScript($ar, $en);
     }
   }
+  else{
+     getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
+  }
 }
+// function updateManagerId($order, $managerId)
+// {
+//   if ($order[getOrdersHelper()->managerId] == null) {
+   
+//   }
+// }
