@@ -281,7 +281,9 @@ class OrdersProductsExecuter
       $situatinId = getOrdersHelper()->ORDER_VIEWD;
       getOrdersHelper()->updateStatus(getId($order), $situatinId);
       getOrdersStatusHelper()->addData(getId($order), $situatinId);
-      getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
+      if ($order[getOrdersHelper()->managerId] == null) {
+        getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
+      }
     }
     // 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
