@@ -20,8 +20,8 @@ class AdsSql extends \AdsAttribute
         ;
         $innerJoin = "";
         $condition = "1";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
-        // return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 10);
+        // return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 10);
 
     }
     function addSql($id, $description, $image): string
