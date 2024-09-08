@@ -20,6 +20,7 @@ class OffersHelper extends OffersSql
       $en = $this->name . "_ID_ERROR";
       exitFromScript($ar, $en);
     }
+    $data[0]['image'] = $data[0]['offer_image_path'] . $data[0]['image'];
     return $data[0];
   }
   function updateName($id, $newValue)
