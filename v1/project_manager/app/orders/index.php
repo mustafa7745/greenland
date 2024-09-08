@@ -34,8 +34,8 @@ class Orders
     }
     function readOrderDelivery()
     {
-        $this->_check("RUN_APP");
-        return getOrdersDeliveryExecuter()->executeGetData(getInputOrderId());
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDeliveryExecuter()->executeGetData(getInputOrderId(),$loginToken->managerId);
     }
     function updateQuantity()
     {

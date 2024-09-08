@@ -466,9 +466,12 @@ function getOrdersStatusExecuter()
 // 
 class OrdersDeliveryExecuter
 {
-  function executeGetData($orderId)
+  function executeGetData($orderId, $managerId)
   {
+    shared_execute_sql("START TRANSACTION");
     $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
+    $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
     require_once __DIR__ . "/../acceptance/helper.php";
     $acceptance = getAcceptanceHelper()->getData($orderDelivery[getOrdersDeliveryHelper()->id]);
     // if ($acceptance != null) {
@@ -477,7 +480,7 @@ class OrdersDeliveryExecuter
     //   $user = getUsersHelper()->getDataById($userId);
     //   $acceptance["deliveryMan"] = $deliveryMan;
     // }
-
+    shared_execute_sql("COMMIT");
     $orderDelivery['acceptance'] = $acceptance;
     return $orderDelivery;
     // return $data;
@@ -646,14 +649,13 @@ function checkOrderOwner($order, $managerId)
       $en = "هذا الطلب تم تعيينه لكاشيير اخر";
       exitFromScript($ar, $en);
     }
-  }
-  else{
-     getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
+  } else {
+    getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
   }
 }
 // function updateManagerId($order, $managerId)
 // {
 //   if ($order[getOrdersHelper()->managerId] == null) {
-   
+
 //   }
 // }
