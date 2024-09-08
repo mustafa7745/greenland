@@ -30,6 +30,6 @@ class NotificationsSql extends \NotificationsAttribute
         $innerJoin = "";
         $condition = "1";
         /////
-        return shared_read_limit2_sql($table_name, $columns, $innerJoin, $this->createdAt, "DESC", $condition, 10);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, $this->createdAt, "DESC", $condition, 5);
     }
 }
