@@ -133,9 +133,7 @@ class ProductsExecuter
     shared_execute_sql("START TRANSACTION");
     $data = getProductsHelper()->getDataById($id);
     $prePrice = $data[getProductsHelper()->postPrice];
-    if ($newValue > $prePrice) {
-      $dataAfterUpdate = getProductsHelper()->updatePrePrice($id, $prePrice);
-    }
+    getProductsHelper()->updatePrePrice($id, $prePrice);
     $dataAfterUpdate = getProductsHelper()->updatePostPrice($id, $newValue);
     /**
      * COMMIT
