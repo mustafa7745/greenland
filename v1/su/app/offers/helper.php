@@ -57,6 +57,18 @@ class OffersHelper extends OffersSql
     return $this->getDataById($id);
 
   }
+  function updateEnabled($id)
+  {
+    $sql = $this->updateEnabledSql("'$id'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+
+  }
 
   function addData($id, $name, $description, $price, $image, $expireAt)
   {

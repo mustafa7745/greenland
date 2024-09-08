@@ -8,7 +8,7 @@ class AdsSql extends \AdsAttribute
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
-        $columns = "*";
+        $columns = getColumnImagePath(" * ", "ads_image_path");
         $innerJoin = "";
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
@@ -16,10 +16,13 @@ class AdsSql extends \AdsAttribute
     function readSql(): string
     {
         $table_name = $this->table_name;
-        $columns = "*";
+        $columns = getColumnImagePath(" * ", "ads_image_path");
+        ;
         $innerJoin = "";
         $condition = "1";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        // return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 10);
+
     }
     function addSql($id, $description, $image): string
     {
@@ -39,11 +42,11 @@ class AdsSql extends \AdsAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
-    protected function updateIsEnabledSql($id, $newValue): string
+    protected function updateIsEnabledSql($id): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->isEnabled = $newValue, $this->updatedAt = '$date'";
+        $set_query = "SET $this->isEnabled = NOT $this->isEnabled, $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);

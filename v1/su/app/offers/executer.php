@@ -64,6 +64,14 @@ class OffersExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
+  function executeUpdateEnabled($id)
+  {
+    shared_execute_sql("START TRANSACTION");
+    getOffersHelper()->getDataById($id);
+    $dataAfterUpdate = getOffersHelper()->updateEnabled($id);
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
 
 }
 

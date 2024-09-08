@@ -22,9 +22,9 @@ class AdsHelper extends AdsSql
     }
     return $data[0];
   }
-  function updateIsEnabled($id, $newValue)
+  function updateIsEnabled($id)
   {
-    $sql = $this->updateIsEnabled("'$id'", "'$newValue'");
+    $sql = $this->updateIsEnabledSql("'$id'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Name";

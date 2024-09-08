@@ -29,6 +29,8 @@ class ThisClass
             return $this->updateDescription();
         } elseif (getTag() == "updatePrice") {
             return $this->updatePrice();
+        } elseif (getTag() == "updateEnabled") {
+            return $this->updateEnabled();
         } else {
             UNKOWN_TAG();
         }
@@ -58,6 +60,11 @@ class ThisClass
     private function updatePrice(): string
     {
         $resultData = $this->controller->updatePrice();
+        return json_encode($resultData);
+    }
+    private function updateEnabled(): string
+    {
+        $resultData = $this->controller->updateEnabled();
         return json_encode($resultData);
     }
 }

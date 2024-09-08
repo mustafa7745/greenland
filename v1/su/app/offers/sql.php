@@ -39,6 +39,15 @@ class OffersSql extends \OffersAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+    protected function updateEnabledSql($id): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->isEnabled = NOT $this->isEnabled, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
     protected function updatePriceSql($id, $newValue): string
     {
         $date = getCurruntDate();

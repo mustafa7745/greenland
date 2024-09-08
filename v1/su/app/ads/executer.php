@@ -64,11 +64,11 @@ class AdsExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
-  function executeUpdateIsEnabled($id, $newValue)
+  function executeUpdateIsEnabled($id)
   {
     shared_execute_sql("START TRANSACTION");
     getAdsHelper()->getDataById($id);
-    $dataAfterUpdate = getAdsHelper()->updateIsEnabled($id, $newValue);
+    $dataAfterUpdate = getAdsHelper()->updateIsEnabled($id);
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }

@@ -43,7 +43,7 @@ class Ads
     {
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        return getAdsExecuter()->executeUpdateIsEnabled(getInputAdsId(), getInputAdsIsEnabled());
+        return getAdsExecuter()->executeUpdateIsEnabled(getInputAdsId());
     }
 
 

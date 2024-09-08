@@ -25,8 +25,6 @@ class Offers
         getProjectLoginTokenData("RUN_APP", $s);
         return getOffersExecuter()->executeAddData(getInputOfferName(), getInputOfferDescription(), getInputOfferPrice(), getInputOfferImage(), getInputOfferExpireAt());
     }
-
-
     function updateName()
     {
         $s = getMainRunApp();
@@ -45,6 +43,12 @@ class Offers
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
         return getOffersExecuter()->executeUpdatePrice(getInputOfferId(), getInputOfferDescription());
+    }
+    function updateEnabled()
+    {
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getOffersExecuter()->executeUpdateEnabled(getInputOfferId());
     }
 
 
