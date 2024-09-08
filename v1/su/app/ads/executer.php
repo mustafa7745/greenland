@@ -6,7 +6,11 @@ class AdsExecuter
 {
   function executeGetData()
   {
-    return getAdsHelper()->getData();
+    $ads = getAdsHelper()->getData();
+    for ($i = 0; $i < count($ads); $i++) {
+      $ads[$i]['image'] = $ads[$i]['ads_image_path'] . $ads[$i]['image'];
+    }
+    return $ads;
   }
   function executeAddData($description, $image)
   {
