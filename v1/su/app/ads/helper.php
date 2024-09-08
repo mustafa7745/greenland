@@ -20,7 +20,8 @@ class AdsHelper extends AdsSql
       $en = "" . "_ID_ERROR";
       exitFromScript($ar, $en);
     }
-    return $data[0];
+    $ads = $data[0]['offer_image_path'] . $data[0]['image'];
+    return $ads;
   }
   function updateIsEnabled($id)
   {
