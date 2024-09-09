@@ -65,6 +65,7 @@ class Orders
     function assignOrderToDeliveryMan()
     {
         $loginToken = $this->_check("RUN_APP");
+        require_once __DIR__ . '/../delivery_men/helper.php';
         return getOrdersDeliveryExecuter()->executeAssignOrderToDeliveryMan(getInputOrderDeliveryId(), getInputDeliveryManId(), $loginToken->managerId);
     }
     function cencelOrder()
