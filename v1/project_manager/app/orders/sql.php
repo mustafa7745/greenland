@@ -65,8 +65,8 @@ class OrdersSql extends \OrdersAttribute
         // $columns = "$this->table_name.$this->id,$this->table_name.$this->situationId, $this->table_name.$this->createdAt, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
         $innerJoin = $this->INNER_JOIN();
         $columns = "$this->table_name.$this->id,$this->table_name.$this->systemOrderNumber, $this->table_name.$this->createdAt, $this->table_name.$this->situationId, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
-        
-        
+
+
         $condition = "$this->userId = $userId";
         /////
         return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 30);
@@ -275,12 +275,12 @@ require_once (getPath() . 'tables/orders_delivery/attribute.php');
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
-    function addSql($id, $orderId, $price, $userLocationId): string
+    function addSql($id, $orderId, $price, $userLocationId, $deliveryManId): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->price`,`$this->userLocationId`,`$this->orderId`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$price,$userLocationId, $orderId,'$date','$date')";
+        $columns = "(`$this->id`,`$this->price`,`$this->actualPrice`,`$this->userLocationId`,`$this->deliveryManId`,`$this->orderId`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$price,$price,$userLocationId,$deliveryManId, $orderId,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

@@ -90,20 +90,20 @@ class OrdersExecuter extends OrdersSql
 
 
       $orderDeliveryId = uniqid(rand(), false);
-      getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId);
+      getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId,$deliveryManId);
 
 
 
-      // 1) Get Reservation Data
-      require_once (getManagerPath() . 'app/reservations/helper.php');
-      $resrvation = getReservationsHelper()->getData($deliveryManId);
-      $resrvation = getReservationsHelper()->getDataById(getId($resrvation));
-      // 2) Update Reservation status to Accepted
-      require_once __DIR__ . "/../acceptance/helper.php";
-      getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
-      // 3) Add Request Accept To Acceptance Table
-      $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
-      getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
+      // // 1) Get Reservation Data
+      // require_once (getManagerPath() . 'app/reservations/helper.php');
+      // $resrvation = getReservationsHelper()->getData($deliveryManId);
+      // $resrvation = getReservationsHelper()->getDataById(getId($resrvation));
+      // // 2) Update Reservation status to Accepted
+      // require_once __DIR__ . "/../acceptance/helper.php";
+      // getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
+      // // 3) Add Request Accept To Acceptance Table
+      // $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
+      // getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
 
     }
     /**

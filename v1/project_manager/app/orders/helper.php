@@ -429,9 +429,9 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
     }
     return $data[0];
   }
-  function addData($id, $orderId, $price, $userLocationId)
+  function addData($id, $orderId, $price, $userLocationId, $deliveryManId)
   {
-    $sql = $this->addSql("'$id'", "'$orderId'", "'$price'", "'$userLocationId'");
+    $sql = $this->addSql("'$id'", "'$orderId'", "'$price'", "'$userLocationId'", "'$deliveryManId'");
     // print_r($sql); 
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
