@@ -73,7 +73,7 @@ class AcceptanceExecuter
     } elseif ($level == 3) {
       require_once (getManagerPath() . 'app/orders/helper.php');
       $orderDelivery = getOrdersDeliveryHelper()->getDataById($orderDeliveryId);
-      getOrdersDeliveryHelper()->updateDeliveryManId($orderDeliveryId);
+      getOrdersDeliveryHelper()->updateDeliveryManId($orderDeliveryId,"NULL");
       // 
       $acceptanceId = getId($acceptance);
       $acceptance = $helper->getDataById($acceptanceId);

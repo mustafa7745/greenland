@@ -451,9 +451,9 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
     }
     return null;
   }
-  function updateDeliveryManId($id)
+  function updateDeliveryManId($id, $newValue)
   {
-    $sql = $this->updateDeliveryManIdSql("'$id'", "NULL");
+    $sql = $this->updateDeliveryManIdSql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

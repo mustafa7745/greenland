@@ -103,6 +103,10 @@ class ThisClass
             return $this->readOrdersOfUsers();
         }
         // 
+        elseif (getTag() == "assignOrderToDeliveryMan") {
+            return $this->assignOrderToDeliveryMan();
+        }
+        // 
         elseif (getTag() == "deleteOffers") {
             return $this->deleteOffers();
         }
@@ -223,6 +227,11 @@ class ThisClass
     private function updateUserLocation(): string
     {
         $resultData = $this->controller->updateUserLocation();
+        return json_encode($resultData);
+    }
+    private function assignOrderToDeliveryMan(): string
+    {
+        $resultData = $this->controller->assignOrderToDeliveryMan();
         return json_encode($resultData);
     }
     private function cencelOrder(): string

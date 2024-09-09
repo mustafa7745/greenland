@@ -487,7 +487,7 @@ class OrdersDeliveryExecuter
     return $orderDelivery;
     // return $data;
   }
- 
+
   function executeUpdateActualPrice($id, $newValue, $managerId)
   {
     /**
@@ -550,6 +550,28 @@ class OrdersDeliveryExecuter
     }
     // 
     getOrdersDeliveryHelper()->updateUserLocationId($id, $newValue);
+    $data = getOrdersDeliveryHelper()->getDataById($id);
+    shared_execute_sql("COMMIT");
+    return $data;
+  }
+  function executeAssignOrderToDeliveryMan($id, $deliveryManId, $managerId)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $orderDelivery = getOrdersDeliveryHelper()->getDataById($id);
+    $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    checkOrderOwner($order, $managerId);
+
+    // 
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    // 
+    getOrdersDeliveryHelper()->updateDeliveryManId($id, $deliveryManId);
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;

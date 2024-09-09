@@ -62,6 +62,11 @@ class Orders
         $loginToken = $this->_check("RUN_APP");
         return getOrdersDeliveryExecuter()->executeUserLocation(getInputOrderDeliveryId(), getInputUserLocationId(), $loginToken->managerId);
     }
+    function assignOrderToDeliveryMan()
+    {
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersDeliveryExecuter()->executeAssignOrderToDeliveryMan(getInputOrderDeliveryId(), getInputDeliveryManId(), $loginToken->managerId);
+    }
     function cencelOrder()
     {
         $loginToken = $this->_check("RUN_APP");
