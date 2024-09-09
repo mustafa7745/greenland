@@ -90,7 +90,7 @@ class OrdersExecuter extends OrdersSql
 
 
       $orderDeliveryId = uniqid(rand(), false);
-      getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId,$deliveryManId);
+      getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId, $deliveryManId);
 
 
 
@@ -136,10 +136,19 @@ class OrdersExecuter extends OrdersSql
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
     checkOrderOwner($order, $managerId);
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+
     getOrdersHelper()->updateSystemOrderNumber($orderId, $systemOrderNumber);
-    $situatinId = getOrdersHelper()->ORDER_PREPARING;
-    getOrdersHelper()->updateStatus($orderId, $situatinId);
-    getOrdersStatusHelper()->addData($orderId, $situatinId);
+    if ($order[getOrdersHelper()->systemOrderNumber] == null) {
+      $situatinId = getOrdersHelper()->ORDER_PREPARING;
+      getOrdersHelper()->updateStatus($orderId, $situatinId);
+      getOrdersStatusHelper()->addData($orderId, $situatinId);
+    }
+
     // $data = getOrdersHelper()->getData();
     /**
      * COMMIT
