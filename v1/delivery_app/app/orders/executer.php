@@ -71,6 +71,10 @@ class OrdersExecuter
         $sum = $sum - $amount;
       }
     }
+    require_once __DIR__ . '/../orders/helper.php';
+    $sum = $sum + $data->delivery[getOrdersDeliveryHelper()->price];
+    $sum = $sum - $data->delivery[getOrdersDeliveryHelper()->actualPrice];
+
     $managerId = $order[getOrdersHelper()->managerId];
     require_once __DIR__ . '/../collections/helper.php';
     getCollectionsHelper()->addData($orderId, $deliveryManId, $managerId, $sum);
