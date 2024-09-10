@@ -9,6 +9,13 @@ class OrdersExecuter
   {
     return getOrdersDeliveryHelper()->getDataByDeliveryManId($deliveryManId);
   }
+  function executeGetOrderContent($orderId)
+  {
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $data = (new \OrderContent());
+    $data->executeGetData($orderId);
+    return $data;
+  }
   function executeOrderInRoad($orderId)
   {
     /**

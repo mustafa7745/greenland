@@ -15,6 +15,12 @@ class Orders
         $deliveryManId = $loginToken->deliveryManId;
         return getOrdersExecuter()->executeGetData($deliveryManId);
     }
+    function readOrderContent()
+    {
+        $loginToken = $this->_check();
+        $deliveryManId = $loginToken->deliveryManId;
+        return getOrdersExecuter()->executeGetOrderContent(getInputOrderId());
+    }
     function orderOnRoad()
     {
         $loginToken = $this->_check();
