@@ -6,7 +6,7 @@ require_once ('sql.php');
 require_once ('helper.php');
 class OrdersExecuter extends OrdersSql
 {
-  function executeAddData($userId, $order_products, $projectId, $userLocationId, $deliveryManId, $managerId)
+  function executeAddData($userId, $order_products, $userLocationId, $deliveryManId, $price, $actualPrice, $managerId)
   {
     $helper = getOrdersHelper();
     $helper->checkIfhaveOrderNotComplete($userId);
@@ -48,11 +48,68 @@ class OrdersExecuter extends OrdersSql
     getOrdersHelper()->updateManagerId($orderId, $managerId);
 
 
+    $final_sum = 0.0;
+    for ($i = 0; $i < count($products); $i++) {
+      $id = uniqid(rand(), false);
+      $productId = $products[$i][getProductsHelper()->id];
+      $productName = $products[$i][getProductsHelper()->name];
+      $productPrice = $products[$i][getProductsHelper()->postPrice];
+      $final_sum = $final_sum + $productPrice;
+      $productQuantity = getQntFromOrderProducts($order_products, $productId);
+      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+    }
+
+    $orderDeliveryId = uniqid(rand(), false);
+    getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
 
 
-    // $order = getOrdersHelper()->getOrder($order_id);
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $data = (new \OrderContent());
+    $data->executeGetData($orderId);
+    shared_execute_sql("COMMIT");
+    getDeliveryMenExecuter()->sendMessageToDeliveryMan($deliveryManId);
+    return $data;
+  }
+  function executeAddDataWithoutDelivery($userId, $order_products, $managerId)
+  {
+    $helper = getOrdersHelper();
+    $helper->checkIfhaveOrderNotComplete($userId);
+    $ids = [];
+    for ($i = 0; $i < count($order_products); $i++) {
+      array_push($ids, $order_products[$i]["id"]);
+    }
 
 
+    $idsStringSql = convertIdsListToStringSql($ids);
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+
+    require_once __DIR__ . "/../products/helper.php";
+    $products = getProductsHelper()->getDataByIds($idsStringSql);
+
+
+    if (count($products) == 0) {
+      $ar = "IDS_NOT_HAVE_ProductsDB";
+      $en = "IDS_NOT_HAVE_ProductsDB";
+      exitFromScript($ar, $en);
+    }
+    if (count($products) != count($ids)) {
+      $ar = "Product_Count_not_same_ProductsDB";
+      $en = "Product_Count_not_same_ProductsDB";
+      exitFromScript($ar, $en);
+    }
+
+
+    /**
+     * ADD ORDER DATA
+     */
+    require_once __DIR__ . "/../../../include/ids_controller/helper.php";
+
+    $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
+    getOrdersHelper()->addOrder($orderId, $userId);
+    getOrdersHelper()->updateManagerId($orderId, $managerId);
 
     $final_sum = 0.0;
     for ($i = 0; $i < count($products); $i++) {
@@ -65,54 +122,11 @@ class OrdersExecuter extends OrdersSql
       getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
-    if ($deliveryManId != null) {
-      ////// 1)
-      /**
-       * ADD DELIVERY DATA
-       */
-      require_once __DIR__ . '/../../../include/projects/helper.php';
-
-      $project = getProjectsHelper()->getDataById($projectId);
-      $project_lat = (getLatLong($project))[0];
-      $project_long = (getLatLong($project))[1];
-      // 
-      require_once __DIR__ . "/../users_locations/helper.php";
-
-      $userLocation = getUsersLocationsHelper()->getDataById($userLocationId);
-      $user_lat = (getLatLong($userLocation))[0];
-      $user_long = (getLatLong($userLocation))[1];
-      // 
-      $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
-      // print_r($distanse);
-      $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
-      //
-      ///////// 2)
-
-
-      $orderDeliveryId = uniqid(rand(), false);
-      getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $order_price_delivery, $userLocationId, $deliveryManId);
-
-
-
-      // // 1) Get Reservation Data
-      // require_once (getManagerPath() . 'app/reservations/helper.php');
-      // $resrvation = getReservationsHelper()->getData($deliveryManId);
-      // $resrvation = getReservationsHelper()->getDataById(getId($resrvation));
-      // // 2) Update Reservation status to Accepted
-      // require_once __DIR__ . "/../acceptance/helper.php";
-      // getReservationsHelper()->updateStatus(getId($resrvation), getReservationsHelper()->ACCEPTED_RESERVED_STATUS);
-      // // 3) Add Request Accept To Acceptance Table
-      // $acceptanceId = getId(getIdsControllerHelper()->getData($helper->table_name));
-      // getAcceptanceHelper()->addData($acceptanceId, $deliveryManId, $orderDeliveryId);
-
-    }
-    /**
-     * COMMIT
-     */
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $data = (new \OrderContent());
+    $data->executeGetData($orderId);
     shared_execute_sql("COMMIT");
-    getDeliveryMenExecuter()->sendMessageToDeliveryMan($deliveryManId);
-    return ["success" => "true"];
-
+    return $data;
 
   }
   /********/

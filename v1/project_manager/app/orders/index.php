@@ -14,7 +14,12 @@ class Orders
     {
         $loginToken = $this->_check("RUN_APP");
         require_once __DIR__ . '/../delivery_men/executer.php';
-        return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), 1, getInputUserLocationId(), getInputDeliveryManId(), $loginToken->managerId);
+        return getOrdersExecuter()->executeAddData(getInputUserId(), getInputOrderProductsIdsWithQnt(), getInputUserLocationId(), getInputDeliveryManId(), getInputOrderDeliveryPrice(), getInputOrderDeliveryActualPrice(), $loginToken->managerId);
+    }
+    function addWithoutDelivery()
+    {
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersExecuter()->executeAddDataWithoutDelivery(getInputUserId(), getInputOrderProductsIdsWithQnt(), $loginToken->managerId);
     }
 
     function addProductToOrder()

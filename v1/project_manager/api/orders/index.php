@@ -59,6 +59,10 @@ class ThisClass
             return $this->add();
         }
         // 
+        elseif (getTag() == "addWithoutDelivery") {
+            return $this->addWithoutDelivery();
+        }
+        // 
         elseif (getTag() == "addDiscount") {
             return $this->addDiscount();
         }
@@ -170,6 +174,11 @@ class ThisClass
     private function add(): string
     {
         $resultData = $this->controller->add();
+        return json_encode($resultData);
+    }
+    private function addWithoutDelivery(): string
+    {
+        $resultData = $this->controller->addWithoutDelivery();
         return json_encode($resultData);
     }
     private function addDiscount(): string
