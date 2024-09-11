@@ -22,7 +22,7 @@ class ProductsSql extends \ProductsAttribute
         $isAvailable = "$this->table_name . $this->isAvailable";
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
-        $condition = "$this->table_name.$this->categoryId = $categoryId_P";
+        $condition = "$this->table_name.$this->categoryId = $categoryId_P AND $this->table_name.$this->isAvailable = 1";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
     function readDiscountsSql(): string
