@@ -8,7 +8,7 @@ class UsersLocationsSql extends \UsersLocationsAttribute
     function readByIdsql($id): string
     {
         $table_name = $this->table_name;
-        $columns = " * ";
+        $columns = "$this->id , $this->street , $this->city , $this->latLong , $this->nearTo , $this->url , $this->contactPhone";
         $innerJoin = "";
         $condition = "$this->id = $id FOR UPDATE";
         /////
