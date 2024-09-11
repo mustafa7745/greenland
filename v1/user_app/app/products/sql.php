@@ -43,7 +43,7 @@ class ProductsSql extends \ProductsAttribute
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->name LIKE '%$productName%'";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->createdAt","DESC", $condition,7);
     }
     function readDiscountsSql(): string
     {
@@ -63,7 +63,7 @@ class ProductsSql extends \ProductsAttribute
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->postPrice < $this->table_name.$this->prePrice";
-        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "$this->table_name . $this->updatedAt","DESC");
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "$this->table_name . $this->updatedAt", "DESC");
     }
     function readByIdSql($id): string
     {
