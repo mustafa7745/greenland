@@ -7,7 +7,12 @@ class UsersLocationsExecuter
   function executeGetData($userLocationId)
   {
     $data = getUsersLocationsHelper()->getData($userLocationId);
-    return $data;
+    if (count($data) != 1) {
+      $ar = "ID_ERROR";
+      $en = "ID_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
   }
 }
 $users_locations_executer = null;
