@@ -121,3 +121,9 @@ function EMPTY_OR_NOT_FOUND($name)
     $en = "INPUT_{$name}_EMPTY_OR_NOT_FOUND";
     exitFromScript($ar, $en);
 }
+function LONG_TEXT()
+{
+    $ar = "LONG TEXT";
+    $en = "LONG TEXT";
+    exitFromScript($ar, $en);
+}

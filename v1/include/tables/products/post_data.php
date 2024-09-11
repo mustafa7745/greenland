@@ -7,6 +7,9 @@ function getInputProductName()
     }
     $value = getPostData3()[$name];
     $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (strlen($value) > 50) {
+        LONG_TEXT();
+    }
     return $value;
 }
 function getInputProductNumber()

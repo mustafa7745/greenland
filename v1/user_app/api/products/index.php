@@ -21,7 +21,11 @@ class ThisClass
     {
         if (getTag() == "read") {
             return $this->read();
-        } else {
+        } 
+        elseif (getTag() == "search") {
+            return $this->search();
+        } 
+        else {
             UNKOWN_TAG();
         }
     }
@@ -29,6 +33,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function search(): string
+    {
+        $resultData = $this->controller->search();
         return json_encode($resultData);
 
     }
