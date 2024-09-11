@@ -13,7 +13,7 @@ class ThisClass
     $login = loginAll();
 
     $deliveryMan = $this->loginDeliveryMan($login->userSession->userId);
-    $deliveryManLoginToken = $this->getLoginTokenFromUserSessionAndDeliveryManId($login->userSession->id, getId($deliveryMan), 1);
+    $deliveryManLoginToken = $this->getLoginTokenFromUserSessionAndDeliveryManId($login->userSession->id, getId($deliveryMan), getRemainedMinute());
     // 
     $data2 = json_encode(array("token" => $deliveryManLoginToken->token, "expire_at" => $deliveryManLoginToken->expireAt));
     $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
