@@ -1,5 +1,5 @@
 <?php
-namespace UserApp;
+namespace DeliveryMen;
 
 // To Get RunApp
 require_once "../../../include/check/index.php";
@@ -13,17 +13,14 @@ class UsersLocations
 
     function read()
     {
-        $s = getMainRunApp();
-        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeGetData($userId);
+        $loginToken = $this->_check();
+        $deliveryManId = $loginToken->deliveryManId;
+        return getUsersLocationsExecuter()->executeGetData(getInputUserLocationId());
     }
-    function add()
+    private function _check()
     {
         $s = getMainRunApp();
-        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
-        $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        return getUsersLocationsExecuter()->executeAddData($userId, getInputUserLocationCity(), getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone());
+        return getDeliveryManLoginToken("RUN_APP", $s);
     }
 }
 
