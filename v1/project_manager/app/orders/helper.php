@@ -56,15 +56,15 @@ class OrdersHelper extends OrdersSql
     }
     return $data[0];
   }
-  function getData($managerId)
+  function getData($orderStatusIds, $managerId)
   {
-    $sql = $this->readSql("'$managerId'");
+    $sql = $this->readSql($orderStatusIds, "'$managerId'");
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
   function getDataByStatusId($orderStatusId, $managerId)
   {
-    $sql = $this->readByStatusIdSql("'$orderStatusId'","'$managerId'");
+    $sql = $this->readByStatusIdSql("'$orderStatusId'", "'$managerId'");
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }

@@ -138,10 +138,14 @@ class OrdersExecuter extends OrdersSql
     $helper = getOrdersHelper();
     $status = [$helper->ORDER_STARTED, $helper->ORDER_VIEWD, $helper->ORDER_ASSIGNED_DELIVERY_MAN, $helper->ORDER_PREPARING, $helper->ORDER_IN_ROAD];
     $data = [];
-    if (in_array($orderStatusId,$status)) {
+    if (in_array($orderStatusId, $status)) {
       $data = getOrdersHelper()->getDataByStatusId($orderStatusId, $managerId);
-    } else
-      $data = getOrdersHelper()->getData($managerId);
+    } else {
+      array_push($status, $helper->ORDER_COMPLETED, $helper->ORDER_CENCELED);
+      $statusIds = convertIdsListToStringSql($status);
+      $data = getOrdersHelper()->getData($statusIds, $managerId);
+    }
+
     return $data;
   }
   // 
