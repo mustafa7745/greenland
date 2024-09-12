@@ -600,7 +600,8 @@ class OrdersDeliveryExecuter
      */
     shared_execute_sql("START TRANSACTION");
     $orderDelivery = getOrdersDeliveryHelper()->getDataById($id);
-    $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
+    $orderId = $orderDelivery[getOrdersDeliveryHelper()->orderId];
+    $order = getOrdersHelper()->getDataById($orderId);
     checkOrderOwner($order, $managerId);
 
     // 
@@ -609,8 +610,17 @@ class OrdersDeliveryExecuter
       $en = "هذا الطلب تم انجازه";
       exitFromScript($ar, $en);
     }
+    if ($deliveryManId == $orderDelivery[getOrdersDeliveryHelper()->deliveryManId]) {
+      $ar = "هذا الطلب له بالفعل";
+      $en = "هذا الطلب له بالفعل";
+      exitFromScript($ar, $en);
+    }
     // 
     getOrdersDeliveryHelper()->updateDeliveryManId($id, $deliveryManId);
+    $situatinId = getOrdersHelper()->ORDER_ASSIGNED_DELIVERY_MAN;
+    getOrdersHelper()->updateStatus($orderId, $situatinId);
+    getOrdersStatusHelper()->addData($orderId, $situatinId);
+    // 
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;
