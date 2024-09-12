@@ -35,7 +35,7 @@ class Orders
     function read()
     {
         $loginToken = $this->_check("RUN_APP");
-        return getOrdersExecuter()->executeGetData($loginToken->managerId);
+        return getOrdersExecuter()->executeGetData(getInputOrderStatusId(), $loginToken->managerId);
     }
     function readOrderDelivery()
     {

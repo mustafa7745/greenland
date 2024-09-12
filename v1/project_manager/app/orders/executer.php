@@ -133,9 +133,15 @@ class OrdersExecuter extends OrdersSql
 
   }
   /********/
-  function executeGetData($managerId)
+  function executeGetData($orderStatusId, $managerId)
   {
-    $data = getOrdersHelper()->getData($managerId);
+    $helper = getOrdersHelper();
+    $status = [$helper->ORDER_STARTED, $helper->ORDER_VIEWD, $helper->ORDER_ASSIGNED_DELIVERY_MAN, $helper->ORDER_PREPARING, $helper->ORDER_IN_ROAD];
+    $data = [];
+    if (in_array($status, $orderStatusId)) {
+      $data = getOrdersHelper()->getDataByStatusId($orderStatusId, $managerId);
+    } else
+      $data = getOrdersHelper()->getData($managerId);
     return $data;
   }
   // 

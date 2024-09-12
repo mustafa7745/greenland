@@ -15,6 +15,15 @@ class OrdersSql extends \OrdersAttribute
         /////
         return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
     }
+    function readByStatusIdSql($orderStatusId, $managerId): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = $this->INNER_JOIN();
+        $columns = "$this->table_name.$this->id,$this->table_name.$this->userId,$this->table_name.$this->systemOrderNumber, $this->table_name.$this->createdAt, $this->table_name.$this->situationId, {$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
+        $condition = "($this->situationId = $orderStatusId  AND ($this->table_name.$this->managerId IS NULL OR $this->table_name.$this->managerId = $managerId)) ";
+        /////
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
+    }
     function searchSql($id): string
     {
         $table_name = $this->table_name;
