@@ -6,7 +6,7 @@ class UsersSessionsHelper extends UsersSessionsSql
   {
     $sql = $this->readTokenSql("'$userId'", "'$appId'");
     $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 1) {
+    if (count($data) == 1) {
      return $data[0][$this->devices_sessions_attribute->appToken];
     }
     return null;
@@ -15,7 +15,7 @@ class UsersSessionsHelper extends UsersSessionsSql
   {
     $sql = $this->readTokenByUserSessionSql("'$userSessionId'", "'$appId'");
     $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 1) {
+    if (count($data) == 1) {
      return $data[0][$this->devices_sessions_attribute->appToken];
     }
     return null;
