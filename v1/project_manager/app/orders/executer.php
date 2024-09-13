@@ -615,7 +615,7 @@ class OrdersDeliveryExecuter
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     require_once __DIR__ . "/../delivery_men/helper.php";
-    $deliveryMan = getDeliveryMenHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->id]);
+    $deliveryMan = getDeliveryMenHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->deliveryManId]);
     $userId = $deliveryMan[getDeliveryMenHelper()->userId];
     global $DELIVERY_ANDROID_APP;
     sendMessage($userId, "تم اضافة طلب يرجى متابعته", $DELIVERY_ANDROID_APP);
