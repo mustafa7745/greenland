@@ -16,19 +16,36 @@ class OrdersExecuter
     $data->executeGetData($orderId);
     return $data;
   }
-  function executeOrderInRoad($orderId)
+  function executeOrderInRoad($orderId, $deliveryManId)
   {
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    $this->checkOwner($orderId, $deliveryManId);
+    if ($order[getOrdersHelper()->systemOrderNumber] == null) {
+      $ar = "يجب تحديد رقم الفاتورة";
+      $en = "يجب تحديد رقم الفاتورة";
+      exitFromScript($ar, $en);
+    }
     $situatinId = getOrdersHelper()->ORDER_IN_ROAD;
     getOrdersHelper()->updateStatus(getId($order), $situatinId);
     getOrdersStatusHelper()->addData(getId($order), $situatinId);
     getOrdersHelper()->updateCode($orderId, rand(1001, 9998));
     shared_execute_sql("COMMIT");
     return ["success" => "false"];
+  }
+
+  function checkOwner($orderId, $deliveryManId)
+  {
+    require_once __DIR__ . "/../orders/helper.php";
+    $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
+    if ($orderDelivery[getOrdersDeliveryHelper()->deliveryManId] != $deliveryManId) {
+      $ar = "هذا الطلب ليس مسجل لديك";
+      $en = "هذا الطلب ليس مسجل لديك";
+      exitFromScript($ar, $en);
+    }
   }
   function executeCheckCode($deliveryManId, $orderId, $code)
   {
@@ -37,6 +54,12 @@ class OrdersExecuter
      */
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
+    $this->checkOwner($orderId, $deliveryManId);
+    if ($order[getOrdersHelper()->code] == null) {
+      $ar = "لم يتم تفعيل الطلب في الطريق";
+      $en ="لم يتم تفعيل الطلب في الطريق";
+      exitFromScript($ar, $en);
+    }
     if ($order[getOrdersHelper()->code] != $code) {
       $ar = "الكود غير صحيح";
       $en = "الكود غير صحيح";

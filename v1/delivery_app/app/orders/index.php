@@ -24,7 +24,7 @@ class Orders
     function orderOnRoad()
     {
         $loginToken = $this->_check();
-        return getOrdersExecuter()->executeOrderInRoad(getInputOrderId());
+        return getOrdersExecuter()->executeOrderInRoad(getInputOrderId(), $loginToken->deliveryManId);
     }
     function checkCode()
     {
