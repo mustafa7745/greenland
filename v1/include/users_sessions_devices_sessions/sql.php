@@ -10,7 +10,16 @@ class UsersSessionsSql extends \UsersSessionsAttribute
         $columns = "{$this->devices_sessions_attribute->appToken}";
 
         $condition = "{$this->userId} = $userId AND {$this->devices_sessions_attribute->appId} = $appId";
-        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition,"$this->table_name.$this->createdAt","DESC");
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, $condition,"$this->table_name.$this->createdAt","DESC",1);
+    }
+    function readTokenByUserSessionSql($userSessionId, $appId): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = $this->INNER_JOIN();
+        $columns = "{$this->devices_sessions_attribute->appToken}";
+
+        $condition = "$this->table_name.$this->id = $userSessionId AND {$this->devices_sessions_attribute->appId} = $appId";
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, $condition,"$this->table_name.$this->createdAt","DESC",1);
     }
 }
 

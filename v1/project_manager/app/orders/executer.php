@@ -184,19 +184,8 @@ class OrdersExecuter extends OrdersSql
     // $order = getOrdersHelper()->getDataById($orderId);
     if ($order[getOrdersHelper()->systemOrderNumber] == null) {
       $userId = $order[getOrdersHelper()->userId];
-      require_once __DIR__ . '/../../app/users/helper.php';
-      $user = getUsersHelper()->getDataById($userId);
-      require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
-      $token = getUsersSessionsHelper()->getToken($userId, 2);
-      if ($token != null) {
-        require_once __DIR__ . '/../../../include/projects/helper.php';
-        $project = getProjectsHelper()->getDataById(1);
-        require_once __DIR__ . '/../../../include/send_message.php';
-        $title = "مرحبا بك: " . $user[getUsersHelper()->name];
-        sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, "يتم الان تجهيز طلبك");
-      }
+      sendMessage($userId, "يتم الان تجهيز طلبك");
     }
-
     return ["success" => "true"];
     // return $data;
   }
@@ -593,7 +582,7 @@ class OrdersDeliveryExecuter
     shared_execute_sql("COMMIT");
     return $data;
   }
-  function executeAssignOrderToDeliveryMan($id, $deliveryManId, $managerId)
+  function executeAssignOrderToDeliveryMan($id, $userSessionId, $deliveryManId, $managerId)
   {
     /**
      *  START TRANSACTION FOR SQL
@@ -623,6 +612,7 @@ class OrdersDeliveryExecuter
     // 
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
+    sendMessageDelivery($userSessionId, "تم اضافة طلب يرجى متابعته");
     return $data;
   }
 }
@@ -722,9 +712,37 @@ function checkOrderOwner($order, $managerId)
     getOrdersHelper()->updateManagerId($order[getOrdersHelper()->id], $managerId);
   }
 }
-// function updateManagerId($order, $managerId)
-// {
-//   if ($order[getOrdersHelper()->managerId] == null) {
 
-//   }
-// }
+function sendMessage($userId, $body)
+{
+  global $USER_ANDROID_APP;
+  require_once __DIR__ . '/../../app/users/helper.php';
+  $user = getUsersHelper()->getDataById($userId);
+  require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
+  $token = getUsersSessionsHelper()->getToken($userId, $USER_ANDROID_APP);
+  if ($token != null) {
+    require_once __DIR__ . '/../../../include/projects/helper.php';
+    $project = getProjectsHelper()->getDataById(1);
+    require_once __DIR__ . '/../../../include/send_message.php';
+    $title = "مرحبا بك: " . $user[getUsersHelper()->name];
+    sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, $body);
+  }
+}
+
+function sendMessageDelivery($userSessionId, $body)
+{
+  global $DELIVERY_ANDROID_APP;
+  // require_once __DIR__ . '/../../app/users_sessions/helper.php';
+  // $userSession = getUsersSessionsHelper()->getDataById($userSessionId);
+  // require_once __DIR__ . '/../../app/users/helper.php';
+  // $user = getUsersHelper()->getDataById($userId);
+  require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
+  $token = getUsersSessionsHelper()->getToken($userId, $DELIVERY_ANDROID_APP);
+  if ($token != null) {
+    require_once __DIR__ . '/../../../include/projects/helper.php';
+    $project = getProjectsHelper()->getDataById(1);
+    require_once __DIR__ . '/../../../include/send_message.php';
+    $title = "مرحبا بك: ";
+    sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, $body);
+  }
+}

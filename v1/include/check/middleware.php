@@ -57,6 +57,9 @@ function getRemainedMinute()
 }
 
 
+$USER_ANDROID_APP = 2;
+$DELIVERY_ANDROID_APP = 3;
+
 // 
 $BLOCK_ID = 1;
 $ALLOW_ID = 2;
