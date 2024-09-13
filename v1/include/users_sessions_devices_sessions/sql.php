@@ -10,17 +10,17 @@ class UsersSessionsSql extends \UsersSessionsAttribute
         $columns = "{$this->devices_sessions_attribute->appToken}";
 
         $condition = "{$this->userId} = $userId AND {$this->devices_sessions_attribute->appId} = $appId";
-        return shared_read_limit2_sql($table_name, $columns, $innerJoin,"$this->table_name.$this->createdAt","DESC",$condition,1);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin,"$this->table_name.$this->createdAt","ASC",$condition,1);
     }
-    function readTokenByUserSessionSql($userSessionId, $appId): string
-    {
-        $table_name = $this->table_name;
-        $innerJoin = $this->INNER_JOIN();
-        $columns = "{$this->devices_sessions_attribute->appToken}";
+    // function readTokenByUserSessionSql($userSessionId, $appId): string
+    // {
+    //     $table_name = $this->table_name;
+    //     $innerJoin = $this->INNER_JOIN();
+    //     $columns = "{$this->devices_sessions_attribute->appToken}";
 
-        $condition = "$this->table_name.$this->id = $userSessionId AND {$this->devices_sessions_attribute->appId} = $appId";
-        return shared_read_limit2_sql($table_name, $columns, $innerJoin,"$this->table_name.$this->createdAt","DESC",$condition,1);
-    }
+    //     $condition = "$this->table_name.$this->id = $userSessionId AND {$this->devices_sessions_attribute->appId} = $appId";
+    //     return shared_read_limit2_sql($table_name, $columns, $innerJoin,"$this->table_name.$this->createdAt","DESC",$condition,1);
+    // }
 }
 
 // require_once (getPath() . 'tables/devices_sessions/attribute.php');

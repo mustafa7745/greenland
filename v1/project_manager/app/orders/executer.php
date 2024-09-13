@@ -733,21 +733,3 @@ function sendMessage($userId, $body, $appId)
     sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, $body);
   }
 }
-
-function sendMessageDelivery($userSessionId, $body)
-{
-  global $DELIVERY_ANDROID_APP;
-  // require_once __DIR__ . '/../../app/users_sessions/helper.php';
-  // $userSession = getUsersSessionsHelper()->getDataById($userSessionId);
-  // require_once __DIR__ . '/../../app/users/helper.php';
-  // $user = getUsersHelper()->getDataById($userId);
-  require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
-  $token = getUsersSessionsHelper()->getTokenByUserSessionIdAndAppId($userSessionId, $DELIVERY_ANDROID_APP);
-  if ($token != null) {
-    require_once __DIR__ . '/../../../include/projects/helper.php';
-    $project = getProjectsHelper()->getDataById(1);
-    require_once __DIR__ . '/../../../include/send_message.php';
-    $title = "مرحبا بك: ";
-    sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, $body);
-  }
-}

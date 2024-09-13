@@ -11,16 +11,16 @@ class UsersSessionsHelper extends UsersSessionsSql
     }
     return null;
   }
-  function getTokenByUserSessionIdAndAppId($userSessionId, $appId)
-  {
-    $sql = $this->readTokenByUserSessionSql("'$userSessionId'", "'$appId'");
-    $data = shared_execute_read1_no_json_sql($sql);
-    // print_r($sql);
-    if (count($data) == 1) {
-     return $data[0][$this->devices_sessions_attribute->appToken];
-    }
-    return null;
-  }
+  // function getTokenByUserSessionIdAndAppId($userSessionId, $appId)
+  // {
+  //   $sql = $this->readTokenByUserSessionSql("'$userSessionId'", "'$appId'");
+  //   $data = shared_execute_read1_no_json_sql($sql);
+  //   // print_r($sql);
+  //   if (count($data) == 1) {
+  //    return $data[0][$this->devices_sessions_attribute->appToken];
+  //   }
+  //   return null;
+  // }
 }
 
 $users_sessions1_helper = null;
