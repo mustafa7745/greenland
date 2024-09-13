@@ -10,7 +10,7 @@ class UsersSessionsSql extends \UsersSessionsAttribute
         $columns = "{$this->devices_sessions_attribute->appToken}";
 
         $condition = "{$this->userId} = $userId AND {$this->devices_sessions_attribute->appId} = $appId";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition,"$this->table_name.$this->createdAt","DESC");
     }
 }
 
