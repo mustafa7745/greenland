@@ -184,7 +184,9 @@ class OrdersExecuter extends OrdersSql
     // $order = getOrdersHelper()->getDataById($orderId);
     if ($order[getOrdersHelper()->systemOrderNumber] == null) {
       $userId = $order[getOrdersHelper()->userId];
-      sendMessage($userId, "يتم الان تجهيز طلبك");
+      global $USER_ANDROID_APP;
+
+      sendMessage($userId, "يتم الان تجهيز طلبك", $USER_ANDROID_APP);
     }
     return ["success" => "true"];
     // return $data;
@@ -612,7 +614,11 @@ class OrdersDeliveryExecuter
     // 
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
-    sendMessageDelivery($userSessionId, "تم اضافة طلب يرجى متابعته");
+    require_once __DIR__ . "/../delivery_men/helper.php";
+    $deliveryMan = getDeliveryMenHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->id]);
+    $userId = $deliveryMan[getDeliveryMenHelper()->userId];
+    global $DELIVERY_ANDROID_APP;
+    sendMessage($userId, "تم اضافة طلب يرجى متابعته", $DELIVERY_ANDROID_APP);
     return $data;
   }
 }
@@ -713,13 +719,12 @@ function checkOrderOwner($order, $managerId)
   }
 }
 
-function sendMessage($userId, $body)
+function sendMessage($userId, $body, $appId)
 {
-  global $USER_ANDROID_APP;
   require_once __DIR__ . '/../../app/users/helper.php';
   $user = getUsersHelper()->getDataById($userId);
   require_once __DIR__ . '/../../../include/users_sessions_devices_sessions/helper.php';
-  $token = getUsersSessionsHelper()->getToken($userId, $USER_ANDROID_APP);
+  $token = getUsersSessionsHelper()->getToken($userId, $appId);
   if ($token != null) {
     require_once __DIR__ . '/../../../include/projects/helper.php';
     $project = getProjectsHelper()->getDataById(1);
