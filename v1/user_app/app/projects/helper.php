@@ -29,12 +29,12 @@ class ProjectsHelper1 extends ProjectsSql
   }
 }
 
-$projects1_helper = null;
+$projects2_helper = null;
 function getProjectsHelper1()
 {
-  global $projects1_helper;
-  if ($projects1_helper == null) {
-    $projects1_helper = new ProjectsHelper1();
+  global $projects2_helper;
+  if ($projects2_helper == null) {
+    $projects2_helper = new ProjectsHelper1();
   }
-  return $projects1_helper;
+  return $projects2_helper;
 }
