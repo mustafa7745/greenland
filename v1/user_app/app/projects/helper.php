@@ -3,7 +3,7 @@ namespace UserApp;
 
 require_once 'sql.php';
 // 
-class ProjectsHelper extends ProjectsSql
+class ProjectsHelper1 extends ProjectsSql
 {
   function getStatus()
   {
@@ -29,12 +29,12 @@ class ProjectsHelper extends ProjectsSql
   }
 }
 
-$projects_helper = null;
-function getProjectsHelper()
+$projects1_helper = null;
+function getProjectsHelper1()
 {
-  global $projects_helper;
-  if ($projects_helper == null) {
-    $projects_helper = new ProjectsHelper();
+  global $projects1_helper;
+  if ($projects1_helper == null) {
+    $projects1_helper = new ProjectsHelper1();
   }
-  return $projects_helper;
+  return $projects1_helper;
 }

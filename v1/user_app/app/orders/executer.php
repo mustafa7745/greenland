@@ -8,7 +8,7 @@ class OrdersExecuter
   function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
   {
     require_once __DIR__ . "/../projects/helper.php";
-    $projectHelper = getProjectsHelper();
+    $projectHelper = getProjectsHelper1();
 
     if ($projectHelper->getStatus() == "0") {
       $message = $projectHelper->getMessage();
