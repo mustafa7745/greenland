@@ -18,7 +18,8 @@ function getInputProductName()
 function isArabicOnly($input)
 {
     // تعبير نمطي للتأكد من أن النص يحتوي فقط على حروف عربية
-    $pattern = '/^[\p{Arabic}\s]+$/u';
+    // $pattern = '/^[\p{Arabic}\s]+$/u';
+    $pattern = '/^[\p{Arabic}]+$/u';
 
     // preg_match يتحقق مما إذا كان النص يتطابق مع النمط
     return preg_match($pattern, $input);
