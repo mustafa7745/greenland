@@ -66,6 +66,9 @@ class OrdersExecuter extends OrdersSql
     $orderDeliveryId = uniqid(rand(), false);
     getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
 
+    $situatinId = getOrdersHelper()->ORDER_ASSIGNED_DELIVERY_MAN;
+    getOrdersHelper()->updateStatus($orderId, $situatinId);
+    getOrdersStatusHelper()->addData($orderId, $situatinId);
 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
     $data = (new \OrderContent());
@@ -126,7 +129,7 @@ class OrdersExecuter extends OrdersSql
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
       getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
-    
+
     $situatinId = getOrdersHelper()->ORDER_COMPLETED;
     getOrdersHelper()->updateStatus($orderId, $situatinId);
     getOrdersStatusHelper()->addData($orderId, $situatinId);
