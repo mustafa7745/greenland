@@ -67,7 +67,8 @@ class OrdersExecuter extends OrdersSql
     $data = (new \OrderContent());
     $data->executeGetData($orderId);
     shared_execute_sql("COMMIT");
-    getDeliveryMenExecuter()->sendMessageToDeliveryMan($deliveryManId);
+    require_once __DIR__ . "/../delivery_men/executer.php";
+    getDeliveryMenExecuter()->sendMessageToDeliveryMan($deliveryManId, "تم اضافة طلب يرجى متابعته");
     return $data;
   }
   function executeAddDataWithoutDelivery($userId, $order_products, $managerId)
@@ -614,11 +615,9 @@ class OrdersDeliveryExecuter
     // 
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
-    require_once __DIR__ . "/../delivery_men/helper.php";
-    $deliveryMan = getDeliveryMenHelper()->getDataById($deliveryManId);
-    $userId = $deliveryMan[getDeliveryMenHelper()->userId];
-    global $DELIVERY_ANDROID_APP;
-    sendMessage($userId, "تم اضافة طلب يرجى متابعته", $DELIVERY_ANDROID_APP);
+    require_once __DIR__ . "/../delivery_men/executer.php";
+    getDeliveryMenExecuter()->sendMessageToDeliveryMan($deliveryManId, "تم اضافة طلب يرجى متابعته");
+
     return $data;
   }
 }
