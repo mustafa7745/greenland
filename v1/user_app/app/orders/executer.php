@@ -7,6 +7,15 @@ class OrdersExecuter
 {
   function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
   {
+    require_once __DIR__ . "/../projects/helper.php";
+    $projectHelper = getProjectsHelper();
+
+    if ($projectHelper->getStatus() == "0") {
+      $message = $projectHelper->getMessage();
+      $ar = $message;
+      $en = "";
+      exitFromScript($ar, $en);
+    }
     if (count($orderOffers) == 0 and count($order_products) == 0) {
       $ar = "يجب وجود منتج على الاقل";
       $en = "";

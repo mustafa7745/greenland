@@ -1,6 +1,7 @@
 <?php
 function exitFromScript($ar, $en, $response_code = 400, $code = 0)
 {
+  getDB()->conn->close();
   http_response_code($response_code);
   $res = json_encode(array("code" => $code, "message" => array("ar" => $ar, "en" => $en)));
   die($res);
