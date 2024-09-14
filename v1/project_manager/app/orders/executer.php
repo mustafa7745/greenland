@@ -47,6 +47,10 @@ class OrdersExecuter extends OrdersSql
     getOrdersHelper()->addOrder($orderId, $userId);
     getOrdersHelper()->updateManagerId($orderId, $managerId);
 
+    $situatinId = getOrdersHelper()->ORDER_VIEWD;
+    getOrdersHelper()->updateStatus(getId($order), $situatinId);
+    getOrdersStatusHelper()->addData(getId($order), $situatinId);
+
 
     $final_sum = 0.0;
     for ($i = 0; $i < count($products); $i++) {
@@ -122,6 +126,7 @@ class OrdersExecuter extends OrdersSql
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
       getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
     }
+    
     $situatinId = getOrdersHelper()->ORDER_COMPLETED;
     getOrdersHelper()->updateStatus($orderId, $situatinId);
     getOrdersStatusHelper()->addData($orderId, $situatinId);
