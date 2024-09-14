@@ -7,10 +7,21 @@ function getInputProductName()
     }
     $value = getPostData3()[$name];
     $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (!isArabicOnly($value)) {
+        exitFromScript("يحب ان يحتوي النص على حروف عربية فقط", "");
+    }
     if (strlen($value) > 50) {
         LONG_TEXT();
     }
     return $value;
+}
+function isArabicOnly($input)
+{
+    // تعبير نمطي للتأكد من أن النص يحتوي فقط على حروف عربية
+    $pattern = '/^[\p{Arabic}\s]+$/u';
+
+    // preg_match يتحقق مما إذا كان النص يتطابق مع النمط
+    return preg_match($pattern, $input);
 }
 function getInputProductNumber()
 {
