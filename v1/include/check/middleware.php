@@ -56,6 +56,7 @@ function getRemainedMinute()
     return $minutes_remaining;
 }
 
+$PROJECT_ID = 1;
 
 $USER_ANDROID_APP = 2;
 $DELIVERY_ANDROID_APP = 3;

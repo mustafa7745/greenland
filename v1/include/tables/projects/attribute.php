@@ -15,6 +15,9 @@ class ProjectsAttribute
     public $serviceAccountKey = "serviceAccountKey";
     public $priceDeliveryPer1km = "priceDeliveryPer1km";
     public $latLong = "latLong";
+    public $requestOrderMessage = "requestOrderMessage";
+    public $requestOrderStatus = "requestOrderStatus";
+
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
 

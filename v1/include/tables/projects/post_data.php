@@ -35,3 +35,69 @@ function getInputProjectPassword()
     }
     return $value;
 }
+function getInputProjectPassword3()
+{
+    $name = "inputProjectPassword";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (strlen($value) > 50) {
+        LONG_TEXT();
+    }
+    return $value;
+}
+function getInputProjectDeviceId()
+{
+    $name = "inputProjectDeviceId";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (strlen($value) > 50) {
+        LONG_TEXT();
+    }
+    return $value;
+}
+function getInputProjectPricePer1Km()
+{
+    $name = "inputProjectPricePer1Km";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (strlen($value) > 50) {
+        LONG_TEXT();
+    }
+    return $value;
+}
+function getInputRequestOrderMessage()
+{
+    $name = "inputRequestOrderMessage";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (strlen($value) > 50) {
+        LONG_TEXT();
+    }
+    return $value;
+}
+function getInputProjectLatLong()
+{
+    $name = "inputProjectLatLong";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    if (strlen($value) > 100) {
+        LONG_TEXT();
+    }
+    return $value;
+}
+
