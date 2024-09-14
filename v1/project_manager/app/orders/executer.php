@@ -48,8 +48,8 @@ class OrdersExecuter extends OrdersSql
     getOrdersHelper()->updateManagerId($orderId, $managerId);
 
     $situatinId = getOrdersHelper()->ORDER_VIEWD;
-    getOrdersHelper()->updateStatus(getId($order), $situatinId);
-    getOrdersStatusHelper()->addData(getId($order), $situatinId);
+    getOrdersHelper()->updateStatus($orderId, $situatinId);
+    getOrdersStatusHelper()->addData($orderId, $situatinId);
 
 
     $final_sum = 0.0;
