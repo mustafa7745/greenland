@@ -18,7 +18,7 @@ class ProjectsHelper extends ProjectsSql
   }
   function getMessage()
   {
-    $sql = $this->readStatusSql();
+    $sql = $this->readMessageSql();
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = "P_ID_ERROR";
