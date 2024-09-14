@@ -24,17 +24,26 @@ class OrdersExecuter
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
     $this->checkOwner($orderId, $deliveryManId);
+
     if ($order[getOrdersHelper()->systemOrderNumber] == null) {
       $ar = "يجب تحديد رقم الفاتورة";
       $en = "يجب تحديد رقم الفاتورة";
       exitFromScript($ar, $en);
     }
+    if ($order[getOrdersHelper()->code] != null) {
+      $ar = "تم ارسال الطلب في الطريق من قبل";
+      $en = "تم ارسال الطلب في الطريق من قبل";
+      exitFromScript($ar, $en);
+    }
+
     $situatinId = getOrdersHelper()->ORDER_IN_ROAD;
     getOrdersHelper()->updateStatus(getId($order), $situatinId);
     getOrdersStatusHelper()->addData(getId($order), $situatinId);
     getOrdersHelper()->updateCode($orderId, rand(1001, 9998));
+    $dateAfterUpdate = getOrdersHelper()->getDataById($orderId);
     shared_execute_sql("COMMIT");
-    return ["success" => "false"];
+    return $dateAfterUpdate;
+    ;
   }
 
   function checkOwner($orderId, $deliveryManId)
@@ -57,7 +66,7 @@ class OrdersExecuter
     $this->checkOwner($orderId, $deliveryManId);
     if ($order[getOrdersHelper()->code] == null) {
       $ar = "لم يتم تفعيل الطلب في الطريق";
-      $en ="لم يتم تفعيل الطلب في الطريق";
+      $en = "لم يتم تفعيل الطلب في الطريق";
       exitFromScript($ar, $en);
     }
     if ($order[getOrdersHelper()->code] != $code) {
