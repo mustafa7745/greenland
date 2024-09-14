@@ -82,7 +82,7 @@ function getInputRequestOrderMessage()
     }
     $value = getPostData3()[$name];
     $value = mysqli_real_escape_string(getDB()->conn, $value);
-    if (strlen($value) > 50) {
+    if (strlen($value) > 100) {
         LONG_TEXT();
     }
     return $value;
