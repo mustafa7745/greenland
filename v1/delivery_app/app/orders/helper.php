@@ -183,6 +183,17 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
     }
     return $data[0];
   }
+  function getDataByOrderId2($orderId)
+  {
+    $sql = $this->readByOrderId2Sql("'$orderId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "ORDER_ID_ERROR_IN_DLV";
+      $en = "ORDER_ID_ERROR_IN_DLV";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
+  }
 
   function getDataById($id)
   {

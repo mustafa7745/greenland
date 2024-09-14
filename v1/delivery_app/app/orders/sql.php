@@ -154,6 +154,16 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readByOrderId2Sql($orderId): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = $this->INNER_JOIN();
+        $situationId = "{$this->orders_attribute->table_name}.{$this->orders_attribute->situationId}";
+        $columns = "$this->table_name.$this->id , $this->table_name.$this->orderId , $this->table_name.$this->actualPrice , $this->table_name.$this->userLocationId , {$this->orders_attribute->table_name}.{$this->orders_attribute->userId} , $situationId , {$this->orders_attribute->table_name}.{$this->orders_attribute->systemOrderNumber}, {$this->orders_attribute->table_name}.{$this->orders_attribute->code} , {$this->orders_attribute->table_name}.{$this->orders_attribute->createdAt}";
+        $condition = "$this->table_name.$this->orderId = $orderId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
 
     function addSql($orderId, $price, $userLocationId): string
     {

@@ -40,7 +40,7 @@ class OrdersExecuter
     getOrdersHelper()->updateStatus(getId($order), $situatinId);
     getOrdersStatusHelper()->addData(getId($order), $situatinId);
     getOrdersHelper()->updateCode($orderId, rand(1001, 9998));
-    $dateAfterUpdate = getOrdersHelper()->getDataById($orderId);
+    $dateAfterUpdate = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
     shared_execute_sql("COMMIT");
     return $dateAfterUpdate;
     ;
