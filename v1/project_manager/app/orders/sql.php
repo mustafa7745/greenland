@@ -52,7 +52,7 @@ class OrdersSql extends \OrdersAttribute
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->userId`,`$this->withApp`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$userId,1,'$date','$date')";
+        $values = "($id,$userId,0,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
