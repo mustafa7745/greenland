@@ -11,7 +11,7 @@ class ThisClass
   {
     shared_execute_sql("START TRANSACTION");
     $login = loginAll();
-    $userLoginToken = $this->getUserLoginTokenFromUserSession($login->userSession->id, getRemainedMinute());
+    $userLoginToken = $this->getUserLoginTokenFromUserSession($login->userSession->id, 1);
     $data2 = json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
     $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
     shared_execute_sql("COMMIT");
