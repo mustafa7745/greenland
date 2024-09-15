@@ -10,6 +10,7 @@ class OrdersAttribute
   public $managerId = "managerId";
   public $situationId = "situationId";
   public $code = "code";
+  public $withApp = "withApp";
   public $systemOrderNumber = "systemOrderNumber";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
