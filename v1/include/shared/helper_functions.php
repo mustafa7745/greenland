@@ -56,8 +56,8 @@ function sendMessageToOne($json, $token, $title, $body): bool
 
 function INVALID_TOKEN($runApp, $permission)
 {
-    $ar = "ERROR_REFRESH_TOKEN";
-    $en = "ERROR_REFRESH_TOKEN";
+    $ar = "INVALID_TOKEN";
+    $en = "INVALID_TOKEN";
     // sleep(5);
     getFailedAttempsLogsHelper()->addData($runApp->deviceSessionIp->id, $permission->id);
     shared_execute_sql("COMMIT");
