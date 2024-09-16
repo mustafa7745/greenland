@@ -316,7 +316,7 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
     function readByOrderIdsAndDeliveryManIdsSql($orderIds, $deliveryManIds): string
     {
         $table_name = $this->table_name;
-        $columns = "$this->id , $this->deliveryManId";
+        $columns = "$this->id , $this->deliveryManId , $this->orderId";
         $innerJoin = "";
         $condition = "$this->orderId IN ($orderIds) AND $this->deliveryManId IN ($deliveryManIds)";
         /////
