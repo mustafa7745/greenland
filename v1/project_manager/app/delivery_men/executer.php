@@ -49,7 +49,7 @@ class DeliveryMenExecuter
       $lista = [];
       for ($j = 0; $j < count($deliveryMen); $j++) {
         if ($ordersDelivery[$i]["deliveryManId"] == $deliveryMen[$i]['id']) {
-          array_push($lista, $ordersDelivery[$i]['id']);
+          array_push($lista, $ordersDelivery[$i]['orderId']);
         }
       }
       $deliveryMen[$i]["ordersDelivery"] = $lista;
