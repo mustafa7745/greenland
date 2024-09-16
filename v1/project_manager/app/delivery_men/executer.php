@@ -40,7 +40,7 @@ class DeliveryMenExecuter
       $id = $orders[$i]['id'];
       array_push($ordersIds, $id);
     }
-    print_r($ordersIds);
+    // print_r($ordersIds);
     // print_r($deliveryMenIds);
 
     $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($ordersIds), convertIdsListToStringSql($deliveryMenIds));
@@ -48,7 +48,7 @@ class DeliveryMenExecuter
     for ($i = 0; $i < count($ordersDelivery); $i++) {
       $lista = [];
       for ($j = 0; $j < count($deliveryMen); $j++) {
-        if ($ordersDelivery[$i]["deliveryManId"] == $deliveryMen[$i]['id']) {
+        if ($ordersDelivery[$i]["deliveryManId"] == $deliveryMen[$j]['id']) {
           $data = ['id' => $ordersDelivery[$i]['id'], 'orderId' => $ordersDelivery[$i]['orderId']];
           array_push($lista, $ordersDelivery[$i]);
         }
