@@ -30,6 +30,7 @@ class DeliveryMenExecuter
     for ($i = 0; $i < count($deliveryMen); $i++) {
       $id = $deliveryMen[$i]['id'];
       array_push($deliveryMenIds, $id);
+      $deliveryMen[$i]["ordersDelivery"] = [];
     }
     // 
     require_once __DIR__ . "/../orders/helper.php";
