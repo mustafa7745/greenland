@@ -45,6 +45,7 @@ class UsersLocationsExecuter
      */
 
     shared_execute_sql("COMMIT");
+    require_once __DIR__ . '/../../../include/projects/helper.php';
     global $PROJECT_ID;
     $project = getProjectsHelper()->getDataById($PROJECT_ID);
     $project_lat = (getLatLong($project))[0];
