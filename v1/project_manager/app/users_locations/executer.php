@@ -6,9 +6,10 @@ class UsersLocationsExecuter
 {
   function executeGetData($userId)
   {
+    global $PROJECT_ID;
     require_once __DIR__ . '/../../../include/projects/helper.php';
     $data = getUsersLocationsHelper()->getData($userId);
-    $project = getProjectsHelper()->getDataById(1);
+    $project = getProjectsHelper()->getDataById($PROJECT_ID);
     $project_lat = (getLatLong($project))[0];
     $project_long = (getLatLong($project))[1];
     for ($i = 0; $i < count($data); $i++) {
@@ -44,6 +45,15 @@ class UsersLocationsExecuter
      */
 
     shared_execute_sql("COMMIT");
+    global $PROJECT_ID;
+    $project = getProjectsHelper()->getDataById($PROJECT_ID);
+    $project_lat = (getLatLong($project))[0];
+    $project_long = (getLatLong($project))[1];
+    // 
+    $user_lat = (getLatLong($dataAfterAdd))[0];
+    $user_long = (getLatLong($dataAfterAdd))[1];
+    $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
+    $dataAfterAdd['price'] = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
     return $dataAfterAdd;
   }
   function executeUpdateStreet($id, $newValue)
