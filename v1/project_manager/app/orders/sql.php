@@ -313,12 +313,12 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
 
-    function readByOrderIdsAndDeliveryManIdsSql($orderIds, $deliveryManIds): string
+    function readByOrderIdsAndDeliveryManIdsSql($orderIds): string
     {
         $table_name = $this->table_name;
         $columns = "$this->id , $this->deliveryManId";
         $innerJoin = "";
-        $condition = "$this->orderId IN ($orderIds) AND $this->deliveryManId IN ($deliveryManIds)";
+        $condition = "$this->orderId IN ($orderIds)";
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
