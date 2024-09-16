@@ -32,6 +32,7 @@ class DeliveryMenExecuter
       array_push($deliveryMenIds, $id);
     }
     // 
+    require_once __DIR__ . "/../orders/helper.php";
     $orderIds = getOrdersHelper()->getNotComplete();
     $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($deliveryMenIds), convertIdsListToStringSql($orderIds));
     for ($i = 0; $i < count($ordersDelivery); $i++) {
