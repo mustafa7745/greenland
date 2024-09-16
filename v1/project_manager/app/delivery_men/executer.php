@@ -34,6 +34,9 @@ class DeliveryMenExecuter
     // 
     require_once __DIR__ . "/../orders/helper.php";
     $orderIds = getOrdersHelper()->getNotComplete();
+    print_r($orderIds);
+    print_r($deliveryMenIds);
+
     $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($deliveryMenIds), convertIdsListToStringSql($orderIds));
     for ($i = 0; $i < count($ordersDelivery); $i++) {
       $lista = [];
