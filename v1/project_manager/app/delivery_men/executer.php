@@ -40,7 +40,7 @@ class DeliveryMenExecuter
       $id = $orders[$i]['id'];
       array_push($ordersIds, $id);
     }
-    // print_r($ordersIds);
+    print_r($ordersIds);
     // print_r($deliveryMenIds);
 
     $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($ordersIds), convertIdsListToStringSql($deliveryMenIds));
