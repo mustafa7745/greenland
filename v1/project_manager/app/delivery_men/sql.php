@@ -14,6 +14,15 @@ class DeliveryMenSql extends \DeliveryMenAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function readSql(): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = $this->INNER_JOIN();
+        $columns = "{$this->table_name}.$this->id ,{$this->users_attribute->table_name}.{$this->users_attribute->name} ,{$this->users_attribute->table_name}.{$this->users_attribute->phone}";
+        $condition = "1";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
     function readByUserPhonesql($phone): string
     {
         $table_name = $this->table_name;

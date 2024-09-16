@@ -6,6 +6,16 @@ require_once (getPath() . 'tables/orders/attribute.php');
 class OrdersSql extends \OrdersAttribute
 {
 
+    function readNotCompleteSql(): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = "";
+        $columns = "$this->table_name.$this->id";
+        $condition = "($this->situationId <> 1 AND $this->situationId <> 2) ";
+        /////
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
+    }
+    // 
     function readSql($orderStatusIds, $managerId): string
     {
         $table_name = $this->table_name;
@@ -299,6 +309,16 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
         $columns = "*";
         $innerJoin = "";
         $condition = "$this->id = $id FOR UPDATE";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
+
+    function readByOrderIdsAndDeliveryManIdsSql($orderIds, $deliveryManIds): string
+    {
+        $table_name = $this->table_name;
+        $columns = "$this->id , $this->deliveryManId";
+        $innerJoin = "";
+        $condition = "$this->orderId IN ($orderIds) AND $this->deliveryManId IN ($deliveryManIds)";
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }

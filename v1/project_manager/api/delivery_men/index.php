@@ -19,7 +19,9 @@ class ThisClass
 
     function main(): string
     {
-        if (getTag() == "search") {
+        if (getTag() == "read") {
+            return $this->read();
+        } elseif (getTag() == "search") {
             return $this->search();
         } elseif (getTag() == "readById") {
             return $this->readById();
@@ -28,7 +30,12 @@ class ThisClass
         }
     }
     //Main Functin CRUD
-   
+
+    private function read(): string
+    {
+        $resultData = $this->controller->read();
+        return json_encode($resultData);
+    }
     private function search(): string
     {
         $resultData = $this->controller->search();

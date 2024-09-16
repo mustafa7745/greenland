@@ -38,6 +38,12 @@ class OrdersHelper extends OrdersSql
     }
     return $data[0];
   }
+  function getNotComplete()
+  {
+    $sql = $this->readNotCompleteSql();
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
   function getDataByUserId($userId)
   {
     $sql = $this->readByUserIdSql("'$userId'");
@@ -413,6 +419,12 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
       exitFromScript($ar, $en);
     }
     return $data[0];
+  }
+  function getDataByOrderIdsAndDeliveryManIds($orderIds, $deliveryManIds)
+  {
+    $sql = $this->readByOrderIdsAndDeliveryManIdsSql($orderIds, $deliveryManIds);
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
   }
   function getDataByOrderId($orderId)
   {

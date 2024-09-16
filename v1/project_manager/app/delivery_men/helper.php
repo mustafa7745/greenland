@@ -15,6 +15,12 @@ class DeliveryMenHelper extends DeliveryMenSql
     }
     return $data[0];
   }
+  function getData2()
+  {
+    $sql = $this->readSql();
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
   function getDataByUserPhone($phone)
   {
     $sql = $this->readByUserPhonesql("'$phone'");

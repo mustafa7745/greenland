@@ -7,9 +7,16 @@ require_once "../../../include/check/index.php";
 require_once "../../../include/token/index.php";
 // To Get Executer
 require_once 'helper.php';
+require_once 'executer.php';
+
 
 class DeliveryMen
 {
+    function read()
+    {
+        $this->_check("RUN_APP");
+        return getDeliveryMenExecuter()->getDeliveryMen();
+    }
     function search()
     {
         $this->_check("RUN_APP");
