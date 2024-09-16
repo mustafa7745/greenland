@@ -28,16 +28,21 @@ class DeliveryMenExecuter
     $deliveryMen = getDeliveryMenHelper()->getData2();
     $deliveryMenIds = [];
     for ($i = 0; $i < count($deliveryMen); $i++) {
-      $id = $deliveryMen[$i][getDeliveryMenHelper()->id];
+      $id = $deliveryMen[$i]['id'];
       array_push($deliveryMenIds, $id);
     }
     // 
     require_once __DIR__ . "/../orders/helper.php";
-    $orderIds = getOrdersHelper()->getNotComplete();
-    print_r($orderIds);
-    print_r($deliveryMenIds);
+    $orders = getOrdersHelper()->getNotComplete();
+    $ordersIds = [];
+    for ($i = 0; $i < count($orders); $i++) {
+      $id = $orders[$i]['id'];
+      array_push($orders, $id);
+    }
+    // print_r($orderIds);
+    // print_r($deliveryMenIds);
 
-    $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($deliveryMenIds), convertIdsListToStringSql($orderIds));
+    $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($deliveryMenIds), convertIdsListToStringSql($ordersIds));
     for ($i = 0; $i < count($ordersDelivery); $i++) {
       $lista = [];
       for ($j = 0; $j < count($deliveryMen); $j++) {
