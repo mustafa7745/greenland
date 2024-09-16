@@ -37,10 +37,10 @@ class DeliveryMenExecuter
     $ordersIds = [];
     for ($i = 0; $i < count($orders); $i++) {
       $id = $orders[$i]['id'];
-      array_push($orders, $id);
+      array_push($ordersIds, $id);
     }
-    // print_r($orderIds);
-    // print_r($deliveryMenIds);
+    print_r($ordersIds);
+    print_r($deliveryMenIds);
 
     $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($deliveryMenIds), convertIdsListToStringSql($ordersIds));
     for ($i = 0; $i < count($ordersDelivery); $i++) {
