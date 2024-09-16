@@ -25,7 +25,7 @@ class DeliveryMenExecuter
 
   function getDeliveryMen()
   {
-    $deliveryMen = getDeliveryMenHelper()->getDataByUserPhone(getInputUserPhone3());
+    $deliveryMen = getDeliveryMenHelper()->getData2();
     $deliveryMenIds = [];
     for ($i = 0; $i < count($deliveryMen); $i++) {
       $id = $deliveryMen[$i][getDeliveryMenHelper()->id];
