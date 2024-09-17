@@ -21,7 +21,7 @@ function getPath()
     global $path;
     return $path;
 }
-function getSuPath()
+sfunction getSuPath()
 {
     global $path;
     return $_SERVER["DOCUMENT_ROOT"] . "/" . "v1/su/";
