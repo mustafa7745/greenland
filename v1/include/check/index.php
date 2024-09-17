@@ -2,14 +2,14 @@
 
 // namespace Check;
 require_once "middleware.php";
-require_once $path . 'check/apps/helper.php';
-require_once $path . 'check/devices/helper.php';
-require_once $path . 'check/devices_sessions/helper.php';
-require_once $path . 'check/devices_sessions_ips/helper.php';
-require_once $path . 'check/permissions/helper.php';
-require_once $path . 'check/permissions_groups/helper.php';
-require_once $path . 'check/users/helper.php';
-require_once $path . 'check/failed_attemps_logs/helper.php';
+require_once __DIR__ . '/../check/apps/helper.php';
+require_once __DIR__ . '/../check/devices/helper.php';
+require_once __DIR__ . '/../check/devices_sessions/helper.php';
+require_once __DIR__ . '/../check/devices_sessions_ips/helper.php';
+require_once __DIR__ . '/../check/permissions/helper.php';
+require_once __DIR__ . '/../check/permissions_groups/helper.php';
+require_once __DIR__ . '/../check/users/helper.php';
+require_once __DIR__ . '/../check/failed_attemps_logs/helper.php';
 
 $runApp = null;
 function getMainRunApp()
