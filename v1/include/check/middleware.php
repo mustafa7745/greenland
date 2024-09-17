@@ -39,16 +39,26 @@ function getDeliveryPath()
 
 function getRemainedMinute()
 {
-    $current_time = new DateTime();
-    // تحديد وقت نهاية اليوم (الساعة 23:59:59)
+    // $current_time = new DateTime();
+    // // تحديد وقت نهاية اليوم (الساعة 23:59:59)
+    // $end_of_day = new DateTime('tomorrow');
+    // $end_of_day->setTime(0, 0, 0);
+
+    // // حساب الفرق بين الوقت الحالي ونهاية اليوم
+    // $interval = $current_time->diff($end_of_day);
+
+    // // تحويل الفرق إلى دقائق
+    // $minutes_remaining = ($interval->h * 60) + $interval->i;
+    // return $minutes_remaining;
+    $current_time = new DateTime(); // Assuming '23:59:28'
     $end_of_day = new DateTime('tomorrow');
     $end_of_day->setTime(0, 0, 0);
+    $end_of_day->modify('-1 second'); // End of the day is '23:59:59'
 
-    // حساب الفرق بين الوقت الحالي ونهاية اليوم
     $interval = $current_time->diff($end_of_day);
 
-    // تحويل الفرق إلى دقائق
-    $minutes_remaining = ($interval->h * 60) + $interval->i;
+    // Convert the interval to minutes including seconds
+    $minutes_remaining = ($interval->h * 60) + $interval->i + ($interval->s / 60);
     return $minutes_remaining;
 }
 
