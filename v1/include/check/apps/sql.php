@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/apps/attribute.php');
+require_once (__DIR__ . '/../../tables/apps/attribute.php');
 
 class AppsSql extends \AppsAttribute
 {
