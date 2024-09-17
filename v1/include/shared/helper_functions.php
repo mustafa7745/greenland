@@ -287,9 +287,7 @@ class ApiWhatsapp
 
 function decrypt($dataBase64)
 {
-  $privatekey = fread(fopen($GLOBALS["path"] . "keys/privateKey.pem", "r"), 10000);
-  // $k = getPrivateKey();
-  // print_r(base64_decode($dataBase64));
+  $privatekey = fread(fopen(__DIR__ . "/../keys/privateKey.pem", "r"), 10000);
   openssl_private_decrypt(base64_decode($dataBase64), $decrypted, ($privatekey));
   return ($decrypted);
 }
@@ -303,7 +301,3 @@ function getPublicKeyFormat($key)
 {
   return "-----BEGIN PUBLIC KEY-----\n" . chunk_split($key) . "-----END PUBLIC KEY-----";
 }
-
-// class {
-
-// }
