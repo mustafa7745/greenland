@@ -1,8 +1,8 @@
 <?php
-require_once (getPath() . 'tables/projects/attribute.php');
+require_once (__DIR__ . '/../tables/projects/attribute.php');
 
-class ProjectsSql extends \ProjectsAttribute
-{
+class ProjectsSql extends \ProjectsAttribute 
+{ 
     function readByIdSql($id): string
     {
         $table_name = $this->table_name;
