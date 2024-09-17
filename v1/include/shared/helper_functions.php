@@ -221,7 +221,7 @@ function getIds()
 
 function getColumnImagePath($columns, $key_path)
 {
-  require_once (getPath() . 'tables/static/sql.php');
+  require_once (__DIR__ . '/../tables/static/sql.php');
   $anonymous_static_sql = new StaticSql();
   return $columns . " , " . $anonymous_static_sql->read_path_icon_app_sql("'$key_path'");
 }
