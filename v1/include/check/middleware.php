@@ -4,13 +4,14 @@ header("Access-Control-Allow-Origin:*");
 date_default_timezone_set("Asia/Riyadh");
 $root = "/v1/include/";
 $path = $_SERVER["DOCUMENT_ROOT"] . "/$root/";
-require_once "{$path}shared/shared_executer.php";
-require_once "{$path}shared/shared_sql.php";
-require_once "{$path}shared/errors.php";
-require_once "{$path}shared/helper_functions.php";
-require_once "{$path}database_connection/database.php";
-require_once "{$path}post_data/post_data.php";
-require_once "{$path}shared/getters.php";
+
+require_once __DIR__ . "/../shared/shared_executer.php";
+require_once __DIR__ . "/../shared/shared_sql.php";
+require_once __DIR__ . "/../shared/errors.php";
+require_once __DIR__ . "/../shared/helper_functions.php";
+require_once __DIR__ . "/../database_connection/database.php";
+require_once __DIR__ . "/../post_data/post_data.php";
+require_once __DIR__ . "/../shared/getters.php";
 
 
 
