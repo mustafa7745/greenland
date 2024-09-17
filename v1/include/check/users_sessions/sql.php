@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/users_sessions/attribute.php');
+require_once (__DIR__ . '/../../tables/users_sessions/attribute.php');
 
 class UsersSessionSql extends \UsersSessionsAttribute
 {

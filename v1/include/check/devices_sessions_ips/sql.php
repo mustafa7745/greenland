@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/devices_sessions_ips/attribute.php');
+require_once (__DIR__ . '/../../tables/devices_sessions_ips/attribute.php');
 
 class DevicesSessionsIpsSql extends \DevicesSessionsIpsAttribute
 {

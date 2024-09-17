@@ -1,6 +1,6 @@
 <?php
 
-require_once (getPath() . 'tables/failed_attemps_logs/attribute.php');
+require_once (__DIR__ . '/../../tables/failed_attemps_logs/attribute.php');
 
 class FailedAttempsLogsSql extends \FailedAttempsLogsAttribute
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once getPath() . 'tables/maintenance_permissions/attribute.php';
+require_once __DIR__. '/../../tables/maintenance_permissions/attribute.php';
 class MaintenancePermissionsSql extends \MaintenancePermissionsAttribute
 {
     function read_status_sql($permissionId, $type, $appId): string

@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/devices_sessions/attribute.php');
+require_once (__DIR__ . '/../../tables/devices_sessions/attribute.php');
 
 class DevicesSessionsSql extends \DevicesSessionsAttribute
 {

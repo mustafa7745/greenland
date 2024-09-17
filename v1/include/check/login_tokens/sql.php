@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/login_tokens/attribute.php');
+require_once (__DIR__ . '/../../tables/login_tokens/attribute.php');
 
 class LoginTokensSql extends \LoginTokensAttribute
 {

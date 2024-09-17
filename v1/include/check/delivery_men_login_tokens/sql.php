@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/delivery_men_login_tokens/attribute.php');
+require_once (__DIR__ . '/../../tables/delivery_men_login_tokens/attribute.php');
 
 class DeliveryMenLoginTokensSql extends \DeliveryMenLoginTokensAttribute
 {

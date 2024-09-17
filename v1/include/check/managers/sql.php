@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/managers/attribute.php');
+require_once (__DIR__ . '/../../tables/managers/attribute.php');
 
 class ManagersSql extends \ManagersAttribute
 {  

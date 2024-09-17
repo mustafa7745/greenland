@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/users/attribute.php');
+require_once (__DIR__ . '/../../tables/users/attribute.php');
 
 class UsersSql extends \UsersAttribute
 {

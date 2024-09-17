@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/delivery_men/attribute.php');
+require_once (__DIR__ . '/../../tables/delivery_men/attribute.php');
 
 class DeliveryMenSql extends \DeliveryMenAttribute
 {

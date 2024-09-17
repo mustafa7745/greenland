@@ -1,6 +1,6 @@
 <?php
 
-require_once (getPath() . 'tables/permissions_groups/attribute.php');
+require_once (__DIR__ . '/../../tables/permissions_groups/attribute.php');
 
 class PermissionsGroupsSql extends \PermissionsGroupsAttribute
 {

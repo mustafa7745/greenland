@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once (getPath() . 'tables/projects/attribute.php');
+require_once (__DIR__ . '/../../tables/projects/attribute.php');
 
 class ProjectsSql extends \ProjectsAttribute
 {
