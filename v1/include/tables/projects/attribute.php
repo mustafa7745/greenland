@@ -21,10 +21,10 @@ class ProjectsAttribute
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
 
-    function path_image()
-    {
-        return getPath() . "images/projects/icons/";
-    }
+    // function path_image()
+    // {
+    //     return getPath() . "images/projects/icons/";
+    // }
 
     function getProjectId($data)
     {

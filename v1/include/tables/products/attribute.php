@@ -19,7 +19,7 @@ class ProductsAttribute
   //////////
   function path_image()
   {
-    return getPath() . "images/products/";
+    return __DIR__ . "/../../images/products/";
   }
 
   public $products_groups_attribute;

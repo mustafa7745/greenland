@@ -14,6 +14,6 @@ class ProductsImagesAttribute
   //////////
   function path_image()
   {
-    return getPath() . "images/products/";
+    return __DIR__ . "/../../images/products/";
   }
 }

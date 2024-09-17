@@ -26,11 +26,6 @@ function getSuPath()
     global $path;
     return $_SERVER["DOCUMENT_ROOT"] . "/" . "v1/su/";
 }
-function getUserPath()
-{
-    global $path;
-    return $_SERVER["DOCUMENT_ROOT"] . "/" . "tv1/user_app/";
-}
 function getManagerPath()
 {
     global $path;

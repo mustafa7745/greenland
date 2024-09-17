@@ -16,7 +16,7 @@ class DeliveryMenAttribute
     // 
     function initForignkey()
     {
-        require_once (getPath() . 'tables/users/attribute.php');
+        require_once (__DIR__ . '/../users/attribute.php');
         $this->users_attribute = new UsersAttribute();
     }
     function INNER_JOIN(): string

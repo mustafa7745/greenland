@@ -19,7 +19,7 @@ class OrdersAttribute
   public $orders_situations_attribute;
   function initForignkey()
   {
-    require_once (getPath() . 'tables/orders_situations/attribute.php');
+    require_once (__DIR__ . '/../orders_situations/attribute.php');
     $this->orders_situations_attribute = new OrdersSituationsAttribute();
   }
 
