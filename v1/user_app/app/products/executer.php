@@ -5,9 +5,9 @@ namespace UserApp;
 require_once ('helper.php');
 class ProductsExecuter
 {
-  function executeGetData()
+  function executeGetData($categoryId)
   {
-    $data = getProductsHelper()->getData(getInputCategoryId());
+    $data = getProductsHelper()->getData($categoryId);
     $ids = [];
     for ($i = 0; $i < count($data); $i++) {
       array_push($ids, $data[$i][getProductsHelper()->id]);

@@ -12,16 +12,11 @@ class Products
 {
     function read()
     {
-        // checkPermission("READ_GROUPS");
-        // $s = getMainRunApp();
-        // getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeGetData();
+        require_once __DIR__ . "/../categories/sql.php";
+        return getProductsExecuter()->executeGetData(getInputCategoryId());
     }
     function search()
     {
-        // checkPermission("READ_GROUPS");
-        // $s = getMainRunApp();
-        // getProjectLoginTokenData("RUN_APP", $s);
         return getProductsExecuter()->executeSearchData(getInputProductName());
     }
 }
