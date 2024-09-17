@@ -1,5 +1,5 @@
 <?php
-require_once ($path . 'models/ModelPostData1.php');
+require_once __DIR__ . '/../models/ModelPostData1.php';
 
 $postData1 = null;
 function getPostData1(): ModelPostData1
@@ -120,13 +120,13 @@ function getPostData1(): ModelPostData1
     //     $en = "{$name}_NOT_STANDARD";
     //     exitFromScript($ar, $en);
     //   }
-      // $ar = "{$name}_NOT_STANDARD";
-      // $en = "{$name}_NOT_STANDARD";
-      // exitFromScript($ar, $en);
+    // $ar = "{$name}_NOT_STANDARD";
+    // $en = "{$name}_NOT_STANDARD";
+    // exitFromScript($ar, $en);
     // }
-   
+
     //  
-    
+
     // 7)
     $name = "appVersion";
     if (!isset($data1[$name])) {
