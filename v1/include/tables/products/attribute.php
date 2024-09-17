@@ -27,7 +27,7 @@ class ProductsAttribute
 
   function initForignkey()
   {
-    require_once (getPath() . 'tables/products_groups/attribute.php');
+    require_once (__DIR__ . '/../products_groups/attribute.php');
     $this->products_groups_attribute = new ProductsGroupsAttribute();
   }
 
