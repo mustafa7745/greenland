@@ -1,7 +1,7 @@
 <?php
 namespace UserApp;
 
-require_once (getPath() . 'tables/offers_products/attribute.php');
+require_once (__DIR__ . '/../../../include/tables/offers_products/attribute.php');
 
 class OffersProductsSql extends \OffersProductsAttribute
 {

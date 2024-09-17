@@ -1,7 +1,7 @@
 <?php
 namespace UserApp;
 
-require_once (getPath() . 'tables/products_images/attribute.php');
+require_once (__DIR__ . '/../../../include/tables/products_images/attribute.php');
 
 class ProductsImagesSql extends \ProductsImagesAttribute
 {

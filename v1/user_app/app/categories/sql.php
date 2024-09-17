@@ -1,7 +1,7 @@
 <?php
 namespace UserApp;
 
-require_once (getPath() . 'tables/categories/attribute.php');
+require_once (__DIR__ . '/../../../include/tables/categories/attribute.php');
 
 class CategoriesSql extends \CategoriesAttribute
 {
