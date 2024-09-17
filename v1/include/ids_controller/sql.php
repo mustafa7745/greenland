@@ -1,5 +1,5 @@
 <?php
-require_once (getPath() . 'tables/ids_controller/attribute.php');
+require_once (__DIR__ . '/../tables/ids_controller/attribute.php');
 
 class IdsControllerSql extends \IdsControllerAttribute
 {
