@@ -1,12 +1,12 @@
 <?php
-require_once $path . 'check/login_tokens/helper.php';
-require_once $path . 'check/projects_login_tokens/helper.php';
-require_once $path . 'check/users_sessions/helper.php';
-require_once $path . 'models/UserLoginToken.php';
-require_once $path . 'models/UserSession.php';
-require_once $path . 'models/UserLoginUserSession.php';
-require_once $path . 'models/DeliveryManLoginUserSession.php';
-require_once $path . 'check/delivery_men_login_tokens/helper.php';
+require_once __DIR__ . '/../check/login_tokens/helper.php';
+require_once __DIR__ . '/../check/projects_login_tokens/helper.php';
+require_once __DIR__ . '/../check/users_sessions/helper.php';
+require_once __DIR__ . '/../models/UserLoginToken.php';
+require_once __DIR__ . '/../models/UserSession.php';
+require_once __DIR__ . '/../models/UserLoginUserSession.php';
+require_once __DIR__ . '/../models/DeliveryManLoginUserSession.php';
+require_once __DIR__ . '/../check/delivery_men_login_tokens/helper.php';
 
 
 
