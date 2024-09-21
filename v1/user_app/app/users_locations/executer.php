@@ -16,6 +16,12 @@ class UsersLocationsExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
+    $data = getUsersLocationsHelper()->getData($userId);
+    if (count($data) > 7) {
+      $ar = "لايمكنك اضافة المزيد تواصل مع الادارة";
+      $en = "لايمكنك اضافة المزيد تواصل مع الادارة";
+      exitFromScript($ar, $en);
+    }
     // 
     require_once __DIR__ . '/../../../include/ids_controller/helper.php';
     $id = getId(getIdsControllerHelper()->getData($helper->table_name));

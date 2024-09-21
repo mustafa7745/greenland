@@ -6,6 +6,14 @@ function exitFromScript($ar, $en, $response_code = 400, $code = 0)
   $res = json_encode(array("code" => $code, "message" => array("ar" => $ar, "en" => $en)));
   die($res);
 }
+function checkLong($value, $len)
+{
+  if (strlen($value) > $len) {
+    $ar = "نص كبيير للغاية";
+    $en = "نص كبيير للغاية";
+    exitFromScript($ar, $en);
+  }
+}
 
 function json_is_validate(string $string): bool
 {
@@ -56,28 +64,28 @@ function sendMessageToOne($json, $token, $title, $body): bool
 
 function INVALID_TOKEN($runApp, $permission)
 {
-    $ar = "INVALID_TOKEN";
-    $en = "INVALID_TOKEN";
-    // sleep(5);
-    getFailedAttempsLogsHelper()->addData($runApp->deviceSessionIp->id, $permission->id);
-    shared_execute_sql("COMMIT");
-    exitFromScript($ar, $en, 400, 5002);
+  $ar = "INVALID_TOKEN";
+  $en = "INVALID_TOKEN";
+  // sleep(5);
+  getFailedAttempsLogsHelper()->addData($runApp->deviceSessionIp->id, $permission->id);
+  shared_execute_sql("COMMIT");
+  exitFromScript($ar, $en, 400, 5002);
 }
 function TOKEN_NEED_UPDATE()
 {
-    $ar = "TOKEN_NEED_UPDATE";
-    $en = "TOKEN_NEED_UPDATE";
-    exitFromScript($ar, $en, 400, 5001);
+  $ar = "TOKEN_NEED_UPDATE";
+  $en = "TOKEN_NEED_UPDATE";
+  exitFromScript($ar, $en, 400, 5001);
 }
 function generateRandomPassword($length = 8)
 {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
-    $charactersLength = strlen($characters);
-    $randomPassword = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomPassword .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomPassword;
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
+  $charactersLength = strlen($characters);
+  $randomPassword = '';
+  for ($i = 0; $i < $length; $i++) {
+    $randomPassword .= $characters[rand(0, $charactersLength - 1)];
+  }
+  return $randomPassword;
 }
 
 

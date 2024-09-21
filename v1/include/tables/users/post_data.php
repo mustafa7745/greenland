@@ -17,6 +17,8 @@ function getInputUserPhone()
         $en = "{$desc}MUST_BE_9";
         exitFromScript($ar, $en);
     }
+    checkLong($value, 9);
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
 function getInputUserPhone3()
@@ -36,6 +38,8 @@ function getInputUserPhone3()
         $en = "{$desc}MUST_BE_9";
         exitFromScript($ar, $en);
     }
+    checkLong($value, 9);
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
 function getInputUserPassword()
@@ -48,7 +52,10 @@ function getInputUserPassword()
         $en = "{$desc}_NOT_FOUND";
         exitFromScript($ar, $en);
     }
+
     $value = getPostData2()[$name];
+    checkLong($value, 10);
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
 
@@ -61,6 +68,7 @@ function getInputUserLocationId()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,30);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -72,40 +80,46 @@ function getInputUserPassword3()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,10);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
 function getInputUserLocationUserId()
 {
-   
+
     $name = "inputUserLocationUserId";
     if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,30);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
 function getInputUserId()
 {
-   
+
     $name = "inputUserId";
     if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,30);
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
 
 function getInputUserLocationCity()
 {
-   
+
     $name = "inputUserLocationCity";
     if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,50);
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -113,12 +127,13 @@ function getInputUserLocationCity()
 
 function getInputUserName()
 {
-   
+
     $name = "inputUserName";
     if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -130,6 +145,8 @@ function getInputUserLocationStreet()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,50);
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -140,6 +157,8 @@ function getInputUserLocationNearTo()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,100);
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -150,6 +169,8 @@ function getInputUserLocationLatLong()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,150);
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -160,6 +181,8 @@ function getInputUserLocationContactPhone()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,9);
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -170,6 +193,7 @@ function getInputUserLocationUrl()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
+    checkLong($value,200);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
