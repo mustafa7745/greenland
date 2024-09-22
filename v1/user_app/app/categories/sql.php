@@ -8,7 +8,7 @@ class CategoriesSql extends \CategoriesAttribute
     function readSql(): string
     {
         $table_name = $this->table_name;
-        $columns = getColumnImagePath("$this->id,$this->name,$this->image,$this->order", "category_image_path");
+        $columns = getColumnImagePath("*", "category_image_path");
         $innerJoin = "";
         $condition = "1";
         return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "`$this->order`", "ASC");
