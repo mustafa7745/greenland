@@ -23,7 +23,7 @@ class ProductsSql extends \ProductsAttribute
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->categoryId = $categoryId_P";
-        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition,"`$this->order`","ASC");
     }
     function searchSql($productName): string
     {
