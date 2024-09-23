@@ -13,7 +13,7 @@ class ThisClass
     $login = loginAll();
     // $runApp = getRunApp($login);
     $loginProject = $this->loginProject($login->runApp);
-    $projectLoginToken = $this->getLoginTokenFromUserSessionAndProjectId($login->userSession->id, getId($loginProject), 1);
+    $projectLoginToken = $this->getLoginTokenFromUserSessionAndProjectId($login->userSession->id, getId($loginProject), 10);
     $data2 = json_encode(array("token" => $projectLoginToken->token, "expire_at" => $projectLoginToken->expireAt));
     $encryptedData = encrypt($data2, getPublicKeyFormat($login->runApp->device->publicKey));
     shared_execute_sql("COMMIT");
