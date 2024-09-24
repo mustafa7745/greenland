@@ -27,6 +27,15 @@ class Products
 
         return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
     }
+    function addWithoutImage()
+    {
+        // checkPermission("READ_GROUPS");
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        require_once __DIR__ . '/../categories/sql.php';
+        return getProductsExecuter()->executeAddWithoutImage(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductGroupId());
+    }
+
     function search()
     {
         $s = getMainRunApp();

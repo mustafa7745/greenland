@@ -23,7 +23,12 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "add") {
             return $this->add();
-        } elseif (getTag() == "search") {
+        }
+        elseif (getTag() == "addWithoutImage") {
+            return $this->addWithoutImage();
+        }
+
+        elseif (getTag() == "search") {
             return $this->search();
         } elseif (getTag() == "updateName") {
             return $this->updateName();
@@ -53,6 +58,13 @@ class ThisClass
     private function add(): string
     {
         $resultData = $this->controller->add();
+        return json_encode($resultData);
+
+    }
+
+     private function addWithoutImage(): string
+    {
+        $resultData = $this->controller->addWithoutImage();
         return json_encode($resultData);
 
     }
