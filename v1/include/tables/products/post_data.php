@@ -23,9 +23,9 @@ function getInputProductNameSU()
     }
     $value = getPostData3()[$name];
     $value = mysqli_real_escape_string(getDB()->conn, $value);
-    if (!isArabicOnly($value)) {
-        exitFromScript("يحب ان يحتوي النص على حروف عربية فقط", "");
-    }
+    // if (!isArabicOnly($value)) {
+    //     exitFromScript("يحب ان يحتوي النص على حروف عربية فقط", "");
+    // }
     if (strlen($value) > 50) {
         LONG_TEXT();
     }
