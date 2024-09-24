@@ -25,7 +25,7 @@ class Products
         require_once __DIR__ . '/../categories/sql.php';
         require_once __DIR__ . '/../products_images/sql.php';
 
-        return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductName(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
+        return getProductsExecuter()->executeAddData(getInputCategoryId(), getInputProductNameSU(), getInputProductNumber(), getInputProductPostPrice(), getInputProductImage(), getInputProductGroupId());
     }
     function addWithoutImage()
     {
@@ -52,7 +52,7 @@ class Products
     {
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsExecuter()->executeUpdateName(getInputProductId(), getInputProductName());
+        return getProductsExecuter()->executeUpdateName(getInputProductId(), getInputProductNameSU());
     }
     function updateNumber()
     {
