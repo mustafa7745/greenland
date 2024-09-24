@@ -59,7 +59,7 @@ class ProductsSql extends \ProductsAttribute
         $innerJoin = $this->INNER_JOIN();
         $id = "$this->table_name . $this->id";
         $columns = $id;
-        $condition = "$this->categoryId IN ($ids) ";
+        $condition = "$this->table_name.$this->categoryId IN ($ids) ";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
     function readByNumberSql($number): string
