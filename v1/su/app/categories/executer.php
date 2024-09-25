@@ -38,7 +38,7 @@ class CategoriesExecuter
 
     $image_name = uniqid(rand(), false) . ".jpg";
 
-    $productGroupId = getId(getIdsControllerHelper()->getData($categories_helper->table_name));
+    $productGroupId = getId(getIdsControllerHelper()->getData(getProductsGroupsHelper()->table_name));
 
     getProductsGroupsHelper()->addData($productGroupId, $id, "الرئيسية");
     $dataAfterAdd = $categories_helper->addData($id, $name, $image_name);
