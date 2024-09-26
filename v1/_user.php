@@ -112,11 +112,11 @@ class UsersWhatsappUnregisterHelper
         return shared_insert_sql($table_name, $columns, $values);
     }
 
-    function addData($w, $phone, $message)
+    function addData($phone, $message)
     {
 
         $sql = $this->addSql("'$phone'", "'$message'");
-        $w->sendMessageText("967774519161", $sql);
+        // $w->sendMessageText("967774519161", $sql);
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
             shared_execute_sql("rollback");

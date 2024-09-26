@@ -12,15 +12,15 @@ $input = json_decode($input, true);
 
 if (isset($input)) {
     $message = $input['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
-
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+    require_once __DIR__ . '/../v1/_user.php';
     if ($message == "السلام عليكم") {
 
         if (str_starts_with($phone_number, "967")) {
             if (strlen($phone_number) == 12) {
                 $phone = substr($phone_number, 3, 11);
                 $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
-                require_once __DIR__ . '/../v1/_user.php';
+               
                 $user = getUsersHelper()->getData($phone);
                 if ($user == null) {
                     $id = uniqid(rand(), false);
@@ -45,7 +45,7 @@ if (isset($input)) {
     } else {
         $w->sendMessageText("967774519161", "tes");
         // $message = mysqli_escape_string(getDB()->conn, $message);
-        (new UsersWhatsappUnregisterHelper())->addData($w,$phone_number,"sddd");
+        (new UsersWhatsappUnregisterHelper())->addData($phone_number,"sddd");
         $w->sendMessageText("967774519161", "tes2");
 
     }
