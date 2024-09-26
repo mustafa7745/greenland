@@ -45,8 +45,8 @@ if (isset($input)) {
         }
     } else {
         // $w->sendMessageText("967774519161", "tes");
-        // $message = mysqli_escape_string(getDB()->conn, $message);
-        (new UsersWhatsappUnregisterHelper())->addData($phone_number,"sddd");
+        $message = mysqli_escape_string(getDB()->conn, $message);
+        (new UsersWhatsappUnregisterHelper())->addData($phone_number,$message);
         // $w->sendMessageText("967774519161", "tes2");
         exit;
 
