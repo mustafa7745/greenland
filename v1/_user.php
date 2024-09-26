@@ -122,7 +122,7 @@ class UsersWhatsappUnregisterHelper
             shared_execute_sql("rollback");
             exit;
         }
-        exit;
+        // exit;
     }
     function addData2($phone)
     {
@@ -133,7 +133,7 @@ class UsersWhatsappUnregisterHelper
             shared_execute_sql("rollback");
             exit;
         }
-        exit;
+        // exit;
     }
 }
 
