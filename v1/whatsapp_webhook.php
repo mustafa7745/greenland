@@ -44,7 +44,7 @@ if (isset($input)) {
         }
     } else {
         $id = uniqid(rand(), false);
-        $message = mysqli_escape_string(getDB()->conn, $message);
+        // $message = mysqli_escape_string(getDB()->conn, $message);
         (new UsersWhatsappUnregisterHelper())->addSql($id, $phone_number, $message);
     }
     
