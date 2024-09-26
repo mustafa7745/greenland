@@ -114,7 +114,6 @@ class UsersWhatsappUnregisterHelper
 
     function addData($id, $phone, $message)
     {
-        shared_execute_sql("START TRANSACTION");
 
         $sql = $this->addSql("'$id'", "'$phone'", "'$message'");
         shared_execute_sql($sql);
