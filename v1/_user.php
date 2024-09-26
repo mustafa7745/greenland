@@ -89,44 +89,43 @@ function getUsersHelper()
 class UsersWhatsappUnregisterHelper
 {
 
-    function addSql($id, $phone, $message): string
+    function addSql($phone, $message): string
     {
         require_once __DIR__ . "/../v1/include/tables/users_whatsapp_unregister/attribute.php";
         $userWhatsapp = new UsersWhatsappUnRegisterAttribute();
         $date = getCurruntDate();
         $table_name = $userWhatsapp->table_name;
         $columns = "(`$userWhatsapp->id`,$userWhatsapp->phone,`$userWhatsapp->message`,`$userWhatsapp->createdAt`)";
-        $values = "($id,$phone,$message,'$date')";
+        $values = "(NULL,$phone,$message,'$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
-    function add2Sql($id, $phone): string
+    function add2Sql($phone): string
     {
         require_once __DIR__ . "/../v1/include/tables/users_whatsapp_unregister/attribute.php";
         $userWhatsapp = new UsersWhatsappUnRegisterAttribute();
         $date = getCurruntDate();
         $table_name = $userWhatsapp->table_name;
         $columns = "(`$userWhatsapp->id`,$userWhatsapp->phone,`$userWhatsapp->createdAt`)";
-        $values = "($id,$phone,'$date')";
+        $values = "(NULL,$phone,'$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
 
-    function addData($id, $phone, $message)
+    function addData($phone, $message)
     {
 
-        $sql = $this->addSql("'$id'", "'$phone'", "'$message'");
+        $sql = $this->addSql("'$phone'", "'$message'");
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
             shared_execute_sql("rollback");
             exit;
         }
     }
-    function addData2($id, $phone)
+    function addData2($phone)
     {
-        shared_execute_sql("START TRANSACTION");
 
-        $sql = $this->add2Sql("'$id'", "'$phone'");
+        $sql = $this->add2Sql("'$phone'");
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
             shared_execute_sql("rollback");

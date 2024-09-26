@@ -40,14 +40,13 @@ if (isset($input)) {
             }
         } else {
             $id = uniqid(rand(), false);
-            (new UsersWhatsappUnregisterHelper())->add2Sql($id, $phone_number);
+            (new UsersWhatsappUnregisterHelper())->add2Sql($phone_number);
         }
     } else {
-        $id = uniqid(rand(), false);
-        // $message = mysqli_escape_string(getDB()->conn, $message);
-        (new UsersWhatsappUnregisterHelper())->addSql($id, $phone_number, $message);
+        $message = mysqli_escape_string(getDB()->conn, $message);
+        (new UsersWhatsappUnregisterHelper())->addSql($phone_number, $message);
     }
-    
+
 }
 
 
