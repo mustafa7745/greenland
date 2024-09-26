@@ -40,12 +40,12 @@ if (isset($input)) {
             }
         } else {
             $id = uniqid(rand(), false);
-            (new UsersWhatsappUnregisterHelper())->add2Sql($phone_number);
+            (new UsersWhatsappUnregisterHelper())->addData2($phone_number);
         }
     } else {
         $w->sendMessageText("967774519161", "tes");
         // $message = mysqli_escape_string(getDB()->conn, $message);
-        (new UsersWhatsappUnregisterHelper())->addSql($phone_number,"sddd");
+        (new UsersWhatsappUnregisterHelper())->addData($phone_number,"sddd");
         $w->sendMessageText("967774519161", "tes2");
 
     }
