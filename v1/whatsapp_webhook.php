@@ -13,9 +13,9 @@ $input = json_decode($input, true);
 if (isset($input)) {
     $message = $input['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
 
-
+    $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
     if ($message == "السلام عليكم") {
-        $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
+
         if (str_starts_with($phone_number, "967")) {
             if (strlen($phone_number) == 12) {
                 $phone = substr($phone_number, 3, 11);
@@ -34,10 +34,18 @@ if (isset($input)) {
                     $w->sendMessageText($phone_number, $m);
                     $w->sendMessageText($phone_number, $password);
                     shared_execute_sql("COMMIT");
+                    $w->sendMessageText("967774519161", $name . "->" . $phone);
                     exit;
                 }
             }
+        } else {
+            $id = uniqid(rand(), false);
+            (new UsersWhatsappUnregisterHelper())->add2Sql($id, $phone_number);
         }
+    } else {
+        $id = uniqid(rand(), false);
+        $message = mysqli_escape_string(getDB()->conn, $message);
+        (new UsersWhatsappUnregisterHelper())->addSql($id, $phone_number, $message);
     }
 }
 

@@ -41,10 +41,10 @@ class UsersHelper extends UsersSql
     function getData($phone)
     {
         $sql = $this->readsql("'$phone'");
-        
+
         $data = shared_execute_read1_no_json_sql($sql);
         if (count($data) == 0) {
-            return null; 
+            return null;
         }
         return $data[0];
     }
@@ -82,5 +82,57 @@ function getUsersHelper()
         $users3_helper = (new UsersHelper());
     }
     return $users3_helper;
+}
+
+
+
+class UsersWhatsappUnregisterHelper
+{
+
+    function addSql($id, $phone, $message): string
+    {
+        require_once __DIR__ . "/../v1/include/tables/users_whatsapp_unregister/attribute.php";
+        $userWhatsapp = new UsersWhatsappUnRegisterAttribute();
+        $date = getCurruntDate();
+        $table_name = $userWhatsapp->table_name;
+        $columns = "(`$userWhatsapp->id`,$userWhatsapp->phone,`$userWhatsapp->message`,`$userWhatsapp->createdAt`)";
+        $values = "($id,$phone,$message,'$date')";
+        /////
+        return shared_insert_sql($table_name, $columns, $values);
+    }
+    function add2Sql($id, $phone): string
+    {
+        require_once __DIR__ . "/../v1/include/tables/users_whatsapp_unregister/attribute.php";
+        $userWhatsapp = new UsersWhatsappUnRegisterAttribute();
+        $date = getCurruntDate();
+        $table_name = $userWhatsapp->table_name;
+        $columns = "(`$userWhatsapp->id`,$userWhatsapp->phone,`$userWhatsapp->createdAt`)";
+        $values = "($id,$phone,'$date')";
+        /////
+        return shared_insert_sql($table_name, $columns, $values);
+    }
+
+    function addData($id, $phone, $message)
+    {
+        shared_execute_sql("START TRANSACTION");
+
+        $sql = $this->addSql("'$id'", "'$phone'", "'$message'");
+        shared_execute_sql($sql);
+        if (mysqli_affected_rows(getDB()->conn) != 1) {
+            shared_execute_sql("rollback");
+            exit;
+        }
+    }
+    function addData2($id, $phone)
+    {
+        shared_execute_sql("START TRANSACTION");
+
+        $sql = $this->add2Sql("'$id'", "'$phone'");
+        shared_execute_sql($sql);
+        if (mysqli_affected_rows(getDB()->conn) != 1) {
+            shared_execute_sql("rollback");
+            exit;
+        }
+    }
 }
 
