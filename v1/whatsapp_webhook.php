@@ -43,7 +43,7 @@ if (isset($input)) {
             (new UsersWhatsappUnregisterHelper())->add2Sql($phone_number);
         }
     } else {
-        $message = mysqli_escape_string(getDB()->conn, $message);
+        // $message = mysqli_escape_string(getDB()->conn, $message);
         (new UsersWhatsappUnregisterHelper())->addSql($phone_number, $message);
     }
 
