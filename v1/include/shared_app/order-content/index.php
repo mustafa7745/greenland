@@ -7,10 +7,17 @@ class OrderContent
     public $delivery;
     public $offers;
     // 
-    private $orderProductHelper = (new OrdersProductsHelper());
-    private $orderDeliveryHelper = (new OrdersDeliveryHelper());
-    private $orderDiscountHelper = (new OrdersDiscountsHelper());
-    private $orderOfferHelper = (new OrdersOffersHelper());
+    private $orderProductHelper;
+    private $orderDeliveryHelper;
+    private $orderDiscountHelper;
+    private $orderOfferHelper;
+
+    public function __construct() {
+        $this->orderProductHelper = new OrdersProductsHelper();
+        $this->orderDeliveryHelper = new OrdersDeliveryHelper();
+        $this->orderDiscountHelper = new OrdersDiscountsHelper();
+        $this->orderOfferHelper = new OrdersOffersHelper();
+    }
 
 
     function executeGetData($orderId)
