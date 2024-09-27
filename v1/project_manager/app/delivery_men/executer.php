@@ -69,7 +69,7 @@ class DeliveryMenExecuter
     foreach ($orderIds as $orderId) {
       $orderContent = new \OrderContent();
       $orderContent->executeGetData($orderId);
-      $sum = $sum + $orderContent->getActualAmount();
+      $sum = $orderContent->getActualAmount();
       // 
       $r = ['orderId' => $orderId, 'sum' => $sum];
       array_push($result, $r);
