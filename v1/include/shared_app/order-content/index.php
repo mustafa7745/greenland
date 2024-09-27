@@ -45,7 +45,6 @@ class OrderContent
             $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
         }
         if ($this->discount != null) {
-            require_once __DIR__ . '/../orders/helper.php';
             $amount = $this->discount[$this->orderDiscountHelper->amount];
             $type = $this->discount[$this->orderDiscountHelper->type];
 
