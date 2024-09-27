@@ -67,7 +67,7 @@ class DeliveryMenExecuter
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
     $result = [];
     foreach ($orderIds as $orderId) {
-      $orderContent = (new \OrderContent());
+      $orderContent = new \OrderContent();
       $orderContent->executeGetData($orderId);
       $sum = $sum + $orderContent->getActualAmount();
       // 
