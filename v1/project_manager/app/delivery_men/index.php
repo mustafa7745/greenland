@@ -29,6 +29,13 @@ class DeliveryMen
         // 
         return $deliveryMan;
     }
+    function getAmountNotcompleteOrders()
+    {
+        $this->_check("RUN_APP");
+        $data = getDeliveryMenExecuter()->executeGetAmountNotcompleteOrders(getIds());
+        // 
+        return $data;
+    }
     private function _check($permissionName)
     {
         $s = getMainRunApp();

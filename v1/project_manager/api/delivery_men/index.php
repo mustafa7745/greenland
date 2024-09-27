@@ -25,6 +25,8 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "readById") {
             return $this->readById();
+        } elseif (getTag() == "getAmountNotcompleteOrders") {
+            return $this->getAmountNotcompleteOrders();
         } else {
             UNKOWN_TAG();
         }
@@ -44,6 +46,11 @@ class ThisClass
     private function readById(): string
     {
         $resultData = $this->controller->readById();
+        return json_encode($resultData);
+    }
+    private function getAmountNotcompleteOrders(): string
+    {
+        $resultData = $this->controller->getAmountNotcompleteOrders();
         return json_encode($resultData);
     }
 }

@@ -6,13 +6,19 @@ class OrderContent
     public $discount;
     public $delivery;
     public $offers;
+    // 
+    private $orderProductHelper = (new OrdersProductsHelper());
+    private $orderDeliveryHelper = (new OrdersDeliveryHelper());
+    private $orderDiscountHelper = (new OrdersDiscountsHelper());
+    private $orderOfferHelper = (new OrdersOffersHelper());
+
 
     function executeGetData($orderId)
     {
-        $products = (new OrdersProductsHelper())->getDataByOrderId($orderId);
-        $delivery = (new OrdersDeliveryHelper())->getDataByOrderId($orderId);
-        $discount = (new OrdersDiscountsHelper())->getDataByOrderId($orderId);
-        $offers = (new OrdersOffersHelper())->getDataByOrderId($orderId);
+        $products = $this->orderProductHelper->getDataByOrderId($orderId);
+        $delivery = $this->orderDeliveryHelper->getDataByOrderId($orderId);
+        $discount = $this->orderDiscountHelper->getDataByOrderId($orderId);
+        $offers = $this->orderOfferHelper->getDataByOrderId($orderId);
         // 
         $this->products = $products;
         $this->delivery = $delivery;
@@ -20,5 +26,33 @@ class OrderContent
         $this->discount = $discount;
 
         // return ['products' => $orderProducts, 'delivery' => $delivery, 'discount' => $discount, 'offers' => $offers];
+    }
+    function getActualAmount()
+    {
+        $sum = 0;
+
+        foreach ($this->products as $key => $value) {
+            $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
+        }
+        foreach ($this->offers as $key => $value) {
+            $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
+        }
+        if ($this->discount != null) {
+            require_once __DIR__ . '/../orders/helper.php';
+            $amount = $this->discount[$this->orderDiscountHelper->amount];
+            $type = $this->discount[$this->orderDiscountHelper->type];
+
+            if ($type == $this->orderDiscountHelper->PERCENTAGE_TYPE) {
+                $discount = ($sum * $amount) / 100;
+                $sum = $sum - (100 * round($discount / 100));
+            } else {
+                $sum = $sum - $amount;
+            }
+        }
+
+        $sum = $sum + $this->delivery[$this->orderDeliveryHelper->price];
+        $sum = $sum - $this->delivery[$this->orderDeliveryHelper->actualPrice];
+
+        return $sum;
     }
 }

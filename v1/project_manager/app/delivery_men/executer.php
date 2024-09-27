@@ -22,25 +22,26 @@ class DeliveryMenExecuter
       sendMessageToOne($project[getProjectsHelper()->serviceAccountKey], $token, $title, $body);
     }
   }
-  function getDeliveryMen() {
+  function getDeliveryMen()
+  {
     // Retrieve delivery men data
     $deliveryMen = getDeliveryMenHelper()->getData2();
     $deliveryMenIds = array_column($deliveryMen, 'id');
-    
+
     // Initialize ordersDelivery for each delivery man
     foreach ($deliveryMen as &$deliveryMan) {
-        $deliveryMan['ordersDelivery'] = [];
+      $deliveryMan['ordersDelivery'] = [];
     }
 
     // Include required files and get orders
     require_once __DIR__ . "/../orders/helper.php";
     $orders = getOrdersHelper()->getNotComplete();
     $ordersIds = array_column($orders, 'id');
-    
+
     // Retrieve orders delivery data
     $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(
-        convertIdsListToStringSql($ordersIds), 
-        convertIdsListToStringSql($deliveryMenIds)
+      convertIdsListToStringSql($ordersIds),
+      convertIdsListToStringSql($deliveryMenIds)
     );
 
     // Convert delivery men array to associative array for faster lookup
@@ -48,18 +49,32 @@ class DeliveryMenExecuter
 
     // Map ordersDelivery to corresponding delivery men
     foreach ($ordersDelivery as $delivery) {
-        $deliveryManId = $delivery['deliveryManId'];
-        if (isset($deliveryMenMap[$deliveryManId])) {
-            $deliveryMenMap[$deliveryManId]['ordersDelivery'][] = [
-                'id' => $delivery['id'], 
-                'orderId' => $delivery['orderId']
-            ];
-        }
+      $deliveryManId = $delivery['deliveryManId'];
+      if (isset($deliveryMenMap[$deliveryManId])) {
+        $deliveryMenMap[$deliveryManId]['ordersDelivery'][] = [
+          'id' => $delivery['id'],
+          'orderId' => $delivery['orderId']
+        ];
+      }
     }
 
     // Return the result
     return array_values($deliveryMenMap);
-}
+  }
+
+  function executeGetAmountNotcompleteOrders($orderIds)
+  {
+    $result = [];
+    foreach ($orderIds as $orderId) {
+      $orderContent = (new \OrderContent());
+      $orderContent->executeGetData($orderId);
+      $sum = $sum + $orderContent->getActualAmount();
+      // 
+      $r = ['orderId' => $orderId, 'sum' => $sum];
+      array_push($result, $r);
+    }
+    return $result;
+  }
 
 
   // function getDeliveryMen()
@@ -80,7 +95,7 @@ class DeliveryMenExecuter
   //     array_push($ordersIds, $id);
   //   }
   //   $ordersDelivery = getOrdersDeliveryHelper()->getDataByOrderIdsAndDeliveryManIds(convertIdsListToStringSql($ordersIds), convertIdsListToStringSql($deliveryMenIds));
-   
+
   //   for ($i = 0; $i < count($ordersDelivery); $i++) {
   //     for ($j = 0; $j < count($deliveryMen); $j++) {
   //       if ($ordersDelivery[$i]["deliveryManId"] == $deliveryMen[$j]['id']) {
