@@ -64,6 +64,7 @@ class DeliveryMenExecuter
 
   function executeGetAmountNotcompleteOrders($orderIds)
   {
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
     $result = [];
     foreach ($orderIds as $orderId) {
       $orderContent = (new \OrderContent());
