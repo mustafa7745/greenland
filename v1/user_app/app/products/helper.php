@@ -17,7 +17,7 @@ class ProductsHelper extends ProductsSql
     // print_r($sql);
     $stmt = getPdo()->prepare($sql);
     $stmt->execute();
-    // $productName = "%$productName%";
+    $productName = "%$productName%";
     $stmt->bindParam(":productName", $productName);
     $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     return $data;
