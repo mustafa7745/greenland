@@ -86,7 +86,7 @@ function delete_sql($table_name, $condition): string
 function shared_read_limit2_sql_pdo($table_name, $columns, $innerJoin, $condition, $orderedBy, $orderedType, $limit)
 {
     // Build the SQL query
-    return "SELECT $columns FROM $table_name $innerJoin WHERE $condition ORDER BY $orderedBy $orderedType LIMIT 0, :limit";
+    return "SELECT $columns FROM $table_name $innerJoin WHERE $condition ORDER BY $orderedBy $orderedType LIMIT 0, $limit";
 
 
 }
