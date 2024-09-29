@@ -13,7 +13,7 @@ class DB
     //  echo "dttd";
     $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
     if ($this->conn->connect_error) {
-      die("Connection failed: " . $this->conn->connect_error);
+      die("Connection failed: ");
     }
     $this->conn->set_charset('utf8');
   }
@@ -21,8 +21,25 @@ class DB
 $db = null;
 function getDB(): DB
 {
-    if ($GLOBALS["db"] == null) {
-        $GLOBALS["db"] = new DB();
+  if ($GLOBALS["db"] == null) {
+    $GLOBALS["db"] = new DB();
+  }
+  return $GLOBALS["db"];
+}
+// 
+$pdo = null;
+function getPdo()
+{
+  global $pdo;
+  if ($pdo == null) {
+    try {
+
+      $db = getDB();
+      $pdo = new PDO("mysql:host={$db->servername};dbname={$db->dbname}", $db->username, $db->password);
+    } catch (\Throwable $th) {
+      die("Connection failed pdo: ");
     }
-    return $GLOBALS["db"];
+
+  }
+  return $pdo;
 }
