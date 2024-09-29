@@ -13,9 +13,10 @@ class ProductsHelper extends ProductsSql
   }
   function searchData($productName)
   {
-    $sql = $this->searchSql($productName);
+    $sql = $this->searchSql();
     $stmt = getPdo()->prepare($sql);
     $stmt->execute();
+    $productName = "%$productName%";
     $stmt->bindParam(":productName", $productName);
     $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     return $data;
