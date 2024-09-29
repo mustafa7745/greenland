@@ -14,12 +14,14 @@ class ProductsHelper extends ProductsSql
   function searchData($productName)
   {
     $sql = $this->searchSql();
-    print_r($sql);
+    // print_r($sql);
     $stmt = getPdo()->prepare($sql);
     $stmt->execute();
     $productName = "%$productName%";
     $stmt->bindParam(":productName", $productName);
     $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    // $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
     return $data;
   }
   function getDataWithDiscounts()
