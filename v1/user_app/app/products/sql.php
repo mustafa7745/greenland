@@ -43,7 +43,7 @@ class ProductsSql extends \ProductsAttribute
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->name LIKE '%$productName%'";
-        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->createdAt","DESC", $condition,7);
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->order","DESC", $condition,7);
     }
     function readDiscountsSql(): string
     {
