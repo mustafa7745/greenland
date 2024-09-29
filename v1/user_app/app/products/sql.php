@@ -42,7 +42,7 @@ class ProductsSql extends \ProductsAttribute
         $isAvailable = "$this->table_name . $this->isAvailable";
 
         $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
-        $condition = "$this->table_name.$this->name LIKE :productName";
+        $condition = "$this->table_name.$this->name = :productName";
 
         return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->order", "ASC", $condition, 7);
     }
