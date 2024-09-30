@@ -423,7 +423,7 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
   function getDataByOrderIdsAndDeliveryManIds($orderIds, $deliveryManIds)
   {
     $sql = $this->readByOrderIdsAndDeliveryManIdsSql($orderIds, $deliveryManIds);
-    print_r($sql);
+    // print_r($sql);
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
