@@ -513,8 +513,8 @@ class OrdersDeliveryExecuter
     $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
     $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
     checkOrderOwner($order, $managerId);
-    require_once __DIR__ . "/../acceptance/helper.php";
-    $acceptance = getAcceptanceHelper()->getData($orderDelivery[getOrdersDeliveryHelper()->id]);
+    // require_once __DIR__ . "/../acceptance/helper.php";
+    // $acceptance = getAcceptanceHelper()->getData($orderDelivery[getOrdersDeliveryHelper()->id]);
     // if ($acceptance != null) {
     //   require_once (getManagerPath() . "app/delivery_men/helper.php");
     //   $deliveryMan = getDeliveryMenHelper()->getDataById2($acceptance[getAcceptanceHelper()->deliveryManId]);
@@ -522,7 +522,7 @@ class OrdersDeliveryExecuter
     //   $acceptance["deliveryMan"] = $deliveryMan;
     // }
     shared_execute_sql("COMMIT");
-    $orderDelivery['acceptance'] = $acceptance;
+    // $orderDelivery['acceptance'] = $acceptance;
     return $orderDelivery;
     // return $data;
   }
