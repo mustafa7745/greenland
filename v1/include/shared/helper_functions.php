@@ -30,8 +30,10 @@ function convertIdsListToStringSql($ids)
 
   $result = "";
   $count = count($ids);
+  if ($count == 0) {
+    return "''";
+  }
   for ($i = 0; $i < $count; $i++) {
-
     $id = $ids[$i];
     if ($count > ($i + 1)) {
       $result = $result . "'{$id}'" . ",";
