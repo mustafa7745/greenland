@@ -436,7 +436,7 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
       $en = "لايوجد بيانات توصيل في هذا الطلب";
       exitFromScript($ar, $en);
     }
-    if (count($data) > 0) {
+    if (count($data) > 1) {
       $ar = "هناك ارقام اوردرات متشابهه يرجى الاتصال بالمسؤوول";
       $en = "هناك ارقام اوردرات متشابهه يرجى الاتصال بالمسؤوول";
       exitFromScript($ar, $en);
