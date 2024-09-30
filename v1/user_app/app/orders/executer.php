@@ -120,8 +120,7 @@ class OrdersExecuter
       $productName = $products[$i][getProductsHelper()->name];
       $productPrice = $products[$i][getProductsHelper()->postPrice];
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
-      $id = uniqid(rand(), false);
-      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+      getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
 

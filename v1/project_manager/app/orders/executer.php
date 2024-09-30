@@ -54,13 +54,12 @@ class OrdersExecuter extends OrdersSql
 
     $final_sum = 0.0;
     for ($i = 0; $i < count($products); $i++) {
-      $id = uniqid(rand(), false);
       $productId = $products[$i][getProductsHelper()->id];
       $productName = $products[$i][getProductsHelper()->name];
       $productPrice = $products[$i][getProductsHelper()->postPrice];
       $final_sum = $final_sum + $productPrice;
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
-      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+      getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
     $orderDeliveryId = uniqid(rand(), false);
@@ -121,13 +120,12 @@ class OrdersExecuter extends OrdersSql
 
     $final_sum = 0.0;
     for ($i = 0; $i < count($products); $i++) {
-      $id = uniqid(rand(), false);
       $productId = $products[$i][getProductsHelper()->id];
       $productName = $products[$i][getProductsHelper()->name];
       $productPrice = $products[$i][getProductsHelper()->postPrice];
       $final_sum = $final_sum + $productPrice;
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
-      getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+      getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
     $situatinId = getOrdersHelper()->ORDER_COMPLETED;
