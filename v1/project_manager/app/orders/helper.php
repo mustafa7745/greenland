@@ -431,7 +431,7 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
   {
     $sql = $this->readByOrderIdSql("'$orderId'");
     $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 0) {
+    if (count($data) == 0) {
       $ar = "ORDER_ID_ERROR_IN_DLV";
       $en = "ORDER_ID_ERROR_IN_DLV";
       exitFromScript($ar, $en);
