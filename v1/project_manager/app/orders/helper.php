@@ -431,9 +431,14 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
   {
     $sql = $this->readByOrderIdSql("'$orderId'");
     $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 1) {
+    if (count($data) != 0) {
       $ar = "ORDER_ID_ERROR_IN_DLV";
       $en = "ORDER_ID_ERROR_IN_DLV";
+      exitFromScript($ar, $en);
+    }
+    if (count($data) > 0) {
+      $ar = "هناك ارقام اوردرات متشابهه يرجى الاتصال بالمسؤوول";
+      $en = "هناك ارقام اوردرات متشابهه يرجى الاتصال بالمسؤوول";
       exitFromScript($ar, $en);
     }
     return $data[0];
