@@ -432,8 +432,8 @@ class OrdersDeliveryHelper extends OrdersDeliverySql
     $sql = $this->readByOrderIdSql("'$orderId'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) == 0) {
-      $ar = "ORDER_ID_ERROR_IN_DLV";
-      $en = "ORDER_ID_ERROR_IN_DLV";
+      $ar = "لايوجد بيانات توصيل في هذا الطلب";
+      $en = "لايوجد بيانات توصيل في هذا الطلب";
       exitFromScript($ar, $en);
     }
     if (count($data) > 0) {
