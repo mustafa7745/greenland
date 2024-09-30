@@ -250,8 +250,9 @@ class OrdersProductsExecuter
     $product = getProductsHelper()->getDataById($productId);
     $productName = $product[getProductsHelper()->name];
     $productPrice = $product[getProductsHelper()->postPrice];
-    $id = uniqid(rand(), false);
-    getOrdersProductsHelper()->addOrderProducts($id, $orderId, $productId, $productName, $productPrice, $productQuantity);
+    
+    getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
+    $id = getDB()->conn->insert_id;
     $data = getOrdersProductsHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;

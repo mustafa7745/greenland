@@ -122,12 +122,12 @@ require_once __DIR__ . '/../../../include/tables/orders_offers/attribute.php';
 
 class OrdersOffersSql extends \OrdersOffersAttribute
 {
-    function addSql($id, $orderId, $offerId, $offerName, $offerPrice, $offerQuantity): string
+    function addSql($orderId, $offerId, $offerName, $offerPrice, $offerQuantity): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->orderId`,`$this->offerId`,`$this->offerName`,`$this->offerPrice`,`$this->offerQuantity`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$orderId,$offerId,$offerName,$offerPrice,$offerQuantity,'$date','$date')";
+        $values = "(NULL,$orderId,$offerId,$offerName,$offerPrice,$offerQuantity,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

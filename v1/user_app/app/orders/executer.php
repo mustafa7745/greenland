@@ -133,8 +133,8 @@ class OrdersExecuter
       $offerName = $offers[$i][getOffersHelper()->name];
       $offerPrice = $offers[$i][getOffersHelper()->price];
       $offerQuantity = getQntFromOrderProducts($orderOffers, $offerId);
-      $id = uniqid(rand(), false);
-      getOrdersOffersHelper()->addOrderOffer($id, $orderId, $offerId, $offerName, $offerPrice, $offerQuantity);
+      // $id = uniqid(rand(), false);
+      getOrdersOffersHelper()->addOrderOffer($orderId, $offerId, $offerName, $offerPrice, $offerQuantity);
     }
 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
