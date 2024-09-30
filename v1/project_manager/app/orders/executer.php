@@ -283,25 +283,25 @@ class OrdersProductsExecuter
     getOrdersHelper()->updateStatus($orderId, $situationId);
     getOrdersStatusHelper()->addData($orderId, $situationId);
     getOrdersCenceledHelper()->addData($orderId, $description);
-    $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
+    // $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
 
-    require_once __DIR__ . '/../acceptance/helper.php';
-    $acceptance = getAcceptanceHelper()->getDataByOrderDeliveryIdAndStatus(getId($orderDelivery), getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
-    if (count($acceptance) == 1) {
-      $acceptance = $acceptance[0];
+    // require_once __DIR__ . '/../acceptance/helper.php';
+    // $acceptance = getAcceptanceHelper()->getDataByOrderDeliveryIdAndStatus(getId($orderDelivery), getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
+    // if (count($acceptance) == 1) {
+    //   $acceptance = $acceptance[0];
 
-      $ids = [getId($acceptance)];
+    //   $ids = [getId($acceptance)];
 
 
 
-      $idsString = convertIdsListToStringSql($ids);
+    //   $idsString = convertIdsListToStringSql($ids);
 
-      // print_r($ids);
-      // print_r($idsString);
+    //   // print_r($ids);
+    //   // print_r($idsString);
 
-      // exitFromScript(json_encode($ids), "ffdf");
-      getAcceptanceHelper()->deleteData($idsString, count($ids));
-    }
+    //   // exitFromScript(json_encode($ids), "ffdf");
+    //   getAcceptanceHelper()->deleteData($idsString, count($ids));
+    // }
     shared_execute_sql("COMMIT");
     return ['success' => 'true'];
   }
