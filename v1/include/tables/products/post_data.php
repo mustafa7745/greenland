@@ -7,12 +7,14 @@ function getInputProductName()
     }
     $value = getPostData3()[$name];
     $value = mysqli_real_escape_string(getDB()->conn, $value);
+    $value = trim($value);
     if (!isArabicOnly($value)) {
         exitFromScript("يحب ان يحتوي النص على حروف عربية فقط", "");
     }
     if (strlen($value) > 50) {
         LONG_TEXT();
     }
+   
     return $value;
 }
 function getInputProductNameSU()
