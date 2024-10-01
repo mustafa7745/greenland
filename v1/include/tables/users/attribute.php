@@ -7,6 +7,7 @@ class UsersAttribute
   public $table_name = "users";
   public $id = "id";
   public $name = "name";
+  public $name2 = "name2";
   public $phone = "phone";
   public $password = "password";
   public $createdAt = "createdAt";

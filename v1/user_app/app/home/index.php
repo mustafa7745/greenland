@@ -24,6 +24,13 @@ class Home
         // getProjectLoginTokenData("RUN_APP", $s);
         return getHomeExecuter()->executeGetDataWithUser();
     }
+    function readWithUser2()
+    {
+        // checkPermission("READ_GROUPS");
+        // $s = getMainRunApp();
+        // getProjectLoginTokenData("RUN_APP", $s);
+        return getHomeExecuter()->executeGetDataWithUser2();
+    }
 }
 
 

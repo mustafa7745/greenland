@@ -17,6 +17,18 @@ class UsersHelper extends UsersSql
    
     return $data[0];
   }
+  function getDataById2($userId)
+  {
+    $sql = $this->readById2Sql("'$userId'");
+    $data = shared_execute_read1_no_json_sql($sql);
+    if (count($data) != 1) {
+      $ar = "USER_ID";
+      $en = "USER_ID";
+      exitFromScript($ar, $en);
+    }
+   
+    return $data[0];
+  }
 }
 
 $users_helper = null;
