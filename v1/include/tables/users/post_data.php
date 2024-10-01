@@ -68,7 +68,7 @@ function getInputUserLocationId()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,30);
+    checkLong($value, 30);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -80,7 +80,7 @@ function getInputUserPassword3()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,10);
+    checkLong($value, 10);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -92,7 +92,7 @@ function getInputUserLocationUserId()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,30);
+    checkLong($value, 30);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
@@ -104,7 +104,7 @@ function getInputUserId()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,30);
+    checkLong($value, 30);
 
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -118,7 +118,7 @@ function getInputUserLocationCity()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,50);
+    checkLong($value, 50);
 
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -132,9 +132,11 @@ function getInputUserName()
     if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
         EMPTY_OR_NOT_FOUND($name);
     }
+
     $value = getPostData3()[$name];
-    
+    $value = trim($value);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
+    checkLong($value, 100);
     return $value;
 }
 
@@ -145,7 +147,7 @@ function getInputUserLocationStreet()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,50);
+    checkLong($value, 50);
 
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -157,7 +159,7 @@ function getInputUserLocationNearTo()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,100);
+    checkLong($value, 100);
 
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -169,7 +171,7 @@ function getInputUserLocationLatLong()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,150);
+    checkLong($value, 150);
 
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -181,7 +183,7 @@ function getInputUserLocationContactPhone()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,9);
+    checkLong($value, 9);
 
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -193,7 +195,7 @@ function getInputUserLocationUrl()
         EMPTY_OR_NOT_FOUND($name);
     }
     $value = getPostData3()[$name];
-    checkLong($value,200);
+    checkLong($value, 200);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
