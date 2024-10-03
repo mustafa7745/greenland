@@ -36,7 +36,7 @@ class UsersSql extends \UsersAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->name = $newValue, $this->updatedAt = '$date'";
+        $set_query = "SET $this->name2 = $newValue, $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
