@@ -8,5 +8,9 @@ class ManagersUsersAttribute
   public $id = "id";
   public $managerId = "managerId";
   public $userId = "userId";
+  public $isRequestMessage = "isRequestMessage";
   public $createdAt = "createdAt";
+  public $updatedAt = "updatedAt";
+
+  
 }

@@ -9,8 +9,8 @@ class ManagersUsersSql extends \ManagersUsersAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,$this->userId,`$this->managerId`,`$this->createdAt`)";
-        $values = "($id,$userId,$managerId,'$date')";
+        $columns = "(`$this->id`,$this->userId,`$this->managerId`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$userId,$managerId,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

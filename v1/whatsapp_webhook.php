@@ -21,25 +21,28 @@ if (isset($input)) {
                     $phone = substr($phone_number, 3, 11);
                     $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
 
-                    $user = getUsersHelper()->getData($phone);
+                    $userHelper = getUsersHelper();
+                    $user = $userHelper->getData($phone);
                     if ($user == null) {
-                        $id = uniqid(rand(), false);
-                        $password = generateRandomPassword();
-                        getUsersHelper()->addData($id, $phone, $name, $password);
-                        $m = "وعليكم السلام ورحمة الله وبركاته";
-                        $m = $m . "\n";
-                        $m = $m . "مرحبا بك";
-                        $m = $m . "\n";
-                        $m = $m . "الرقم السري هو: ";
-                        $w->sendMessageText($phone_number, $m);
-                        $w->sendMessageText($phone_number, $password);
-                        shared_execute_sql("COMMIT");
-                        $w->sendMessageText("967774519161", $name . "->" . $phone);
+                        sendMessagePassword($w, $userHelper, $phone, $name, $phone_number);
+                    } else {
+                        $userId = $user[$userHelper->id];
+
+                        require_once __DIR__ . '/../v1/_managers_users.php';
+                        $managerUserHelper = new ManagersUsersHelper();
+                        // 
+                        $managerUser = $managerUserHelper->getData($userId);
+                        if ($managerUser != null) {
+                            if ($managerUser[$managerUserHelper->isRequestMessage] != 1) {
+                                $managerUserHelper->updateData($managerUser[$managerUserHelper->id]);
+                                sendMessagePassword($w, $userHelper, $phone, $name, $phone_number);
+                            }
+                            exit;
+                        }
                         exit;
                     }
                 }
             } else {
-
                 (new UsersWhatsappUnregisterHelper())->addData2($phone_number);
                 exit;
             }
@@ -53,6 +56,23 @@ if (isset($input)) {
     } else {
         exit;
     }
+}
+
+function sendMessagePassword($w, $userHelper, $phone, $name, $phone_number)
+{
+    $id = uniqid(rand(), false);
+    $password = generateRandomPassword();
+    $userHelper->addData($id, $phone, $name, $password);
+    $m = "وعليكم السلام ورحمة الله وبركاته";
+    $m = $m . "\n";
+    $m = $m . "مرحبا بك";
+    $m = $m . "\n";
+    $m = $m . "الرقم السري هو: ";
+    $w->sendMessageText($phone_number, $m);
+    $w->sendMessageText($phone_number, $password);
+    shared_execute_sql("COMMIT");
+    $w->sendMessageText("967774519161", $name . "->" . $phone);
+    exit;
 }
 
 
