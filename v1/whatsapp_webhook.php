@@ -12,6 +12,7 @@ $input = json_decode($input, true);
 
 if (isset($input)) {
     $message = $input['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
+    $message = trim($message);
     if (strlen($message) > 0) {
         $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
         require_once __DIR__ . '/../v1/_user.php';
