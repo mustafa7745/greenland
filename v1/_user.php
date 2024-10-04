@@ -38,7 +38,7 @@ class UsersSql extends \UsersAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $set_query = "SET $this->password = $newValue, $this->updatedAt = '$date'";
+        $set_query = "SET $this->password = SHA2($newValue,512), $this->updatedAt = '$date'";
         $condition = "$this->id = $id";
         /////
         return shared_update_sql($table_name, $set_query, $condition);
