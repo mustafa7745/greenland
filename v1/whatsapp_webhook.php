@@ -37,6 +37,7 @@ if (isset($input)) {
                         $managerUser = $managerUserHelper->getData($userId);
                         if ($managerUser != null) {
                             if ($managerUser[$managerUserHelper->isRequestMessage] != 1) {
+                                shared_execute_sql("START TRANSACTION");
                                 $managerUserHelper->updateData($managerUser[$managerUserHelper->id]);
                                 $password = generateRandomPassword();
                                 $userHelper->updatePassword($userId, $password);
