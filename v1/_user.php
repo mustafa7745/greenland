@@ -34,6 +34,15 @@ class UsersSql extends \UsersAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    protected function updatePasswordSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->password = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
 }
 
 class UsersHelper extends UsersSql
@@ -53,6 +62,17 @@ class UsersHelper extends UsersSql
         shared_execute_sql("START TRANSACTION");
 
         $sql = $this->addSql("'$id'", "'$phone'", "'$name'", "'$password'");
+        shared_execute_sql($sql);
+        if (mysqli_affected_rows(getDB()->conn) != 1) {
+            shared_execute_sql("rollback");
+            exit;
+        }
+    }
+    function updatePassword($id, $password)
+    {
+        shared_execute_sql("START TRANSACTION");
+
+        $sql = $this->updatePasswordSql("'$id'", "'$password'");
         shared_execute_sql($sql);
         if (mysqli_affected_rows(getDB()->conn) != 1) {
             shared_execute_sql("rollback");

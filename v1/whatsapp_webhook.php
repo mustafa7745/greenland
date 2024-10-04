@@ -24,7 +24,10 @@ if (isset($input)) {
                     $userHelper = getUsersHelper();
                     $user = $userHelper->getData($phone);
                     if ($user == null) {
-                        sendMessagePassword($w, $userHelper, $phone, $name, $phone_number);
+                        $id = uniqid(rand(), false);
+                        $password = generateRandomPassword();
+                        $userHelper->addData($id, $phone, $name, $password);
+                        sendMessagePassword($w, $userHelper, $phone, $name, $password, $phone_number);
                     } else {
                         $userId = $user[$userHelper->id];
 
@@ -35,7 +38,9 @@ if (isset($input)) {
                         if ($managerUser != null) {
                             if ($managerUser[$managerUserHelper->isRequestMessage] != 1) {
                                 $managerUserHelper->updateData($managerUser[$managerUserHelper->id]);
-                                sendMessagePassword($w, $userHelper, $phone, $name, $phone_number);
+                                $password = generateRandomPassword();
+                                $userHelper->updatePassword($userId, $password);
+                                sendMessagePassword($w, $userHelper, $phone, $name, $password, $phone_number);
                             }
                             exit;
                         }
@@ -58,11 +63,9 @@ if (isset($input)) {
     }
 }
 
-function sendMessagePassword($w, $userHelper, $phone, $name, $phone_number)
+function sendMessagePassword($w, $userHelper, $phone, $name, $password, $phone_number)
 {
-    $id = uniqid(rand(), false);
-    $password = generateRandomPassword();
-    $userHelper->addData($id, $phone, $name, $password);
+
     $m = "وعليكم السلام ورحمة الله وبركاته";
     $m = $m . "\n";
     $m = $m . "مرحبا بك";
