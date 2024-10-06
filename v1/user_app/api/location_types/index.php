@@ -35,5 +35,4 @@ class ThisClass
 }
 
 $this_class = new ThisClass();
-closeDB();
 die($this_class->main());
