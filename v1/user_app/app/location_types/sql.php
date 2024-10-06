@@ -12,6 +12,6 @@ class LocationTypesSql extends \LocationTypesAttribute
         $innerJoin = "";
         $condition = "1";
         /////
-        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "`$this->order`", "DESC");
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "`$this->order`", "ASC");
     }
 }
