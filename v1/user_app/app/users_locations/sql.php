@@ -10,11 +10,17 @@ class UsersLocationsSql extends \UsersLocationsAttribute
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $type = "NULL";
+        print_r($type);
         $locationType = getInputLocationTypeId();
         if ($locationType != null) {
             $type = $locationType;
+            print_r("must");
         }
+        print_r($locationType);
+
+
         $columns = "(`$this->id`,`$this->userId`,`$this->city`,`$this->street`,`$this->latLong`,`$this->contactPhone`,`$this->nearTo`,`$this->type`,`$this->createdAt`,`$this->updatedAt`)";
+        print_r($columns);
         $values = "($id,$userId,$city,$street,$latLong,$contactPhone,$nearTo,$type,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
