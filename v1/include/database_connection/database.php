@@ -26,6 +26,10 @@ function getDB(): DB
   }
   return $GLOBALS["db"];
 }
+function closeDB()
+{
+  getDB()->conn->close();
+}
 // 
 $pdo = null;
 function getPdo()

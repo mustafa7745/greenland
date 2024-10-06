@@ -12,6 +12,7 @@ class UsersLocationsAttribute
     public $contactPhone = "contactPhone";
     public $nearTo = "nearTo";
     public $street = "street";
+    public $type = "type";
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
 }
