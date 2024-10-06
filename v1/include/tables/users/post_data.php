@@ -131,11 +131,13 @@ function getInputLocationTypeId()
         return null;
     }
     $value = getPostData3()[$name];
-    print_r($value);
     if (is_int($value) == false) {
         return null;
     }
+    
     $value = mysqli_real_escape_string(getDB()->conn, $value);
+    print_r($value);
+
     return $value;
 }
 
