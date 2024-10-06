@@ -8,7 +8,7 @@ class LocationTypesSql extends \LocationTypesAttribute
     function readSql(): string
     {
         $table_name = $this->table_name;
-        $columns = " * ";
+        $columns = "$this->id, $this->name";
         $innerJoin = "";
         $condition = "1";
         /////
