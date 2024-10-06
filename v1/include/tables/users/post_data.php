@@ -131,6 +131,7 @@ function getInputLocationTypeId()
         return null;
     }
     $value = getPostData3()[$name];
+    print_r($value);
     if (is_int($value) == false) {
         return null;
     }
