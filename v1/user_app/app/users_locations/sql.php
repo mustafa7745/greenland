@@ -9,6 +9,11 @@ class UsersLocationsSql extends \UsersLocationsAttribute
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
+        $type = "NULL";
+        $locationType = getInputLocationTypeId();
+        if ($locationType != null) {
+            $type = $locationType;
+        }
         $columns = "(`$this->id`,`$this->userId`,`$this->city`,`$this->street`,`$this->latLong`,`$this->contactPhone`,`$this->nearTo`,`$this->createdAt`,`$this->updatedAt`)";
         $values = "($id,$userId,$city,$street,$latLong,$contactPhone,$nearTo,'$date','$date')";
         /////
@@ -21,7 +26,7 @@ class UsersLocationsSql extends \UsersLocationsAttribute
         $innerJoin = "";
         $condition = "$this->userId = $userId";
         /////
-        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition , $this->createdAt,"DESC");
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
     }
     function readByIdsql($id): string
     {

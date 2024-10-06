@@ -1,4 +1,6 @@
 <?php
+require_once 'post_data.php';
+
 class LocationTypesAttribute
 {
     public $table_name = "location_types";
