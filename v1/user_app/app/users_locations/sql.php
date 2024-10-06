@@ -14,8 +14,8 @@ class UsersLocationsSql extends \UsersLocationsAttribute
         if ($locationType != null) {
             $type = $locationType;
         }
-        $columns = "(`$this->id`,`$this->userId`,`$this->city`,`$this->street`,`$this->latLong`,`$this->contactPhone`,`$this->nearTo`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$userId,$city,$street,$latLong,$contactPhone,$nearTo,'$date','$date')";
+        $columns = "(`$this->id`,`$this->userId`,`$this->city`,`$this->street`,`$this->latLong`,`$this->contactPhone`,`$this->nearTo`,`$this->type`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$userId,$city,$street,$latLong,$contactPhone,$nearTo,$type,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
