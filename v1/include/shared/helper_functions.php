@@ -47,7 +47,10 @@ function successReturn()
 {
   return ['success' => 'true'];
 }
-
+function successReturnValue($value)
+{
+  return ['success' => $value];
+}
 function sendMessageToTobic($topic, $title, $body): bool
 {
   require_once __DIR__ . "/../projects/helper.php";

@@ -12,8 +12,8 @@ class UsersLocationsExecuter
   function executeGetDeliveryPrice($userLocationId)
   {
     $data = getUsersLocationsHelper()->getDataById($userLocationId);
-    $data["deliveryPrice"] = getDeliveryPrice($data);
-    return $data;
+    return getDeliveryPrice($data);
+
   }
   function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone)
   {

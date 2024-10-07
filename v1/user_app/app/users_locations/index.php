@@ -30,7 +30,10 @@ class UsersLocations
     }
     function readDeliveryPrice()
     {
-        return getUsersLocationsExecuter()->executeGetDeliveryPrice(getInputUserLocationId());
+        $data = getUsersLocationsExecuter()->executeGetDeliveryPrice(getInputUserLocationId());
+        return successReturnValue($data);
+
+
     }
     function add()
     {
