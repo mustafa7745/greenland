@@ -236,6 +236,31 @@ function getColumnImagePath($columns, $key_path)
   return $columns . " , " . $anonymous_static_sql->read_path_icon_app_sql("'$key_path'");
 }
 
+$project = null;
+function getDeliveryPrice($userLocation)
+{
+  global $project;
+  global $PROJECT_ID;
+  /**
+   * ADD DELIVERY DATA
+   */
+  require_once __DIR__ . "/../projects/helper.php";
+  if ($project == null) {
+    $project = getProjectsHelper()->getDataById($PROJECT_ID);
+  }
+
+
+  $project_lat = (getLatLong($project))[0];
+  $project_long = (getLatLong($project))[1];
+  // 
+  $user_lat = (getLatLong($userLocation))[0];
+  $user_long = (getLatLong($userLocation))[1];
+  // 
+  $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
+  // print_r($distanse);
+  $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
+  return $order_price_delivery;
+}
 
 
 
