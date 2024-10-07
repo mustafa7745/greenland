@@ -33,7 +33,9 @@ class UsersLocationsExecuter
     $id = getId(getIdsControllerHelper()->getData($helper->table_name));
     $dataAfterAdd = $helper->addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone);
     shared_execute_sql("COMMIT");
+    $dataAfterAdd["deliveryPrice"] = getDeliveryPrice($data);
     return $dataAfterAdd;
+
   }
 }
 $users_locations_executer = null;
