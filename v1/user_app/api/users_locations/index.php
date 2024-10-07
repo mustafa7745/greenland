@@ -24,6 +24,8 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "add") {
             return $this->add();
+        } elseif (getTag() == "readDeliveryPrice") {
+            return $this->readDeliveryPrice();
         } else {
             UNKOWN_TAG();
         }
@@ -32,6 +34,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function readDeliveryPrice(): string
+    {
+        $resultData = $this->controller->readDeliveryPrice();
         return json_encode($resultData);
 
     }

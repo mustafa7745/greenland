@@ -9,6 +9,12 @@ class UsersLocationsExecuter
     $data = getUsersLocationsHelper()->getData($userId);
     return $data;
   }
+  function executeGetDeliveryPrice($userLocationId)
+  {
+    $data = getUsersLocationsHelper()->getDataById($userLocationId);
+    $data["deliveryPrice"] = getDeliveryPrice($data);
+    return $data;
+  }
   function executeAddData($userId, $city, $street, $latLong, $nearTo, $contactPhone)
   {
     $helper = getUsersLocationsHelper();
