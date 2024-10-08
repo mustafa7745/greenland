@@ -24,9 +24,9 @@ class UsersLocationsHelper extends UsersLocationsSql
     }
     return $data[0];
   }
-  function addData($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone, $url)
+  function addData($userId, $city, $street, $latLong, $nearTo, $contactPhone, $url)
   {
-    $sql = $this->addSql("'$id'", "'$userId'", "'$city'", "'$street'", "'$latLong'", "'$nearTo'", "'$contactPhone'", "'$url'");
+    $sql = $this->addSql("'$userId'", "'$city'", "'$street'", "'$latLong'", "'$nearTo'", "'$contactPhone'", "'$url'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
@@ -34,6 +34,7 @@ class UsersLocationsHelper extends UsersLocationsSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
       exitFromScript($ar, $en);
     }
+    $id = getDB()->conn->insert_id;
     return $this->getDataById($id);
   }
   function updateStreet($id, $newValue)

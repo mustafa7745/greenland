@@ -5,7 +5,7 @@ require_once (__DIR__ . '/../../../include/tables/users_locations/attribute.php'
 
 class UsersLocationsSql extends \UsersLocationsAttribute
 {
-    function addSql($id, $userId, $city, $street, $latLong, $nearTo, $contactPhone): string
+    function addSql($userId, $city, $street, $latLong, $nearTo, $contactPhone): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
@@ -15,7 +15,7 @@ class UsersLocationsSql extends \UsersLocationsAttribute
             $type = $locationType;
         }
         $columns = "(`$this->id`,`$this->userId`,`$this->city`,`$this->street`,`$this->latLong`,`$this->contactPhone`,`$this->nearTo`,`$this->type`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$userId,$city,$street,$latLong,$contactPhone,$nearTo,$type,'$date','$date')";
+        $values = "(NULL,$userId,$city,$street,$latLong,$contactPhone,$nearTo,$type,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
