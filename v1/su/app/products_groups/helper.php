@@ -38,7 +38,8 @@ class ProductGroupsHelper extends ProductsGroupsSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
       exitFromScript($ar, $en);
     }
-    // return $this->getDataById($id);
+    $id = getDB()->conn->insert_id;
+    return $this->getDataById($id);
   }
 
   function searchData($search)
