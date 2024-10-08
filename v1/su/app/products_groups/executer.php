@@ -23,8 +23,7 @@ class ProductsGroupsExecuter
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
-    $id = getId(getIdsControllerHelper()->getData($helper->table_name));
-    $dataAfterAdd = $helper->addData($id, $categoryId, $name);
+    $dataAfterAdd = $helper->addData($categoryId, $name);
     shared_execute_sql("COMMIT");
 
     return $dataAfterAdd;
