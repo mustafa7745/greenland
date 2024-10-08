@@ -16,9 +16,9 @@ class OrdersHelper extends OrdersSql
       exitFromScript($ar, $en);
     }
   }
-  function addOrder($id, $userId)
+  function addOrder($userId)
   {
-    $sql = $this->addSql("'$id'", "'$userId'");
+    $sql = $this->addSql("'$userId'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

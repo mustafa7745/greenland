@@ -88,8 +88,9 @@ class OrdersExecuter
      */
     require_once __DIR__ . "/../../app/ids_controller/helper.php";
 
-    $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
-    getOrdersHelper()->addOrder($orderId, $userId);
+    getOrdersHelper()->addOrder($userId);
+    $orderId = getDB()->conn->insert_id;
+
 
 
     /**
