@@ -45,16 +45,18 @@ class UsersLocationsExecuter
      */
 
     shared_execute_sql("COMMIT");
-    require_once __DIR__ . '/../../../include/projects/helper.php';
-    global $PROJECT_ID;
-    $project = getProjectsHelper()->getDataById($PROJECT_ID);
-    $project_lat = (getLatLong($project))[0];
-    $project_long = (getLatLong($project))[1];
-    // 
-    $user_lat = (getLatLong($dataAfterAdd))[0];
-    $user_long = (getLatLong($dataAfterAdd))[1];
-    $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
-    $dataAfterAdd['price'] = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
+    // require_once __DIR__ . '/../../../include/projects/helper.php';
+    // global $PROJECT_ID;
+    // $project = getProjectsHelper()->getDataById($PROJECT_ID);
+    // $project_lat = (getLatLong($project))[0];
+    // $project_long = (getLatLong($project))[1];
+    // // 
+    // $user_lat = (getLatLong($dataAfterAdd))[0];
+    // $user_long = (getLatLong($dataAfterAdd))[1];
+    // $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
+
+    $dataAfterAdd['price'] = getDeliveryPrice($dataAfterAdd);
+    //  50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
     return $dataAfterAdd;
   }
   function executeUpdateStreet($id, $newValue)
