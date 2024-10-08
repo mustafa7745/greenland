@@ -70,12 +70,12 @@ class ProductsSql extends \ProductsAttribute
         $condition = "$this->table_name.$this->number = $number";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function addSql($id, $categoryId, $name, $number, $postPrice, $productGroupId): string
+    function addSql($categoryId, $name, $number, $postPrice, $productGroupId): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->categoryId`,`$this->name`,`$this->number`,`$this->postPrice`,`$this->productGroupId`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$categoryId, $name, $number, $postPrice, $productGroupId ,'$date','$date')";
+        $values = "(NULL,$categoryId, $name, $number, $postPrice, $productGroupId ,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

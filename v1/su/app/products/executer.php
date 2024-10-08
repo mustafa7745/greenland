@@ -33,19 +33,10 @@ class ProductsExecuter
      */
     shared_execute_sql("START TRANSACTION");
 
-
-
-    // $category_id = uniqid(rand(), false);
-    require_once __DIR__ . '/../../app/ids_controller/helper.php';
-
-    $productId = getId(getIdsControllerHelper()->getData($helper->table_name));
-    $productImageId = getId(getIdsControllerHelper()->getData($productImageshelper->table_name));
-
-
     $image_name = uniqid(rand(), false) . ".jpg";
 
-    $product = $helper->addData($productId, $categoryId, $name, $number, $postPrice, $productGroupId);
-    $productImage = $productImageshelper->addData($productImageId, $productId, $image_name);
+    $product = $helper->addData($categoryId, $name, $number, $postPrice, $productGroupId);
+    $productImage = $productImageshelper->addData($productId, $image_name);
 
 
     $full_path_file = $full_path_directory . $image_name;
@@ -64,21 +55,15 @@ class ProductsExecuter
   function executeAddWithoutImage($categoryId, $name, $number, $postPrice, $productGroupId)
   {
     $helper = getProductsHelper();
-   
+
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
 
 
+    $product = $helper->addData($categoryId, $name, $number, $postPrice, $productGroupId);
 
-    // $category_id = uniqid(rand(), false);
-    require_once __DIR__ . '/../../app/ids_controller/helper.php';
-
-    $productId = getId(getIdsControllerHelper()->getData($helper->table_name));
-   
-    $product = $helper->addData($productId, $categoryId, $name, $number, $postPrice, $productGroupId);
-   
 
     shared_execute_sql("COMMIT");
 

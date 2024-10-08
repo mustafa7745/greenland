@@ -37,12 +37,12 @@ class ProductsImagesSql extends \ProductsImagesAttribute
         $condition = "$this->productId IN ($ids)";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function addSql($id, $productId, $image): string
+    function addSql($productId, $image): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->productId`,`$this->image`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id, $productId, $image, '$date','$date')";
+        $values = "(NULL, $productId, $image, '$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

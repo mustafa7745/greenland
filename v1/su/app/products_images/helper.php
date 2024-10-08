@@ -39,11 +39,11 @@ class ProductsImagesHelper extends ProductsImagesSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
-  function addData($id, $productId, $image)
+  function addData($productId, $image)
   {
     // print_r($name);
 
-    $sql = $this->addSql("'$id'", "'$productId'", "'$image'");
+    $sql = $this->addSql("'$productId'", "'$image'");
     shared_execute_sql($sql);
 
     if (mysqli_affected_rows(getDB()->conn) != 1) {
@@ -52,6 +52,7 @@ class ProductsImagesHelper extends ProductsImagesSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
       exitFromScript($ar, $en);
     }
+    $id = getDB()->conn->insert_id;
     return $this->getDataById($id);
   }
   function deleteData($ids, $count)

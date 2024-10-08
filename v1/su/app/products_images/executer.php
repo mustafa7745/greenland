@@ -1,11 +1,6 @@
 <?php
 namespace SU1;
 
-// require_once "../../../products/helper.php";
-require_once (getSuPath() . 'app/ids_controller/helper.php');
-require_once (getSuPath() . 'app/products/helper.php');
-
-
 require_once ('helper.php');
 class ProductsImagesExecuter
 {
@@ -31,14 +26,10 @@ class ProductsImagesExecuter
 
 
 
-    // $category_id = uniqid(rand(), false);
-    $id = getId(getIdsControllerHelper()->getData($helper->table_name));
-
-    getIdsControllerHelper()->updateId($helper->table_name);
 
     $image_name = uniqid(rand(), false) . ".jpg";
 
-    $dataAfterAdd = $helper->addData($id, $productId, $image_name);
+    $dataAfterAdd = $helper->addData($productId, $image_name);
 
 
     // $dataAfterAdd = $helper->getDataById($id);

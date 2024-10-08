@@ -29,7 +29,8 @@ class ProductsImages
         // checkPermission("READ_GROUPS");
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        return getProductsImagesExecuter()->executeAddData(getInputProductId(), getInputProductImage(), );
+        require_once __DIR__ . "/../products/helper.php";
+        return getProductsImagesExecuter()->executeAddData(getInputProductId(), getInputProductImage());
     }
 
 

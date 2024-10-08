@@ -40,9 +40,9 @@ class ProductsHelper extends ProductsSql
     }
     return $data[0];
   }
-  function addData($id, $categoryId, $name, $number, $postPrice, $productGroupId)
+  function addData($categoryId, $name, $number, $postPrice, $productGroupId)
   {
-    $sql = $this->addSql("'$id'", "'$categoryId'", "'$name'", "'$number'", "'$postPrice'", "'$productGroupId'");
+    $sql = $this->addSql("'$categoryId'", "'$name'", "'$number'", "'$postPrice'", "'$productGroupId'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
@@ -50,6 +50,7 @@ class ProductsHelper extends ProductsSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
       exitFromScript($ar, $en);
     }
+    $id = getDB()->conn->insert_id;
     return $this->getDataById($id);
   }
   function updateName($id, $newValue)
