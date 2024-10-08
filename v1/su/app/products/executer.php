@@ -36,6 +36,7 @@ class ProductsExecuter
     $image_name = uniqid(rand(), false) . ".jpg";
 
     $product = $helper->addData($categoryId, $name, $number, $postPrice, $productGroupId);
+    $productId = $product[$helper->id];
     $productImage = $productImageshelper->addData($productId, $image_name);
 
 
