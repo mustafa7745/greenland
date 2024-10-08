@@ -86,7 +86,6 @@ class OrdersExecuter
     /**
      * ADD ORDER DATA
      */
-    require_once __DIR__ . "/../../app/ids_controller/helper.php";
 
     getOrdersHelper()->addOrder($userId);
     $orderId = getDB()->conn->insert_id;

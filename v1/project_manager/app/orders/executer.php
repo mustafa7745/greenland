@@ -280,25 +280,7 @@ class OrdersProductsExecuter
     getOrdersHelper()->updateStatus($orderId, $situationId);
     getOrdersStatusHelper()->addData($orderId, $situationId);
     getOrdersCenceledHelper()->addData($orderId, $description);
-    // $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
 
-    // require_once __DIR__ . '/../acceptance/helper.php';
-    // $acceptance = getAcceptanceHelper()->getDataByOrderDeliveryIdAndStatus(getId($orderDelivery), getAcceptanceHelper()->WAIT_TO_ACCEPT_STATUS);
-    // if (count($acceptance) == 1) {
-    //   $acceptance = $acceptance[0];
-
-    //   $ids = [getId($acceptance)];
-
-
-
-    //   $idsString = convertIdsListToStringSql($ids);
-
-    //   // print_r($ids);
-    //   // print_r($idsString);
-
-    //   // exitFromScript(json_encode($ids), "ffdf");
-    //   getAcceptanceHelper()->deleteData($idsString, count($ids));
-    // }
     shared_execute_sql("COMMIT");
     return ['success' => 'true'];
   }
@@ -510,14 +492,7 @@ class OrdersDeliveryExecuter
     $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
     $order = getOrdersHelper()->getDataById($orderDelivery[getOrdersDeliveryHelper()->orderId]);
     checkOrderOwner($order, $managerId);
-    // require_once __DIR__ . "/../acceptance/helper.php";
-    // $acceptance = getAcceptanceHelper()->getData($orderDelivery[getOrdersDeliveryHelper()->id]);
-    // if ($acceptance != null) {
-    //   require_once (getManagerPath() . "app/delivery_men/helper.php");
-    //   $deliveryMan = getDeliveryMenHelper()->getDataById2($acceptance[getAcceptanceHelper()->deliveryManId]);
-    //   $user = getUsersHelper()->getDataById($userId);
-    //   $acceptance["deliveryMan"] = $deliveryMan;
-    // }
+
     shared_execute_sql("COMMIT");
     // $orderDelivery['acceptance'] = $acceptance;
     return $orderDelivery;
