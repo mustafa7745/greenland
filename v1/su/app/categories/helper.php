@@ -31,19 +31,19 @@ class CategoriesHelper extends CategoriesSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
-  function addData($id, $name, $image)
+  function addData($name, $image)
   {
     // print_r($name);
 
-    $sql = $this->addSql("'$id'", "'$name'", "'$image'");
+    $sql = $this->addSql("'$name'", "'$image'");
     shared_execute_sql($sql);
-
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
       $ar = "DATA_NOT_EFFECTED_WHEN_ADD_Cate";
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
       exitFromScript($ar, $en);
     }
+    $id = getDB()->conn->insert_id;
     return $this->getDataById($id);
   }
   function updateOrder($id, $name)

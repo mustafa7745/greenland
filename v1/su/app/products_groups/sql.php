@@ -21,12 +21,12 @@ class ProductsGroupsSql extends \ProductsGroupsAttribute
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function addSql($id, $categoryId, $name): string
+    function addSql($categoryId, $name): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->categoryId`,`$this->name`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$categoryId, $name,'$date','$date')";
+        $values = "(NULL,$categoryId, $name,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

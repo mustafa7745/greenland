@@ -25,11 +25,11 @@ class ProductGroupsHelper extends ProductsGroupsSql
     }
     return $data[0];
   }
-  function addData($id, $categoryId, $name, )
+  function addData($categoryId, $name, )
   {
     // print_r($name);
 
-    $sql = $this->addSql("'$id'", "'$categoryId'", "'$name'", );
+    $sql = $this->addSql("'$categoryId'", "'$name'", );
     shared_execute_sql($sql);
 
     if (mysqli_affected_rows(getDB()->conn) != 1) {
@@ -38,7 +38,7 @@ class ProductGroupsHelper extends ProductsGroupsSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_Cate" . $sql;
       exitFromScript($ar, $en);
     }
-    return $this->getDataById($id);
+    // return $this->getDataById($id);
   }
 
   function searchData($search)

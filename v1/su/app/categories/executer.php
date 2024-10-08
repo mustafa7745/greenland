@@ -31,17 +31,19 @@ class CategoriesExecuter
 
 
 
-    // $category_id = uniqid(rand(), false);
-    $id = getId(getIdsControllerHelper()->getData($categories_helper->table_name));
+    // // $category_id = uniqid(rand(), false);
+    // $id = getId(getIdsControllerHelper()->getData($categories_helper->table_name));
 
-    // getIdsControllerHelper()->updateId($categories_helper->table_name);
+    // // getIdsControllerHelper()->updateId($categories_helper->table_name);
 
     $image_name = uniqid(rand(), false) . ".jpg";
 
-    $productGroupId = getId(getIdsControllerHelper()->getData(getProductsGroupsHelper()->table_name));
+    // $productGroupId = getId(getIdsControllerHelper()->getData(getProductsGroupsHelper()->table_name));
 
-    getProductsGroupsHelper()->addData($productGroupId, $id, "الرئيسية");
-    $dataAfterAdd = $categories_helper->addData($id, $name, $image_name);
+    $dataAfterAdd = $categories_helper->addData($name, $image_name);
+
+    getProductsGroupsHelper()->addData($dataAfterAdd[getCategoriesHelper()->id], "الرئيسية");
+
 
 
     // $dataAfterAdd = $categories_helper->getDataById($id);

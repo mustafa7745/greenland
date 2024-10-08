@@ -11,7 +11,7 @@ class CategoriesSql extends \CategoriesAttribute
         $columns = getColumnImagePath(" * ", "category_image_path");
         $innerJoin = "";
         $condition = "1";
-        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition,"`$this->order`","ASC");
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "`$this->order`", "ASC");
     }
     function readByIdSql($id): string
     {
@@ -30,12 +30,12 @@ class CategoriesSql extends \CategoriesAttribute
         $condition = "$this->id IN ($ids) FOR UPDATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function addSql($id, $name, $image): string
+    function addSql($name, $image): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->name`,`$this->image`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$name,$image,'$date','$date')";
+        $values = "(NULL,$name,$image,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }
