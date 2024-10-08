@@ -24,7 +24,7 @@ class UsersLocations
     function add()
     {
         $this->_check("RUN_APP");
-        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), "صنعاء", getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone(), getInputUserLocationUrl());
+        return getUsersLocationsExecuter()->executeAddData(getInputUserId(), "صنعاء", getInputUserLocationStreet(), getInputUserLocationLatLong(), getInputUserLocationNearTo(), getInputUserLocationContactPhone());
     }
     function updateStreet()
     {
