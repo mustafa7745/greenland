@@ -16,7 +16,7 @@ class UsersLocationsExecuter
       // $user_lat = (getLatLong($data[$i]))[0];
       // $user_long = (getLatLong($data[$i]))[1];
       // $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
-      $data[$i]['price'] = getDeliveryPrice($data);;
+      $data[$i]['price'] = getDeliveryPrice($data[$i]);;
     }
 
     return $data;
