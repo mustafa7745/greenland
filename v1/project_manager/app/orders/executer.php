@@ -41,10 +41,9 @@ class OrdersExecuter extends OrdersSql
     /**
      * ADD ORDER DATA
      */
-    require_once __DIR__ . "/../../../include/ids_controller/helper.php";
 
-    $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
-    getOrdersHelper()->addOrder($orderId, $userId);
+    getOrdersHelper()->addOrder($userId);
+    $orderId = getDB()->conn->insert_id;
     getOrdersHelper()->updateManagerId($orderId, $managerId);
 
     $situatinId = getOrdersHelper()->ORDER_VIEWD;
@@ -112,10 +111,9 @@ class OrdersExecuter extends OrdersSql
     /**
      * ADD ORDER DATA
      */
-    require_once __DIR__ . "/../../../include/ids_controller/helper.php";
-
-    $orderId = getId(getIdsControllerHelper()->getData($helper->table_name));
-    getOrdersHelper()->addOrder($orderId, $userId);
+    getOrdersHelper()->addOrder($userId);
+    $orderId = getDB()->conn->insert_id;
+    // 
     getOrdersHelper()->updateManagerId($orderId, $managerId);
 
     $final_sum = 0.0;
@@ -248,7 +246,7 @@ class OrdersProductsExecuter
     $product = getProductsHelper()->getDataById($productId);
     $productName = $product[getProductsHelper()->name];
     $productPrice = $product[getProductsHelper()->postPrice];
-    
+
     getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     $id = getDB()->conn->insert_id;
     $data = getOrdersProductsHelper()->getDataById($id);
