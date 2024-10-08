@@ -7,6 +7,7 @@ require_once "../../../include/check/index.php";
 require_once "../../../include/token/index.php";
 // To Get Executer
 require_once 'executer.php';
+require_once __DIR__ . "/../categories/helper.php";
 
 class ProductsGroups
 {
