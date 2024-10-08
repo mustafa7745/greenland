@@ -8,6 +8,8 @@ require_once "../../../include/token/index.php";
 // To Get Executer
 require_once 'executer.php';
 
+require_once __DIR__ . "/../products/helper.php";
+
 class ProductsImages
 {
     // private $check;
@@ -29,7 +31,6 @@ class ProductsImages
         // checkPermission("READ_GROUPS");
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        require_once __DIR__ . "/../products/helper.php";
         return getProductsImagesExecuter()->executeAddData(getInputProductId(), getInputProductImage());
     }
 
