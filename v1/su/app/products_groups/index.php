@@ -31,37 +31,6 @@ class ProductsGroups
         getProjectLoginTokenData("RUN_APP", $s);
         return getProductsGroupsExecuter()->executeAddData(getInputCategoryId(), getInputProductGroupName());
     }
-
-
-    function updateName($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateName($resultData, $id, $newValue);
-    }
-
-    function updateSha($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateSha($resultData, $id, $newValue);
-    }
-    function updateVersion($id, $newValue)
-    {
-        $resultData = $this->check->check("UPDATE_GROUP_NAME");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeUpdateVersion($resultData, $id, $newValue);
-    }
-
-    function search($search)
-    {
-        $resultData = $this->check->check("ADD_GROUP");
-        checkProjectIdSU($resultData);
-        return getAppsExecuter()->executeSearchData($search);
-    }
-
-
-
 }
 
 

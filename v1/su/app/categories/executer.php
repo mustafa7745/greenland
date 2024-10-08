@@ -1,10 +1,6 @@
 <?php
 namespace SU1;
 
-// require_once "../../../ids_controller/helper.php";
-require_once (getSuPath() . 'app/ids_controller/helper.php');
-require_once (getSuPath() . 'app/products_groups/helper.php');
-
 
 require_once ('helper.php');
 class CategoriesExecuter
@@ -31,17 +27,12 @@ class CategoriesExecuter
 
 
 
-    // // $category_id = uniqid(rand(), false);
-    // $id = getId(getIdsControllerHelper()->getData($categories_helper->table_name));
-
-    // // getIdsControllerHelper()->updateId($categories_helper->table_name);
-
     $image_name = uniqid(rand(), false) . ".jpg";
 
-    // $productGroupId = getId(getIdsControllerHelper()->getData(getProductsGroupsHelper()->table_name));
 
     $dataAfterAdd = $categories_helper->addData($name, $image_name);
 
+    require_once __DIR__ . '/../products_groups/helper.php';
     getProductsGroupsHelper()->addData($dataAfterAdd[getCategoriesHelper()->id], "الرئيسية");
 
 
@@ -70,10 +61,7 @@ class CategoriesExecuter
 
 
   }
-  function executeSearchData($search)
-  {
-    return getAppsHelper()->searchData($search);
-  }
+
   function executeUpdateName($id, $newValue)
   {
 
