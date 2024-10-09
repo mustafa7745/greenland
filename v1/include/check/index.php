@@ -24,6 +24,9 @@ class RunApp
 {
     function runApp()
     {
+        if (getPostData1()->appVersion < 22) {
+            exitFromScript("لايمكن استخدام اصدار قديم","");
+        };
         // $runApp = (new RunApp())->runApp();
         $permissionName = "RUN_APP";
         $app = Check\getAppsHelper()->getData(getPostData1()->packageName, getPostData1()->appSha);
