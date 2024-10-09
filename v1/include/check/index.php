@@ -24,7 +24,7 @@ class RunApp
 {
     function runApp()
     {
-        if (getPostData1()->appVersion < 22) {
+        if (getPostData1()->appVersion < 20) {
             exitFromScript("لايمكن استخدام اصدار قديم","");
         };
         // $runApp = (new RunApp())->runApp();
