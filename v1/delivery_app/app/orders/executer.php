@@ -17,13 +17,19 @@ class OrdersExecuter
     return $data;
   }
   function executeOrderInRoad($orderId, $deliveryManId)
-  {
+  { 
     /**
      *  START TRANSACTION FOR SQL
      */
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
     $this->checkOwner($orderId, $deliveryManId);
+
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
 
     if ($order[getOrdersHelper()->systemOrderNumber] == null) {
       $ar = "يجب تحديد رقم الفاتورة";
@@ -64,6 +70,12 @@ class OrdersExecuter
     shared_execute_sql("START TRANSACTION");
     $order = getOrdersHelper()->getDataById($orderId);
     $this->checkOwner($orderId, $deliveryManId);
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+    
     if ($order[getOrdersHelper()->code] == null) {
       $ar = "لم يتم تفعيل الطلب في الطريق";
       $en = "لم يتم تفعيل الطلب في الطريق";
