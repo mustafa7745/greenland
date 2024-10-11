@@ -11,7 +11,7 @@ class OrdersHelper extends OrdersSql
     // print_r($sql);
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) > 0) {
-      $ar = "يوجد طلب معلق";
+      $ar = "يوجد طلب تحت المعالجة";
       $en = "USER_HAVE_INCOMPLETE_ORDER_BEFORE";
       exitFromScript($ar, $en);
     }
