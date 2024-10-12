@@ -67,7 +67,7 @@ if (isset($input)) {
 
 function sendMessagePassword(ApiWhatsapp $w, $userHelper, $phone, $name, $password, $phone_number)
 {
-
+    shared_execute_sql("COMMIT");
     $m = "وعليكم السلام ورحمة الله وبركاته";
     $m = $m . "\n";
     $m = $m . "مرحبا بك";
@@ -76,8 +76,9 @@ function sendMessagePassword(ApiWhatsapp $w, $userHelper, $phone, $name, $passwo
     $w->sendMessageText($phone_number, $m);
     $isSent = $w->sendMessageText($phone_number, $password);
     if ($isSent) {
-        shared_execute_sql("COMMIT");
         $w->sendMessageText("967774519161", $name . "->" . $phone);
+    } else {
+        (new UsersWhatsappUnregisterHelper())->addData($phone_number, "password is:$password");
     }
 
     exit;

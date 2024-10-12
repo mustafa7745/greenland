@@ -323,7 +323,7 @@ class ApiWhatsapp
     } else {
       if ($httpCode == 200) {
         curl_close($curl);
-        return true;
+        return false;
       } else {
         curl_close($curl);
         return false;
