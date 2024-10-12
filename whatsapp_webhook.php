@@ -8,8 +8,7 @@ $input = file_get_contents('php://input');
 $input = json_decode($input, true);
 if (isset($input)){
     $phone_number = $input['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'];
-    // $w = new ApiWhatsapp();
-    // $w->sendMessageText($phone_number, "مطعم الارض الخضراء يرحب بكم سيتم الرد عليك في اقرب وقت شكرا لك");
+
 }
 
 

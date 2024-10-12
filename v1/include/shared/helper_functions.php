@@ -315,8 +315,21 @@ class ApiWhatsapp
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
     $resp = curl_exec($curl);
-    curl_close($curl);
-    return json_decode($resp);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    if ($resp === false) {
+      curl_close($curl);
+      return false;
+    } else {
+      if ($httpCode == 200) {
+        curl_close($curl);
+        return true;
+      } else {
+        curl_close($curl);
+        return false;
+      }
+    }
+    // return json_decode($resp);
   }
 
 
