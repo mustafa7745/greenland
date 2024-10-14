@@ -149,7 +149,7 @@ function getOrdersDeliveryHelper()
 class OrdersOffersHelper extends OrdersOffersSql
 {
 
-  function addOrderOffer($id, $orderId, $productId, $productName, $productPrice, $productQuantity)
+  function addOrderOffer($orderId, $productId, $productName, $productPrice, $productQuantity)
   {
     $sql = $this->addSql("'$orderId'", "'$productId'", "'$productName'", "'$productPrice'", "'$productQuantity'");
     shared_execute_sql($sql);
