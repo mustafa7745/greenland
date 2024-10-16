@@ -562,6 +562,7 @@ class OrdersDeliveryExecuter
     // 
     getOrdersDeliveryHelper()->updateUserLocationId($id, $newValue);
     $userLocationId = $newValue;
+    require_once __DIR__ . '/../users_locations/helper.php';
     $userLocation = getUsersLocationsHelper()->getDataById($userLocationId);
     $price = getDeliveryPrice($userLocation);
     getOrdersDeliveryHelper()->updateBothPrice($id, $price);
