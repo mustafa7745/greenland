@@ -561,6 +561,8 @@ class OrdersDeliveryExecuter
     }
     // 
     getOrdersDeliveryHelper()->updateUserLocationId($id, $newValue);
+    getOrdersDeliveryHelper()->updateBothPrice($id, getDeliveryPrice($orderDelivery));
+
     $data = getOrdersDeliveryHelper()->getDataById($id);
     shared_execute_sql("COMMIT");
     return $data;
