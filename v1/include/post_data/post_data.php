@@ -166,14 +166,16 @@ function getPostData2()
       exitFromScript($ar, $en);
     }
     $data = decrypt($_POST[$name]);
+    $data = $_POST[$name];
+
     // print_r($_POST[$name]);
 
-    if ($data == null) {
-      $ar = "ERROR_ENCRYPTED";
-      $en = "ERROR_ENCRYPTED";
-      $code = 1111;
-      exitFromScript($ar, $en, 400, $code);
-    }
+    // if ($data == null) {
+    //   $ar = "ERROR_ENCRYPTED";
+    //   $en = "ERROR_ENCRYPTED";
+    //   $code = 1111;
+    //   exitFromScript($ar, $en, 400, $code);
+    // }
     $postData2 = json_decode($data, true);
   }
   return $postData2;
