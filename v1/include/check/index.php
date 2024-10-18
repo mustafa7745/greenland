@@ -50,11 +50,11 @@ class RunApp
         getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->groupId);
         $device = Check\getDevicesHelper()->getData(getPostData1()->deviceId);
         if ($device == null) {
-            $device = Check\getDevicesHelper()->addData(getPostData1()->deviceId, getPostData1()->deviceInfo, getPostData1()->devicePublicKey);
+            $device = Check\getDevicesHelper()->addData(getPostData1()->deviceId, getPostData1()->deviceInfo);
         }
-        if ($device->publicKey != getPostData1()->devicePublicKey) {
-            $device = Check\getDevicesHelper()->updatePublicKey(getPostData1()->deviceId, getPostData1()->devicePublicKey);
-        }
+        // if ($device->publicKey != getPostData1()->devicePublicKey) {
+        //     $device = Check\getDevicesHelper()->updatePublicKey(getPostData1()->deviceId, getPostData1()->devicePublicKey);
+        // }
         return $this->initDeviceSession($app, $device);
     }
     private function initDeviceSession($app, $device)

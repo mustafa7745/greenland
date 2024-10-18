@@ -11,13 +11,14 @@ class ThisClass
     $managerLoginToken = $this->refreshManagerLoginToken($runApp, 720);
 
     $data2 = json_encode(array("token" => $managerLoginToken->token, "expire_at" => $managerLoginToken->expireAt));
-    $encryptedData = encrypt($data2, getPublicKeyFormat($runApp->device->publicKey));
-    shared_execute_sql("COMMIT");
-    return json_encode(
-      array(
-        "encrypted_data" => $encryptedData
-      )
-    );
+    return $data2;
+    // $encryptedData = encrypt($data2, getPublicKeyFormat($runApp->device->publicKey));
+    // shared_execute_sql("COMMIT");
+    // return json_encode(
+    //   array(
+    //     "encrypted_data" => $encryptedData
+    //   )
+    // );
   }
   function refreshManagerLoginToken($runApp, $loginTokenDuration = 1)
   {
