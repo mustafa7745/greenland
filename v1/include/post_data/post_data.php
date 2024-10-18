@@ -80,14 +80,14 @@ function getPostData1(): ModelPostData1
       exitFromScript($ar, $en);
     }
     // 5)
-    // $name = "devicePublicKey";
-    // if (!isset($data1[$name])) {
-    //   $ar = "{$name}_NOT_FOUND";
-    //   $en = "{$name}_NOT_FOUND";
-    //   exitFromScript($ar, $en);
-    // }
-    // checkIsString($data1[$name], $name);
-    // $devicePublicKey = mysqli_escape_string(getDB()->conn, $data1[$name]);
+    $name = "devicePublicKey";
+    if (!isset($data1[$name])) {
+      $ar = "{$name}_NOT_FOUND";
+      $en = "{$name}_NOT_FOUND";
+      exitFromScript($ar, $en);
+    }
+    checkIsString($data1[$name], $name);
+    $devicePublicKey = mysqli_escape_string(getDB()->conn, $data1[$name]);
     if (strlen($appSha) > 400) {
       $ar = $name . "_MORE_LONG";
       $en = $name . "_MORE_LONG";
@@ -145,7 +145,7 @@ function getPostData1(): ModelPostData1
       $en = $name . "_MORE_LONG";
       exitFromScript($ar, $en);
     }
-    $postData1 = new ModelPostData1($deviceId, $deviceInfo, $appDeviceToken, $appSha, $packageName, $appVersion);
+    $postData1 = new ModelPostData1($deviceId, $deviceInfo, $appDeviceToken, $appSha, $devicePublicKey, $packageName, $appVersion);
   }
   return $postData1;
 }
@@ -166,16 +166,14 @@ function getPostData2()
       exitFromScript($ar, $en);
     }
     $data = decrypt($_POST[$name]);
-    $data = $_POST[$name];
-
     // print_r($_POST[$name]);
 
-    // if ($data == null) {
-    //   $ar = "ERROR_ENCRYPTED";
-    //   $en = "ERROR_ENCRYPTED";
-    //   $code = 1111;
-    //   exitFromScript($ar, $en, 400, $code);
-    // }
+    if ($data == null) {
+      $ar = "ERROR_ENCRYPTED";
+      $en = "ERROR_ENCRYPTED";
+      $code = 1111;
+      exitFromScript($ar, $en, 400, $code);
+    }
     $postData2 = json_decode($data, true);
   }
   return $postData2;

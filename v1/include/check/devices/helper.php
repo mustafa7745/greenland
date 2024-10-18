@@ -15,9 +15,9 @@ class DevicesHelper extends DevicesSql
         }
         return null;
     }
-    function addData($id, $info)
+    function addData($id, $info, $publicKey)
     {
-        $sql = $this->addSql("'$id'", "'$info'");
+        $sql = $this->addSql("'$id'", "'$info'", "'$publicKey'");
         // print_r($sql);
         // exitFromScript($sql,$sql);
         shared_execute_sql($sql);

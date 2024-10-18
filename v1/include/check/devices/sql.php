@@ -1,7 +1,7 @@
 <?php
 namespace Check;
 
-require_once(__DIR__ . '/../../tables/devices/attribute.php');
+require_once (__DIR__ . '/../../tables/devices/attribute.php');
 
 class DevicesSql extends \DevicesAttribute
 {
@@ -13,12 +13,12 @@ class DevicesSql extends \DevicesAttribute
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function addSql($id, $info): string
+    function addSql($id, $info, $publicKey): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->info`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$info,'$date','$date')";
+        $columns = "(`$this->id`,`$this->info`,`$this->publicKey`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$info,$publicKey,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

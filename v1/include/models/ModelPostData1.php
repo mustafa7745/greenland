@@ -5,16 +5,16 @@ class ModelPostData1
     public $deviceInfo;
     public $appDeviceToken;
     public $appSha;
-    // public $devicePublicKey;
+    public $devicePublicKey;
     public $packageName;
     public $appVersion;
-    public function __construct($deviceId, $deviceInfo, $appDeviceToken, $appSha, $packageName, $appVersion)
+    public function __construct($deviceId, $deviceInfo, $appDeviceToken, $appSha, $devicePublicKey, $packageName, $appVersion)
     {
         $this->deviceId = $deviceId;
         $this->deviceInfo = $deviceInfo;
         $this->appDeviceToken = $appDeviceToken;
         $this->appSha = $appSha;
-        // $this->devicePublicKey = $devicePublicKey;
+        $this->devicePublicKey = $devicePublicKey;
         $this->packageName = $packageName;
         $this->appVersion = $appVersion;
     }
