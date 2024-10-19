@@ -38,14 +38,14 @@ class ThisClass
     shared_execute_sql("START TRANSACTION");
     $runApp = getMainRunApp();
     $userLoginToken = $this->refreshUserLoginToken($runApp, getRemainedMinute());
-    $data2 = json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
-    $encryptedData = encrypt($data2, getPublicKeyFormat($runApp->device->publicKey));
-    shared_execute_sql("COMMIT");
-    return json_encode(
-      array(
-        "encrypted_data" => $encryptedData
-      )
-    );
+    return json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
+    // $encryptedData = encrypt($data2, getPublicKeyFormat($runApp->device->publicKey));
+    // shared_execute_sql("COMMIT");
+    // return json_encode(
+    //   array(
+    //     "encrypted_data" => $encryptedData
+    //   )
+    // );
   }
 }
 
