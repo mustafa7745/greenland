@@ -52,7 +52,10 @@ function getProjectLoginTokenData($permissionName, $runApp)
 }
 function getUserLoginToken($permissionName, $runApp)
 {
+    print_r("dffff");
     $token = getInputLoginToken();
+    print_r($token);
+
     $loginToken = getLoginTokensHelper()->getDataByToken($token);
     // $permissionName = "REFRESH_LOGIN_TOKEN";
     $permission = getPermissionsHelper()->getDataByName($permissionName);
