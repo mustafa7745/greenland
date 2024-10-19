@@ -149,6 +149,7 @@ function getPostData1(): ModelPostData1
   }
   return $postData1;
 }
+
 function getPostData1_v1(): ModelPostData1
 {
   global $postData1;

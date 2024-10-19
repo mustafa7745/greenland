@@ -24,12 +24,12 @@ class RunApp
 {
     function runApp()
     {
-        // if (getPostData1_v1()->appVersion < 20) {
+        // if (getPostData1()->appVersion < 20) {
         //     exitFromScript("لايمكن استخدام اصدار قديم","");
         // };
         // $runApp = (new RunApp())->runApp();
         $permissionName = "RUN_APP";
-        $app = Check\getAppsHelper()->getData(getPostData1_v1()->packageName, getPostData1_v1()->appSha);
+        $app = Check\getAppsHelper()->getData(getPostData1()->packageName, getPostData1()->appSha);
         // 
         if (strtotime(getCurruntDate()) > strtotime($app->expireAt)) {
             $ar = "APP_NEED_UPGRADE_PLAN_TIME";
@@ -48,9 +48,9 @@ class RunApp
         $permissionName = "INIT_DEVICE";
         $permission = getPermissionsHelper()->getDataByName($permissionName);
         getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->groupId);
-        $device = Check\getDevicesHelper()->getData(getPostData1_v1()->deviceId);
+        $device = Check\getDevicesHelper()->getData(getPostData1()->deviceId);
         if ($device == null) {
-            $device = Check\getDevicesHelper()->addData_v1(getPostData1_v1()->deviceId, getPostData1_v1()->deviceInfo);
+            $device = Check\getDevicesHelper()->addData_v1(getPostData1()->deviceId, getPostData1()->deviceInfo);
         }
         return $this->initDeviceSession($app, $device);
     }
@@ -61,10 +61,10 @@ class RunApp
         getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->groupId);
         $deviceSession = Check\getDevicesSessionHelper()->getDataByDeviceIdAndAppId($device->id, $app->id);
         if ($deviceSession == null) {
-            $deviceSession = Check\getDevicesSessionHelper()->addData(getPostData1_v1()->deviceId, $app->id, getPostData1_v1()->appDeviceToken);
+            $deviceSession = Check\getDevicesSessionHelper()->addData(getPostData1()->deviceId, $app->id, getPostData1()->appDeviceToken);
         }
-        if ($deviceSession->appToken != getPostData1_v1()->appDeviceToken) {
-            $deviceSession = Check\getDevicesSessionHelper()->updateAppToken($deviceSession->id, getPostData1_v1()->appDeviceToken);
+        if ($deviceSession->appToken != getPostData1()->appDeviceToken) {
+            $deviceSession = Check\getDevicesSessionHelper()->updateAppToken($deviceSession->id, getPostData1()->appDeviceToken);
         }
         return $this->initDeviceSessionIp($app, $device, $deviceSession);
     }
