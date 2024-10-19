@@ -29,6 +29,20 @@ class DevicesHelper extends DevicesSql
         }
         return $this->getData($id);
     }
+    function addData_v1($id, $info)
+    {
+        $sql = $this->addSql_v1("'$id'", "'$info'");
+        // print_r($sql);
+        // exitFromScript($sql,$sql);
+        shared_execute_sql($sql);
+        if (mysqli_affected_rows(getDB()->conn) != 1) {
+            shared_execute_sql("rollback");
+            $ar = "DATA_NOT_EFFECTED";
+            $en = "DATA_NOT_EFFECTED";
+            exitFromScript($ar, $en);
+        }
+        return $this->getData($id);
+    }
     function updatePublicKey($id, $publicKey)
     {
         $sql = $this->updatePublicKeyql("'$id'", "'$publicKey'");
