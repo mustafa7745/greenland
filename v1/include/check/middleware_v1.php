@@ -25,24 +25,32 @@ function getPath()
 
 function getRemainedMinute()
 {
-    $current_time = new DateTime();
-    // تحديد وقت نهاية اليوم (الساعة 23:59:59)
-    $end_of_day = new DateTime('tomorrow'); // بداية الغد
-    $end_of_day->setTime(0, 0, 0); // ثم نعيده إلى منتصف الليل
-    $end_of_day->modify('-1 second'); // نعود دقيقة واحدة لنصل إلى 23:59:59
+    $end_of_day = new DateTime('tomorrow');
+    print_r($end_of_day);
+    $end_of_day->setTime(0, 0, 0);
+    print_r($end_of_day);
+    $end_of_day->modify('-1 second');
+    // print_r($end_of_day_date = $end_of_day->format('Y-m-d H:i:s'));
+    return $end_of_day->format('Y-m-d H:i:s');
 
-    // حساب الفرق بين الوقت الحالي ونهاية اليوم
-    $interval = $current_time->diff($end_of_day);
+    // $current_time = new DateTime();
+    // // تحديد وقت نهاية اليوم (الساعة 23:59:59)
+    // $end_of_day = new DateTime('tomorrow'); // بداية الغد
+    // $end_of_day->setTime(0, 0, 0); // ثم نعيده إلى منتصف الليل
+    // $end_of_day->modify('-1 second'); // نعود دقيقة واحدة لنصل إلى 23:59:59
 
-    // تحويل الفرق إلى دقائق
-    $minutes_remaining = ($interval->h * 60) + $interval->i;
+    // // حساب الفرق بين الوقت الحالي ونهاية اليوم
+    // $interval = $current_time->diff($end_of_day);
 
-    // إضافة دقيقة واحدة إذا كان هناك ثواني متبقية
-    if ($interval->s > 0) {
-        $minutes_remaining++;
-    }
+    // // تحويل الفرق إلى دقائق
+    // $minutes_remaining = ($interval->h * 60) + $interval->i;
 
-    return $minutes_remaining;
+    // // إضافة دقيقة واحدة إذا كان هناك ثواني متبقية
+    // if ($interval->s > 0) {
+    //     $minutes_remaining++;
+    // }
+
+    // return $minutes_remaining;
 
 
     // $current_time = new DateTime();
