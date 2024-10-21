@@ -21,6 +21,7 @@ class ThisClass
   }
   function refreshManagerLoginToken($runApp, $loginTokenDuration = 1)
   {
+    print_r($loginTokenDuration);
     require_once __DIR__ . '/../../include/check/managers_login_tokens/helper.php';
     $helper = Check\getManagersLoginTokensHelper();
     $token = getInputManagerLoginToken();
