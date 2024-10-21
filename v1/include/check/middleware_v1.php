@@ -27,8 +27,9 @@ function getRemainedMinute()
 {
     $current_time = new DateTime();
     // تحديد وقت نهاية اليوم (الساعة 23:59:59)
-    $end_of_day = new DateTime();
-    $end_of_day->setTime(23, 59, 59);
+    $end_of_day = new DateTime('tomorrow'); // بداية الغد
+    $end_of_day->setTime(0, 0, 0); // ثم نعيده إلى منتصف الليل
+    $end_of_day->modify('-1 second'); // نعود دقيقة واحدة لنصل إلى 23:59:59
 
     // حساب الفرق بين الوقت الحالي ونهاية اليوم
     $interval = $current_time->diff($end_of_day);
@@ -36,12 +37,13 @@ function getRemainedMinute()
     // تحويل الفرق إلى دقائق
     $minutes_remaining = ($interval->h * 60) + $interval->i;
 
-    // إضافة 1 دقيقة إذا كانت هناك ثواني متبقية
+    // إضافة دقيقة واحدة إذا كان هناك ثواني متبقية
     if ($interval->s > 0) {
         $minutes_remaining++;
     }
 
     return $minutes_remaining;
+
 
     // $current_time = new DateTime();
     // // تحديد وقت نهاية اليوم (الساعة 23:59:59)
