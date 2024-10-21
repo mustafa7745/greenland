@@ -26,11 +26,8 @@ function getPath()
 function getRemainedMinute()
 {
     $end_of_day = new DateTime('tomorrow');
-    print_r($end_of_day);
     $end_of_day->setTime(0, 0, 0);
-    print_r($end_of_day);
     $end_of_day->modify('-1 second');
-    // print_r($end_of_day_date = $end_of_day->format('Y-m-d H:i:s'));
     return $end_of_day->format('Y-m-d H:i:s');
 
     // $current_time = new DateTime();

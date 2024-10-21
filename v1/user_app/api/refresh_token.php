@@ -27,7 +27,7 @@ class ThisClass
     } else {
       if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
         $loginTokenString = uniqid(rand(), false);
-        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+        $expireAt = $loginTokenDuration;
         $loginToken = getLoginTokensHelper()->updateToken($loginToken->id, $loginTokenString, $expireAt);
       }
     }

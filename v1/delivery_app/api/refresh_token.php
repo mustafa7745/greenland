@@ -30,7 +30,7 @@ class ThisClass
     } else {
       if (strtotime(getCurruntDate()) > strtotime($deliveryManLoginToken->expireAt)) {
         $loginTokenString = uniqid(rand(), false);
-        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+        $expireAt = $loginTokenDuration;
         $deliveryManLoginToken = getDeliveryMenLoginTokensHelper()->updateToken($deliveryManLoginToken->id, $loginTokenString, $expireAt);
       }
     }

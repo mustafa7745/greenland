@@ -22,14 +22,14 @@ class ThisClass
     if ($loginToken == null) {
 
       $loginTokenString = uniqid(rand(), false);
-      $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+      $expireAt = $loginTokenDuration;
 
       $loginToken = getLoginTokensHelper()->addData($userSessionId, $loginTokenString, $expireAt);
     } else {
 
       if (strtotime(getCurruntDate()) > strtotime($loginToken->expireAt)) {
         $loginTokenString = uniqid(rand(), false);
-        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+        $expireAt = $loginTokenDuration;
         $loginToken = getLoginTokensHelper()->updateToken($loginToken->id, $loginTokenString, $expireAt);
       }
     }

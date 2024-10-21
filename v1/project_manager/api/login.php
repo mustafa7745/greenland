@@ -40,12 +40,12 @@ class ThisClass
 
     if ($projectLoginToken == null) {
       $loginTokenString = uniqid(rand(), false);
-      $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+      $expireAt = $loginTokenDuration;
       $projectLoginToken = getManagersLoginTokensHelper()->addData($userSessionId, $loginTokenString, $managerId, $expireAt);
     } else {
       if (strtotime(getCurruntDate()) > strtotime($projectLoginToken->expireAt)) {
         $loginTokenString = uniqid(rand(), false);
-        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
+        $expireAt = $loginTokenDuration;
         $projectLoginToken = getManagersLoginTokensHelper()->updateToken($projectLoginToken->id, $loginTokenString, $expireAt);
       }
     }
