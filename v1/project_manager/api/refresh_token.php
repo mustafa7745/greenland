@@ -8,7 +8,7 @@ class ThisClass
     shared_execute_sql("START TRANSACTION");
     // $login = login();
     $runApp = getMainRunApp();
-    exitFromScript(getRemainedMinute(), "");
+   
     $managerLoginToken = $this->refreshManagerLoginToken($runApp, getRemainedMinute());
 
     $data2 = json_encode(array("token" => $managerLoginToken->token, "expire_at" => $managerLoginToken->expireAt));

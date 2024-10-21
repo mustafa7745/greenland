@@ -28,7 +28,9 @@ function getRemainedMinute()
     $end_of_day = new DateTime('tomorrow');
     $end_of_day->setTime(0, 0, 0);
     $end_of_day->modify('-1 second');
-    return $end_of_day->format('Y-m-d H:i:s');
+    $date = $end_of_day->format('Y-m-d H:i:s');
+    exitFromScript($date, "");
+    return $date;
 
     // $current_time = new DateTime();
     // // تحديد وقت نهاية اليوم (الساعة 23:59:59)
