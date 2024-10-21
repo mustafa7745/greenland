@@ -13,7 +13,7 @@ class ThisClass
     $login = loginAll();
 
     $deliveryMan = $this->loginDeliveryMan($login->userSession->userId);
-    $deliveryManLoginToken = $this->getLoginTokenFromUserSessionAndDeliveryManId($login->userSession->id, getId($deliveryMan), 1);
+    $deliveryManLoginToken = $this->getLoginTokenFromUserSessionAndDeliveryManId($login->userSession->id, getId($deliveryMan), getRemainedMinute());
     // 
     shared_execute_sql("COMMIT");
     return json_encode(array("token" => $deliveryManLoginToken->token, "expire_at" => $deliveryManLoginToken->expireAt));

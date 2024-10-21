@@ -40,7 +40,7 @@ class ThisClass
   {
     shared_execute_sql("START TRANSACTION");
     $runApp = getMainRunApp();
-    $deliveryManLoginToken = $this->refreshDeliveryManLoginToken($runApp, 1);
+    $deliveryManLoginToken = $this->refreshDeliveryManLoginToken($runApp, getRemainedMinute());
     // 
     shared_execute_sql("COMMIT");
     return json_encode(array("token" => $deliveryManLoginToken->token, "expire_at" => $deliveryManLoginToken->expireAt));
