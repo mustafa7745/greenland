@@ -42,7 +42,7 @@ class ThisClass
     $runApp = getMainRunApp();
     $deliveryManLoginToken = $this->refreshDeliveryManLoginToken($runApp, 1);
     // 
-    // shared_execute_sql("COMMIT");
+    shared_execute_sql("COMMIT");
     return json_encode(array("token" => $deliveryManLoginToken->token, "expire_at" => $deliveryManLoginToken->expireAt));
 
   }
