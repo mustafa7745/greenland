@@ -13,7 +13,8 @@ class Orders
     {
         $loginToken = $this->_check();
         $deliveryManId = $loginToken->deliveryManId;
-        print_r(getRemainedMinute());
+        $loginTokenDuration = getRemainedMinute();
+        print_r(date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes")));
 
         return getOrdersExecuter()->executeGetData($deliveryManId);
     }
