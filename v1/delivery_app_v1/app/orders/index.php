@@ -13,6 +13,8 @@ class Orders
     {
         $loginToken = $this->_check();
         $deliveryManId = $loginToken->deliveryManId;
+        print_r(getRemainedMinute());
+
         return getOrdersExecuter()->executeGetData($deliveryManId);
     }
     function readOrderContent()
