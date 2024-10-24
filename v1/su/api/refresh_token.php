@@ -45,7 +45,7 @@ class ThisClass
     } else {
       if (strtotime(getCurruntDate()) > strtotime($projectLoginToken->expireAt)) {
         $loginTokenString = uniqid(rand(), false);
-        $expireAt = $loginTokenDuration;
+        $expireAt = date('Y-m-d H:i:s', strtotime("+{$loginTokenDuration} minutes"));
         $projectLoginToken = getProjectsLoginTokensHelper()->updateToken($projectLoginToken->id, $loginTokenString, $expireAt);
       }
     }
