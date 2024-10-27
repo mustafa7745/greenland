@@ -46,7 +46,7 @@ class OrdersHelper extends OrdersSql
   }
   function getNotCompleteCount()
   {
-    $sql = $this->readNotCompleteSql();
+    $sql = $this->readNotCompleteCountSql();
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
