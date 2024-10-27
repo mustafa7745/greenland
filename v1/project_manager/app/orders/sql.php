@@ -1,7 +1,7 @@
 <?php
 namespace Manager;
 
-require_once (getPath() . 'tables/orders/attribute.php');
+require_once(getPath() . 'tables/orders/attribute.php');
 
 class OrdersSql extends \OrdersAttribute
 {
@@ -11,6 +11,15 @@ class OrdersSql extends \OrdersAttribute
         $table_name = $this->table_name;
         $innerJoin = "";
         $columns = "$this->table_name.$this->id";
+        $condition = "($this->situationId <> 1 AND $this->situationId <> 2) ";
+        /////
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
+    }
+    function readNotCompleteCountSql(): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = "";
+        $columns = "COUNT(*)";
         $condition = "($this->situationId <> 1 AND $this->situationId <> 2) ";
         /////
         return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
@@ -123,7 +132,7 @@ class OrdersSql extends \OrdersAttribute
 
 }
 /********/
-require_once (getPath() . 'tables/orders_products/attribute.php');
+require_once(getPath() . 'tables/orders_products/attribute.php');
 
 class OrdersProductsSql extends \OrdersProductsAttribute
 {
@@ -202,7 +211,7 @@ class OrdersProductsSql extends \OrdersProductsAttribute
 
 }
 /********/
-require_once (getPath() . 'tables/orders_offers/attribute.php');
+require_once(getPath() . 'tables/orders_offers/attribute.php');
 
 class OrdersOffersSql extends \OrdersOffersAttribute
 {
@@ -265,7 +274,7 @@ class OrdersOffersSql extends \OrdersOffersAttribute
 
 }
 /********/
-require_once (getPath() . 'tables/orders_status/attribute.php');
+require_once(getPath() . 'tables/orders_status/attribute.php');
 
 class OrdersStatusSql extends \OrdersStatusAttribute
 {
@@ -290,7 +299,7 @@ class OrdersStatusSql extends \OrdersStatusAttribute
     }
 }
 
-require_once (getPath() . 'tables/orders_delivery/attribute.php');
+require_once(getPath() . 'tables/orders_delivery/attribute.php');
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
@@ -379,7 +388,7 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
     }
 }
 
-require_once (getPath() . 'tables/orders_discounts/attribute.php');
+require_once(getPath() . 'tables/orders_discounts/attribute.php');
 
 class OrdersDiscountsSql extends \OrdersDiscountsAttribute
 {

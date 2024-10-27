@@ -55,6 +55,10 @@ class ThisClass
             return $this->readOrderStatus();
         }
         // 
+        elseif (getTag() == "readOrdersPendingCount") {
+            return $this->readOrdersPendingCount();
+        }
+        // 
         elseif (getTag() == "add") {
             return $this->add();
         }
@@ -165,10 +169,15 @@ class ThisClass
         $resultData = $this->controller->readOrderCenceled();
         return json_encode($resultData);
     }
-   
+
     private function readOrderStatus(): string
     {
         $resultData = $this->controller->readOrderStatus();
+        return json_encode($resultData);
+    }
+    private function readOrdersPendingCount(): string
+    {
+        $resultData = $this->controller->readOrdersPendingCount();
         return json_encode($resultData);
     }
     private function add(): string

@@ -122,6 +122,11 @@ class Orders
         $this->_check("RUN_APP");
         return getOrdersStatusExecuter()->executeGetData(getInputOrderId());
     }
+    function readOrdersPendingCount()
+    {
+        $this->_check("RUN_APP");
+        return getOrdersExecuter()->executeGetPendingData();
+    }
 
     ////
     function addDiscount()

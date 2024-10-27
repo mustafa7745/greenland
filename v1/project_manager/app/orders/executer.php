@@ -2,8 +2,8 @@
 namespace Manager;
 
 
-require_once ('sql.php');
-require_once ('helper.php');
+require_once('sql.php');
+require_once('helper.php');
 class OrdersExecuter extends OrdersSql
 {
   function executeAddData($userId, $order_products, $userLocationId, $deliveryManId, $price, $actualPrice, $managerId)
@@ -154,6 +154,12 @@ class OrdersExecuter extends OrdersSql
     return $data;
   }
   // 
+  function executeGetPendingData()
+  {
+    $helper = getOrdersHelper();
+    $count = $helper->getNotCompleteCount()['count(*)'];
+    return ['count' => $count, 'date' => getCurruntDate()];
+  }
 
   function executeSearchData($orderId)
   {

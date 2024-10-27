@@ -1,7 +1,7 @@
 <?php
 namespace Manager;
 
-require_once ('sql.php');
+require_once('sql.php');
 // 
 class OrdersHelper extends OrdersSql
 {
@@ -39,6 +39,12 @@ class OrdersHelper extends OrdersSql
     return $data[0];
   }
   function getNotComplete()
+  {
+    $sql = $this->readNotCompleteSql();
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
+  function getNotCompleteCount()
   {
     $sql = $this->readNotCompleteSql();
     $data = shared_execute_read1_no_json_sql($sql);
