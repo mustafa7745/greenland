@@ -157,7 +157,7 @@ class OrdersExecuter extends OrdersSql
   function executeGetPendingData()
   {
     $helper = getOrdersHelper();
-    $count = $helper->getNotCompleteCount()['count(*)'];
+    $count = $helper->getNotCompleteCount()[0]['count(*)'];
     return ['count' => $count, 'date' => getCurruntDate()];
   }
 
