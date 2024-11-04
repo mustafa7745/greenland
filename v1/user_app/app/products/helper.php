@@ -11,6 +11,12 @@ class ProductsHelper extends ProductsSql
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
+  function getData2()
+  {
+    $sql = $this->read2Sql();
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
   function searchData($productName)
   {
     $sql = $this->searchSql($productName);
