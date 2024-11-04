@@ -52,7 +52,7 @@ class HomeExecuter
     // for ($i = 0; $i < count($discounts); $i++) {
     //   $discounts[$i]['productImages'] = [];
     // }
-    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => []];
+    return ['user' => $user, 'ads' => $ads, 'categories' => $categories, 'offers' => $offers, 'discounts' => [],'products' => $this->getProducts()];
   }
   function executeGetDataWithUser2()
   {
