@@ -16,6 +16,7 @@ class ProductsAttribute
   public $categoryId = "categoryId";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
+  public $description = "description";
   //////////
   function path_image()
   {
@@ -27,7 +28,7 @@ class ProductsAttribute
 
   function initForignkey()
   {
-    require_once (__DIR__ . '/../products_groups/attribute.php');
+    require_once(__DIR__ . '/../products_groups/attribute.php');
     $this->products_groups_attribute = new ProductsGroupsAttribute();
   }
 
