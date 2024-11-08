@@ -88,7 +88,7 @@ class OrdersStatusSql extends \OrdersStatusAttribute
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
         $situation = "{$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->situation}";
-        $situationId = "{$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->id}";
+        $situationId = "{$this->orders_situations_attribute->table_name}.{$this->orders_situations_attribute->id} as situationId";
         $columns = "$this->table_name.$this->id, $this->table_name.$this->orderId, $this->table_name.$this->createdAt,$situation,$situationId";
         $condition = "$this->orderId = $orderId";
         /////
