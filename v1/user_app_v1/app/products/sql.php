@@ -105,6 +105,7 @@ class ProductsSql extends \ProductsAttribute
         $prePrice = "$this->table_name . $this->prePrice";
         $postPrice = "$this->table_name . $this->postPrice";
         $categoryId = "$this->table_name . $this->categoryId";
+        $description = "$this->table_name . $this->description";
         $createdAt = "$this->table_name . $this->createdAt";
         $updatedAt = "$this->table_name . $this->updatedAt";
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
@@ -112,7 +113,7 @@ class ProductsSql extends \ProductsAttribute
         $name = "$this->table_name . $this->name";
         $isAvailable = "$this->table_name . $this->isAvailable";
 
-        $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$isAvailable,$createdAt, $description, $updatedAt,$name,$productGroupName,$productGroupId";
 
         $condition = "$this->table_name.$this->id IN ($ids)";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
