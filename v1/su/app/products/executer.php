@@ -87,7 +87,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeUpdateDescription($id, $newValue)
   {
@@ -105,7 +105,6 @@ class ProductsExecuter
      */
     shared_execute_sql("COMMIT");
     return $this->sharedData1(data: $dataAfterUpdate);
-    ;
   }
   function executeUpdateCategory($id, $newValue)
   {
@@ -137,7 +136,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeUpdateOrder($id, $newValue)
   {
@@ -153,7 +152,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeUpdateGroup($id, $newValue)
   {
@@ -169,7 +168,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeUpdatePostPrice($id, $newValue)
   {
@@ -186,7 +185,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeUpdateAvailable($id)
   {
@@ -202,7 +201,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeDeleteData($ids)
   {
