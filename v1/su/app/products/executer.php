@@ -12,12 +12,8 @@ class ProductsExecuter
   }
   function executeGetDataByNumber($number)
   {
-    require_once __DIR__ . '/../../app/categories/helper.php';
     $date = getProductsHelper()->getDataByNumber($number);
-    $categoryId = $date[getProductsHelper()->categoryId];
-    $category = getCategoriesHelper()->getDataById($categoryId);
-    $date['category'] = $category;
-    return $date;
+    return $this->sharedData1($date);
   }
   function executeAddData($categoryId, $name, $number, $postPrice, $image, $productGroupId)
   {
@@ -86,6 +82,7 @@ class ProductsExecuter
     ;
     getProductsHelper()->getDataById($id);
     $dataAfterUpdate = getProductsHelper()->updateName($id, $newValue);
+
     /**
      * COMMIT
      */
@@ -102,11 +99,13 @@ class ProductsExecuter
     ;
     getProductsHelper()->getDataById($id);
     $dataAfterUpdate = getProductsHelper()->updateDescription($id, $newValue);
+
     /**
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
+    ;
   }
   function executeUpdateCategory($id, $newValue)
   {
@@ -221,6 +220,15 @@ class ProductsExecuter
     getProductsHelper()->deleteData($idsString, count($ids));
     shared_execute_sql("COMMIT");
     return successReturn();
+  }
+
+  function sharedData1($data)
+  {
+    require_once __DIR__ . '/../../app/categories/helper.php';
+    $categoryId = $date[getProductsHelper()->categoryId];
+    $category = getCategoriesHelper()->getDataById($categoryId);
+    $date['category'] = $category;
+    return $date;
   }
 }
 
