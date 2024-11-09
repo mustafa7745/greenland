@@ -185,7 +185,7 @@ class OrdersExecuter
     }
 
 
-    return ['order' => $order, "orderContent" => $orderContent, 'orderDelivery' => $orderDelivery, 'deliveryMan' => $deliveryMan];
+    return ['order' => $order, "orderContent" => $orderContent, 'orderStatus' => $orderStatus, 'deliveryMan' => $deliveryMan];
   }
 }
 $orders_executer = null;
