@@ -66,7 +66,7 @@ class ProductsSql extends \ProductsAttribute
     {
         $table_name = $this->table_name;
         $innerJoin = "";
-        $columns = "$this->table_name.$this->id ,$this->table_name.$this->name";
+        $columns = "*";
         $condition = "$this->table_name.$this->number = $number";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
