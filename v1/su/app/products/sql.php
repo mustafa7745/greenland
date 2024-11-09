@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once (getPath() . 'tables/products/attribute.php');
+require_once(getPath() . 'tables/products/attribute.php');
 
 class ProductsSql extends \ProductsAttribute
 {
@@ -65,8 +65,24 @@ class ProductsSql extends \ProductsAttribute
     function readByNumberSql($number): string
     {
         $table_name = $this->table_name;
-        $innerJoin = "";
-        $columns = "*";
+        $innerJoin = $this->INNER_JOIN();
+
+        $id = "$this->table_name . $this->id";
+        $prePrice = "$this->table_name . $this->prePrice";
+        $postPrice = "$this->table_name . $this->postPrice";
+        $categoryId = "$this->table_name . $this->categoryId";
+        $number = "$this->table_name . $this->number";
+        $order = "$this->table_name . `$this->order`";
+        $available = "$this->table_name . $this->isAvailable";
+        $description = "$this->table_name . $this->description";
+
+
+        $createdAt = "$this->table_name . $this->createdAt";
+        $updatedAt = "$this->table_name . $this->updatedAt";
+        $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
+        $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
+        $name = "$this->table_name . $this->name";
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$available, $number,$order,$description ,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$this->table_name.$this->number = $number";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
