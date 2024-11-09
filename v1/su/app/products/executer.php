@@ -121,7 +121,7 @@ class ProductsExecuter
      * COMMIT
      */
     shared_execute_sql("COMMIT");
-    return $dataAfterUpdate;
+    return $this->sharedData1(data: $dataAfterUpdate);
   }
   function executeUpdateNumber($id, $newValue)
   {
