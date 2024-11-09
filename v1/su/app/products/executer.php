@@ -225,10 +225,10 @@ class ProductsExecuter
   function sharedData1($data)
   {
     require_once __DIR__ . '/../../app/categories/helper.php';
-    $categoryId = $date[getProductsHelper()->categoryId];
+    $categoryId = $data[getProductsHelper()->categoryId];
     $category = getCategoriesHelper()->getDataById($categoryId);
-    $date['category'] = $category;
-    return $date;
+    $data['category'] = $category;
+    return $data;
   }
 }
 
