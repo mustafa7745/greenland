@@ -174,7 +174,7 @@ class OrdersExecuter
     // 
     $orderStatus = getOrdersStatusHelper()->getOrderStatus($orderId);
     // 
-    $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
+    $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId($orderId);
     // 
     $deliveryMan = null;
 
