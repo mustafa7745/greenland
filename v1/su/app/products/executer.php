@@ -12,7 +12,12 @@ class ProductsExecuter
   }
   function executeGetDataByNumber($number)
   {
-    return getProductsHelper()->getDataByNumber($number);
+    require_once __DIR__ . '/../../app/categories/helper.php';
+    $date = getProductsHelper()->getDataByNumber($number);
+    $categoryId = $date[getProductsHelper()->categoryId];
+    $category = getCategoriesHelper()->getDataById($categoryId);
+    $date['category'] = $category;
+    return $date;
   }
   function executeAddData($categoryId, $name, $number, $postPrice, $image, $productGroupId)
   {
