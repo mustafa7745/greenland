@@ -41,6 +41,7 @@ class ProductsSql extends \ProductsAttribute
         $number = "$this->table_name . $this->number";
         $order = "$this->table_name . `$this->order`";
         $available = "$this->table_name . $this->isAvailable";
+        $description = "$this->table_name . $this->description";
 
 
 
@@ -49,7 +50,7 @@ class ProductsSql extends \ProductsAttribute
         $productGroupId = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->id} as '{$this->products_groups_attribute->table_name}Id'";
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
-        $columns = "$id,$prePrice,$postPrice,$categoryId,$available, $number,$order,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
+        $columns = "$id,$prePrice,$postPrice,$categoryId,$available, $number,$order,$description,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
         $condition = "$id = $id_P FOR UPDATE";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
