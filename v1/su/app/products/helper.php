@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once ('sql.php');
+require_once('sql.php');
 // 
 class ProductsHelper extends ProductsSql
 {
@@ -56,6 +56,28 @@ class ProductsHelper extends ProductsSql
   function updateName($id, $newValue)
   {
     $sql = $this->updateNameSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Name";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_Name";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
+  function updateDescription($id, $newValue)
+  {
+    $sql = $this->updateDescriptionSql("'$id'", "'$newValue'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Name";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE_Name";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
+  function updateCategory($id, $newValue)
+  {
+    $sql = $this->updateCategorySql("'$id'", "'$newValue'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_Name";

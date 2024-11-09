@@ -92,6 +92,38 @@ class ProductsExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterUpdate;
   }
+  function executeUpdateDescription($id, $newValue)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateDescription($id, $newValue);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
+  function executeUpdateCategory($id, $newValue)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    ;
+    getProductsHelper()->getDataById($id);
+    $dataAfterUpdate = getProductsHelper()->updateCategory($id, $newValue);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
   function executeUpdateNumber($id, $newValue)
   {
 

@@ -14,7 +14,25 @@ function getInputProductName()
     if (strlen($value) > 50) {
         LONG_TEXT();
     }
-   
+
+    return $value;
+}
+function getInputProductDescription()
+{
+    $name = "inputProductDescription";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        EMPTY_OR_NOT_FOUND($name);
+    }
+    $value = getPostData3()[$name];
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    $value = trim($value);
+    // if (!isArabicOnly($value)) {
+    //     exitFromScript("يحب ان يحتوي النص على حروف عربية فقط", "");
+    // }
+    // if (strlen($value) > 50) {
+    //     LONG_TEXT();
+    // }
+
     return $value;
 }
 function getInputProductNameSU()

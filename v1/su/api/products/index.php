@@ -23,15 +23,16 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "add") {
             return $this->add();
-        }
-        elseif (getTag() == "addWithoutImage") {
+        } elseif (getTag() == "addWithoutImage") {
             return $this->addWithoutImage();
-        }
-
-        elseif (getTag() == "search") {
+        } elseif (getTag() == "search") {
             return $this->search();
         } elseif (getTag() == "updateName") {
             return $this->updateName();
+        } elseif (getTag() == "updateDescription") {
+            return $this->updateDescription();
+        } elseif (getTag() == "updateCategory") {
+            return $this->updateCategory();
         } elseif (getTag() == "updateAvailable") {
             return $this->updateAvailable();
         } elseif (getTag() == "updateNumber") {
@@ -62,7 +63,7 @@ class ThisClass
 
     }
 
-     private function addWithoutImage(): string
+    private function addWithoutImage(): string
     {
         $resultData = $this->controller->addWithoutImage();
         return json_encode($resultData);
@@ -79,6 +80,16 @@ class ThisClass
     private function updateName(): string
     {
         $resultData = $this->controller->updateName();
+        return json_encode($resultData);
+    }
+    private function updateDescription(): string
+    {
+        $resultData = $this->controller->updateDescription();
+        return json_encode($resultData);
+    }
+    private function updateCategory(): string
+    {
+        $resultData = $this->controller->updateCategory();
         return json_encode($resultData);
     }
     private function updateAvailable(): string

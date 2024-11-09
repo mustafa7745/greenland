@@ -104,6 +104,24 @@ class ProductsSql extends \ProductsAttribute
         /////
         return shared_update_sql($table_name, $set_query, $condition);
     }
+    protected function updateDescriptionSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->description = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
+    protected function updateCategorySql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->categoryId = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
     protected function updateNumberSql($id, $newValue): string
     {
         $date = getCurruntDate();

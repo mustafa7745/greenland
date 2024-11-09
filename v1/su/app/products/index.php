@@ -54,6 +54,20 @@ class Products
         getProjectLoginTokenData("RUN_APP", $s);
         return getProductsExecuter()->executeUpdateName(getInputProductId(), getInputProductNameSU());
     }
+    function updateDescription()
+    {
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+
+        return getProductsExecuter()->executeUpdateDescription(getInputProductId(), getInputProductDescription());
+    }
+    function updateCategory()
+    {
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        require_once __DIR__ . '/../categories/helper.php';
+        return getProductsExecuter()->executeUpdateCategory(getInputProductId(), getInputCategoryId());
+    }
     function updateNumber()
     {
         $s = getMainRunApp();
