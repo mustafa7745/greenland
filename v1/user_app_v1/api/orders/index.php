@@ -23,6 +23,8 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "readOrderProducts") {
             return $this->readOrderProducts();
+        } elseif (getTag() == "readOrderContent") {
+            return $this->readOrderContent();
         } elseif (getTag() == "readOrderStatus") {
             return $this->readOrderStatus();
         } elseif (getTag() == "add") {
@@ -41,6 +43,12 @@ class ThisClass
     private function readOrderProducts(): string
     {
         $resultData = $this->controller->readOrderProducts();
+        return json_encode($resultData);
+
+    }
+    private function readOrderContent(): string
+    {
+        $resultData = $this->controller->readOrderContent();
         return json_encode($resultData);
 
     }

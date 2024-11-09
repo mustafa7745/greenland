@@ -1,7 +1,7 @@
 <?php
 namespace UserApp;
 
-require_once (__DIR__ . '/../../../include/tables/orders/attribute.php');
+require_once(__DIR__ . '/../../../include/tables/orders/attribute.php');
 
 class OrdersSql extends \OrdersAttribute
 {
@@ -47,10 +47,19 @@ class OrdersSql extends \OrdersAttribute
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    function read_by_id_and_userId_sql($userId, $orderId): string
+    {
+        $table_name = $this->table_name;
+        $columns = " * ";
+        $innerJoin = "";
+        $condition = "$this->id = $orderId AND $this->userId = $userId";
+        /////
+        return shared_read_sql($table_name, $columns, $innerJoin, $condition);
+    }
 
 }
 /********/
-require_once (__DIR__ . '/../../../include/tables/orders_products/attribute.php');
+require_once(__DIR__ . '/../../../include/tables/orders_products/attribute.php');
 
 class OrdersProductsSql extends \OrdersProductsAttribute
 {
@@ -78,7 +87,7 @@ class OrdersProductsSql extends \OrdersProductsAttribute
 /********/
 
 /********/
-require_once (__DIR__ . '/../../../include/tables/orders_status/attribute.php');
+require_once(__DIR__ . '/../../../include/tables/orders_status/attribute.php');
 
 class OrdersStatusSql extends \OrdersStatusAttribute
 {
@@ -96,7 +105,7 @@ class OrdersStatusSql extends \OrdersStatusAttribute
     }
 }
 
-require_once (__DIR__ . '/../../../include/tables/orders_delivery/attribute.php');
+require_once(__DIR__ . '/../../../include/tables/orders_delivery/attribute.php');
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {

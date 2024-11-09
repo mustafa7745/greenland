@@ -26,6 +26,13 @@ class Orders
         $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         return getOrdersExecuter()->executeGetData($userId, getFrom());
     }
+    function readOrderContent()
+    {
+        $s = getMainRunApp();
+        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
+        return getOrdersExecuter()->executeGetOrderContentWithDelivery($userId, getInputOrderId());
+    }
     function readOrderProducts()
     {
         return getOrdersProductsExecuter()->executeGetData(getInputOrderId());

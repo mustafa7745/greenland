@@ -2,7 +2,7 @@
 namespace UserApp;
 
 
-require_once ('helper.php');
+require_once('helper.php');
 class OrdersExecuter
 {
   function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
@@ -163,6 +163,29 @@ class OrdersExecuter
   {
     $data = getOrdersHelper()->getData($userId, $offset);
     return $data;
+  }
+  function executeGetOrderContentWithDelivery($userId, $orderId)
+  {
+    $order = getOrdersHelper()->getOrder($userId, $orderId);
+    // 
+    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+    $orderContent = (new \OrderContent());
+    $orderContent->executeGetData($orderId);
+    // 
+    $orderStatus = getOrdersStatusHelper()->getOrderStatus($orderId);
+    // 
+    $orderDelivery = getOrdersDeliveryHelper()->getDataByOrderId2($orderId);
+    // 
+    $deliveryMan = null;
+
+    if ($orderDelivery != null) {
+      require_once __DIR__ . "/../delivery_men/helper.php";
+      $deliveryManId = $orderDelivery[getOrdersDeliveryHelper()->deliveryManId];
+      $deliveryMan = getDeliveryMenHelper()->getData($deliveryManId);
+    }
+
+
+    return ['order' => $order, "orderContent" => $orderContent, 'orderDelivery' => $orderDelivery, 'deliveryMan' => $deliveryMan];
   }
 }
 $orders_executer = null;

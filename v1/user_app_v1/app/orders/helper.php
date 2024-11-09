@@ -1,7 +1,7 @@
 <?php
 namespace UserApp;
 
-require_once ('sql.php');
+require_once('sql.php');
 // 
 class OrdersHelper extends OrdersSql
 {
@@ -27,9 +27,9 @@ class OrdersHelper extends OrdersSql
       exitFromScript($ar, $en);
     }
   }
-  function getOrder($order_id)
+  function getOrder($userId, $orderId)
   {
-    $sql = $this->read_by_id_sql("'$order_id'");
+    $sql = $this->read_by_id_and_userId_sql("'$userId'", "'$orderId'");
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
       $ar = "ORDER_ID_ERROR";
