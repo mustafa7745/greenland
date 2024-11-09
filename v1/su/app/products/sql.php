@@ -62,7 +62,7 @@ class ProductsSql extends \ProductsAttribute
         $condition = "$this->table_name.$this->categoryId IN ($ids) ";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
-    function readByNumberSql($number): string
+    function readByNumberSql($number_p): string
     {
         $table_name = $this->table_name;
         $innerJoin = $this->INNER_JOIN();
@@ -83,7 +83,7 @@ class ProductsSql extends \ProductsAttribute
         $productGroupName = "{$this->products_groups_attribute->table_name}.{$this->products_groups_attribute->name} as '{$this->products_groups_attribute->table_name}Name'";
         $name = "$this->table_name . $this->name";
         $columns = "$id,$prePrice,$postPrice,$categoryId,$available, $number,$order,$description ,$createdAt, $updatedAt,$name,$productGroupName,$productGroupId";
-        $condition = "$this->table_name.$this->number = $number";
+        $condition = "$this->table_name.$this->number = $number_p";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
     function addSql($categoryId, $name, $number, $postPrice, $productGroupId): string
