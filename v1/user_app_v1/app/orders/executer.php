@@ -154,7 +154,8 @@ class OrdersExecuter
     $w = new \ApiWhatsapp();
     $message = "طلب جديد" . " $orderId ";
     $w->sendMessageText("967774519161", $message);
-    return $orderProducts;
+    // return $orderProducts;
+    return $this->executeGetOrderContentWithDelivery($userId, $orderId);
 
 
   }
