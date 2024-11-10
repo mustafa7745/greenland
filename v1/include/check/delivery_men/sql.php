@@ -19,7 +19,7 @@ class DeliveryMenSql extends \DeliveryMenAttribute
         $table_name = $this->table_name;
         $columns = " * ";
         $innerJoin = "";
-        $condition = "$this->userId = $userId";
+        $condition = "$this->userId = $userId AND $this->status = 1";
         /////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
