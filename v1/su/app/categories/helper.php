@@ -16,7 +16,12 @@ class CategoriesHelper extends CategoriesSql
   {
     $sql = $this->searchSql($value);
     $data = shared_execute_read1_no_json_sql($sql);
-    return $data;
+    if (count($data) != 1) {
+      $ar = $this->name . "_NAME_ERROR";
+      $en = $this->name . "_NAME_ERROR";
+      exitFromScript($ar, $en);
+    }
+    return $data[0];
   }
   function getDataById($id)
   {
