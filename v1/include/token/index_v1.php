@@ -55,6 +55,14 @@ function getUserLoginToken($permissionName, $runApp)
     $token = getInputLoginToken();
     // print_r($token);
     $loginToken = getLoginTokensHelper()->getDataByToken($token);
+    // 
+    require_once __DIR__ . '/../../include/check/users_sessions/helper.php';
+    $userSession = Check\getUsersSessionsHelper()->getDataById($loginToken->userSessionId);
+    require_once __DIR__ . '/../../include/check/users/helper.php';
+    $user = Check\getUsersHelper()->getDataById($userSession->userId);
+    if ($user->status != '1') {
+        USER_DISABLED();
+    }
     // $permissionName = "REFRESH_LOGIN_TOKEN";
     $permission = getPermissionsHelper()->getDataByName($permissionName);
     getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
