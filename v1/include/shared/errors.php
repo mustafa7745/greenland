@@ -65,6 +65,13 @@ function UNKOWN_TAG()
 
     exitFromScript($ar, $en);
 }
+function USER_DISABLED()
+{
+    $ar = "هذا المستخدم تم ايقافة من الادارة";
+    $en = "هذا المستخدم تم ايقافة من الادارة";
+
+    exitFromScript($ar, $en);
+}
 function checkIfNumber($value)
 {
     if (!is_numeric($value)) {

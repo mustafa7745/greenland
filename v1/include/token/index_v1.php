@@ -82,6 +82,12 @@ function getDeliveryManLoginToken($permissionName, $runApp)
 {
     $token = getInputDeliveryMenLoginToken();
     $loginToken = getDeliveryMenLoginTokensHelper()->getDataByToken($token);
+
+    require_once __DIR__ . '/../../include/check/delivery_men/helper.php';
+    $delivery_man = Check\getDeliveryMenHelper()->getDataById($loginToken->deliveryManId);
+    if ($delivery_man[Check\getDeliveryMenHelper()->status] != '1') {
+        USER_DISABLED();
+    }
     // $permissionName = "REFRESH_LOGIN_TOKEN";
     $permission = getPermissionsHelper()->getDataByName($permissionName);
     getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
