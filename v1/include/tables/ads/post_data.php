@@ -44,6 +44,7 @@ function getInputAdsType()
     }
     $value = getPostData3()[$name];
     checkIfNumber($value);
+    print_r($value);
     if ($value != '1' || $value != '2') {
         return null;
     }
@@ -67,5 +68,6 @@ function getInputAdsProductCatId()
     }
     $value = getPostData3()[$name];
     checkIfNumber($value);
+    print_r($value);
     return $value;
 }
