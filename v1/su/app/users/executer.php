@@ -8,10 +8,6 @@ class UsersExecuter
   {
     return getUsersHelper()->getData($phone);
   }
-  function executeGetDataById($id)
-  {
-    return getUsersHelper()->getDataById($id);
-  }
   function executeUpdateStatus($id)
   {
 
