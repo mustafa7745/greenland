@@ -12,7 +12,7 @@ class AdsExecuter
     }
     return $ads;
   }
-  function executeAddData($description, $image)
+  function executeAddData($description, $image, $expireAt, $type = NULL, $productCatId = NULL)
   {
     $helper = getAdsHelper();
     $full_path_directory = $helper->path_image();
@@ -25,7 +25,7 @@ class AdsExecuter
     shared_execute_sql("START TRANSACTION");
     $image_name = uniqid(rand(), false) . ".jpg";
     $id = uniqid(rand(), false);
-    $dataAfterAdd = $helper->addData($id, $description, $image_name);
+    $dataAfterAdd = $helper->addData($id, $description, $image_name, $expireAt, $type, $productCatId);
 
     // 
     $full_path_file = $full_path_directory . $image_name;

@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once (getPath() . 'tables/ads/attribute.php');
+require_once(getPath() . 'tables/ads/attribute.php');
 
 class AdsSql extends \AdsAttribute
 {
@@ -24,12 +24,12 @@ class AdsSql extends \AdsAttribute
         return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 10);
 
     }
-    function addSql($id, $description, $image): string
+    function addSql($id, $description, $image, $expireAt, $type = NULL, $productCatId = NULL): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
-        $columns = "(`$this->id`,`$this->image`,`$this->description`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$image,$description,'$date','$date')";
+        $columns = "(`$this->id`,`$this->image`,`$this->description`,`$this->type`,`$this->product_cat_id`,`$this->expireAt`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "($id,$image,$description,$type ,$productCatId,'$expireAt','$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

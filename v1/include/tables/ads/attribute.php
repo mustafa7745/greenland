@@ -8,6 +8,9 @@ class AdsAttribute
     public $image = "image";
     public $isEnabled = "isEnabled";
     public $description = "description";
+    public $type = "type";
+    public $product_cat_id = "product_cat_id";
+    public $expireAt = "expireAt";
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
 

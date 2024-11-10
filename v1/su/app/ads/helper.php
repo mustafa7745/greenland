@@ -59,9 +59,9 @@ class AdsHelper extends AdsSql
 
   }
 
-  function addData($id, $description, $image)
+  function addData($id, $description, $image, $expireAt, $type = NULL, $productCatId = NULL)
   {
-    $sql = $this->addSql("'$id'", "'$description'", "'$image'");
+    $sql = $this->addSql("'$id'", "'$description'", "'$image'", $expireAt, $type, $productCatId);
     // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {

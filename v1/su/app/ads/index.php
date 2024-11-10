@@ -23,7 +23,14 @@ class Ads
         // checkPermission("READ_GROUPS");
         $s = getMainRunApp();
         getProjectLoginTokenData("RUN_APP", $s);
-        return getAdsExecuter()->executeAddData(getInputAdsDescription(), getInputAdsImage());
+        $expireAt = getInputAdsTime();
+        $expireAt = date('Y-m-d', strtotime(getCurruntDate() . " + $expireAt days"));
+        $type = getInputAdsType();
+        if ($type != null) {
+            $productCatId = getInputAdsProductCatId();
+            return getAdsExecuter()->executeAddData(getInputAdsDescription(), getInputAdsImage(), $expireAt, "'$type'", "'$productCatId'");
+        }
+        return getAdsExecuter()->executeAddData(getInputAdsDescription(), getInputAdsImage(), $expireAt);
     }
 
     function updateImage()
