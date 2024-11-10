@@ -59,10 +59,10 @@ class AdsHelper extends AdsSql
 
   }
 
-  function addData($id, $description, $image, $expireAt, $type = NULL, $productCatId = NULL)
+  function addData($id, $description, $image, $expireAt, $type, $productCatId)
   {
     $sql = $this->addSql("'$id'", "'$description'", "'$image'", $expireAt, $type, $productCatId);
-    print_r($sql);
+    // print_r($sql);
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");

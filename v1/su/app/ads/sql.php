@@ -24,7 +24,7 @@ class AdsSql extends \AdsAttribute
         return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->updatedAt", 'DESC', $condition, 10);
 
     }
-    function addSql($id, $description, $image, $expireAt, $type = NULL, $productCatId = NULL): string
+    function addSql($id, $description, $image, $expireAt, $type, $productCatId): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;

@@ -12,7 +12,7 @@ class AdsExecuter
     }
     return $ads;
   }
-  function executeAddData($description, $image, $expireAt, $type = NULL, $productCatId = NULL)
+  function executeAddData($description, $image, $expireAt, $type = "NULL", $productCatId = "NULL")
   {
     $helper = getAdsHelper();
     $full_path_directory = $helper->path_image();
