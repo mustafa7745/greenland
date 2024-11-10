@@ -7,6 +7,7 @@ class DeliveryMenAttribute
     public $table_name = "delivery_men";
     public $id = "id";
     public $userId = "userId";
+    public $status = "status";
     public $createdAt = "createdAt";
     // 
     public $users_attribute;

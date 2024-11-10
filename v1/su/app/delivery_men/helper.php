@@ -35,6 +35,17 @@ class DeliveryMenHelper extends DeliveryMenSql
     }
     return $this->getDataById($id);
   }
+  function updateStatus($id)
+  {
+    $sql = $this->updateStatus("'$id'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
+  }
 }
 
 $delivery_men_helper = null;

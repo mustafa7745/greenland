@@ -30,6 +30,22 @@ class DeliveryMenExecuter
     shared_execute_sql("COMMIT");
     return $dataAfterAdd;
   }
+
+  function executeUpdateStatus($id)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+
+    $dataAfterUpdate = getDeliveryMenHelper()->updateStatus($id);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
 }
 
 $delivery_men_executer = null;

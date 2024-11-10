@@ -32,4 +32,13 @@ class DeliveryMenSql extends \DeliveryMenAttribute
         $condition = "$this->id = $id";
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
+    protected function updateStatusSql($id): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->status = NOT $this->status";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
 }

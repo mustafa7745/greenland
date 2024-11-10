@@ -25,6 +25,13 @@ class DeliveryMen
         require_once __DIR__ . '/../users/sql.php';
         return getDeliveryMenExecuter()->executeGetData(getInputUserId());
     }
+    function updateStatus()
+    {
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        require_once __DIR__ . '/../users/sql.php';
+        return getDeliveryMenExecuter()->executeUpdateStatus(getInputDeliveryManId());
+    }
 }
 
 

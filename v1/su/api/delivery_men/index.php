@@ -23,6 +23,8 @@ class ThisClass
             return $this->search();
         } elseif (getTag() == "add") {
             return $this->add();
+        } elseif (getTag() == "updateStatus") {
+            return $this->updateStatus();
         } else {
             UNKOWN_TAG();
         }
@@ -40,6 +42,12 @@ class ThisClass
     {
 
         $resultData = $this->controller->search();
+        return json_encode($resultData);
+    }
+    private function updateStatus(): string
+    {
+
+        $resultData = $this->controller->updateStatus();
         return json_encode($resultData);
     }
 }
