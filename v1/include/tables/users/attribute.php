@@ -10,6 +10,7 @@ class UsersAttribute
   public $name2 = "name2";
   public $phone = "phone";
   public $password = "password";
+  public $status = "status";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
   //////////

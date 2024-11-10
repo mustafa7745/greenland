@@ -21,6 +21,8 @@ class ThisClass
     {
         if (getTag() == "read") {
             return $this->read();
+        } else if (getTag() == "updateStatus") {
+            return $this->updateStatus();
         } else {
             UNKOWN_TAG();
         }
@@ -29,6 +31,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function updateStatus(): string
+    {
+        $resultData = $this->controller->updateStatus();
         return json_encode($resultData);
 
     }

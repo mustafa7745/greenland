@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once ('sql.php');
+require_once('sql.php');
 // 
 class UsersHelper extends UsersSql
 {
@@ -28,6 +28,17 @@ class UsersHelper extends UsersSql
       exitFromScript($ar, $en);
     }
     return $data[0];
+  }
+  function updateStatus($id)
+  {
+    $sql = $this->updateStatusSql("'$id'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+    return $this->getDataById($id);
   }
 }
 

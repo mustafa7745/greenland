@@ -15,10 +15,16 @@ class Users
         $this->_check("RUN_APP");
         return getUsersExecuter()->executeGetData(getInputUserPhone3());
     }
+    function updateStatus()
+    {
+        $this->_check("RUN_APP");
+        return getUsersExecuter()->executeUpdateStatus(getInputUserId());
+    }
     private function _check($permissionName)
     {
         $s = getMainRunApp();
         getProjectLoginTokenData($permissionName, $s);
     }
+
 }
 

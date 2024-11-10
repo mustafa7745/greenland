@@ -12,6 +12,21 @@ class UsersExecuter
   {
     return getUsersHelper()->getDataById($id);
   }
+  function executeUpdateStatus($id)
+  {
+
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+
+    $dataAfterUpdate = getUsersHelper()->updateStatus($id);
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    return $dataAfterUpdate;
+  }
 }
 $users_executer = null;
 function getUsersExecuter()
