@@ -37,7 +37,7 @@ class DeliveryMenHelper extends DeliveryMenSql
   }
   function updateStatus($id)
   {
-    $sql = $this->updateStatus("'$id'");
+    $sql = $this->updateStatusSql("'$id'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE_";
