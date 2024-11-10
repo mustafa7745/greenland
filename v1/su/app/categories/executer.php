@@ -2,12 +2,16 @@
 namespace SU1;
 
 
-require_once ('helper.php');
+require_once('helper.php');
 class CategoriesExecuter
 {
   function executeGetData()
   {
     return getCategoriesHelper()->getData();
+  }
+  function executeSearchData($value)
+  {
+    return getCategoriesHelper()->getSearch($value);
   }
   function executeAddData($name, $image)
   {

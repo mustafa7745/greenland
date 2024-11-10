@@ -17,6 +17,13 @@ class Categories
         getProjectLoginTokenData("RUN_APP", $s);
         return getCategoriesExecuter()->executeGetData();
     }
+    function search()
+    {
+        // checkPermission("READ_GROUPS");
+        $s = getMainRunApp();
+        getProjectLoginTokenData("RUN_APP", $s);
+        return getCategoriesExecuter()->executeSearchData(getInputCategoryName());
+    }
     function add()
     {
         // checkPermission("READ_GROUPS");

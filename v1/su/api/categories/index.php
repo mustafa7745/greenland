@@ -23,6 +23,8 @@ class ThisClass
             return $this->read();
         } elseif (getTag() == "add") {
             return $this->add();
+        } elseif (getTag() == "search") {
+            return $this->search();
         } elseif (getTag() == "updateName") {
             return $this->updateName();
         } elseif (getTag() == "updateImage") {
@@ -39,6 +41,12 @@ class ThisClass
     private function read(): string
     {
         $resultData = $this->controller->read();
+        return json_encode($resultData);
+
+    }
+    private function search(): string
+    {
+        $resultData = $this->controller->search();
         return json_encode($resultData);
 
     }

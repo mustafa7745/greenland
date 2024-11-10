@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once (getPath() . 'tables/categories/attribute.php');
+require_once(getPath() . 'tables/categories/attribute.php');
 
 class CategoriesSql extends \CategoriesAttribute
 {
@@ -72,5 +72,13 @@ class CategoriesSql extends \CategoriesAttribute
         $condition = "$this->id IN ($ids)";
         /////
         return delete_sql($table_name, $condition);
+    }
+    function searchSql($value): string
+    {
+        $table_name = $this->table_name;
+        $innerJoin = "";
+        $columns = "*";
+        $condition = "$this->table_name.$this->name LIKE '%$value%'";
+        return shared_read_limit2_sql($table_name, $columns, $innerJoin, "$this->table_name.$this->order", "ASC", $condition, 7);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace SU1;
 
-require_once ('sql.php');
+require_once('sql.php');
 // 
 class CategoriesHelper extends CategoriesSql
 {
@@ -9,6 +9,12 @@ class CategoriesHelper extends CategoriesSql
   function getData()
   {
     $sql = $this->readSql();
+    $data = shared_execute_read1_no_json_sql($sql);
+    return $data;
+  }
+  function getSearch($value)
+  {
+    $sql = $this->searchSql($value);
     $data = shared_execute_read1_no_json_sql($sql);
     return $data;
   }
