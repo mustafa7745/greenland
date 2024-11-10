@@ -16,7 +16,7 @@ class CategoriesHelper extends CategoriesSql
   {
     $sql = $this->searchSql($value);
     $data = shared_execute_read1_no_json_sql($sql);
-    if (count($data) != 1) {
+    if (count($data) == 0) {
       $ar = $this->name . "_NAME_ERROR";
       $en = $this->name . "_NAME_ERROR";
       exitFromScript($ar, $en);
