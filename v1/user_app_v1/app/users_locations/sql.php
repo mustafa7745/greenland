@@ -22,8 +22,13 @@ class UsersLocationsSql extends \UsersLocationsAttribute
     function readByUserIdsql($userId): string
     {
         $table_name = $this->table_name;
-        $columns = " * ";
-        $innerJoin = "";
+
+        $innerJoin = $this->INNER_JOIN();
+        $columns = "{$this->table_name}.$this->id, {$this->locations_types_attribute->table_name}.$this->name , $this->street , $this->city , $this->latLong , $this->nearTo , $this->url , $this->contactPhone";
+       
+
+        // $columns = " * ";
+        // $innerJoin = "";
         $condition = "$this->userId = $userId";
         /////
         return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
