@@ -15,4 +15,18 @@ class UsersLocationsAttribute
     public $type = "type";
     public $createdAt = "createdAt";
     public $updatedAt = "updatedAt";
+
+    public $locations_types_attribute;
+    function initForignkey()
+    {
+        require_once(__DIR__ . '/../location_types/attribute.php');
+        $this->locations_types_attribute = new LocationTypesAttribute();
+    }
+    function INNER_JOIN(): string
+    {
+      $this->initForignkey();
+      $inner =
+        FORIGN_KEY_ID_INNER_JOIN($this->locations_types_attribute->NATIVE_INNER_JOIN(), $this->table_name, $this->type);
+      return $inner;
+    }
 }
