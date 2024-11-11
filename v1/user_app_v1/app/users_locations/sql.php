@@ -31,7 +31,7 @@ class UsersLocationsSql extends \UsersLocationsAttribute
         // $innerJoin = "";
         $condition = "$this->userId = $userId";
         /////
-        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, $this->createdAt, "DESC");
+        return shared_read_order_by_sql($table_name, $columns, $innerJoin, $condition, "{$this->table_name}.$this->createdAt", "DESC");
     }
     function readByIdsql($id): string
     {
