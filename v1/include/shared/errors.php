@@ -24,8 +24,8 @@ function EXP_SQL($e)
         $en = "CONNOT_DELETE_OR_UPDATE_WHEN_HAVE_ITEMS";
         exitFromScript($ar, $en);
     }
-    $ar = "EXP_SQL";
-    $en = "EXP_SQL" . $e;
+    $ar = "E034S24Q";
+    $en = "E034S24Q" ;
     exitFromScript($ar, $en);
 }
 
