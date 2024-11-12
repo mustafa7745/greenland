@@ -53,12 +53,23 @@ function getProjectLoginTokenData($permissionName, $runApp)
 function getUserLoginToken($permissionName, $runApp)
 {
     $token = getInputLoginToken();
-    // print_r($token);
+    
     $loginToken = getLoginTokensHelper()->getDataByToken($token);
-    if ($loginToken == null) {
-        INVALID_TOKEN2();
+    $permission = getPermissionsHelper()->getDataByName($permissionName);
+    getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $runApp->app->groupId);
+    $failedCount = getFailedAttempsLogsHelper()->getData($runApp->device->id, $permission->id);
+    // print_r($failedCount);
+    if (getDeviceCount($failedCount) > 3) {
+      P_BLOCKED($permissionName);
+    }
+    if (getIpCount($failedCount) > 3) {
+      P_BLOCKED($permissionName);
     }
     // 
+    if ($loginToken == null) {
+      INVALID_TOKEN($runApp, $permission);
+    }
+    
     require_once __DIR__ . '/../../include/check/users_sessions/helper.php';
     $userSession = Check\getUsersSessionsHelper()->getDataById($loginToken->userSessionId);
     require_once __DIR__ . '/../../include/check/users/helper.php';
