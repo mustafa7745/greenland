@@ -29,6 +29,18 @@ class OrdersHelper extends OrdersSql
       exitFromScript($ar, $en);
     }
   }
+  function updateStatusWithPaid($id, $newValue, $paid)
+  {
+
+    $sql = $this->updateStatusWithPaidSql("'$id'", "'$newValue'", $paid);
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      $en = "DATA_NOT_EFFECTED_WHEN_UPDATE";
+      exitFromScript($ar, $en);
+    }
+  }
   function updateCode($id, $newValue)
   {
     $sql = $this->updateCodeSql("'$id'", "'$newValue'");

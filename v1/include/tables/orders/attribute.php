@@ -13,7 +13,7 @@ class OrdersAttribute
   public $withApp = "withApp";
   public $paid = "paid";
   public $inrest = "inrest";
-  
+
   public $systemOrderNumber = "systemOrderNumber";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
@@ -22,7 +22,7 @@ class OrdersAttribute
   public $orders_situations_attribute;
   function initForignkey()
   {
-    require_once (__DIR__ . '/../orders_situations/attribute.php');
+    require_once(__DIR__ . '/../orders_situations/attribute.php');
     $this->orders_situations_attribute = new OrdersSituationsAttribute();
   }
 
@@ -46,6 +46,21 @@ class OrdersAttribute
   public $ORDER_ASSIGNED_DELIVERY_MAN = 20;
   public $ORDER_PREPARING = 25;
   public $ORDER_IN_ROAD = 30;
+
+  // 
+// public $NOT_PAID = null;
+  public $PAID_ON_DELIVERY = "1";
+  public $ELECTEONIC_PAID = "2";
+  public $PAID_FROM_WALLET = "3";
+  public $PAID_IN_STORE = "4";
+
+  // 
+
+  public $DELIVERY = null;
+  public $SAFARY = "1";
+  public $MAHALY = "2";
+  public $FAMILY = "3";
+  public $CAR = "4";
 
 
 

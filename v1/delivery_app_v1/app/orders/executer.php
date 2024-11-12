@@ -1,7 +1,7 @@
 <?php
 namespace DeliveryMen;
 
-require_once ('helper.php');
+require_once('helper.php');
 class OrdersExecuter
 {
 
@@ -17,7 +17,7 @@ class OrdersExecuter
     return $data;
   }
   function executeOrderInRoad($orderId, $deliveryManId)
-  { 
+  {
     /**
      *  START TRANSACTION FOR SQL
      */
@@ -75,7 +75,7 @@ class OrdersExecuter
       $en = "هذا الطلب تم انجازه";
       exitFromScript($ar, $en);
     }
-    
+
     if ($order[getOrdersHelper()->code] == null) {
       $ar = "لم يتم تفعيل الطلب في الطريق";
       $en = "لم يتم تفعيل الطلب في الطريق";
@@ -87,7 +87,7 @@ class OrdersExecuter
       exitFromScript($ar, $en);
     }
     $situatinId = getOrdersHelper()->ORDER_COMPLETED;
-    getOrdersHelper()->updateStatus(getId($order), $situatinId);
+    getOrdersHelper()->updateStatusWithPaid(getId($order), $situatinId, getOrdersHelper()->PAID_ON_DELIVERY);
     getOrdersStatusHelper()->addData(getId($order), $situatinId);
     // 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
