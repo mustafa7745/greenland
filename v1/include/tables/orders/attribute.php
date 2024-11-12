@@ -11,6 +11,9 @@ class OrdersAttribute
   public $situationId = "situationId";
   public $code = "code";
   public $withApp = "withApp";
+  public $paid = "paid";
+  public $inrest = "inrest";
+  
   public $systemOrderNumber = "systemOrderNumber";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
