@@ -267,6 +267,9 @@ function getDeliveryPrice($userLocation)
   // 
   $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
   // print_r($distanse);
+  if ($distanse > 9) {
+   $distanse = $distanse + 2;
+  }
   $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
   return $order_price_delivery;
 }
