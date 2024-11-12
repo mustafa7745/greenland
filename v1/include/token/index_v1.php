@@ -55,6 +55,9 @@ function getUserLoginToken($permissionName, $runApp)
     $token = getInputLoginToken();
     // print_r($token);
     $loginToken = getLoginTokensHelper()->getDataByToken($token);
+    if ($loginToken == null) {
+        INVALID_TOKEN2();
+    }
     // 
     require_once __DIR__ . '/../../include/check/users_sessions/helper.php';
     $userSession = Check\getUsersSessionsHelper()->getDataById($loginToken->userSessionId);

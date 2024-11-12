@@ -76,6 +76,12 @@ function INVALID_TOKEN($runApp, $permission)
   shared_execute_sql("COMMIT");
   exitFromScript($ar, $en, 400, 5002);
 }
+function INVALID_TOKEN2()
+{
+  $ar = "INVALID_TOKEN";
+  $en = "INVALID_TOKEN";
+  exitFromScript($ar, $en, 400, 5002);
+}
 function TOKEN_NEED_UPDATE()
 {
   $ar = "TOKEN_NEED_UPDATE";
