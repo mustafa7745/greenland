@@ -482,7 +482,7 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
     }
     return $data[0];
   }
-  function addData($id, $orderId, $amount, $type)
+  function addData($orderId, $amount, $type)
   {
     $sql = $this->addSql("'$orderId'", "'$amount'", "'$type'");
     shared_execute_sql($sql);
