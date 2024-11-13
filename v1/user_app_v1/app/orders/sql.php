@@ -109,12 +109,12 @@ require_once(__DIR__ . '/../../../include/tables/orders_delivery/attribute.php')
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
-    function addSql($id, $orderId, $price, $actualPrice, $userLocationId): string
+    function addSql($orderId, $price, $actualPrice, $userLocationId): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->price`,$this->actualPrice,`$this->userLocationId`,`$this->orderId`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$price,$actualPrice,$userLocationId, $orderId,'$date','$date')";
+        $values = "(NULL,$price,$actualPrice,$userLocationId, $orderId,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

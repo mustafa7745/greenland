@@ -113,9 +113,9 @@ function getOrdersStatusHelper()
 class OrdersDeliveryHelper extends OrdersDeliverySql
 {
 
-  function addData($id, $orderId, $price, $actualPrice, $userLocationId)
+  function addData($orderId, $price, $actualPrice, $userLocationId)
   {
-    $sql = $this->addSql("'$id'", "'$orderId'", "'$actualPrice'", "'$price'", "'$userLocationId'");
+    $sql = $this->addSql("'$orderId'", "'$actualPrice'", "'$price'", "'$userLocationId'");
     // print_r($sql); 
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {

@@ -303,12 +303,12 @@ require_once(getPath() . 'tables/orders_delivery/attribute.php');
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
-    function addSql($id, $orderId, $price, $actualPrice, $userLocationId, $deliveryManId): string
+    function addSql($orderId, $price, $actualPrice, $userLocationId, $deliveryManId): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->price`,`$this->actualPrice`,`$this->userLocationId`,`$this->deliveryManId`,`$this->orderId`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$price,$actualPrice,$userLocationId,$deliveryManId, $orderId,'$date','$date')";
+        $values = "(NULL,$price,$actualPrice,$userLocationId,$deliveryManId, $orderId,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

@@ -61,8 +61,8 @@ class OrdersExecuter extends OrdersSql
       getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
-    $orderDeliveryId = uniqid(rand(), false);
-    getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
+    // $orderDeliveryId = uniqid(rand(), false);
+    getOrdersDeliveryHelper()->addData( $orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
 
     $situatinId = getOrdersHelper()->ORDER_ASSIGNED_DELIVERY_MAN;
     getOrdersHelper()->updateStatus($orderId, $situatinId);
