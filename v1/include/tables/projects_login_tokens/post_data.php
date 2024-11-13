@@ -4,7 +4,7 @@ function getInputProjectLoginToken()
     $name = "inputProjectLoginToken";
     $desc = "P Login Token";
     // print_r(getPostData2());
-    if (!isset(getPostData2()[$name])) {
+    if (!isset(getPostData2Encrypted()[$name])) {
         $ar = "{$desc}_NOT_FOUND";
         $en = "{$desc}_NOT_FOUND";
         exitFromScript($ar, $en);

@@ -179,6 +179,33 @@ function getPostData2()
 
 }
 
+function getPostData2Encrypted()
+{
+  global $postData2;
+  if ($postData2 == null) {
+    $name = "data2";
+    if (!isset($_POST[$name])) {
+      POST_DATA_NOT_FOUND(2, 0);
+    }
+    if (!is_string($_POST[$name])) {
+      $ar = "DATA2_NOT_String";
+      $en = "DATA2_NOT_String";
+      exitFromScript($ar, $en);
+    }
+    $data = decrypt($_POST[$name]);
+    // print_r($_POST[$name]);
+
+    if ($data == null) {
+      $ar = "ERROR_ENCRYPTED";
+      $en = "ERROR_ENCRYPTED";
+      $code = 1111;
+      exitFromScript($ar, $en, 400, $code);
+    }
+    $postData2 = json_decode($data, true);
+  }
+  return $postData2;
+
+}
 $postData3 = null;
 function getPostData3()
 {

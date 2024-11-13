@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../v1/include/tables/managers_users/attribute.php';
-require_once __DIR__ . '/../v1/include/check/middleware.php';
+require_once __DIR__ . '/../v1/include/check/middleware_v1.php';
 
 
 class ManagersUsersHelper extends \ManagersUsersAttribute
