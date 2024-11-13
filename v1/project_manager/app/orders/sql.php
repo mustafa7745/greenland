@@ -392,12 +392,12 @@ require_once(getPath() . 'tables/orders_discounts/attribute.php');
 
 class OrdersDiscountsSql extends \OrdersDiscountsAttribute
 {
-    function addSql($id, $orderId, $amount, $type): string
+    function addSql($orderId, $amount, $type): string
     {
         $date = getCurruntDate();
         $table_name = $this->table_name;
         $columns = "(`$this->id`,`$this->orderId`,`$this->amount`,`$this->type`,`$this->createdAt`,`$this->updatedAt`)";
-        $values = "($id,$orderId,$amount, $type,'$date','$date')";
+        $values = "(NULL,$orderId,$amount, $type,'$date','$date')";
         /////
         return shared_insert_sql($table_name, $columns, $values);
     }

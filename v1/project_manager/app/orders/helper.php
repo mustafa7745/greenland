@@ -484,7 +484,7 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
   }
   function addData($id, $orderId, $amount, $type)
   {
-    $sql = $this->addSql("'$id'", "'$orderId'", "'$amount'", "'$type'");
+    $sql = $this->addSql("'$orderId'", "'$amount'", "'$type'");
     shared_execute_sql($sql);
     if (mysqli_affected_rows(getDB()->conn) != 1) {
       shared_execute_sql("rollback");
@@ -492,6 +492,7 @@ class OrdersDiscountsHelper extends OrdersDiscountsSql
       $en = "DATA_NOT_EFFECTED_WHEN_ADD_ORDER";
       exitFromScript($ar, $en);
     }
+    $id = getDB()->conn->insert_id;
     return $this->getDataById($id);
   }
   function updateType($id, $newValue)

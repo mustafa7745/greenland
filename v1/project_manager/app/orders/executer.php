@@ -62,7 +62,7 @@ class OrdersExecuter extends OrdersSql
     }
 
     // $orderDeliveryId = uniqid(rand(), false);
-    getOrdersDeliveryHelper()->addData( $orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
+    getOrdersDeliveryHelper()->addData($orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
 
     $situatinId = getOrdersHelper()->ORDER_ASSIGNED_DELIVERY_MAN;
     getOrdersHelper()->updateStatus($orderId, $situatinId);
@@ -638,8 +638,8 @@ class OrdersDiscountsExecuter
       $en = "هذا الطلب تم انجازه";
       exitFromScript($ar, $en);
     }
-    $id = uniqid(rand(), false);
-    $dataAfterAdd = getOrdersDiscountsHelper()->addData($id, $orderId, $amount, $type);
+    // $id = uniqid(rand(), false);
+    $dataAfterAdd = getOrdersDiscountsHelper()->addData($orderId, $amount, $type);
     shared_execute_sql("COMMIT");
 
     return $dataAfterAdd;
