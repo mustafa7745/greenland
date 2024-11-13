@@ -4,7 +4,7 @@ function getInputManagerLoginToken()
     // print_r($_POST);
     $name = "inputManagerLoginToken";
     $desc = "M Login Token";
-    print_r(getPostData2Encrypted());
+    print_r(getPostData2Encrypted()[$name]);
     if (!isset(getPostData2Encrypted()[$name])) {
         $ar = "{$desc}_NOT_FOUND";
         $en = "{$desc}_NOT_FOUND";
