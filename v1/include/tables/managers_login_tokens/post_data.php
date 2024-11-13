@@ -1,6 +1,7 @@
 <?php
 function getInputManagerLoginToken()
 {
+    print_r($_POST);
     $name = "inputManagerLoginToken";
     $desc = "M Login Token";
     // print_r(getPostData2());
