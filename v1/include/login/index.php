@@ -5,8 +5,18 @@ require_once __DIR__ . '/../check/users_sessions/helper.php';
 use function Check\getUsersHelper;
 use function Check\getUsersSessionsHelper;
 
-function loginAll($userPhone = getInputUserPhone(), $userPassword = getInputUserPassword())
+function loginAll($isEncrypted = 0)
 {
+    $userPhone = "";
+    $userPassword = "";
+    if ($isEncrypted == 1) {
+        $userPhone = getInputUserPhoneEncrypted();
+        $userPassword = getInputUserPasswordEncrypted();
+    } else {
+        $userPhone = getInputUserPhone();
+        $userPassword = getInputUserPassword();
+    }
+
     $runApp = getMainRunApp();
     $permissionName = "LOGIN";
     //MUST TRANSFORM

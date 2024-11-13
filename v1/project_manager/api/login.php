@@ -9,7 +9,7 @@ class ThisClass
   function main(): string
   {
     shared_execute_sql("START TRANSACTION");
-    $login = loginAll(getInputUserPhoneEncrypted(), getInputUserPasswordEncrypted());
+    $login = loginAll(1);
     $manager = $this->loginManager($login->userSession->userId);
     $managerLoginToken = $this->getLoginTokenFromUserSessionAndManagerId($login->userSession->id, getId($manager), getRemainedMinute());
     // 
