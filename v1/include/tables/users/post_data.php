@@ -21,6 +21,27 @@ function getInputUserPhone()
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
+function getInputUserPhoneEncrypted()
+{
+    $name = "inputUserPhone";
+    $desc = "User Phone";
+    // print_r(getPostData2());
+    if (!isset(getPostData2Encrypted()[$name])) {
+        $ar = "{$desc}_NOT_FOUND";
+        $en = "{$desc}_NOT_FOUND";
+        exitFromScript($ar, $en);
+    }
+    $value = getPostData2Encrypted()[$name];
+    // checkIfNumber($value);
+    if (strlen($value) != 9) {
+        $ar = "{$desc}MUST_BE_9";
+        $en = "{$desc}MUST_BE_9";
+        exitFromScript($ar, $en);
+    }
+    checkLong($value, 9);
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    return $value;
+}
 function getInputUserPhone3()
 {
     $name = "inputUserPhone";
@@ -54,6 +75,23 @@ function getInputUserPassword()
     }
 
     $value = getPostData2()[$name];
+    checkLong($value, 10);
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    return $value;
+}
+
+function getInputUserPasswordEncrypted()
+{
+    $name = "inputUserPassword";
+    $desc = "User Password";
+    // print_r(getPostData2());
+    if (!isset(getPostData2Encrypted()[$name])) {
+        $ar = "{$desc}_NOT_FOUND";
+        $en = "{$desc}_NOT_FOUND";
+        exitFromScript($ar, $en);
+    }
+
+    $value = getPostData2Encrypted()[$name];
     checkLong($value, 10);
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
@@ -134,7 +172,7 @@ function getInputLocationTypeId()
     if (is_numeric($value) === false) {
         return null;
     }
-    
+
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }

@@ -5,7 +5,7 @@ require_once __DIR__ . '/../check/users_sessions/helper.php';
 use function Check\getUsersHelper;
 use function Check\getUsersSessionsHelper;
 
-function loginAll()
+function loginAll($userPhone = getInputUserPhone(), $userPassword = getInputUserPassword())
 {
     $runApp = getMainRunApp();
     $permissionName = "LOGIN";
@@ -20,7 +20,7 @@ function loginAll()
         P_BLOCKED($permissionName);
     }
 
-    $user = getUsersHelper()->getData(getInputUserPhone(), getInputUserPassword());
+    $user = getUsersHelper()->getData($userPhone, $userPassword);
 
     if ($user == null) {
         $ar = "اسم المستخدم او كلمة المرور غير صحيحة";
