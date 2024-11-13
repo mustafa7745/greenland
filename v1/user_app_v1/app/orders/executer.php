@@ -144,7 +144,7 @@ class OrdersExecuter
       $coupon = getCouponsHelper()->getDataByCode($couponCode);
       $lessAmount = $coupon[getCouponsHelper()->lessAmount];
 
-      if ($lessAmount < $sumProducts) {
+      if ($sumProducts < $lessAmount) {
         exitFromScript("يجب ان يكون الطلب بقيمة" . $lessAmount . "او اكثر", "less");
       }
       $couponId = $coupon[getCouponsHelper()->id];
