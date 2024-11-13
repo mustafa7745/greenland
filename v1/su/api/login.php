@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../include/login/index.php';
+require_once __DIR__ . '/../../include/login/index_v1.php';
 require_once __DIR__ . '/../../include/check/projects_login_tokens/helper.php';
 
 use function Check\getProjectsLoginTokensHelper;
@@ -10,7 +10,7 @@ class ThisClass
   function main(): string
   {
     shared_execute_sql("START TRANSACTION");
-    $login = loginAll();
+    $login = loginAll(1);
     // $runApp = getRunApp($login);
     $loginProject = $this->loginProject($login->runApp);
     $projectLoginToken = $this->getLoginTokenFromUserSessionAndProjectId($login->userSession->id, getId($loginProject), 10);

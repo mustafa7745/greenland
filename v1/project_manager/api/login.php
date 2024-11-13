@@ -1,6 +1,6 @@
 <?php
 // 
-require_once "../../include/login/index.php";
+require_once "../../include/login/index_v1.php";
 require_once __DIR__ . "/../../include/check/managers_login_tokens/helper.php";
 use function Check\getManagersLoginTokensHelper;
 

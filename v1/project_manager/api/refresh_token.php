@@ -1,5 +1,5 @@
 <?php
-require_once "../../include/login/index.php";
+require_once "../../include/login/index_v1.php";
 
 class ThisClass
 {

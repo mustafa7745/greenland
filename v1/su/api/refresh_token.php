@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../include/login/index.php';
+require_once __DIR__ . '/../../include/login/index_v1.php';
 require_once __DIR__ . '/../../include/check/projects_login_tokens/helper.php';
 
 use function Check\getProjectsLoginTokensHelper;
