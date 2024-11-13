@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../check/index.php';
+require_once __DIR__ . '/../check/index_v1.php';
 require_once __DIR__ . '/../check/users_sessions/helper.php';
 
 use function Check\getUsersHelper;
