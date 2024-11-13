@@ -41,6 +41,18 @@ function getInputCouponCode()
     $value = mysqli_real_escape_string(getDB()->conn, $value);
     return $value;
 }
+
+function getInputCouponCode2()
+{
+    $name = "inputCouponCode2";
+    if (!isset(getPostData3()[$name]) || empty(getPostData3()[$name])) {
+        return null;
+    }
+    $value = getPostData3()[$name];
+    // checkIfNumber($value);
+    $value = mysqli_real_escape_string(getDB()->conn, $value);
+    return $value;
+}
 function getInputCouponName()
 {
     $name = "inputCouponName";

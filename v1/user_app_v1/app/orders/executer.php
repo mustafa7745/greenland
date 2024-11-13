@@ -115,11 +115,13 @@ class OrdersExecuter
     getOrdersDeliveryHelper()->addData($orderId, $order_price_delivery, $order_price_delivery, $userLocationId);
 
 
+    $sumProducts = 0;
     for ($i = 0; $i < count($products); $i++) {
       $productId = $products[$i][getProductsHelper()->id];
       $productName = $products[$i][getProductsHelper()->name];
       $productPrice = $products[$i][getProductsHelper()->postPrice];
       $productQuantity = getQntFromOrderProducts($order_products, $productId);
+      $sumProducts = $sumProducts + ($productPrice * $productQuantity);
       getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
@@ -134,6 +136,21 @@ class OrdersExecuter
       $offerQuantity = getQntFromOrderProducts($orderOffers, $offerId);
       // $id = uniqid(rand(), false);
       getOrdersOffersHelper()->addOrderOffer($orderId, $offerId, $offerName, $offerPrice, $offerQuantity);
+    }
+
+    require_once __DIR__ . "/../../app/coupons/helper.php";
+    $couponCode = getInputCouponCode2();
+    if ($couponCode != null) {
+      $coupon = getCouponsHelper()->getDataByCode($couponCode);
+      $lessAmount = $coupon[getCouponsHelper()->lessAmount];
+
+      if ($lessAmount < $sumProducts) {
+        exitFromScript("يجب ان يكون الطلب بقيمة" . $lessAmount . "او اكثر", "less");
+      }
+      $couponId = $coupon[getCouponsHelper()->id];
+      $amount = $coupon[getCouponsHelper()->amount];
+      $type = $coupon[getCouponsHelper()->type];
+      getOrdersDiscountsHelper()->addData($orderId, $amount, $type, $couponId);
     }
 
     require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';

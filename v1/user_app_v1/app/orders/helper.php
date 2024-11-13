@@ -183,3 +183,28 @@ function getOrdersOffersHelper()
   }
   return $orders_offers_helper;
 }
+
+
+class OrdersDiscountsHelper extends OrdersDiscountsSql
+{
+  function addData($orderId, $amount, $type, $couponId)
+  {
+    $sql = $this->addSql("'$orderId'", "'$amount'", "'$type'", "'$couponId'");
+    shared_execute_sql($sql);
+    if (mysqli_affected_rows(getDB()->conn) != 1) {
+      shared_execute_sql("rollback");
+      $ar = "DATA_NOT_EFFECTED_WHEN_ADD_D_ORDER";
+      $en = "DATA_NOT_EFFECTED_WHEN_ADD_ORDER";
+      exitFromScript($ar, $en);
+    }
+  }
+}
+$orders_discount_helper = null;
+function getOrdersDiscountsHelper()
+{
+  global $orders_discount_helper;
+  if ($orders_discount_helper == null) {
+    $orders_discount_helper = new OrdersDiscountsHelper();
+  }
+  return $orders_discount_helper;
+}

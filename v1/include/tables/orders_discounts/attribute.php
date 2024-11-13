@@ -9,6 +9,7 @@ class OrdersDiscountsAttribute
   public $orderId = "orderId";
   public $type = "type";
   public $amount = "amount";
+  public $couponId = "couponId";
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
   //////////

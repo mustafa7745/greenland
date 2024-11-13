@@ -15,6 +15,8 @@ class CouponsAttribute
   public $status = "status";
   public $countUsed = "countUsed";
   public $lessAmount = "lessAmount";
+  public $amount = "amount";
+
   public $createdAt = "createdAt";
   public $updatedAt = "updatedAt";
   //////////

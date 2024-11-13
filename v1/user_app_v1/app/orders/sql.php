@@ -144,3 +144,19 @@ class OrdersOffersSql extends \OrdersOffersAttribute
     }
 }
 
+require_once(getPath() . 'tables/orders_discounts/attribute.php');
+
+class OrdersDiscountsSql extends \OrdersDiscountsAttribute
+{
+    function addSql($orderId, $amount, $type, $couponId): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $columns = "(`$this->id`,`$this->orderId`,`$this->amount`,`$this->type`,`$this->couponId`,`$this->createdAt`,`$this->updatedAt`)";
+        $values = "(NULL,$orderId,$amount, $type,$couponId,'$date','$date')";
+        /////
+        return shared_insert_sql($table_name, $columns, $values);
+    }
+}
+
+
