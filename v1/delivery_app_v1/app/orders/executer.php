@@ -87,41 +87,43 @@ class OrdersExecuter
       exitFromScript($ar, $en);
     }
     $situatinId = getOrdersHelper()->ORDER_COMPLETED;
-    getOrdersHelper()->updateStatusWithPaid(getId($order), $situatinId, getOrdersHelper()->PAID_ON_DELIVERY);
     getOrdersStatusHelper()->addData(getId($order), $situatinId);
     // 
-    require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
-    $data = (new \OrderContent());
-    $data->executeGetData($orderId);
+    if ($order[getOrdersHelper()->paid] == null) {
+      require_once __DIR__ . '/../../../include/shared_app/order-content/index.php';
+      $data = (new \OrderContent());
+      $data->executeGetData($orderId);
 
-    $sum = 0;
+      $sum = 0;
 
-    foreach ($data->products as $key => $value) {
-      $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
-    }
-    foreach ($data->offers as $key => $value) {
-      $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
-    }
-    if ($data->discount != null) {
-      require_once __DIR__ . '/../orders/helper.php';
-      $helper = getOrdersDiscountsHelper();
-      $amount = $data->discount[$helper->amount];
-      $type = $data->discount[$helper->type];
-
-      if ($type == $helper->PERCENTAGE_TYPE) {
-        $discount = ($sum * $amount) / 100;
-        $sum = $sum - (100 * round($discount / 100));
-      } else {
-        $sum = $sum - $amount;
+      foreach ($data->products as $key => $value) {
+        $sum = $sum + ($value['productPrice'] * $value['productQuantity']);
       }
-    }
-    require_once __DIR__ . '/../orders/helper.php';
-    $sum = $sum + $data->delivery[getOrdersDeliveryHelper()->price];
-    $sum = $sum - $data->delivery[getOrdersDeliveryHelper()->actualPrice];
+      foreach ($data->offers as $key => $value) {
+        $sum = $sum + ($value['offerPrice'] * $value['offerQuantity']);
+      }
+      if ($data->discount != null) {
+        require_once __DIR__ . '/../orders/helper.php';
+        $helper = getOrdersDiscountsHelper();
+        $amount = $data->discount[$helper->amount];
+        $type = $data->discount[$helper->type];
 
-    $managerId = $order[getOrdersHelper()->managerId];
-    require_once __DIR__ . '/../collections/helper.php';
-    getCollectionsHelper()->addData($orderId, $deliveryManId, $managerId, $sum);
+        if ($type == $helper->PERCENTAGE_TYPE) {
+          $discount = ($sum * $amount) / 100;
+          $sum = $sum - (50 * round($discount / 50));
+        } else {
+          $sum = $sum - $amount;
+        }
+      }
+      require_once __DIR__ . '/../orders/helper.php';
+      $sum = $sum + $data->delivery[getOrdersDeliveryHelper()->price];
+      $sum = $sum - $data->delivery[getOrdersDeliveryHelper()->actualPrice];
+
+      $managerId = $order[getOrdersHelper()->managerId];
+      require_once __DIR__ . '/../collections/helper.php';
+      getCollectionsHelper()->addData($orderId, $deliveryManId, $managerId, $sum);
+    }
+    getOrdersHelper()->updateStatusWithPaid(getId($order), $situatinId, getOrdersHelper()->PAID_ON_DELIVERY);
     shared_execute_sql("COMMIT");
     return ["success" => "false"];
   }
