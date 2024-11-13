@@ -3,12 +3,12 @@ function getInputProjectNumber()
 {
     $name = "inputProjectNumber";
     $desc = "Project Number";
-    if (!isset(getPostData2()[$name])) {
+    if (!isset(getPostData2Encrypted()[$name])) {
         $ar = "{$desc}_NOT_FOUND";
         $en = "{$desc}_NOT_FOUND";
         exitFromScript($ar, $en);
     }
-    $value = getPostData2()[$name];
+    $value = getPostData2Encrypted()[$name];
     // checkIfNumber($value);
     if (strlen($value) < 1) {
         $ar = "{$desc}MUST_BE_MOre";
@@ -21,12 +21,12 @@ function getInputProjectPassword()
 {
     $name = "inputProjectPassword";
     $desc = "Project Password";
-    if (!isset(getPostData2()[$name])) {
+    if (!isset(getPostData2Encrypted()[$name])) {
         $ar = "{$desc}_NOT_FOUND";
         $en = "{$desc}_NOT_FOUND";
         exitFromScript($ar, $en);
     }
-    $value = getPostData2()[$name];
+    $value = getPostData2Encrypted()[$name];
     checkIfNumber($value);
     if (strlen($value) < 5) {
         $ar = "{$desc}MUST_BE_5";
