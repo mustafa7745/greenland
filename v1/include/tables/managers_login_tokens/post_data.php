@@ -4,13 +4,13 @@ function getInputManagerLoginToken()
     // print_r($_POST);
     $name = "inputManagerLoginToken";
     $desc = "M Login Token";
-    print_r(getPostData2Encrypted()[$name]);
+    // print_r(getPostData2Encrypted()[$name]);
     if (!isset(getPostData2Encrypted()[$name])) {
         $ar = "{$desc}_NOT_FOUND";
         $en = "{$desc}_NOT_FOUND";
         exitFromScript($ar, $en);
     }
-    $value = getPostData2()[$name];
+    $value = getPostData2Encrypted()[$name];
     // checkIfNumber($value);
     if (strlen($value) < 10) {
         $ar = "{$desc}MUST_BE_MOre";
