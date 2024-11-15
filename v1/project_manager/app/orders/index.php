@@ -62,6 +62,11 @@ class Orders
         $loginToken = $this->_check("RUN_APP");
         return getOrdersDeliveryExecuter()->executeUpdatePrice(getInputOrderDeliveryId(), getInputOrderDeliveryPrice(), $loginToken->managerId);
     }
+    function updatePaid()
+    {
+        $loginToken = $this->_check("RUN_APP");
+        return getOrdersExecuter()->executeUpdatePaid(getInputOrderId(), $loginToken->managerId);
+    }
     function updateUserLocation()
     {
         $loginToken = $this->_check("RUN_APP");

@@ -134,6 +134,15 @@ class OrdersSql extends \OrdersAttribute
         return shared_update_sql($table_name, $set_query, $condition);
     }
 
+    protected function updatePaidSql($id, $newValue): string
+    {
+        $date = getCurruntDate();
+        $table_name = $this->table_name;
+        $set_query = "SET $this->paid = $newValue, $this->updatedAt = '$date'";
+        $condition = "$this->id = $id";
+        /////
+        return shared_update_sql($table_name, $set_query, $condition);
+    }
 
 
 }

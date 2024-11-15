@@ -99,6 +99,10 @@ class ThisClass
             return $this->updatePrice();
         }
         // 
+        elseif (getTag() == "updatePaid") {
+            return $this->updatePaid();
+        }
+        // 
         elseif (getTag() == "updateUserLocation") {
             return $this->updateUserLocation();
         }
@@ -240,6 +244,11 @@ class ThisClass
     private function updatePrice(): string
     {
         $resultData = $this->controller->updatePrice();
+        return json_encode($resultData);
+    }
+    private function updatePaid(): string
+    {
+        $resultData = $this->controller->updatePaid();
         return json_encode($resultData);
     }
     private function updateUserLocation(): string

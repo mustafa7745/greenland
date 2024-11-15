@@ -61,8 +61,8 @@ class OrdersExecuter extends OrdersSql
       getOrdersProductsHelper()->addOrderProducts($orderId, $productId, $productName, $productPrice, $productQuantity);
     }
 
-    // $orderDeliveryId = uniqid(rand(), false);
-    getOrdersDeliveryHelper()->addData($orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
+    $orderDeliveryId = uniqid(rand(), false);
+    getOrdersDeliveryHelper()->addData($orderDeliveryId, $orderId, $price, $actualPrice, $userLocationId, $deliveryManId);
 
     $situatinId = getOrdersHelper()->ORDER_ASSIGNED_DELIVERY_MAN;
     getOrdersHelper()->updateStatus($orderId, $situatinId);
@@ -201,6 +201,44 @@ class OrdersExecuter extends OrdersSql
       sendMessage($userId, "يتم الان تجهيز طلبك", $USER_ANDROID_APP);
     }
     return ["success" => "true"];
+    // return $data;
+  }
+  function executeUpdatePaid($orderId, $managerId)
+  {
+    /**
+     *  START TRANSACTION FOR SQL
+     */
+    shared_execute_sql("START TRANSACTION");
+    $order = getOrdersHelper()->getDataById($orderId);
+    checkOrderOwner($order, $managerId);
+    if ($order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_COMPLETED || $order[getOrdersHelper()->situationId] == getOrdersHelper()->ORDER_CENCELED) {
+      $ar = "هذا الطلب تم انجازه";
+      $en = "هذا الطلب تم انجازه";
+      exitFromScript($ar, $en);
+    }
+
+
+    if ($order[getOrdersHelper()->paid] != null) {
+      $ar = "هذا الطلب تم دفعه مسبقا";
+      $en = "هذا الطلب تم دفعه مسبقا";
+      exitFromScript($ar, $en);
+    }
+
+    $dataAfterUpdate = getOrdersHelper()->updatePaid($orderId, getOrdersHelper()->PAID_IN_STORE);
+
+    // $data = getOrdersHelper()->getData();
+    /**
+     * COMMIT
+     */
+    shared_execute_sql("COMMIT");
+    // $order = getOrdersHelper()->getDataById($orderId);
+    if ($order[getOrdersHelper()->systemOrderNumber] == null) {
+      $userId = $order[getOrdersHelper()->userId];
+      global $USER_ANDROID_APP;
+
+      sendMessage($userId, "تم دفع قيمة طلبك", $USER_ANDROID_APP);
+    }
+    return $dataAfterUpdate;
     // return $data;
   }
   function executeGetFinalOrderPriceWithoutDeliveryPrice($orderId)
@@ -638,8 +676,8 @@ class OrdersDiscountsExecuter
       $en = "هذا الطلب تم انجازه";
       exitFromScript($ar, $en);
     }
-    // $id = uniqid(rand(), false);
-    $dataAfterAdd = getOrdersDiscountsHelper()->addData($orderId, $amount, $type);
+    $id = uniqid(rand(), false);
+    $dataAfterAdd = getOrdersDiscountsHelper()->addData($id, $orderId, $amount, $type);
     shared_execute_sql("COMMIT");
 
     return $dataAfterAdd;
