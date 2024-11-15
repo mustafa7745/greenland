@@ -30,9 +30,9 @@ class RunApp
         // $runApp = (new RunApp())->runApp();
         $permissionName = "RUN_APP";
         $app = Check\getAppsHelper()->getData(getPostData1()->packageName, getPostData1()->appSha);
-        if ($app->id == '3') {
-            exitFromScript(json_encode($_POST),"f");
-        }
+        // if ($app->id == '3') {
+        //     exitFromScript(json_encode($_POST),"f");
+        // }
         // 
         if (strtotime(getCurruntDate()) > strtotime($app->expireAt)) {
             $ar = "APP_NEED_UPGRADE_PLAN_TIME";
