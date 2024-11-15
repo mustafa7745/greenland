@@ -5,12 +5,12 @@ require_once('sql.php');
 // 
 class CouponsHelper extends CouponsSql
 {
-  function getDataByCode($id, $runApp, $permissionId)
+  function getDataByCode($id, $runApp)
   {
     $sql = $this->readByCodesql($id);
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
-      INVALID_COUPON($runApp, $permissionId);
+      INVALID_COUPON($runApp, 7);
     }
     return $data[0];
   }

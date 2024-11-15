@@ -15,7 +15,7 @@ class CouponsExecuter
       $this->_BLOCKED();
     }
 
-    $data = getCouponsHelper()->getDataByCode($code, $runApp, 7);
+    $data = getCouponsHelper()->getDataByCode($code, $runApp);
     return $data;
   }
   function _BLOCKED()

@@ -17,7 +17,7 @@ class Orders
         $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
         $projectId = getMainRunApp()->app->projectId;
         require_once __DIR__ . '/../../../include/tables/orders_offers/attribute.php';
-        return getOrdersExecuter()->executeAddData($userId, getInputOrderProductsIdsWithQnt(), getInputOrderOffersIdsWithQnt(), $projectId, getInputUserLocationId());
+        return getOrdersExecuter()->executeAddData($userId, getInputOrderProductsIdsWithQnt(), getInputOrderOffersIdsWithQnt(), $projectId, getInputUserLocationId(), $s);
     }
     function read()
     {

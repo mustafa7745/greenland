@@ -5,7 +5,7 @@ namespace UserApp;
 require_once('helper.php');
 class OrdersExecuter
 {
-  function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId)
+  function executeAddData($userId, $order_products, $orderOffers, $projectId, $userLocationId, $runApp)
   {
     require_once __DIR__ . "/../projects/helper.php";
     $projectHelper = getProjectsHelper1();
@@ -141,7 +141,7 @@ class OrdersExecuter
     require_once __DIR__ . "/../../app/coupons/helper.php";
     $couponCode = getInputCouponCode2();
     if ($couponCode != null) {
-      $coupon = getCouponsHelper()->getDataByCode($couponCode);
+      $coupon = getCouponsHelper()->getDataByCode($couponCode, $runApp);
       $lessAmount = $coupon[getCouponsHelper()->lessAmount];
 
       if ($sumProducts < $lessAmount) {
