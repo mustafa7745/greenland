@@ -12,17 +12,17 @@ require_once __DIR__ . '/../check/users/helper.php';
 require_once __DIR__ . '/../check/failed_attemps_logs/helper.php';
 
 $runApp = null;
-function getMainRunApp()
+function getMainRunApp($isEncrypted = 0)
 {
     global $runApp;
     if ($runApp == null) {
-        $runApp = (new RunApp())->runApp();
+        $runApp = (new RunApp())->runApp($isEncrypted);
     }
     return $runApp;
 }
 class RunApp
 {
-    function runApp($isEncrypted = 0)
+    function runApp($isEncrypted)
     {
         // if (getPostData1()->appVersion < 20) {
         //     exitFromScript("لايمكن استخدام اصدار قديم","");
@@ -46,7 +46,7 @@ class RunApp
         return $this->initDevice($app, $isEncrypted);
 
     }
-    private function initDevice($app, $isEncrypted = 0)
+    private function initDevice($app, $isEncrypted)
     {
         $permissionName = "INIT_DEVICE";
         $permission = getPermissionsHelper()->getDataByName($permissionName);

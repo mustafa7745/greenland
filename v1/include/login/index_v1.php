@@ -17,7 +17,7 @@ function loginAll($isEncrypted = 0)
         $userPassword = getInputUserPassword();
     }
 
-    $runApp = getMainRunApp();
+    $runApp = getMainRunApp($isEncrypted);
     $permissionName = "LOGIN";
     //MUST TRANSFORM
     $permission = getPermissionsHelper()->getDataByName($permissionName);
