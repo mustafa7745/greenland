@@ -150,6 +150,29 @@ function getPostData1(): ModelPostData1
   return $postData1;
 }
 
+function getPublicKeyStandalone()
+{
+  $name1 = "data1";
+  if (!isset($_POST[$name1])) {
+    POST_DATA_NOT_FOUND(1, 0);
+  }
+  if (!json_is_validate($_POST[$name1])) {
+    $ar = "DATA1_NOT_JSON";
+    $en = "DATA1_NOT_JSON";
+    exitFromScript($ar, $en);
+  }
+  $data1 = json_decode($_POST[$name1], TRUE);
+
+  $name = "devicePublicKey";
+  if (!isset($data1[$name])) {
+    $ar = "{$name}_NOT_FOUND";
+    $en = "{$name}_NOT_FOUND";
+    exitFromScript($ar, $en);
+  }
+  checkIsString($data1[$name], $name);
+  return mysqli_escape_string(getDB()->conn, $data1[$name]);
+}
+
 $postData2 = null;
 function getPostData2()
 {

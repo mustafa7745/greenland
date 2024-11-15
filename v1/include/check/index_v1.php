@@ -54,7 +54,7 @@ class RunApp
         $device = Check\getDevicesHelper()->getData(getPostData1()->deviceId);
         if ($device == null) {
             if ($isEncrypted == 1)
-                $device = Check\getDevicesHelper()->addData(getPostData1()->deviceId, getPostData1()->deviceInfo, getPostData1()->devicePublicKey);
+                $device = Check\getDevicesHelper()->addData(getPostData1()->deviceId, getPostData1()->deviceInfo, getPublicKeyStandalone());
             else
                 $device = Check\getDevicesHelper()->addData_v1(getPostData1()->deviceId, getPostData1()->deviceInfo);
         }
