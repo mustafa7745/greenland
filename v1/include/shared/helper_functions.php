@@ -76,6 +76,15 @@ function INVALID_TOKEN($runApp, $permission)
   shared_execute_sql("COMMIT");
   exitFromScript($ar, $en, 400, 5002);
 }
+function INVALID_COUPON($runApp, $permissionId)
+{
+  $ar = "كود غير صحيح";
+  $en = "كود غير صحيح";
+  // sleep(5);
+  getFailedAttempsLogsHelper()->addData($runApp->deviceSessionIp->id, $permissionId);
+  shared_execute_sql("COMMIT");
+  exitFromScript($ar, $en, );
+}
 function INVALID_TOKEN2()
 {
   $ar = "INVALID_TOKEN";
@@ -240,7 +249,7 @@ function getIds()
 
 function getColumnImagePath($columns, $key_path)
 {
-  require_once (__DIR__ . '/../tables/static/sql.php');
+  require_once(__DIR__ . '/../tables/static/sql.php');
   $anonymous_static_sql = new StaticSql();
   return $columns . " , " . $anonymous_static_sql->read_path_icon_app_sql("'$key_path'");
 }
@@ -268,7 +277,7 @@ function getDeliveryPrice($userLocation)
   $distanse = haversine_distance($project_lat, $project_long, $user_lat, $user_long);
   // print_r($distanse);
   if ($distanse > 9) {
-   $distanse = $distanse + 2;
+    $distanse = $distanse + 2;
   }
   $order_price_delivery = 50 * round(($distanse * getPriceDeliveryPer1Km($project)) / 50);
   return $order_price_delivery;

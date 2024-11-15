@@ -1,18 +1,16 @@
 <?php
 namespace UserApp;
 
-require_once ('sql.php');
+require_once('sql.php');
 // 
 class CouponsHelper extends CouponsSql
 {
-  function getDataByCode($id)
+  function getDataByCode($id, $runApp, $permissionId)
   {
     $sql = $this->readByCodesql($id);
     $data = shared_execute_read1_no_json_sql($sql);
     if (count($data) != 1) {
-      $ar = "كود غير صحيح";
-      $en =  "ERROR";
-      exitFromScript($ar, $en);
+      INVALID_COUPON($runApp, $permissionId);
     }
     return $data[0];
   }

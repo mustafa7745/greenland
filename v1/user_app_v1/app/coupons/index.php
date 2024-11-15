@@ -12,10 +12,10 @@ class Coupons
 {
     function read()
     {
-        $s = getMainRunApp();
-        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $s);
+        $runApp = getMainRunApp();
+        $modelUserLoginTokenUserSession = getUserLoginToken("RUN_APP", $runApp);
         $userId = $modelUserLoginTokenUserSession->modelUserSession->userId;
-        $coupon = getCouponsExecuter()->executeGetDataByCode(code: getInputCouponCode());
+        $coupon = getCouponsExecuter()->executeGetDataByCode(getInputCouponCode(), $runApp);
         return $coupon;
     }
 }

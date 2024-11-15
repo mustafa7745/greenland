@@ -4,10 +4,26 @@ namespace UserApp;
 require_once 'helper.php';
 class CouponsExecuter
 {
-  function executeGetDataByCode($code)
+  function executeGetDataByCode($code, $runApp)
   {
-    $data = getCouponsHelper()->getDataByCode(id: $code);
+    $failedCount = getFailedAttempsLogsHelper()->getData($runApp->device->id, 7);
+    // print_r($failedCount);
+    if (getDeviceCount($failedCount) > 4) {
+      $this->_BLOCKED();
+    }
+    if (getIpCount($failedCount) > 4) {
+      $this->_BLOCKED();
+    }
+
+    $data = getCouponsHelper()->getDataByCode($code, $runApp, 7);
     return $data;
+  }
+  function _BLOCKED()
+  {
+    $ar = "لايمكنك التحقق مرة اخرى بسبب المحاولات الكثيرة الفاشلة";
+    $en = "لايمكنك التحقق مرة اخرى بسبب المحاولات الكثيرة الفاشلة";
+
+    exitFromScript($ar, $en);
   }
 }
 $coupons_executer = null;
