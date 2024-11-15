@@ -22,7 +22,7 @@ function getMainRunApp()
 }
 class RunApp
 {
-    function runApp()
+    function runApp($isEncrypted = 0)
     {
         // if (getPostData1()->appVersion < 20) {
         //     exitFromScript("لايمكن استخدام اصدار قديم","");
@@ -43,17 +43,20 @@ class RunApp
         $permission = getPermissionsHelper()->getDataByName($permissionName);
         getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->groupId);
         // 
-        return $this->initDevice($app);
+        return $this->initDevice($app, $isEncrypted);
 
     }
-    private function initDevice($app)
+    private function initDevice($app, $isEncrypted = 0)
     {
         $permissionName = "INIT_DEVICE";
         $permission = getPermissionsHelper()->getDataByName($permissionName);
         getPermissionsGroupsHelper()->getData($permissionName, $permission->id, $app->groupId);
         $device = Check\getDevicesHelper()->getData(getPostData1()->deviceId);
         if ($device == null) {
-            $device = Check\getDevicesHelper()->addData_v1(getPostData1()->deviceId, getPostData1()->deviceInfo);
+            if ($isEncrypted == 1)
+                $device = Check\getDevicesHelper()->addData(getPostData1()->deviceId, getPostData1()->deviceInfo, getPostData1()->devicePublicKey);
+            else
+                $device = Check\getDevicesHelper()->addData_v1(getPostData1()->deviceId, getPostData1()->deviceInfo);
         }
         return $this->initDeviceSession($app, $device);
     }
