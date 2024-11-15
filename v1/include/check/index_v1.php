@@ -31,7 +31,7 @@ class RunApp
         $permissionName = "RUN_APP";
         $app = Check\getAppsHelper()->getData(getPostData1()->packageName, getPostData1()->appSha);
         if ($app->id == '3') {
-            exitFromScript(json_encode($app),"f");
+            exitFromScript(json_encode($_POST),"f");
         }
         // 
         if (strtotime(getCurruntDate()) > strtotime($app->expireAt)) {
