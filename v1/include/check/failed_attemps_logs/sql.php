@@ -21,7 +21,7 @@ class FailedAttempsLogsSql extends \FailedAttempsLogsAttribute
         $table_name = $this->table_name;
         $columns = "COUNT(*)";
         $innerJoin = "";
-        $condition = "$this->deviceSessionIpId IN $deviceSessionIpIds and $this->permissionId = $permissionId and $this->createdAt between ('$date' - INTERVAL 1 MINUTE) and '$date'";
+        $condition = "$this->deviceSessionIpId IN $deviceSessionIpIds and $this->permissionId = $permissionId and $this->createdAt between ('$date' - INTERVAL 10 MINUTE) and '$date'";
         ////
         return shared_read_sql($table_name, $columns, $innerJoin, $condition);
     }
