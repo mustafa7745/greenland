@@ -1,7 +1,7 @@
 <?php
 namespace Manager;
 
-require_once(getPath() . 'tables/orders/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders/attribute.php';
 
 class OrdersSql extends \OrdersAttribute
 {
@@ -147,7 +147,7 @@ class OrdersSql extends \OrdersAttribute
 
 }
 /********/
-require_once(getPath() . 'tables/orders_products/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_products/attribute.php';
 
 class OrdersProductsSql extends \OrdersProductsAttribute
 {
@@ -226,7 +226,7 @@ class OrdersProductsSql extends \OrdersProductsAttribute
 
 }
 /********/
-require_once(getPath() . 'tables/orders_offers/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_offers/attribute.php';
 
 class OrdersOffersSql extends \OrdersOffersAttribute
 {
@@ -289,7 +289,7 @@ class OrdersOffersSql extends \OrdersOffersAttribute
 
 }
 /********/
-require_once(getPath() . 'tables/orders_status/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_status/attribute.php';
 
 class OrdersStatusSql extends \OrdersStatusAttribute
 {
@@ -314,7 +314,7 @@ class OrdersStatusSql extends \OrdersStatusAttribute
     }
 }
 
-require_once(getPath() . 'tables/orders_delivery/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_delivery/attribute.php';
 
 class OrdersDeliverySql extends \OrdersDeliveryAttribute
 {
@@ -403,7 +403,7 @@ class OrdersDeliverySql extends \OrdersDeliveryAttribute
     }
 }
 
-require_once(getPath() . 'tables/orders_discounts/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_discounts/attribute.php';
 
 class OrdersDiscountsSql extends \OrdersDiscountsAttribute
 {

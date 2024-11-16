@@ -145,7 +145,6 @@ class OrdersOffersSql extends \OrdersOffersAttribute
 }
 
 require_once __DIR__ . '/../../../include/tables/orders_discounts/attribute.php';
-// require_once(getPath() . 'tables/orders_discounts/attribute.php');
 
 class OrdersDiscountsSql extends \OrdersDiscountsAttribute
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Manager;
 
-require_once (getPath() . 'tables/offers/attribute.php');
+require_once __DIR__ . '/../../../include/tables/offers/attribute.php';
 
 class OffersSql extends \OffersAttribute
 {

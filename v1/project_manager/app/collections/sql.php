@@ -1,7 +1,6 @@
 <?php
 namespace Manager;
-
-require_once (getPath() . 'tables/collections/attribute.php');
+require_once __DIR__ . '/../../../include/tables/collections/attribute.php';
 
 class CollectionsSql extends \CollectionsAttribute
 {

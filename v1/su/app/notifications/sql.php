@@ -1,7 +1,6 @@
 <?php
 namespace SU1;
-
-require_once (getPath() . 'tables/notifications/attribute.php');
+require_once __DIR__ . '/../../../include/tables/notifications/attribute.php';
 
 class NotificationsSql extends \NotificationsAttribute
 {

@@ -14,15 +14,6 @@ require_once __DIR__ . "/../post_data/post_data_v1.php";
 require_once __DIR__ . "/../shared/getters.php";
 
 
-
-
-function getPath()
-{
-    global $path;
-    return $path;
-}
-
-
 function getRemainedMinute()
 {
     $end_of_day = new DateTime('tomorrow');

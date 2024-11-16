@@ -1,7 +1,7 @@
 <?php
 namespace DeliveryMen;
 
-require_once(getPath() . 'tables/users_locations/attribute.php');
+require_once __DIR__ . '/../../../include/tables/users_locations/attribute.php';
 
 class UsersLocationsSql extends \UsersLocationsAttribute
 {

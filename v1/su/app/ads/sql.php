@@ -1,7 +1,6 @@
 <?php
 namespace SU1;
-
-require_once(getPath() . 'tables/ads/attribute.php');
+require_once __DIR__ . '/../../../include/tables/ads/attribute.php';
 
 class AdsSql extends \AdsAttribute
 {

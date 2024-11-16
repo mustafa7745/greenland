@@ -1,7 +1,7 @@
 <?php
 namespace Manager;
 
-require_once (getPath() . 'tables/orders_cenceled/attribute.php');
+require_once __DIR__ . '/../../../include/tables/orders_cenceled/attribute.php';
 
 class OrdersCenceledSql extends \OrdersCenceledAttribute
 {
