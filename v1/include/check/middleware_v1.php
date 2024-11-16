@@ -2,8 +2,8 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin:*");
 date_default_timezone_set("Asia/Riyadh");
-$root = "/v1/include/";
-$path = $_SERVER["DOCUMENT_ROOT"] . "/$root/";
+// $root = "/v1/include/";
+// $path = $_SERVER["DOCUMENT_ROOT"] . "/$root/";
 
 require_once __DIR__ . "/../shared/shared_executer.php";
 require_once __DIR__ . "/../shared/shared_sql.php";
