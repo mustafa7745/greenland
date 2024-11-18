@@ -168,7 +168,34 @@ function getFrom()
     $value = getPostData3()[$name];
     return $value;
 }
+function getLimit()
+{
+    $name = "limit";
+    if (!isset(getPostData3()[$name])) {
+        return 20;
+    }
+    $value = getPostData3()[$name];
+    if (!is_int($value)) {
+        return 20;
+    }
+    if (strlen($value) > 2) {
+        return 20;
+    }
+    return $value;
+}
 
+function getOrderedType()
+{
+    $name = "orderType";
+    if (!isset(getPostData3()[$name])) {
+        return 'desc';
+    }
+    $value = getPostData3()[$name];
+    if ($value == 'asc' || $value == 'desc') {
+        return $value;
+    }
+    return 'desc';
+}
 
 function getPriceDeliveryPer1Km($data)
 {
