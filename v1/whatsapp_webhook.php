@@ -53,6 +53,25 @@ if (isset($input)) {
                 (new UsersWhatsappUnregisterHelper())->addData2($phone_number);
                 exit;
             }
+        } elseif ($message == "نسيت كلمة المرور") {
+            if (str_starts_with($phone_number, "967")) {
+                if (strlen($phone_number) == 12) {
+                    $phone = substr($phone_number, 3, 11);
+                    $name = $input['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'];
+
+                    $userHelper = getUsersHelper();
+                    $user = $userHelper->getData($phone);
+                    if ($user != null) {
+                        $password = generateRandomPassword();
+                        $userHelper->updatePassword($userId, $password);
+                        sendMessageResetPassword($w, $phone, $name, $password, $phone_number);
+                    }
+                }
+            } else {
+                (new UsersWhatsappUnregisterHelper())->addData2($phone_number);
+                exit;
+            }
+
         } else {
             // $w->sendMessageText("967774519161", "tes");
             $message = mysqli_escape_string(getDB()->conn, $message);
@@ -73,6 +92,24 @@ function sendMessagePassword(ApiWhatsapp $w, $userHelper, $phone, $name, $passwo
     $m = $m . "مرحبا بك";
     $m = $m . "\n";
     $m = $m . "الرقم السري هو: ";
+    $w->sendMessageText($phone_number, $m);
+    $isSent = $w->sendMessageText($phone_number, $password);
+    if ($isSent) {
+        $w->sendMessageText("967774519161", $name . "->" . $phone);
+    } else {
+        (new UsersWhatsappUnregisterHelper())->addData($phone_number, "password is:$password");
+    }
+
+    exit;
+}
+function sendMessageResetPassword(ApiWhatsapp $w, $phone, $name, $password, $phone_number)
+{
+    shared_execute_sql("COMMIT");
+    $m = "وعليكم السلام ورحمة الله وبركاته";
+    $m = $m . "\n";
+    $m = $m . "مرحبا بك";
+    $m = $m . "\n";
+    $m = $m . "الرقم السري الجديد هو: ";
     $w->sendMessageText($phone_number, $m);
     $isSent = $w->sendMessageText($phone_number, $password);
     if ($isSent) {
