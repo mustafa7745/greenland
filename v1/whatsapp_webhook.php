@@ -62,10 +62,23 @@ if (isset($input)) {
                     $userHelper = getUsersHelper();
                     $user = $userHelper->getData($phone);
                     if ($user != null) {
-                        $userId = $user[getUsersHelper()->id];
-                        $password = generateRandomPassword();
-                        $userHelper->updatePassword($userId, $password);
-                        sendMessageResetPassword($w, $phone, $name, $password, $phone_number);
+                        $lastUpdated = $user[getUsersHelper()->updatedAt];
+                        $time1 = new DateTime(getCurruntDate());
+                        $time2 = new DateTime($lastUpdated);
+
+                        // Calculate the difference
+                        $interval = $time1->diff($time2);
+
+                        // Convert the interval to total minutes
+                        $totalMinutes = ($interval->h * 60) + $interval->i;
+
+                        if ($totalMinutes > 1) {
+                            $userId = $user[getUsersHelper()->id];
+                            $password = generateRandomPassword();
+                            $userHelper->updatePassword($userId, $password);
+                            sendMessageResetPassword($w, $phone, $name, $password, $phone_number);
+                        }
+                            exit; 
                     }
                 }
             } else {
