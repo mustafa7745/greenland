@@ -14,13 +14,18 @@ require_once __DIR__ . "/../post_data/post_data_v1.php";
 require_once __DIR__ . "/../shared/getters.php";
 
 
-function getRemainedMinute()
+function getRemainedMinute($minutes = null)
 {
-    $end_of_day = new DateTime('tomorrow');
-    $end_of_day->setTime(0, 0, 0);
-    $end_of_day->modify('-1 second');
-    $date = $end_of_day->format('Y-m-d H:i:s');
-    return $date;
+    if ($minutes == null) {
+        $end_of_day = new DateTime('tomorrow');
+        $end_of_day->setTime(0, 0, 0);
+        $end_of_day->modify('-1 second');
+        $date = $end_of_day->format('Y-m-d H:i:s');
+        return $date;
+    } else {
+        return date('Y-m-d H:i:s', strtotime("+{$minutes} minutes"));
+    }
+
 }
 
 $PROJECT_ID = 1;

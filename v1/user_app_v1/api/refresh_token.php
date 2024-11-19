@@ -37,7 +37,7 @@ class ThisClass
   {
     shared_execute_sql("START TRANSACTION");
     $runApp = getMainRunApp();
-    $userLoginToken = $this->refreshUserLoginToken($runApp, getRemainedMinute());
+    $userLoginToken = $this->refreshUserLoginToken($runApp, getRemainedMinute(1));
     shared_execute_sql("COMMIT");
     return json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
   }
