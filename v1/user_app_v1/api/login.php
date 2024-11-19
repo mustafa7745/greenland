@@ -15,7 +15,7 @@ class ThisClass
       USER_DISABLED();
     }
 
-    $userLoginToken = $this->getUserLoginTokenFromUserSession($login->userSession->id, getRemainedMinute(1));
+    $userLoginToken = $this->getUserLoginTokenFromUserSession($login->userSession->id, getRemainedMinute());
     shared_execute_sql("COMMIT");
     return json_encode(array("token" => $userLoginToken->loginToken, "expire_at" => $userLoginToken->expireAt));
 
