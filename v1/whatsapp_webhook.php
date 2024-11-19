@@ -62,6 +62,7 @@ if (isset($input)) {
                     $userHelper = getUsersHelper();
                     $user = $userHelper->getData($phone);
                     if ($user != null) {
+                        $userId = $user[getUsersHelper()->id];
                         $password = generateRandomPassword();
                         $userHelper->updatePassword($userId, $password);
                         sendMessageResetPassword($w, $phone, $name, $password, $phone_number);
