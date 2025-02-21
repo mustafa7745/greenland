@@ -158,13 +158,23 @@
   </body>
   <script>
     function openApp() {
-      // Try to open the app using a custom URL scheme
-      window.location.href = "twitter://";
+      const isAndroid = /Android/.test(navigator.userAgent);
 
-      // Fallback: If the app is not installed, redirect to the app store or a web page
-      setTimeout(function () {
-        window.location.href = "https://twitter.com";
-      }, 500); // Wait 500ms before redirecting
+      if (isAndroid) {
+        // Try to open the app
+        window.location.href =
+          "intent:#Intent;package=com.excelliance.multiaccount;end";
+
+        // Fallback to Play Store
+        setTimeout(function () {
+          if (!document.hidden) {
+            window.location.href =
+              "https://play.google.com/store/apps/details?id=com.excelliance.multiaccount";
+          }
+        }, 500);
+      } else {
+        alert("This feature is only supported on Android devices.");
+      }
     }
   </script>
 </html>
