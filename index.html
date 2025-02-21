@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2069261500641771"
-     crossorigin="anonymous"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2069261500641771"
+      crossorigin="anonymous"
+    ></script>
     <title>مطعم الارض الخضراء</title>
     <style>
       body {
-        font-family: 'Roboto', sans-serif;
+        font-family: "Roboto", sans-serif;
         background-color: #f4f4f4;
         margin: 0;
         padding: 0;
@@ -40,7 +43,7 @@
         background-color: #4285f4;
         color: white;
         font-size: 18px;
-        font-family: 'Roboto', sans-serif;
+        font-family: "Roboto", sans-serif;
         border-radius: 5px;
         text-decoration: none;
         transition: background-color 0.3s ease;
@@ -127,9 +130,7 @@
           src="assets/share_google_play_logo.png"
           alt="Google Play Store Logo"
         />
-        <a href="#">
-          حمل التطبيق من متجر بلاي
-        </a>
+        <a href="#"> حمل التطبيق من متجر بلاي </a>
       </div>
 
       <hr class="divider" />
@@ -150,7 +151,20 @@
         <a href="https://www.youtube.com/@RestLand-be5bo">
           <img src="assets/icons/youtube-icon_.png" alt="YouTube" />
         </a>
+
+        <button onclick="openApp()">open 2aCCOUNT</button>
       </div>
     </div>
   </body>
+  <script>
+    function openApp() {
+      // Try to open the app using a custom URL scheme
+      window.location.href = "twitter://";
+
+      // Fallback: If the app is not installed, redirect to the app store or a web page
+      setTimeout(function () {
+        window.location.href = "https://twitter.com";
+      }, 500); // Wait 500ms before redirecting
+    }
+  </script>
 </html>
