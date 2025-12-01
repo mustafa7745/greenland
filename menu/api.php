@@ -14,130 +14,78 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['error' => 'Database Connection Failed']);
     exit;
+}// دالة مساعدة لتنفيذ الاستعلامات بأمان
+function safeQuery($pdo, $sql, $params = [])
+{
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        return []; // إرجاع مصفوفة فارغة عند الخطأ بدلاً من إيقاف السكربت
+    }
 }
-// ---------------------------------------------------------
-// 2. جلب التصنيفات (Categories)
-// ---------------------------------------------------------
-// نفترض أن الجدول يحتوي على id و name (أو title)
-$stmt = $pdo->query("SELECT * FROM storeNestedSections ORDER BY orderNo");
-$rawCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// 1. جلب التصنيفات
+$categoriesRaw = safeQuery($pdo, "SELECT * FROM storeNestedSections ORDER BY orderNo ASC");
 $categories = [];
-foreach ($rawCategories as $cat) {
+foreach ($categoriesRaw as $cat) {
     $categories[] = [
         'id' => $cat['id'],
-        // ⚠️ تأكد أن اسم العمود في قاعدتك هو 'name' أو غيره إلى 'sectionName' مثلاً
         'name' => $cat['name'] ?? $cat['title'] ?? 'تصنيف',
     ];
 }
-// ---------------------------------------------------------
-// 2. جلب التصنيفات (storeNestedSections)
-// ---------------------------------------------------------
-$stmt = $pdo->query("SELECT * FROM storeNestedSections ORDER BY orderNo ASC");
-$rawCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$categories = [];
-foreach ($rawCategories as $cat) {
-    $categories[] = [
-        'id' => $cat['id'],
-        // نتأكد من وجود الاسم، إذا كان العمود اسمه name أو title
-        'name' => $cat['name'] ?? $cat['title'] ?? 'تصنيف بدون اسم',
-    ];
-}
-
-// ---------------------------------------------------------
-// 3. جلب المنتجات (products)
-// ---------------------------------------------------------
-// نستخدم الشروط: enabled = 1 و isHidden = 0 لعرض المنتجات المتاحة فقط
-$stmt = $pdo->query("SELECT * FROM products WHERE enabled = 1 AND isHidden = 0 ORDER BY orderNo ASC");
-$rawProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// 2. جلب المنتجات
+$productsRaw = safeQuery($pdo, "SELECT * FROM products WHERE enabled = 1 AND isHidden = 0");
 $finalProducts = [];
 
-foreach ($rawProducts as $product) {
-    $productId = $product['id'];
+foreach ($productsRaw as $product) {
+    $pid = $product['id'];
 
-    // أ) معالجة الصورة (cover)
-    // إذا كان الرابط كاملاً نتركه، وإذا كان مجرد اسم ملف نضيف المسار
-    $imagePath = $product['cover'];
-    if ($imagePath && !str_starts_with($imagePath, 'http')) {
-        // ⚠️ عدل هذا الرابط حسب مكان تخزين الصور في سيرفرك
-        $imagePath = 'https://your-domain.com/uploads/' . $imagePath;
-    }
-    // صورة افتراضية في حال عدم وجود غلاف
-    $imageUrl = $imagePath ?: 'https://via.placeholder.com/300?text=No+Image';
+    // معالجة الصورة
+    $img = $product['cover'] ? 'https://your-domain.com/uploads/' . $product['cover'] : 'https://via.placeholder.com/150';
 
-    // ب) تجهيز الخيارات والإضافات
+    // جلب الخيارات (بأمان - لن ينهار إذا الجدول غير موجود)
+    $options = safeQuery($pdo, "SELECT * FROM productOptions WHERE product_id = ?", [$pid]);
+    $addons = safeQuery($pdo, "SELECT * FROM productAddons WHERE product_id = ?", [$pid]);
+
+    // حساب السعر والخيارات
+    $basePrice = 0;
     $modifiers = [];
-    $basePrice = 0; // سنحاول استخراجه من الخيارات
 
-    // 1. جلب الخيارات (productOptions) - مثل الأحجام
-    // نفترض أن العمود الرابط هو product_id أو productId
-    $stmtOpt = $pdo->prepare("SELECT * FROM productOptions WHERE product_id = ?");
-    $stmtOpt->execute([$productId]);
-    $options = $stmtOpt->fetchAll(PDO::FETCH_ASSOC);
-
-    if (count($options) > 0) {
-        $formattedOptions = [];
-        // تحديد السعر المبدئي للمنتج بناءً على أرخص خيار
+    // معالجة الخيارات
+    if (!empty($options)) {
         $prices = array_column($options, 'price');
-        $basePrice = !empty($prices) ? min($prices) : 0;
+        $basePrice = min($prices); // أقل سعر هو السعر الأساسي
 
-        foreach ($options as $index => $opt) {
-            $formattedOptions[] = [
-                'name' => $opt['name'],
-                'price' => (float) $opt['price'],
-                // نجعل الخيار الأرخص هو الافتراضي
-                'checked' => ((float) $opt['price'] === $basePrice)
-            ];
+        $fmtOpts = [];
+        foreach ($options as $o) {
+            $fmtOpts[] = ['name' => $o['name'], 'price' => (float) $o['price'], 'checked' => ((float) $o['price'] == $basePrice)];
         }
-
-        $modifiers[] = [
-            'title' => 'اختر النوع / الحجم',
-            'type' => 'radio', // راديو لأن المستخدم يختار حجماً واحداً
-            'options' => $formattedOptions
-        ];
+        $modifiers[] = ['title' => 'اختر الحجم', 'type' => 'radio', 'options' => $fmtOpts];
     }
 
-    // 2. جلب الإضافات (productAddons) - مثل الجبن والصوص
-    $stmtAddons = $pdo->prepare("SELECT * FROM productAddons WHERE product_id = ?");
-    $stmtAddons->execute([$productId]);
-    $addons = $stmtAddons->fetchAll(PDO::FETCH_ASSOC);
-
-    if (count($addons) > 0) {
-        $formattedAddons = [];
-        foreach ($addons as $add) {
-            $formattedAddons[] = [
-                'name' => $add['name'],
-                'price' => (float) $add['price'],
-                'checked' => false
-            ];
+    // معالجة الإضافات
+    if (!empty($addons)) {
+        $fmtAdds = [];
+        foreach ($addons as $a) {
+            $fmtAdds[] = ['name' => $a['name'], 'price' => (float) $a['price'], 'checked' => false];
         }
-
-        $modifiers[] = [
-            'title' => 'الإضافات',
-            'type' => 'checkbox', // تشيك بوكس لتعدد الاختيارات
-            'options' => $formattedAddons
-        ];
+        $modifiers[] = ['title' => 'إضافات', 'type' => 'checkbox', 'options' => $fmtAdds];
     }
 
-    // ج) بناء كائن المنتج النهائي
     $finalProducts[] = [
         'id' => $product['id'],
-        // الربط مع التصنيف عبر storeNestedSectionId
-        'cat_id' => $product['storeNestedSectionId'],
+        'cat_id' => $product['storeNestedSectionId'], // تأكد أن هذا العمود موجود في جدول products
         'name' => $product['name'],
         'description' => $product['description'] ?? '',
-        // بما أن جدولك لا يحتوي على سعر، نأخذ السعر المحسوب من الخيارات
         'price' => (float) $basePrice,
-        'image_url' => $imageUrl,
+        'image_url' => $img,
         'modifiers' => $modifiers
     ];
 }
 
-// ---------------------------------------------------------
-// 4. إرسال الرد JSON
-// ---------------------------------------------------------
 echo json_encode([
     'categories' => $categories,
     'products' => $finalProducts
