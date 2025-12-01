@@ -1,524 +1,197 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>قائمة الطعام التفاعلية</title>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>قائمة الطعام الديناميكية</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#FF5722", // لون البراند (برتقالي)
-              secondary: "#FFF0EB",
-              dark: "#1F2937",
-              light: "#F3F4F6",
-            },
-            fontFamily: {
-              sans: ["Tajawal", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-      /* إخفاء شريط التمرير ولكن السماح بالتمرير */
-      .hide-scroll::-webkit-scrollbar {
-        display: none;
-      }
-      .hide-scroll {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
-      /* أنيميشن ظهور المودال */
-      @keyframes slideUp {
-        from {
-          transform: translateY(100%);
-        }
-        to {
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      .modal-animate-in {
-        animation: slideUp 0.3s ease-out forwards;
-      }
-      .fade-in {
-        animation: fadeIn 0.2s ease-out forwards;
-      }
-
-      /* تعديل المودال للديسكتوب */
-      @media (min-width: 768px) {
-        .modal-content-wrapper {
-          transform: translateY(0) !important;
-          animation: fadeIn 0.3s ease-out !important;
-          max-width: 500px;
-          margin: auto;
-          border-radius: 16px !important;
-          height: auto !important;
-          max-height: 85vh;
-        }
-      }
+        /* نفس الستايلات السابقة تماماً */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-animate-in { animation: slideUp 0.3s ease-out forwards; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #F9FAFB; padding-bottom: 100px; }
     </style>
-  </head>
-  <body class="bg-light text-dark font-sans pb-24">
-    <header class="sticky top-0 z-40 bg-white shadow-sm">
-      <div
-        class="flex justify-between items-center p-4 border-b border-gray-100 max-w-5xl mx-auto"
-      >
-        <div class="flex items-center gap-2">
-          <div class="bg-primary text-white p-2 rounded-lg font-bold text-xl">
-            🍔
-          </div>
-          <h1 class="text-xl font-bold">برجر كينجدم</h1>
-        </div>
-        <div class="relative cursor-pointer">
-          <span class="text-2xl">🛒</span>
-          <span
-            id="cart-count"
-            class="absolute -top-1 -right-1 bg-primary text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white"
-            >0</span
-          >
-        </div>
-      </div>
+</head>
+<body class="text-gray-800">
 
-      <div class="max-w-5xl mx-auto">
-        <div
-          class="flex overflow-x-auto gap-3 p-3 hide-scroll"
-          id="categories-container"
-        ></div>
-      </div>
+    <header class="sticky top-0 z-40 bg-white shadow-sm">
+        <div class="flex justify-between items-center p-4 border-b border-gray-100 max-w-5xl mx-auto">
+            <h1 class="text-xl font-bold text-orange-600">🍔 المطعم الذكي</h1>
+            <div class="relative"><span class="text-2xl">🛒</span><span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span></div>
+        </div>
+        <div class="max-w-5xl mx-auto">
+            <div class="flex overflow-x-auto gap-3 p-3 hide-scroll" id="categories-container">
+                <div class="text-center w-full text-gray-400 text-sm">جاري التحميل...</div>
+            </div>
+        </div>
     </header>
 
     <main class="max-w-5xl mx-auto p-4">
-      <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-        <span class="w-2 h-6 bg-primary rounded-full block"></span>
-        <span id="active-category-title">الكل</span>
-      </h2>
-
-      <div
-        id="products-grid"
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-      ></div>
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            </div>
     </main>
 
     <div id="product-modal" class="fixed inset-0 z-50 hidden">
-      <div
-        class="absolute inset-0 bg-black/60 backdrop-blur-sm fade-in"
-        onclick="closeModal()"
-      ></div>
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl flex flex-col h-[85vh] md:h-auto md:relative md:max-w-lg md:mx-auto md:rounded-2xl md:mt-20 modal-animate-in">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 bg-white p-2 rounded-full shadow">✕</button>
+            <div class="h-48 shrink-0 relative"><img id="modal-img" src="" class="w-full h-full object-cover"></div>
+            <div class="flex-1 overflow-y-auto p-5 pb-24">
+                <div class="flex justify-between"><h2 id="modal-title" class="text-2xl font-bold"></h2><span id="modal-base-price" class="text-xl font-bold text-orange-600"></span></div>
+                <p id="modal-desc" class="text-gray-500 text-sm mb-4"></p>
+                <div id="modal-options" class="space-y-6"></div>
+            </div>
+            <div class="border-t p-4 bg-white sticky bottom-0">
+                <div class="flex justify-center gap-6 mb-4 items-center">
+                    <button onclick="updateQty(-1)" class="w-10 h-10 border rounded-full font-bold text-xl">-</button>
+                    <span id="modal-qty" class="text-xl font-bold">1</span>
+                    <button onclick="updateQty(1)" class="w-10 h-10 bg-gray-800 text-white rounded-full font-bold text-xl">+</button>
+                </div>
+                <button onclick="addToCart()" class="w-full bg-orange-600 text-white py-3 rounded-xl font-bold flex justify-between px-6">
+                    <span>أضف للسلة</span><span id="modal-total-btn">0 ريال</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-      <div
-        class="modal-content-wrapper absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl flex flex-col h-[90vh] md:h-auto modal-animate-in overflow-hidden"
-      >
-        <button
-          onclick="closeModal()"
-          class="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition"
-        >
-          ✕
+    <div id="sticky-cart-bar" class="fixed bottom-4 left-4 right-4 z-30 transform translate-y-32 transition-transform duration-300">
+        <button class="w-full bg-green-600 text-white p-4 rounded-xl shadow-lg flex justify-between font-bold">
+            <div class="flex items-center gap-3"><span class="bg-white/20 w-8 h-8 flex items-center justify-center rounded-full" id="floating-count">0</span><span>إتمام الطلب</span></div>
+            <span id="floating-total">0 ريال</span>
         </button>
-
-        <div class="h-48 md:h-56 shrink-0 relative">
-          <img id="modal-img" src="" class="w-full h-full object-cover" />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
-          ></div>
-        </div>
-
-        <div class="flex-1 overflow-y-auto p-5 pb-24">
-          <div class="flex justify-between items-start mb-2">
-            <h2 id="modal-title" class="text-2xl font-bold"></h2>
-            <span
-              id="modal-base-price"
-              class="text-lg font-bold text-primary"
-            ></span>
-          </div>
-          <p
-            id="modal-desc"
-            class="text-gray-500 text-sm mb-6 leading-relaxed"
-          ></p>
-
-          <div id="modal-options" class="space-y-6"></div>
-        </div>
-
-        <div class="border-t border-gray-100 p-4 bg-white sticky bottom-0 z-20">
-          <div class="flex justify-center items-center gap-6 mb-4">
-            <button
-              onclick="updateQty(-1)"
-              class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-xl font-bold hover:bg-gray-50 text-gray-500"
-            >
-              -
-            </button>
-            <span id="modal-qty" class="text-xl font-bold w-8 text-center"
-              >1</span
-            >
-            <button
-              onclick="updateQty(1)"
-              class="w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center text-xl font-bold hover:bg-gray-800"
-            >
-              +
-            </button>
-          </div>
-
-          <button
-            onclick="addToCart()"
-            class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-orange-200 active:scale-95 transition flex justify-between px-6 items-center"
-          >
-            <span>أضف للسلة</span>
-            <span
-              id="modal-total-btn"
-              class="bg-white/20 px-3 py-1 rounded-lg text-sm"
-              >0 ريال</span
-            >
-          </button>
-        </div>
-      </div>
     </div>
 
     <script>
-      // --- قاعدة البيانات (Data) ---
-      const categories = [
-        { id: "all", name: "الكل" },
-        { id: "burger", name: "برجر لحم" },
-        { id: "chicken", name: "دجاج" },
-        { id: "pizza", name: "بيتزا" },
-        { id: "drinks", name: "مشروبات" },
-      ];
+        let categories = [];
+        let products = [];
+        
+        let activeCategory = 'all';
+        let currentProduct = null;
+        let modalQty = 1;
+        let cartCount = 0;
+        let grandTotal = 0;
 
-      const products = [
-        {
-          id: 101,
-          cat: "burger",
-          name: "كلاسيك بيف برجر",
-          desc: "شريحة لحم أنجوس مشوية مع الخس، الطماطم، وصوص الكلاسيك المميز بخبز البريوش.",
-          price: 28,
-          image:
-            "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600",
-          modifiers: [
-            {
-              title: "حجم الوجبة",
-              type: "radio",
-              options: [
-                { name: "ساندوتش فقط", price: 0, checked: true },
-                { name: "وجبة (بطاطس + مشروب)", price: 12 },
-              ],
-            },
-            {
-              title: "إضافات دلع نفسك",
-              type: "checkbox",
-              options: [
-                { name: "جبنة إضافية", price: 4 },
-                { name: "بيكون مقرمش", price: 6 },
-                { name: "هلابينو", price: 2 },
-              ],
-            },
-          ],
-        },
-        {
-          id: 102,
-          cat: "burger",
-          name: "ترافل ماشروم",
-          desc: "لعشاق الفطر، برجر مع صوص الترافل الفاخر والجبنة السويسرية.",
-          price: 36,
-          image:
-            "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600",
-          modifiers: [],
-        },
-        {
-          id: 201,
-          cat: "chicken",
-          name: "كريسبي تشيكن",
-          desc: "صدر دجاج مقلي ومقرمش بخلطة سرية حارة.",
-          price: 24,
-          image:
-            "https://images.unsplash.com/photo-1615557960916-5f4791effe9d?w=600",
-          modifiers: [
-            {
-              title: "مستوى الحرارة",
-              type: "radio",
-              options: [
-                { name: "عادي", price: 0, checked: true },
-                { name: "حار جداً 🔥", price: 0 },
-              ],
-            },
-          ],
-        },
-        {
-          id: 301,
-          cat: "pizza",
-          name: "بيتزا بيبروني",
-          desc: "عجينة إيطالية نابولية مع الموزاريلا والبيبروني.",
-          price: 45,
-          image:
-            "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600",
-          modifiers: [],
-        },
-        {
-          id: 401,
-          cat: "drinks",
-          name: "عصير برتقال",
-          desc: "طبيعي طازج بدون سكر.",
-          price: 15,
-          image:
-            "https://images.unsplash.com/photo-1613478223719-2ab802602423?w=600",
-          modifiers: [],
-        },
-      ];
+        // --- 1. جلب البيانات من PHP عند فتح الصفحة ---
+        window.onload = async () => {
+            try {
+                const response = await fetch('api.php'); // الاتصال بالباك اند
+                const data = await response.json();
+                
+                // حفظ البيانات
+                categories = [{id: 'all', name: 'الكل'}, ...data.categories];
+                products = data.products;
 
-      // --- حالة التطبيق (State) ---
-      let activeCategory = "all";
-      let currentProduct = null;
-      let modalQty = 1;
-      let cartCount = 0;
+                // رسم الواجهة
+                renderCategories();
+                renderProducts();
+            } catch (error) {
+                console.error("فشل الاتصال بقاعدة البيانات", error);
+                alert("تأكد من تشغيل السيرفر (XAMPP/WAMP) وأن ملف api.php موجود");
+            }
+        };
 
-      // --- التهيئة عند التحميل ---
-      window.onload = () => {
-        renderCategories();
-        renderProducts();
-      };
-
-      // 1. رسم التصنيفات
-      function renderCategories() {
-        const container = document.getElementById("categories-container");
-        container.innerHTML = categories
-          .map(
-            (cat) => `
-                <button 
-                    onclick="setCategory('${cat.id}')"
-                    class="cat-btn whitespace-nowrap px-6 py-2 rounded-full text-sm font-bold transition-all ${
-                      activeCategory === cat.id
-                        ? "bg-primary text-white shadow-lg shadow-orange-200 scale-105"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }"
-                >
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat.id}')" 
+                class="whitespace-nowrap px-6 py-2 rounded-full text-sm font-bold transition-all ${activeCategory == cat.id ? 'bg-orange-600 text-white shadow-md' : 'bg-gray-100 text-gray-600'}">
                     ${cat.name}
                 </button>
-            `
-          )
-          .join("");
-      }
+            `).join('');
+        }
 
-      // 2. تغيير التصنيف
-      function setCategory(id) {
-        activeCategory = id;
-        document.getElementById("active-category-title").innerText =
-          categories.find((c) => c.id === id).name;
-        renderCategories(); // لإعادة تلوين الأزرار
-        renderProducts();
-      }
+        function setCategory(id) {
+            activeCategory = id;
+            renderCategories();
+            renderProducts();
+        }
 
-      // 3. رسم المنتجات
-      function renderProducts() {
-        const grid = document.getElementById("products-grid");
-        const filtered =
-          activeCategory === "all"
-            ? products
-            : products.filter((p) => p.cat === activeCategory);
-
-        grid.innerHTML = filtered
-          .map(
-            (product) => `
-                <div onclick="openModal(${product.id})" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex md:flex-col gap-4 cursor-pointer hover:shadow-md transition group">
-                    <div class="w-24 h-24 md:w-full md:h-48 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-                        <img src="${product.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    </div>
-                    
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            // لاحظ: في قاعدة البيانات cat_id هو اسم العمود
+            const filtered = activeCategory === 'all' 
+                ? products 
+                : products.filter(p => p.cat_id == activeCategory);
+            
+            grid.innerHTML = filtered.map(product => `
+                <div onclick="openModal(${product.id})" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex gap-4 cursor-pointer">
+                    <div class="w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100"><img src="${product.image_url}" class="w-full h-full object-cover"></div>
                     <div class="flex-1 flex flex-col justify-between">
-                        <div>
-                            <h3 class="font-bold text-gray-800 mb-1">${product.name}</h3>
-                            <p class="text-xs text-gray-500 line-clamp-2 md:line-clamp-3 mb-2">${product.desc}</p>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="font-bold text-primary text-lg">${product.price} ريال</span>
-                            <button class="bg-secondary text-primary w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xl hover:bg-primary hover:text-white transition">+</button>
-                        </div>
+                        <div><h3 class="font-bold text-gray-800">${product.name}</h3><p class="text-xs text-gray-500 line-clamp-2">${product.description}</p></div>
+                        <div class="flex justify-between items-center mt-2"><span class="font-bold text-orange-600">${product.price} ريال</span><button class="bg-orange-50 text-orange-600 w-8 h-8 rounded-lg font-bold">+</button></div>
                     </div>
                 </div>
-            `
-          )
-          .join("");
-      }
+            `).join('');
+        }
 
-      // 4. فتح المودال
-      function openModal(productId) {
-        const product = products.find((p) => p.id === productId);
-        currentProduct = product;
-        modalQty = 1;
+        function openModal(productId) {
+            currentProduct = products.find(p => p.id == productId);
+            modalQty = 1;
 
-        // تعبئة البيانات
-        document.getElementById("modal-img").src = product.image;
-        document.getElementById("modal-title").innerText = product.name;
-        document.getElementById("modal-desc").innerText = product.desc;
-        document.getElementById(
-          "modal-base-price"
-        ).innerText = `${product.price} ريال`;
-        document.getElementById("modal-qty").innerText = 1;
+            document.getElementById('modal-img').src = currentProduct.image_url;
+            document.getElementById('modal-title').innerText = currentProduct.name;
+            document.getElementById('modal-desc').innerText = currentProduct.description;
+            document.getElementById('modal-base-price').innerText = currentProduct.price + ' ريال';
+            document.getElementById('modal-qty').innerText = 1;
 
-        // بناء الخيارات
-        const optionsContainer = document.getElementById("modal-options");
-        if (!product.modifiers || product.modifiers.length === 0) {
-          optionsContainer.innerHTML =
-            '<p class="text-gray-400 text-center text-sm">لا توجد خيارات إضافية لهذا الصنف</p>';
-        } else {
-          optionsContainer.innerHTML = product.modifiers
-            .map(
-              (mod, modIdx) => `
-                    <div class="border-b border-gray-100 pb-4 last:border-0">
-                        <h4 class="font-bold text-gray-800 mb-3">${
-                          mod.title
-                        }</h4>
-                        <div class="space-y-3">
-                            ${mod.options
-                              .map(
-                                (opt, optIdx) => `
-                                <label class="flex justify-between items-center cursor-pointer group">
-                                    <div class="flex items-center gap-3">
-                                        <div class="relative flex items-center">
-                                            <input 
-                                                type="${mod.type}" 
-                                                name="mod_${modIdx}" 
-                                                class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-300 checked:border-primary checked:bg-primary transition-all"
-                                                data-price="${opt.price}"
-                                                ${opt.checked ? "checked" : ""}
-                                                onchange="calcTotal()"
-                                            >
-                                            <div class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100">
-                                                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                            </div>
-                                        </div>
-                                        <span class="text-gray-700 group-hover:text-black transition">${
-                                          opt.name
-                                        }</span>
+            const optionsContainer = document.getElementById('modal-options');
+            // تأكد من أن modifiers موجودة (قد تكون فارغة)
+            const modifiers = currentProduct.modifiers || [];
+
+            if (modifiers.length === 0) {
+                optionsContainer.innerHTML = '<p class="text-sm text-gray-400 text-center">لا توجد خيارات إضافية</p>';
+            } else {
+                optionsContainer.innerHTML = modifiers.map((group, gIdx) => `
+                    <div class="border-b pb-4">
+                        <h4 class="font-bold mb-2">${group.title}</h4>
+                        <div class="space-y-2">
+                            ${group.options.map((opt, oIdx) => `
+                                <label class="flex justify-between items-center cursor-pointer">
+                                    <div class="flex items-center gap-2">
+                                        <input type="${group.type}" name="g_${gIdx}" class="w-5 h-5 accent-orange-600"
+                                            data-price="${opt.price}" ${opt.checked ? 'checked' : ''} onchange="calcTotal()">
+                                        <span>${opt.name}</span>
                                     </div>
-                                    <span class="text-sm text-gray-500 font-medium">${
-                                      opt.price > 0
-                                        ? "+" + opt.price + " ريال"
-                                        : ""
-                                    }</span>
+                                    <span class="text-sm text-gray-500">${opt.price > 0 ? '+' + opt.price : ''}</span>
                                 </label>
-                            `
-                              )
-                              .join("")}
+                            `).join('')}
                         </div>
                     </div>
-                `
-            )
-            .join("");
+                `).join('');
+            }
+
+            document.getElementById('product-modal').classList.remove('hidden');
+            calcTotal();
         }
 
-        // إظهار المودال
-        const modal = document.getElementById("product-modal");
-        modal.classList.remove("hidden");
-
-        calcTotal();
-      }
-
-      // 5. إغلاق المودال
-      function closeModal() {
-        document.getElementById("product-modal").classList.add("hidden");
-      }
-
-      // 6. تحديث الكمية
-      function updateQty(change) {
-        if (modalQty + change >= 1) {
-          modalQty += change;
-          document.getElementById("modal-qty").innerText = modalQty;
-          calcTotal();
+        function closeModal() { document.getElementById('product-modal').classList.add('hidden'); }
+        
+        function updateQty(n) {
+            if (modalQty + n >= 1) { modalQty += n; document.getElementById('modal-qty').innerText = modalQty; calcTotal(); }
         }
-      }
 
-      // 7. حساب السعر الإجمالي
-      function calcTotal() {
-        if (!currentProduct) return;
+        function calcTotal() {
+            let modPrice = 0;
+            document.querySelectorAll('#modal-options input:checked').forEach(i => modPrice += parseFloat(i.dataset.price));
+            let total = (parseFloat(currentProduct.price) + modPrice) * modalQty;
+            document.getElementById('modal-total-btn').innerText = total.toFixed(2) + ' ريال';
+        }
 
-        let modifiersPrice = 0;
-        const checkedInputs = document.querySelectorAll(
-          "#modal-options input:checked"
-        );
-
-        checkedInputs.forEach((input) => {
-          modifiersPrice += parseFloat(input.getAttribute("data-price") || 0);
-        });
-
-        const total = (currentProduct.price + modifiersPrice) * modalQty;
-        document.getElementById("modal-total-btn").innerText = `${total.toFixed(
-          0
-        )} ريال`;
-
-        // إضافة تأثير نبض للزر عند تغير السعر
-        const btn = document.getElementById("modal-total-btn").parentElement;
-        btn.classList.add("scale-95");
-        setTimeout(() => btn.classList.remove("scale-95"), 100);
-      }
-
-      // 8. الإضافة للسلة (محاكاة)
-      // متغير لحساب السعر الإجمالي الكلي للسلة
-      let grandTotal = 0;
-
-      function addToCart() {
-        // 1. تحديث العداد
-        cartCount += modalQty;
-        document.getElementById("cart-count").innerText = cartCount;
-
-        // 2. حساب السعر الإجمالي (محاكاة)
-        // نأخذ السعر الحالي من زر المودال ونحوله لرقم
-        const currentPriceText =
-          document.getElementById("modal-total-btn").innerText;
-        const currentPrice = parseFloat(currentPriceText);
-        grandTotal += currentPrice;
-
-        // 3. تحديث شريط السلة العائم
-        document.getElementById("floating-count").innerText = cartCount;
-        document.getElementById("floating-total").innerText =
-          grandTotal + " ريال";
-
-        // 4. إظهار الشريط (Remove translate to slide up)
-        const stickyBar = document.getElementById("sticky-cart-bar");
-        stickyBar.classList.remove("translate-y-24"); // يرتفع للأعلى
-
-        // 5. إغلاق المودال
-        closeModal();
-      }
+        function addToCart() {
+            const currentTotal = parseFloat(document.getElementById('modal-total-btn').innerText);
+            cartCount += modalQty;
+            grandTotal += currentTotal;
+            
+            document.getElementById('cart-count').innerText = cartCount;
+            document.getElementById('floating-count').innerText = cartCount;
+            document.getElementById('floating-total').innerText = grandTotal.toFixed(2) + ' ريال';
+            
+            document.getElementById('sticky-cart-bar').classList.remove('translate-y-32');
+            closeModal();
+        }
     </script>
-    <div
-      id="sticky-cart-bar"
-      class="fixed bottom-4 left-4 right-4 z-30 transform translate-y-24 transition-transform duration-300"
-    >
-      <button
-        onclick="alert('هنا تفتح صفحة السلة!')"
-        class="w-full bg-green-600 text-white p-4 rounded-xl shadow-lg flex justify-between items-center font-bold"
-      >
-        <div class="flex items-center gap-3">
-          <span
-            class="bg-white/20 w-8 h-8 flex items-center justify-center rounded-full text-sm"
-            id="floating-count"
-            >0</span
-          >
-          <span>اعرض السلة</span>
-        </div>
-        <span id="floating-total">0 ريال</span>
-      </button>
-    </div>
-  </body>
+</body>
 </html>
