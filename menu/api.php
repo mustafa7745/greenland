@@ -30,11 +30,26 @@ foreach ($rawCategories as $cat) {
         'name' => $cat['name'] ?? $cat['title'] ?? 'تصنيف',
     ];
 }
+// ---------------------------------------------------------
+// 2. جلب التصنيفات (storeNestedSections)
+// ---------------------------------------------------------
+$stmt = $pdo->query("SELECT * FROM storeNestedSections ORDER BY orderNo ASC");
+$rawCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$categories = [];
+foreach ($rawCategories as $cat) {
+    $categories[] = [
+        'id' => $cat['id'],
+        // نتأكد من وجود الاسم، إذا كان العمود اسمه name أو title
+        'name' => $cat['name'] ?? $cat['title'] ?? 'تصنيف بدون اسم',
+    ];
+}
 
 // ---------------------------------------------------------
-// 3. جلب المنتجات ودمج الصور والخيارات
+// 3. جلب المنتجات (products)
 // ---------------------------------------------------------
-$stmt = $pdo->query("SELECT * FROM products");
+// نستخدم الشروط: enabled = 1 و isHidden = 0 لعرض المنتجات المتاحة فقط
+$stmt = $pdo->query("SELECT * FROM products WHERE enabled = 1 AND isHidden = 0 ORDER BY orderNo ASC");
 $rawProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $finalProducts = [];
@@ -42,42 +57,49 @@ $finalProducts = [];
 foreach ($rawProducts as $product) {
     $productId = $product['id'];
 
-    // أ) جلب الصورة (نأخذ أول صورة فقط للعرض)
-    $stmtImg = $pdo->prepare("SELECT * FROM productImages WHERE product_id = ? LIMIT 1");
-    $stmtImg->execute([$productId]);
-    $imgData = $stmtImg->fetch(PDO::FETCH_ASSOC);
-    // ⚠️ تأكد من اسم عمود الرابط (url أو image_path)
-    $imageUrl = $imgData['url'] ?? $imgData['image'] ?? 'placeholder.jpg';
+    // أ) معالجة الصورة (cover)
+    // إذا كان الرابط كاملاً نتركه، وإذا كان مجرد اسم ملف نضيف المسار
+    $imagePath = $product['cover'];
+    if ($imagePath && !str_starts_with($imagePath, 'http')) {
+        // ⚠️ عدل هذا الرابط حسب مكان تخزين الصور في سيرفرك
+        $imagePath = 'https://your-domain.com/uploads/' . $imagePath;
+    }
+    // صورة افتراضية في حال عدم وجود غلاف
+    $imageUrl = $imagePath ?: 'https://via.placeholder.com/300?text=No+Image';
 
-    // ب) تجهيز مصفوفة الخيارات المدمجة (Modifiers)
+    // ب) تجهيز الخيارات والإضافات
     $modifiers = [];
+    $basePrice = 0; // سنحاول استخراجه من الخيارات
 
-    // 1. جلب الخيارات الأساسية (productOptions) -> نعاملها كـ Radio
+    // 1. جلب الخيارات (productOptions) - مثل الأحجام
+    // نفترض أن العمود الرابط هو product_id أو productId
     $stmtOpt = $pdo->prepare("SELECT * FROM productOptions WHERE product_id = ?");
     $stmtOpt->execute([$productId]);
     $options = $stmtOpt->fetchAll(PDO::FETCH_ASSOC);
 
     if (count($options) > 0) {
-        // تحويل شكل البيانات لما يفهمه الجافاسكريبت
         $formattedOptions = [];
-        foreach ($options as $opt) {
+        // تحديد السعر المبدئي للمنتج بناءً على أرخص خيار
+        $prices = array_column($options, 'price');
+        $basePrice = !empty($prices) ? min($prices) : 0;
+
+        foreach ($options as $index => $opt) {
             $formattedOptions[] = [
-                // ⚠️ تأكد من أسماء الأعمدة (name, price)
                 'name' => $opt['name'],
                 'price' => (float) $opt['price'],
-                'checked' => false // أو ضع منطق لتحديد الافتراضي
+                // نجعل الخيار الأرخص هو الافتراضي
+                'checked' => ((float) $opt['price'] === $basePrice)
             ];
         }
 
-        // إضافة المجموعة لمصفوفة Modifiers
         $modifiers[] = [
-            'title' => 'اختر النوع / الحجم', // عنوان ثابت أو من القاعدة
-            'type' => 'radio',
+            'title' => 'اختر النوع / الحجم',
+            'type' => 'radio', // راديو لأن المستخدم يختار حجماً واحداً
             'options' => $formattedOptions
         ];
     }
 
-    // 2. جلب الإضافات (productAddons) -> نعاملها كـ Checkbox
+    // 2. جلب الإضافات (productAddons) - مثل الجبن والصوص
     $stmtAddons = $pdo->prepare("SELECT * FROM productAddons WHERE product_id = ?");
     $stmtAddons->execute([$productId]);
     $addons = $stmtAddons->fetchAll(PDO::FETCH_ASSOC);
@@ -93,8 +115,8 @@ foreach ($rawProducts as $product) {
         }
 
         $modifiers[] = [
-            'title' => 'إضافات',
-            'type' => 'checkbox',
+            'title' => 'الإضافات',
+            'type' => 'checkbox', // تشيك بوكس لتعدد الاختيارات
             'options' => $formattedAddons
         ];
     }
@@ -102,13 +124,14 @@ foreach ($rawProducts as $product) {
     // ج) بناء كائن المنتج النهائي
     $finalProducts[] = [
         'id' => $product['id'],
-        // ⚠️ تأكد أن اسم العمود الذي يربط المنتج بالقسم هو section_id أو cat_id
-        'cat_id' => $product['section_id'] ?? $product['category_id'],
+        // الربط مع التصنيف عبر storeNestedSectionId
+        'cat_id' => $product['storeNestedSectionId'],
         'name' => $product['name'],
         'description' => $product['description'] ?? '',
-        'price' => (float) $product['price'],
+        // بما أن جدولك لا يحتوي على سعر، نأخذ السعر المحسوب من الخيارات
+        'price' => (float) $basePrice,
         'image_url' => $imageUrl,
-        'modifiers' => $modifiers // المصفوفة السحرية التي تشغل المودال
+        'modifiers' => $modifiers
     ];
 }
 
