@@ -17,7 +17,7 @@ try {
 }
 
 // 1. جلب التصنيفات
-$stmt = $pdo->query("SELECT * FROM storeCategories ORDER BY orderNo");
+$stmt = $pdo->query("SELECT * FROM storeNestedSections ORDER BY orderNo");
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // 2. جلب المنتجات
