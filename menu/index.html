@@ -1,197 +1,441 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>قائمة الطعام الديناميكية</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>المطعم الاحترافي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* نفس الستايلات السابقة تماماً */
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .modal-animate-in { animation: slideUp 0.3s ease-out forwards; }
-        body { font-family: 'Tajawal', sans-serif; background-color: #F9FAFB; padding-bottom: 100px; }
+      body {
+        font-family: "Tajawal", sans-serif;
+        background-color: #f8f9fa;
+        user-select: none;
+      }
+      .hide-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* تنقل الصفحات (Transitions) */
+      .page-section {
+        transition: transform 0.3s ease-in-out, opacity 0.3s;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        background: #f8f9fa;
+        display: none; /* مخفي افتراضياً */
+      }
+      .page-section.active {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      .modal-up {
+        animation: slideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+      }
     </style>
-</head>
-<body class="text-gray-800">
-
-    <header class="sticky top-0 z-40 bg-white shadow-sm">
-        <div class="flex justify-between items-center p-4 border-b border-gray-100 max-w-5xl mx-auto">
-            <h1 class="text-xl font-bold text-orange-600">🍔 المطعم الذكي</h1>
-            <div class="relative"><span class="text-2xl">🛒</span><span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span></div>
+  </head>
+  <body class="pb-20">
+    <div id="view-home" class="page-section active relative">
+      <header class="sticky top-0 z-10 bg-white shadow-sm pb-2">
+        <div class="flex justify-between items-center p-4">
+          <h1 class="text-xl font-bold text-gray-800">🍔 القائمة</h1>
+          <div class="relative bg-orange-100 p-2 rounded-full">
+            <span class="text-xl">🛒</span>
+            <span
+              id="home-cart-count"
+              class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
+              >0</span
+            >
+          </div>
         </div>
-        <div class="max-w-5xl mx-auto">
-            <div class="flex overflow-x-auto gap-3 p-3 hide-scroll" id="categories-container">
-                <div class="text-center w-full text-gray-400 text-sm">جاري التحميل...</div>
-            </div>
-        </div>
-    </header>
+        <div
+          class="flex overflow-x-auto gap-3 px-4 hide-scroll"
+          id="categories-container"
+        ></div>
+      </header>
 
-    <main class="max-w-5xl mx-auto p-4">
-        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            </div>
-    </main>
-
-    <div id="product-modal" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl flex flex-col h-[85vh] md:h-auto md:relative md:max-w-lg md:mx-auto md:rounded-2xl md:mt-20 modal-animate-in">
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 bg-white p-2 rounded-full shadow">✕</button>
-            <div class="h-48 shrink-0 relative"><img id="modal-img" src="" class="w-full h-full object-cover"></div>
-            <div class="flex-1 overflow-y-auto p-5 pb-24">
-                <div class="flex justify-between"><h2 id="modal-title" class="text-2xl font-bold"></h2><span id="modal-base-price" class="text-xl font-bold text-orange-600"></span></div>
-                <p id="modal-desc" class="text-gray-500 text-sm mb-4"></p>
-                <div id="modal-options" class="space-y-6"></div>
-            </div>
-            <div class="border-t p-4 bg-white sticky bottom-0">
-                <div class="flex justify-center gap-6 mb-4 items-center">
-                    <button onclick="updateQty(-1)" class="w-10 h-10 border rounded-full font-bold text-xl">-</button>
-                    <span id="modal-qty" class="text-xl font-bold">1</span>
-                    <button onclick="updateQty(1)" class="w-10 h-10 bg-gray-800 text-white rounded-full font-bold text-xl">+</button>
-                </div>
-                <button onclick="addToCart()" class="w-full bg-orange-600 text-white py-3 rounded-xl font-bold flex justify-between px-6">
-                    <span>أضف للسلة</span><span id="modal-total-btn">0 ريال</span>
-                </button>
-            </div>
-        </div>
+      <main
+        class="p-4 grid grid-cols-2 md:grid-cols-3 gap-4"
+        id="products-grid"
+      ></main>
     </div>
 
-    <div id="sticky-cart-bar" class="fixed bottom-4 left-4 right-4 z-30 transform translate-y-32 transition-transform duration-300">
-        <button class="w-full bg-green-600 text-white p-4 rounded-xl shadow-lg flex justify-between font-bold">
-            <div class="flex items-center gap-3"><span class="bg-white/20 w-8 h-8 flex items-center justify-center rounded-full" id="floating-count">0</span><span>إتمام الطلب</span></div>
-            <span id="floating-total">0 ريال</span>
+    <div id="view-product" class="page-section bg-white z-20">
+      <div class="absolute top-4 right-4 z-30">
+        <button
+          onclick="goHome()"
+          class="bg-white/90 backdrop-blur p-3 rounded-full shadow-lg text-gray-700 font-bold hover:bg-gray-100 transition"
+        >
+          ✕ إغلاق
         </button>
+      </div>
+
+      <div class="h-[40vh] w-full relative">
+        <img id="p-page-img" src="" class="w-full h-full object-cover" />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-white to-transparent"
+        ></div>
+      </div>
+
+      <div class="px-5 -mt-10 relative z-10">
+        <h1
+          id="p-page-title"
+          class="text-3xl font-extrabold text-gray-800 mb-2"
+        ></h1>
+        <p
+          id="p-page-desc"
+          class="text-gray-500 leading-relaxed text-sm mb-6"
+        ></p>
+
+        <div class="border-t border-gray-100 pt-6">
+          <h3 class="font-bold text-gray-800 mb-4 text-lg">
+            اختر النوع / الحجم:
+          </h3>
+          <div id="primary-options-grid" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addons-modal" class="fixed inset-0 z-50 hidden">
+      <div
+        class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+        onclick="closeAddons()"
+      ></div>
+      <div
+        class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl h-[75vh] flex flex-col modal-up"
+      >
+        <div
+          class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-3xl"
+        >
+          <div>
+            <span class="text-xs text-gray-500 block">لقد اخترت:</span>
+            <span
+              id="selected-variant-name"
+              class="font-bold text-gray-800 text-lg"
+            ></span>
+          </div>
+          <button onclick="closeAddons()" class="text-gray-400 text-2xl">
+            ✕
+          </button>
+        </div>
+
+        <div
+          class="flex-1 overflow-y-auto p-5"
+          id="secondary-options-container"
+        ></div>
+
+        <div class="p-4 border-t border-gray-100 bg-white">
+          <div class="flex justify-center items-center gap-6 mb-4">
+            <button
+              onclick="updateQty(-1)"
+              class="w-10 h-10 border rounded-full text-xl font-bold"
+            >
+              -
+            </button>
+            <span id="final-qty" class="text-xl font-bold">1</span>
+            <button
+              onclick="updateQty(1)"
+              class="w-10 h-10 bg-black text-white rounded-full text-xl font-bold"
+            >
+              +
+            </button>
+          </div>
+          <button
+            onclick="addToCart()"
+            class="w-full bg-orange-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg flex justify-between px-6 active:scale-95 transition"
+          >
+            <span>إضافة للسلة</span>
+            <span id="final-price-btn">0 ريال</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="sticky-cart" class="fixed bottom-4 left-4 right-4 z-40 hidden">
+      <button
+        class="w-full bg-green-600 text-white p-4 rounded-xl shadow-lg flex justify-between font-bold"
+      >
+        <div class="flex items-center gap-2">
+          <span
+            class="bg-white/20 px-3 py-1 rounded-full text-sm"
+            id="float-count"
+            >0</span
+          >
+          <span>عربة التسوق</span>
+        </div>
+        <span id="float-total">0 ريال</span>
+      </button>
     </div>
 
     <script>
-        let categories = [];
-        let products = [];
-        
-        let activeCategory = 'all';
-        let currentProduct = null;
-        let modalQty = 1;
-        let cartCount = 0;
-        let grandTotal = 0;
+      // --- State ---
+      let allCategories = [];
+      let allProducts = [];
+      let activeCategory = "all";
 
-        // --- 1. جلب البيانات من PHP عند فتح الصفحة ---
-        window.onload = async () => {
-            try {
-                const response = await fetch('api.php'); // الاتصال بالباك اند
-                const data = await response.json();
-                
-                // حفظ البيانات
-                categories = [{id: 'all', name: 'الكل'}, ...data.categories];
-                products = data.products;
+      let currentProduct = null;
+      let selectedPrimaryOption = null; // الخيار الأساسي (مثل الحجم)
+      let cart = [];
+      let qty = 1;
 
-                // رسم الواجهة
-                renderCategories();
-                renderProducts();
-            } catch (error) {
-                console.error("فشل الاتصال بقاعدة البيانات", error);
-                alert("تأكد من تشغيل السيرفر (XAMPP/WAMP) وأن ملف api.php موجود");
-            }
-        };
+      // --- Init ---
+      window.onload = async () => {
+        try {
+          // جلب البيانات من ملف الـ PHP
+          const res = await fetch("api.php");
+          const data = await res.json();
+          allCategories = [{ id: "all", name: "الكل" }, ...data.categories];
+          allProducts = data.products;
 
-        function renderCategories() {
-            const container = document.getElementById('categories-container');
-            container.innerHTML = categories.map(cat => `
-                <button onclick="setCategory('${cat.id}')" 
-                class="whitespace-nowrap px-6 py-2 rounded-full text-sm font-bold transition-all ${activeCategory == cat.id ? 'bg-orange-600 text-white shadow-md' : 'bg-gray-100 text-gray-600'}">
-                    ${cat.name}
+          renderCategories();
+          renderHome();
+        } catch (e) {
+          console.error(e);
+          alert("تأكد من تشغيل السيرفر");
+        }
+      };
+
+      // --- Render Home ---
+      function renderCategories() {
+        document.getElementById("categories-container").innerHTML =
+          allCategories
+            .map(
+              (c) => `
+                <button onclick="setCat('${
+                  c.id
+                }')" class="px-6 py-2 rounded-full whitespace-nowrap text-sm font-bold transition ${
+                activeCategory == c.id
+                  ? "bg-orange-600 text-white shadow-md"
+                  : "bg-gray-200 text-gray-600"
+              }">
+                    ${c.name}
                 </button>
-            `).join('');
-        }
+            `
+            )
+            .join("");
+      }
 
-        function setCategory(id) {
-            activeCategory = id;
-            renderCategories();
-            renderProducts();
-        }
+      function setCat(id) {
+        activeCategory = id;
+        renderCategories();
+        renderHome();
+      }
 
-        function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            // لاحظ: في قاعدة البيانات cat_id هو اسم العمود
-            const filtered = activeCategory === 'all' 
-                ? products 
-                : products.filter(p => p.cat_id == activeCategory);
-            
-            grid.innerHTML = filtered.map(product => `
-                <div onclick="openModal(${product.id})" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex gap-4 cursor-pointer">
-                    <div class="w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100"><img src="${product.image_url}" class="w-full h-full object-cover"></div>
-                    <div class="flex-1 flex flex-col justify-between">
-                        <div><h3 class="font-bold text-gray-800">${product.name}</h3><p class="text-xs text-gray-500 line-clamp-2">${product.description}</p></div>
-                        <div class="flex justify-between items-center mt-2"><span class="font-bold text-orange-600">${product.price} ريال</span><button class="bg-orange-50 text-orange-600 w-8 h-8 rounded-lg font-bold">+</button></div>
-                    </div>
+      function renderHome() {
+        const list =
+          activeCategory == "all"
+            ? allProducts
+            : allProducts.filter((p) => p.cat_id == activeCategory);
+        document.getElementById("products-grid").innerHTML = list
+          .map(
+            (p) => `
+                <div onclick="showProductPage(${p.id})" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 cursor-pointer active:scale-95 transition">
+                    <img src="${p.image_url}" class="w-full h-32 object-cover rounded-xl mb-3 bg-gray-100">
+                    <h3 class="font-bold text-gray-800 text-sm mb-1">${p.name}</h3>
+                    <p class="text-xs text-gray-400 truncate">${p.description}</p>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
+      }
+
+      // --- Navigation Logic ---
+      function showProductPage(pid) {
+        currentProduct = allProducts.find((p) => p.id == pid);
+        if (!currentProduct) return;
+
+        // تعبئة بيانات الصفحة
+        document.getElementById("p-page-img").src = currentProduct.image_url;
+        document.getElementById("p-page-title").innerText = currentProduct.name;
+        document.getElementById("p-page-desc").innerText =
+          currentProduct.description;
+
+        // منطق تقسيم الخيارات:
+        // نفترض أن المجموعة الأولى (Index 0) هي الخيارات الأساسية (مثل الأحجام) التي ستظهر في الصفحة
+        // وباقي المجموعات ستظهر لاحقاً في المودال
+        const modifiers = currentProduct.modifiers || [];
+        const primaryContainer = document.getElementById(
+          "primary-options-grid"
+        );
+
+        if (modifiers.length > 0) {
+          // نأخذ المجموعة الأولى فقط للعرض هنا
+          const firstGroup = modifiers[0];
+
+          primaryContainer.innerHTML = firstGroup.options
+            .map(
+              (opt) => `
+                    <div onclick="selectPrimaryOption(${opt.price}, '${opt.name}')" 
+                         class="flex justify-between items-center p-4 border border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 cursor-pointer transition shadow-sm bg-white">
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                                <div class="w-2.5 h-2.5 rounded-full bg-orange-600 opacity-0"></div> 
+                            </div>
+                            <span class="font-bold text-gray-700">${opt.name}</span>
+                        </div>
+                        <span class="font-bold text-orange-600">${opt.price} ريال</span>
+                    </div>
+                `
+            )
+            .join("");
+        } else {
+          // إذا لم يكن هناك خيارات، نضع زر واحد للسعر الأساسي
+          primaryContainer.innerHTML = `
+                    <div onclick="selectPrimaryOption(${currentProduct.price}, 'Standard')" 
+                         class="w-full bg-orange-600 text-white p-4 rounded-xl font-bold text-center shadow-lg cursor-pointer">
+                        طلب المنتج (${currentProduct.price} ريال)
+                    </div>
+                `;
         }
 
-        function openModal(productId) {
-            currentProduct = products.find(p => p.id == productId);
-            modalQty = 1;
+        // التبديل للصفحة
+        document.getElementById("view-home").classList.remove("active");
+        document.getElementById("view-product").classList.add("active");
+        window.scrollTo(0, 0);
+      }
 
-            document.getElementById('modal-img').src = currentProduct.image_url;
-            document.getElementById('modal-title').innerText = currentProduct.name;
-            document.getElementById('modal-desc').innerText = currentProduct.description;
-            document.getElementById('modal-base-price').innerText = currentProduct.price + ' ريال';
-            document.getElementById('modal-qty').innerText = 1;
+      function goHome() {
+        document.getElementById("view-product").classList.remove("active");
+        document.getElementById("view-home").classList.add("active");
+      }
 
-            const optionsContainer = document.getElementById('modal-options');
-            // تأكد من أن modifiers موجودة (قد تكون فارغة)
-            const modifiers = currentProduct.modifiers || [];
+      // --- Step 3: Add-ons Modal Logic ---
+      function selectPrimaryOption(price, name) {
+        selectedPrimaryOption = { name: name, price: parseFloat(price) };
+        qty = 1;
 
-            if (modifiers.length === 0) {
-                optionsContainer.innerHTML = '<p class="text-sm text-gray-400 text-center">لا توجد خيارات إضافية</p>';
-            } else {
-                optionsContainer.innerHTML = modifiers.map((group, gIdx) => `
-                    <div class="border-b pb-4">
-                        <h4 class="font-bold mb-2">${group.title}</h4>
-                        <div class="space-y-2">
-                            ${group.options.map((opt, oIdx) => `
-                                <label class="flex justify-between items-center cursor-pointer">
-                                    <div class="flex items-center gap-2">
-                                        <input type="${group.type}" name="g_${gIdx}" class="w-5 h-5 accent-orange-600"
-                                            data-price="${opt.price}" ${opt.checked ? 'checked' : ''} onchange="calcTotal()">
-                                        <span>${opt.name}</span>
+        // إعداد المودال
+        document.getElementById(
+          "selected-variant-name"
+        ).innerText = `${currentProduct.name} - ${name}`;
+        document.getElementById("final-qty").innerText = 1;
+
+        // عرض باقي الخيارات (Add-ons) فقط
+        const modifiers = currentProduct.modifiers || [];
+        const container = document.getElementById(
+          "secondary-options-container"
+        );
+
+        // نتخطى المجموعة الأولى لأننا اخترناها بالفعل
+        const addOnsGroups = modifiers.slice(1);
+
+        if (addOnsGroups.length === 0) {
+          container.innerHTML =
+            '<div class="text-center text-gray-400 py-10">لا توجد إضافات أخرى، يمكنك إتمام الطلب</div>';
+        } else {
+          container.innerHTML = addOnsGroups
+            .map(
+              (grp, gIdx) => `
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-800 mb-3 text-sm bg-gray-100 inline-block px-3 py-1 rounded-lg">${
+                          grp.title
+                        }</h4>
+                        <div class="space-y-3">
+                            ${grp.options
+                              .map(
+                                (opt, oIdx) => `
+                                <label class="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <div class="flex items-center gap-3">
+                                        <input type="${grp.type}" name="addon_${gIdx}" data-price="${opt.price}" class="w-5 h-5 accent-orange-600" onchange="calcTotal()">
+                                        <span class="text-gray-700 font-medium">${opt.name}</span>
                                     </div>
-                                    <span class="text-sm text-gray-500">${opt.price > 0 ? '+' + opt.price : ''}</span>
+                                    <span class="text-gray-500 text-sm">+${opt.price}</span>
                                 </label>
-                            `).join('')}
+                            `
+                              )
+                              .join("")}
                         </div>
                     </div>
-                `).join('');
-            }
-
-            document.getElementById('product-modal').classList.remove('hidden');
-            calcTotal();
+                `
+            )
+            .join("");
         }
 
-        function closeModal() { document.getElementById('product-modal').classList.add('hidden'); }
-        
-        function updateQty(n) {
-            if (modalQty + n >= 1) { modalQty += n; document.getElementById('modal-qty').innerText = modalQty; calcTotal(); }
-        }
+        // فتح المودال
+        document.getElementById("addons-modal").classList.remove("hidden");
+        calcTotal();
+      }
 
-        function calcTotal() {
-            let modPrice = 0;
-            document.querySelectorAll('#modal-options input:checked').forEach(i => modPrice += parseFloat(i.dataset.price));
-            let total = (parseFloat(currentProduct.price) + modPrice) * modalQty;
-            document.getElementById('modal-total-btn').innerText = total.toFixed(2) + ' ريال';
-        }
+      function closeAddons() {
+        document.getElementById("addons-modal").classList.add("hidden");
+      }
 
-        function addToCart() {
-            const currentTotal = parseFloat(document.getElementById('modal-total-btn').innerText);
-            cartCount += modalQty;
-            grandTotal += currentTotal;
-            
-            document.getElementById('cart-count').innerText = cartCount;
-            document.getElementById('floating-count').innerText = cartCount;
-            document.getElementById('floating-total').innerText = grandTotal.toFixed(2) + ' ريال';
-            
-            document.getElementById('sticky-cart-bar').classList.remove('translate-y-32');
-            closeModal();
+      function updateQty(n) {
+        if (qty + n >= 1) {
+          qty += n;
+          document.getElementById("final-qty").innerText = qty;
+          calcTotal();
         }
+      }
+
+      function calcTotal() {
+        let addonsTotal = 0;
+        document
+          .querySelectorAll("#secondary-options-container input:checked")
+          .forEach((i) => {
+            addonsTotal += parseFloat(i.dataset.price);
+          });
+
+        const total = (selectedPrimaryOption.price + addonsTotal) * qty;
+        document.getElementById("final-price-btn").innerText =
+          total.toFixed(2) + " ريال";
+        return total;
+      }
+
+      function addToCart() {
+        const finalPrice = calcTotal(); // السعر الإجمالي لهذا العنصر
+
+        // إضافة للعربة (محاكاة)
+        cart.push({
+          product: currentProduct.name,
+          variant: selectedPrimaryOption.name,
+          qty: qty,
+          total: finalPrice,
+        });
+
+        // تحديث واجهة السلة في الصفحة الرئيسية
+        const totalCartValue = cart.reduce((sum, item) => sum + item.total, 0);
+        const totalCartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+
+        document.getElementById("home-cart-count").innerText = totalCartCount;
+        document.getElementById("float-count").innerText = totalCartCount;
+        document.getElementById("float-total").innerText =
+          totalCartValue.toFixed(2) + " ريال";
+
+        document.getElementById("sticky-cart").classList.remove("hidden");
+
+        // إغلاق كل شيء والعودة للرئيسية
+        closeAddons();
+        goHome();
+      }
     </script>
-</body>
+  </body>
 </html>
