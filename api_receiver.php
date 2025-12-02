@@ -89,7 +89,7 @@ try {
 
         try {
             // 1. معالجة صورة الغلاف (Cover)
-            $coverUrl = 'https://apps77.s3.ap-southeast-1.amazonaws.com/covers/products/' . ($prod['cover'] ?? '');
+            $coverUrl = $prod['cover'];
             $localCoverName = handleImageDownload($coverUrl, $coverDir, 'cover_');
 
             // 2. إدخال المنتج والحصول على الـ ID الجديد
@@ -107,7 +107,7 @@ try {
             if (isset($input['productsImages']) && is_array($input['productsImages'])) {
                 foreach ($input['productsImages'] as $imgItem) {
                     if ($imgItem['productId'] == $oldId) { // التأكد من أن الصورة تتبع المنتج الحالي
-                        $imgUrl = 'https://apps77.s3.ap-southeast-1.amazonaws.com/products/' . ($imgItem['image'] ?? '');
+                        $imgUrl = $imgItem['image'];
                         $localImgName = handleImageDownload($imgUrl, $imagesDir, "gallery_{$newId}_");
 
                         if ($localImgName) {
@@ -135,7 +135,7 @@ try {
                     if (($option['productId'] ?? null) == $oldId) {
 
                         // ⚠️ منطق تحميل صور الخيارات (إذا كان الخيار نفسه يحمل صورة)
-                        $optionImgUrl = 'https://apps77.s3.ap-southeast-1.amazonaws.com/options/' . ($option['cover'] ?? null);
+                        $optionImgUrl = $option['cover'];
                         $localOptionCover = handleImageDownload($optionImgUrl, $coverDir, 'option_'); // يجب أن يكون المجلد coverDir جاهزاً
 
                         $stmtOpt->execute([
