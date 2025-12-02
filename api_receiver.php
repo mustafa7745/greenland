@@ -52,7 +52,7 @@ try {
 // ... داخل قسم تجهيز جمل الإدراج ...
 
     $stmtCat = $pdo->prepare("
-    INSERT INTO storeCategories (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt,storeSectionId) 
+    INSERT INTO storeNestedSection (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt,storeSectionId) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)
 ");
     $stmtProd = $pdo->prepare("INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) VALUES (?, ?, ?, ?, ?, NOW())");
