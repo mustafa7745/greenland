@@ -3,10 +3,10 @@ header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
 
 // إعدادات الاتصال
-    $host = 'localhost';
-    $db = 'u574242705_menu';
-    $user = 'u574242705_menu'; // غيره باسم المستخدم الخاص بك
-    $pass = 'K*u@EDw9';     // غيره بكلمة المرور الخاصة بك
+$host = 'localhost';
+$db = 'u574242705_menu';
+$user = 'u574242705_menu'; // غيره باسم المستخدم الخاص بك
+$pass = 'K*u@EDw9';     // غيره بكلمة المرور الخاصة بك
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
@@ -59,7 +59,7 @@ if ($searchQuery) {
 $finalProducts = [];
 foreach ($productsRaw as $product) {
     $pid = $product['id'];
-    $img = $product['cover'] ? 'uploads/images/products/cover/' . $product['cover'] : ''; // رابط الصورة
+    $img = $product['cover'] ? __DIR__ . '/uploads/images/products/' . $product['cover'] : ''; // رابط الصورة
 
     // جلب الخيارات
     $options = safeQuery($pdo, "SELECT * FROM productOptions WHERE productId = ? AND enabled = 1", [$pid]);
