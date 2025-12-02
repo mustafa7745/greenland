@@ -29,19 +29,7 @@ if (trim($sentKey) !== "SECRET_KEY_123") {
     ]));
 }
 
-// 2. الاتصال بالقاعدة
-$host = 'localhost';
-$db = 'u574242705_menu';
-$user = 'u574242705_menu'; // غيره باسم المستخدم الخاص بك
-$pass = 'K*u@EDw9';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    http_response_code(500);
-    exit(json_encode(['error' => 'Database connection failed']));
-}
+require_once "database.php";
 
 // 3. استقبال البيانات
 $input = json_decode(file_get_contents('php://input'), true);
@@ -58,6 +46,9 @@ if (!is_dir("$uploadBase/cover"))
 if (!is_dir("$uploadBase/images"))
     mkdir("$uploadBase/images", 0777, true);
 
+clearFolder("$uploadBase/cover");
+clearFolder("$uploadBase/images");
+
 $report = ['success' => 0, 'failed' => 0, 'images_processed' => 0];
 
 // مصفوفة سحرية لربط الـ ID القديم بالجديد
@@ -67,10 +58,13 @@ $idMap = [];
 try {
     $pdo->beginTransaction();
 
+    $pdo->exec('TRUNCATE TABLE products');
+    $pdo->exec('TRUNCATE TABLE productImages');
+
     // =======================================================
     // اللوب الأول: المنتجات (Products)
     // =======================================================
-    $stmtProd = $pdo->prepare("INSERT INTO products (name, description,storeNestedSectionId, cover, createdAt) VALUES (?, ?,?, ?, NOW())");
+    $stmtProd = $pdo->prepare("INSERT INTO products (id,name, description,storeNestedSectionId, cover, createdAt) VALUES (?,?, ? ,?, ?, NOW())");
 
     foreach ($input['products'] as $prod) {
         $oldId = $prod['id']; // الـ ID في السرفر الرئيسي
@@ -94,7 +88,9 @@ try {
         }
 
         // 2. إدخال المنتج
+
         $stmtProd->execute([
+            $prod['id'],
             $prod['name'],
             $prod['description'],
             $prod['storeNestedSectionId'],
@@ -113,14 +109,13 @@ try {
     // =======================================================
     // الآن نستخدم $idMap لمعرفة أي صورة تتبع أي منتج جديد
 
-    $stmtImg = $pdo->prepare("INSERT INTO productsImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
+    $stmtImg = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
 
     foreach ($input['productsImages'] as $imgItem) {
         $oldProductId = $imgItem['productId']; // هذا الـ ID الخاص بالسرفر الرئيسي
 
         // هل قمنا بإضافة هذا المنتج قبل قليل؟ هل يوجد له ID جديد؟
         if (isset($idMap[$oldProductId])) {
-            $newProductId = $idMap[$oldProductId]; // خذ الـ ID الجديد
 
             // معالجة الصورة
             $localImgName = null;
@@ -137,12 +132,10 @@ try {
 
                     // الحفظ في القاعدة مع الـ ID الجديد
                     $stmtImg->execute([
-                        $newProductId,
+                        $imgItem['productId'],
                         $imgItem['storeBranchId'],
                         $localImgName // اسم الملف الجديد
                     ]);
-
-                    $report['images_processed']++;
                 }
             }
         }
@@ -156,5 +149,25 @@ try {
     // (اختياري) هنا يمكن إضافة كود لحذف الصور التي تم رفعها قبل حدوث الخطأ لتنظيف السرفر
     http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+}
+
+
+// دالة لمسح محتويات مجلد
+function clearFolder($folderPath)
+{
+    if (!is_dir($folderPath))
+        return;
+
+    $files = glob($folderPath . '/*');
+
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            unlink($file); // حذف ملف
+        } elseif (is_dir($file)) {
+            // حذف مجلد فرعي كامل
+            array_map('unlink', glob("$file/*"));
+            rmdir($file);
+        }
+    }
 }
 ?>
