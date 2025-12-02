@@ -123,54 +123,54 @@ try {
 
 
 
-    // if (isset($input['productsImages']) && is_array($input['productsImages'])) {
-    //     foreach ($input['productsImages'] as $imgItem) {
-    //         $oldProductId = $imgItem['productId'];
+    if (isset($input['productsImages']) && is_array($input['productsImages'])) {
+        foreach ($input['productsImages'] as $imgItem) {
+            $oldProductId = $imgItem['productId'];
 
-    //         // بما أن الـ ID لم يتغير (فرضناه)، نستخدم $oldProductId مباشرة
-    //         $newProductId = $oldProductId;
+            // بما أن الـ ID لم يتغير (فرضناه)، نستخدم $oldProductId مباشرة
+            $newProductId = $oldProductId;
 
-    //         $imgUrl = $imgItem['image'];
-    //         $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
+            $imgUrl = $imgItem['image'];
+            $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
 
-    //         if ($localImgName) {
-    //             $stmtImg->execute([
-    //                 $imgItem['productId'] ?? 0,
-    //                 $imgItem['storeBranchId'] ?? 0,
-    //                 $localImgName
-    //             ]);
-    //             $report['images_synced']++;
-    //         }
-    //     }
-    // }
+            if ($localImgName) {
+                $stmtImg->execute([
+                    $imgItem['productId'] ?? 0,
+                    $imgItem['storeBranchId'] ?? 0,
+                    $localImgName
+                ]);
+                $report['images_synced']++;
+            }
+        }
+    }
 
-    // if (isset($input['productOptions']) && is_array($input['productOptions'])) {
-    //     foreach ($input['productOptions'] as $option) {
-    //         $oldProductId = $option['productId'];
+    if (isset($input['productOptions']) && is_array($input['productOptions'])) {
+        foreach ($input['productOptions'] as $option) {
+            $oldProductId = $option['productId'];
 
-    //         // بما أن الـ ID لم يتغير، نستخدم $oldProductId مباشرة
-    //         $newProductId = $oldProductId;
+            // بما أن الـ ID لم يتغير، نستخدم $oldProductId مباشرة
+            $newProductId = $oldProductId;
 
-    //         $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
-    //         $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
+            $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
+            $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
 
-    //         $stmtOpt->execute([
-    //             $option['id'],
-    //             $newProductId,
-    //             $option['name'],
-    //             $option['description'] ?? '',
-    //             $option['price'] ?? 0,
-    //             $option['prePrice'] ?? 0,
-    //             $option['info'] ?? '[]',
-    //             $option['isHidden'] ?? 0,
-    //             $option['enabled'] ?? 1,
-    //             $option['orderNo'] ?? 1,
-    //             $option['storeBranchId'] ?? 0,
-    //             $localOptionCover,
-    //         ]);
-    //         $report['options_synced']++;
-    //     }
-    // }
+            $stmtOpt->execute([
+                $option['id'],
+                $newProductId,
+                $option['name'],
+                $option['description'] ?? '',
+                $option['price'] ?? 0,
+                $option['prePrice'] ?? 0,
+                $option['info'] ?? '[]',
+                $option['isHidden'] ?? 0,
+                $option['enabled'] ?? 1,
+                $option['orderNo'] ?? 1,
+                $option['storeBranchId'] ?? 0,
+                $localOptionCover,
+            ]);
+            $report['options_synced']++;
+        }
+    }
 
 
     // =======================================================
