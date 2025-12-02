@@ -40,7 +40,7 @@ try {
     // تنفيذ مسح الجداول
     $pdo->exec('TRUNCATE TABLE products');
     $pdo->exec('TRUNCATE TABLE productImages');
-    $pdo->exec('TRUNCATE TABLE ProductAddons'); // افتراض أن هذا الجدول أيضاً يتم مسحه
+    $pdo->exec('TRUNCATE TABLE productAddons'); // افتراض أن هذا الجدول أيضاً يتم مسحه
     $pdo->exec('TRUNCATE TABLE productOptions'); // افتراض أن هذا الجدول أيضاً يتم مسحه
 
     // تنفيذ مسح المجلدات على السرفر
