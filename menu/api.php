@@ -59,7 +59,7 @@ if ($searchQuery) {
 $finalProducts = [];
 foreach ($productsRaw as $product) {
     $pid = $product['id'];
-    $img = $product['cover'] ? 'https://your-domain.com/uploads/' . $product['cover'] : ''; // رابط الصورة
+    $img = $product['cover'] ? 'uploads/images/products/cover/' . $product['cover'] : ''; // رابط الصورة
 
     // جلب الخيارات
     $options = safeQuery($pdo, "SELECT * FROM productOptions WHERE productId = ? AND enabled = 1", [$pid]);
