@@ -69,7 +69,7 @@ try {
         $storeCategories = $input['storeCategories'];
         if (isset($storeCategories['storeNestedSections'])) {
 
-            foreach ($storeCategories['storeCategories'] as $cat) {
+            foreach ($storeCategories['storeNestedSections'] as $cat) {
                 try {
                     // 2. إدخال الفئة (استخدام ID القادم مباشرة)
                     $stmtCat->execute([
