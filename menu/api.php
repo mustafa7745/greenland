@@ -59,7 +59,8 @@ if ($searchQuery) {
 $finalProducts = [];
 foreach ($productsRaw as $product) {
     $pid = $product['id'];
-    $img = $product['cover'] ? __DIR__ . '/uploads/images/products/' . $product['cover'] : ''; // رابط الصورة
+    // لاحظ: قمت بإضافة مجلد cover لأننا حفظناها هناك في الكود السابق
+    $img = $product['cover'] ? 'uploads/images/products/cover/' . $product['cover'] : '';
 
     // جلب الخيارات
     $options = safeQuery($pdo, "SELECT * FROM productOptions WHERE productId = ? AND enabled = 1", [$pid]);
