@@ -39,7 +39,7 @@ try {
     // ----------------------------------------------------
     $pdo->exec('TRUNCATE TABLE products'); // يفضل حذف الأعمدة التي تحوي ID لعدم التعارض
     $pdo->exec('TRUNCATE TABLE productImages');
-    $pdo->exec('TRUNCATE TABLE storeNestedSection');
+    $pdo->exec('TRUNCATE TABLE storeNestedSections');
     $pdo->exec('TRUNCATE TABLE productAddons');
     $pdo->exec('TRUNCATE TABLE productOptions');
     clearFolder("$uploadBase/cover/");
@@ -52,7 +52,7 @@ try {
 // ... داخل قسم تجهيز جمل الإدراج ...
 
     $stmtCat = $pdo->prepare("
-    INSERT INTO storeNestedSection (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt,storeSectionId) 
+    INSERT INTO storeNestedSections (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt,storeSectionId) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)
 ");
     $stmtProd = $pdo->prepare("INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) VALUES (?, ?, ?, ?, ?, NOW())");
