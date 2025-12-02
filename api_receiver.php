@@ -97,7 +97,6 @@ try {
         $stmtProd->execute([
             $prod['name'],
             $prod['description'],
-            $prod['price'],
             $localCoverName
         ]);
 
