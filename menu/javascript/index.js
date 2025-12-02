@@ -548,6 +548,10 @@ async function registerVisitor() {
     body: JSON.stringify({
       uuid,
       device: info.device,
+      os: info.os,
+      os_version: info.os_version,
+      browser: info.browser,
+      browser_version: info.browser_version,
       user_agent: info.user_agent,
     }),
   });
