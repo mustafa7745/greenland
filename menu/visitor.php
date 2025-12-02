@@ -38,6 +38,29 @@ try {
             $browser_version,
             $user_agent
         ]);
+        $id = $pdo->lastInsertId();
+        $stmt = $pdo->prepare("
+            INSERT INTO visitor_sessions (visitorId)
+            VALUES (?)
+        ");
+        $stmt->execute([
+            $id,
+        ]);
+
+    } else {
+        $visitor = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($visitor) {
+            $id = $visitor['id'];
+            $stmt = $pdo->prepare("
+            INSERT INTO visitor_sessions (visitorId)
+            VALUES (?)
+        ");
+            $stmt->execute([
+                $id,
+            ]);
+        }
+
     }
 
     echo json_encode(["status" => "ok"]);
