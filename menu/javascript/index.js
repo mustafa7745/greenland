@@ -540,7 +540,7 @@ function getDeviceDetails() {
 // إرسال بيانات الزائر للسيرفر
 async function registerVisitor() {
   const uuid = getOrCreateUUID();
-  const info = getDeviceInfo();
+  const info = getDeviceDetails();
 
   await fetch("visitor.php", {
     method: "POST",
