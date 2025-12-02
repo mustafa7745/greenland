@@ -10,7 +10,7 @@ $headers = getallheaders();
 $sentKey = $headers['X-API-KEY'] ?? '';
 if ($sentKey !== "SECRET_KEY_123") {
     http_response_code(403);
-    exit(json_encode(['error' => 'Unauthorized']));
+    exit(json_encode(['error' => 'Unauthorized 1']));
 }
 
 // 2. الاتصال بالقاعدة
