@@ -15,9 +15,9 @@ if ($sentKey !== "SECRET_KEY_123") {
 
 // 2. الاتصال بالقاعدة
 $host = 'localhost';
-$db = 'secondary_db';
-$user = 'root';
-$pass = '';
+$db = 'u574242705_menu';
+$user = 'u574242705_menu'; // غيره باسم المستخدم الخاص بك
+$pass = 'K*u@EDw9';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
