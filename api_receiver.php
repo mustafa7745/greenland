@@ -39,6 +39,7 @@ try {
     // ----------------------------------------------------
     $pdo->exec('TRUNCATE TABLE products'); // يفضل حذف الأعمدة التي تحوي ID لعدم التعارض
     $pdo->exec('TRUNCATE TABLE productImages');
+    $pdo->exec('TRUNCATE TABLE storeCategories');
     $pdo->exec('TRUNCATE TABLE productAddons');
     $pdo->exec('TRUNCATE TABLE productOptions');
     clearFolder("$uploadBase/cover/");
@@ -48,6 +49,12 @@ try {
     // ب) تجهيز جمل الإدراج (Prepared Statements) - مع إدراج الـ ID يدوياً
     // ----------------------------------------------------
     // ⚠️ لاحظ: أضفنا عمود id في جملة INSERT ونستبدل original_id به
+// ... داخل قسم تجهيز جمل الإدراج ...
+
+    $stmtCat = $pdo->prepare("
+    INSERT INTO storeCategories (id, name, cover, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+");
     $stmtProd = $pdo->prepare("INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) VALUES (?, ?, ?, ?, ?, NOW())");
     $stmtImg = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
     $stmtAdd = $pdo->prepare("INSERT INTO productAddons (id,productId, name, price, isHidden, enabled, orderNo, storeBranchId, orderAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
@@ -57,6 +64,39 @@ try {
     // =======================================================
     // 1️⃣ اللوب الأول: إدراج المنتجات (استخدام ID القادم مباشرة)
     // =======================================================
+
+    if (isset($input['storeCategories']) && is_array($input['storeCategories'])) {
+        foreach ($input['storeCategories'] as $cat) {
+
+            try {
+                // 1. تحميل صورة الغلاف (Cover)
+                $coverUrl = $S3_CAT_COVER_URL . ($cat['cover'] ?? '');
+                $localCoverName = handleImageDownload($coverUrl, $catCoverDir, 'cat_cover_');
+
+                // 2. إدخال الفئة (استخدام ID القادم مباشرة)
+                $stmtCat->execute([
+                    $cat['id'], // 1. ID (يجب أن يكون غير auto-increment)
+                    $cat['name'], // 2. name
+                    $localCoverName, // 3. cover
+                    $cat['orderNo'] ?? 1, // 4. orderNo
+                    $cat['orderAt'] ?? date('Y-m-d H:i:s'), // 5. orderAt (نتأكد أنه تاريخ)
+                    $cat['storeBranchId'] ?? 0, // 6. storeBranchId
+                    $cat['isHidden'] ?? 0, // 7. isHidden
+                    $cat['enabled'] ?? 1 // 8. enabled
+                    // 9. createdAt (NOW())
+                ]);
+
+                // هنا لا نحتاج لـ idMap لأن الفئات لا تعتمد على شيء، والمنتجات تعتمد عليها
+                // وسنستخدم ID الفئة الأصلي للربط في جدول المنتجات مباشرة.
+
+                $report['categories_synced']++;
+
+            } catch (Exception $e) {
+                $report['errors'][] = "Category {$cat['name']} failed (Sync): " . $e->getMessage();
+            }
+        }
+    }
+
     foreach ($input['products'] as $prod) {
         $oldId = $prod['id'];
         $localCoverName = null;
