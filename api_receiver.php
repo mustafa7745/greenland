@@ -94,7 +94,7 @@ try {
             // بما أن الـ ID لم يتغير (فرضناه)، نستخدم $oldProductId مباشرة
             $newProductId = $oldProductId;
 
-            $imgUrl = $S3_GALLERY_URL . ($imgItem['image'] ?? '');
+            $imgUrl = $imgItem['image'];
             $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
 
             if ($localImgName) {
