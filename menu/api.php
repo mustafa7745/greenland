@@ -60,7 +60,11 @@ $finalProducts = [];
 foreach ($productsRaw as $product) {
     $pid = $product['id'];
     // لاحظ: قمت بإضافة مجلد cover لأننا حفظناها هناك في الكود السابق
-    $img = $product['cover'];
+    $folderStructure = '/uploads/images/products/cover/';
+
+    // 2. دمج الرابط النهائي (Root-Relative)
+// النتيجة ستكون: /uploads/images/products/cover/filename.jpg
+    $img = $product['cover'] ? $folderStructure . $product['cover'] : '';
 
     // جلب الخيارات
     $options = safeQuery($pdo, "SELECT * FROM productOptions WHERE productId = ? AND enabled = 1", [$pid]);
