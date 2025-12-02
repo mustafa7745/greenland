@@ -66,7 +66,7 @@ try {
     // =======================================================
 
     if (isset($input['storeCategories']) && is_array($input['storeCategories'])) {
-        foreach ($input['storeCategories'] as $cat) {
+        foreach ($input['storeCategories']['storeCategories'] as $cat) {
 
             try {
                 // 2. إدخال الفئة (استخدام ID القادم مباشرة)
