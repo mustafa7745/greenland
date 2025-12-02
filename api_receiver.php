@@ -52,8 +52,8 @@ try {
 // ... داخل قسم تجهيز جمل الإدراج ...
 
     $stmtCat = $pdo->prepare("
-    INSERT INTO storeCategories (id, name, cover, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    INSERT INTO storeCategories (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
 ");
     $stmtProd = $pdo->prepare("INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) VALUES (?, ?, ?, ?, ?, NOW())");
     $stmtImg = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
@@ -69,15 +69,10 @@ try {
         foreach ($input['storeCategories'] as $cat) {
 
             try {
-                // 1. تحميل صورة الغلاف (Cover)
-                $coverUrl = $S3_CAT_COVER_URL . ($cat['cover'] ?? '');
-                $localCoverName = handleImageDownload($coverUrl, $catCoverDir, 'cat_cover_');
-
                 // 2. إدخال الفئة (استخدام ID القادم مباشرة)
                 $stmtCat->execute([
                     $cat['id'], // 1. ID (يجب أن يكون غير auto-increment)
                     $cat['name'], // 2. name
-                    $localCoverName, // 3. cover
                     $cat['orderNo'] ?? 1, // 4. orderNo
                     $cat['orderAt'] ?? date('Y-m-d H:i:s'), // 5. orderAt (نتأكد أنه تاريخ)
                     $cat['storeBranchId'] ?? 0, // 6. storeBranchId
