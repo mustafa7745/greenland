@@ -536,7 +536,7 @@ function getDeviceDetails() {
     user_agent: ua,
   };
 }
-
+//Test
 // إرسال بيانات الزائر للسيرفر
 async function registerVisitor() {
   const uuid = getOrCreateUUID();
