@@ -80,15 +80,12 @@ try {
     // ...
 
 
-    // ----------------------------------------------------
-    // ج) الدوران على المنتجات وإدراجها
-    // ----------------------------------------------------
-    foreach ($input['products'] as $prod) {
-        $oldId = $prod['id'];
-        $localCoverName = null;
 
-        try {
-            // 1. معالجة صورة الغلاف (Cover)
+    ///
+    try {
+
+        
+        if (isset($input['products']) && is_array($input['products'])) {
             $coverUrl = $prod['cover'];
             $localCoverName = handleImageDownload($coverUrl, $coverDir, 'cover_');
 
@@ -100,102 +97,85 @@ try {
                 $prod['storeNestedSectionId'] ?? 0,
                 $localCoverName
             ]);
-            $newId = $pdo->lastInsertId();
-            $idMap[$oldId] = $newId; // ربط الـ ID القديم بالجديد
-
-            // 3. إدراج صور المعرض (Gallery Images)
-            if (isset($input['productsImages']) && is_array($input['productsImages'])) {
-                foreach ($input['productsImages'] as $imgItem) {
-                    if ($imgItem['productId'] == $oldId) { // التأكد من أن الصورة تتبع المنتج الحالي
-                        $imgUrl = $imgItem['image'];
-                        $localImgName = handleImageDownload($imgUrl, $imagesDir, "gallery_{$newId}_");
-
-                        if ($localImgName) {
-                            $stmtImg->execute([
-                                $newId, // الـ ID الجديد
-                                $imgItem['storeBranchId'] ?? 0,
-                                $localImgName
-                            ]);
-                            $report['images_processed']++;
-                        }
-                    }
-                }
-            }
-
-            // (هذا الكود يأتي بعد إدراج المنتج والحصول على $newId)
-
-            // //////////////////////////////////////////////////////////////////
-// 4. إدراج الخيارات (ProductOptions)
-// //////////////////////////////////////////////////////////////////
-            if (isset($input['productOptions']) && is_array($input['productOptions'])) {
-                // نستخدم متغير اللوب $option
-                foreach ($input['productOptions'] as $option) {
-
-                    // التحقق من أن الخيار يتبع المنتج الحالي
-                    if (($option['productId'] ?? null) == $oldId) {
-
-                        // ⚠️ منطق تحميل صور الخيارات (إذا كان الخيار نفسه يحمل صورة)
-                        $optionImgUrl = $option['cover'];
-                        $localOptionCover = handleImageDownload($optionImgUrl, $coverDir, 'option_'); // يجب أن يكون المجلد coverDir جاهزاً
-
-                        $stmtOpt->execute([
-                            $newId, // الـ ID الجديد (1)
-                            $option['name'], // (2)
-                            $option['description'] ?? '', // (3)
-                            $option['price'] ?? 0, // (4)
-                            $option['prePrice'] ?? 0, // (5)
-                            $option['info'] ?? '[]', // (6)
-                            $option['isHidden'] ?? 0, // (7)
-                            $option['enabled'] ?? 1, // (8)
-                            $option['orderNo'] ?? 1, // (9)
-                            // NOW()
-                            $option['storeBranchId'] ?? 0, // (10)
-                            $localOptionCover, // (11) اسم الملف المحلي
-                            // NOW()
-                        ]);
-                    }
-                }
-            }
-
-
-            // //////////////////////////////////////////////////////////////////
-// 5. إدراج الإضافات (ProductAddons)
-// //////////////////////////////////////////////////////////////////
-            if (isset($input['productAddons']) && is_array($input['productAddons'])) {
-                // نستخدم متغير اللوب $addon
-                foreach ($input['productAddons'] as $addon) {
-
-                    // التحقق من أن الإضافة تتبع المنتج الحالي
-                    if (($addon['productId'] ?? null) == $oldId) {
-
-                        // (هنا لا يوجد تحميل صور، فقط بيانات)
-                        $stmtAdd->execute([
-                            $newId, // الـ ID الجديد (1)
-                            $addon['name'], // (2)
-                            $addon['price'] ?? 0, // (3)
-                            $addon['isHidden'] ?? 0, // (4)
-                            $addon['enabled'] ?? 1, // (5)
-                            $addon['orderNo'] ?? 1, // (6)
-                            $addon['storeBranchId'] ?? 0, // (7)
-                            // NOW() - orderAt
-                            // NOW() - createdAt
-                        ]);
-                    }
-                }
-            }
-
-            // (تكرر الخطوة 4 للإضافات ProductsAddons)
-
-            $report['success']++;
-
-        } catch (Exception $e) {
-            // هنا نكتشف خطأ إدراج منتج واحد فقط (بدون rollback)
-            $report['failed']++;
-            $report['errors'][] = "Product {$prod['name']} failed: " . $e->getMessage();
         }
+
+        if (isset($input['productsImages']) && is_array($input['productsImages'])) {
+            foreach ($input['productsImages'] as $imgItem) {
+                if ($imgItem['productId'] == $oldId) { // التأكد من أن الصورة تتبع المنتج الحالي
+                    $imgUrl = $imgItem['image'];
+                    $localImgName = handleImageDownload($imgUrl, $imagesDir, "gallery_{$newId}_");
+
+                    if ($localImgName) {
+                        $stmtImg->execute([
+                            $newId, // الـ ID الجديد
+                            $imgItem['storeBranchId'] ?? 0,
+                            $localImgName
+                        ]);
+                        $report['images_processed']++;
+                    }
+                }
+            }
+        }
+
+        if (isset($input['productOptions']) && is_array($input['productOptions'])) {
+            // نستخدم متغير اللوب $option
+            foreach ($input['productOptions'] as $option) {
+
+                // التحقق من أن الخيار يتبع المنتج الحالي
+                if (($option['productId'] ?? null) == $oldId) {
+
+                    // ⚠️ منطق تحميل صور الخيارات (إذا كان الخيار نفسه يحمل صورة)
+                    $optionImgUrl = $option['cover'];
+                    $localOptionCover = handleImageDownload($optionImgUrl, $coverDir, 'option_'); // يجب أن يكون المجلد coverDir جاهزاً
+
+                    $stmtOpt->execute([
+                        $newId, // الـ ID الجديد (1)
+                        $option['name'], // (2)
+                        $option['description'] ?? '', // (3)
+                        $option['price'] ?? 0, // (4)
+                        $option['prePrice'] ?? 0, // (5)
+                        $option['info'] ?? '[]', // (6)
+                        $option['isHidden'] ?? 0, // (7)
+                        $option['enabled'] ?? 1, // (8)
+                        $option['orderNo'] ?? 1, // (9)
+                        // NOW()
+                        $option['storeBranchId'] ?? 0, // (10)
+                        $localOptionCover, // (11) اسم الملف المحلي
+                        // NOW()
+                    ]);
+                }
+            }
+        }
+
+        if (isset($input['productAddons']) && is_array($input['productAddons'])) {
+            // نستخدم متغير اللوب $addon
+            foreach ($input['productAddons'] as $addon) {
+
+                // التحقق من أن الإضافة تتبع المنتج الحالي
+                if (($addon['productId'] ?? null) == $oldId) {
+
+                    // (هنا لا يوجد تحميل صور، فقط بيانات)
+                    $stmtAdd->execute([
+                        $newId, // الـ ID الجديد (1)
+                        $addon['name'], // (2)
+                        $addon['price'] ?? 0, // (3)
+                        $addon['isHidden'] ?? 0, // (4)
+                        $addon['enabled'] ?? 1, // (5)
+                        $addon['orderNo'] ?? 1, // (6)
+                        $addon['storeBranchId'] ?? 0, // (7)
+                        // NOW() - orderAt
+                        // NOW() - createdAt
+                    ]);
+                }
+            }
+        }
+
+        $pdo->commit();
+    } catch (Exception $e) {
+
     }
 
-    $pdo->commit();
+
 
     // إعادة تفعيل الـ Foreign Key
     $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
