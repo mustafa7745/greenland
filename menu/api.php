@@ -60,7 +60,7 @@ $finalProducts = [];
 foreach ($productsRaw as $product) {
     $pid = $product['id'];
     // لاحظ: قمت بإضافة مجلد cover لأننا حفظناها هناك في الكود السابق
-    $img = $product['cover'] ? $_SERVER['HTTP_HOST'] . 'uploads/images/products/cover/' . $product['cover'] : '';
+    $img = $product['cover'];
 
     // جلب الخيارات
     $options = safeQuery($pdo, "SELECT * FROM productOptions WHERE productId = ? AND enabled = 1", [$pid]);
