@@ -70,7 +70,7 @@ try {
     // =======================================================
     // اللوب الأول: المنتجات (Products)
     // =======================================================
-    $stmtProd = $pdo->prepare("INSERT INTO products (name, description, price, cover, createdAt) VALUES (?, ?, ?, ?, NOW())");
+    $stmtProd = $pdo->prepare("INSERT INTO products (name, description, cover, createdAt) VALUES (?, ?, ?, NOW())");
 
     foreach ($input['products'] as $prod) {
         $oldId = $prod['id']; // الـ ID في السرفر الرئيسي
