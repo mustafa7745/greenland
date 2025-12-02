@@ -7,10 +7,26 @@ header('Content-Type: application/json');
 
 // 1. الحماية
 $headers = getallheaders();
-$sentKey = $headers['X-API-KEY'] ?? '';
-if ($sentKey !== "SECRET_KEY_123") {
+$sentKey = '';
+
+if (isset($_SERVER['HTTP_X_API_KEY'])) {
+    $sentKey = $_SERVER['HTTP_X_API_KEY'];
+} elseif (function_exists('apache_request_headers')) {
+    // محاولة بديلة للسرفرات القديمة
+    $headers = apache_request_headers();
+    // بعض السرفرات ترجع الهيدر بحروف صغيرة x-api-key
+    $sentKey = $headers['X-API-KEY'] ?? $headers['x-api-key'] ?? '';
+}
+
+// مقارنة المفتاح
+if (trim($sentKey) !== "SECRET_KEY_123") {
     http_response_code(403);
-    exit(json_encode(['error' => 'Unauthorized 1']));
+    // لنطبع المفتاح الذي وصل لنعرف المشكلة (لأغراض التصحيح فقط)
+    exit(json_encode([
+        'error' => 'Unauthorized',
+        'received_key' => $sentKey, // هذا سيخبرك ماذا وصل بالضبط
+        'server_headers' => array_keys($_SERVER) // لنرى ما هي الهيدرات المتاحة
+    ]));
 }
 
 // 2. الاتصال بالقاعدة
