@@ -19,10 +19,22 @@ const placeholderImg =
 
 // --- Init ---
 window.onload = async () => {
+  // Initialize History State
+  history.replaceState({ view: 'view-home' }, null, "");
   await loadData(0);
 };
 
 function navigateTo(viewId) {
+  // If we are already on this view, do nothing
+  if (history.state && history.state.view === viewId) return;
+
+  // Push new state
+  history.pushState({ view: viewId }, null, "");
+
+  updateView(viewId);
+}
+
+function updateView(viewId) {
   document
     .querySelectorAll(".page-section")
     .forEach((el) => el.classList.remove("active"));
@@ -67,13 +79,11 @@ function renderCategories() {
   document.getElementById("categories-container").innerHTML = allCategories
     .map(
       (c) => `
-                <button onclick="setCat('${
-                  c.id
-                }')" class="px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition-all ${
-        activeCategory == c.id
+                <button onclick="setCat('${c.id
+        }')" class="px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition-all ${activeCategory == c.id
           ? "bg-apple-500 text-white shadow-md scale-105 shadow-apple-500/30"
           : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-      }">
+        }">
                     ${c.name}
                 </button>
             `
@@ -104,18 +114,14 @@ function renderGrid(products) {
   grid.innerHTML = products
     .map(
       (p) => `
-                <div onclick="showProductPage(${
-                  p.id
-                })" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 cursor-pointer active:scale-95 transition group hover:shadow-md">
-                    <div class="h-32 w-full overflow-hidden rounded-xl mb-3 bg-gray-100"><img src="${
-                      p.image_url
-                    }" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" onerror="this.src='${placeholderImg}'"></div>
-                    <h3 class="font-bold text-gray-800 text-sm mb-1 line-clamp-1">${
-                      p.name
-                    }</h3>
-                    <p class="text-xs text-gray-400 truncate">${
-                      p.description || ""
-                    }</p>
+                <div onclick="showProductPage(${p.id
+        })" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 cursor-pointer active:scale-95 transition group hover:shadow-md">
+                    <div class="h-32 w-full overflow-hidden rounded-xl mb-3 bg-gray-100"><img src="${p.image_url
+        }" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" onerror="this.src='${placeholderImg}'"></div>
+                    <h3 class="font-bold text-gray-800 text-sm mb-1 line-clamp-1">${p.name
+        }</h3>
+                    <p class="text-xs text-gray-400 truncate">${p.description || ""
+        }</p>
                 </div>
             `
     )
@@ -227,18 +233,17 @@ function openAddonsModal() {
       .map(
         (grp, gIdx) => `
                     <div class="mb-6">
-                        <h4 class="font-bold text-gray-800 mb-3 text-sm bg-gray-100 inline-block px-3 py-1 rounded-lg">${
-                          grp.title
-                        }</h4>
+                        <h4 class="font-bold text-gray-800 mb-3 text-sm bg-gray-100 inline-block px-3 py-1 rounded-lg">${grp.title
+          }</h4>
                         <div class="space-y-3">
                             ${grp.options
-                              .map((opt, oIdx) => {
-                                const modId = `mod_${gIdx}_${oIdx}`;
-                                // نتحقق هل الإضافة موجودة مسبقاً (في حالة التعديل)
-                                const currentQty = currentModifiers[modId]
-                                  ? currentModifiers[modId].qty
-                                  : 0;
-                                return `
+            .map((opt, oIdx) => {
+              const modId = `mod_${gIdx}_${oIdx}`;
+              // نتحقق هل الإضافة موجودة مسبقاً (في حالة التعديل)
+              const currentQty = currentModifiers[modId]
+                ? currentModifiers[modId].qty
+                : 0;
+              return `
                                 <div class="flex items-center justify-between p-3 border border-gray-100 rounded-xl bg-white shadow-sm">
                                     <div class="flex flex-col">
                                         <span class="text-gray-700 font-bold text-sm">${opt.name}</span>
@@ -251,8 +256,8 @@ function openAddonsModal() {
                                     </div>
                                 </div>
                             `;
-                              })
-                              .join("")}
+            })
+            .join("")}
                         </div>
                     </div>
                 `
@@ -420,32 +425,28 @@ function openCartPage() {
         return `
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start animate-fade-in">
                         <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg">${
-                              item.productName
-                            }</h3>
+                            <h3 class="font-bold text-gray-800 text-lg">${item.productName
+          }</h3>
                             <div class="text-sm text-gray-500 mt-1 space-y-1">
-                                <span class="bg-apple-50 text-apple-700 px-2 py-0.5 rounded text-xs font-bold border border-apple-100">${
-                                  item.variant
-                                }</span>
-                                ${
-                                  modsText
-                                    ? `<div class="text-xs text-gray-600 mt-1 flex items-center gap-1"><span class="text-apple-500">➕</span> ${modsText}</div>`
-                                    : ""
-                                }
+                                <span class="bg-apple-50 text-apple-700 px-2 py-0.5 rounded text-xs font-bold border border-apple-100">${item.variant
+          }</span>
+                                ${modsText
+            ? `<div class="text-xs text-gray-600 mt-1 flex items-center gap-1"><span class="text-apple-500">➕</span> ${modsText}</div>`
+            : ""
+          }
                             </div>
                             <div class="mt-3 font-bold text-gray-800 flex items-center gap-2">
                                 <span class="text-xs text-gray-400">سعر الوحدة: ${item.unitPrice.toFixed(
-                                  2
-                                )}</span>
-                                <span class="bg-gray-100 px-2 rounded text-sm">x${
-                                  item.qty
-                                }</span>
+            2
+          )}</span>
+                                <span class="bg-gray-100 px-2 rounded text-sm">x${item.qty
+          }</span>
                             </div>
                         </div>
                         <div class="flex flex-col items-end gap-3 justify-between h-full pl-2">
                             <span class="font-bold text-lg text-apple-500">${item.total.toFixed(
-                              2
-                            )}</span>
+            2
+          )}</span>
                             <div class="flex gap-2">
                                 <button onclick="editCartItem(${idx})" class="text-blue-500 bg-blue-50 p-2 rounded-lg hover:bg-blue-100 transition shadow-sm" title="تعديل">✏️</button>
                                 <button onclick="removeFromCart(${idx})" class="text-red-500 bg-red-50 p-2 rounded-lg hover:bg-red-100 transition shadow-sm" title="حذف">🗑️</button>
@@ -560,14 +561,43 @@ async function registerVisitor() {
 // استدعاء عند فتح الموقع
 registerVisitor();
 
-// منع الرجوع دون تأكيد
-history.pushState(null, null, location.href);
+// --- Navigation & Exit Logic ---
 
-window.addEventListener("popstate", function () {
-  const confirmExit = confirm("هل تريد الخروج من الموقع؟");
-  if (confirmExit) {
-    history.back(); // يرجع فعلياً
+// Handle Back Button
+window.addEventListener("popstate", function (event) {
+  if (event.state && event.state.view) {
+    // Navigate back within the app
+    updateView(event.state.view);
+    // Close any open modals if necessary (like addons modal)
+    closeAddons();
   } else {
-    history.pushState(null, null, location.href); // يبقى في نفس الصفحة
+    // We reached the initial state or no state -> Show Exit Confirmation
+    // Push state again to prevent actual exit until confirmed
+    history.pushState(null, null, location.href);
+    showExitModal();
   }
 });
+
+function showExitModal() {
+  document.getElementById("exit-modal").classList.remove("hidden");
+}
+
+function confirmExit(shouldExit) {
+  const modal = document.getElementById("exit-modal");
+  modal.classList.add("hidden");
+
+  if (shouldExit) {
+    // User wants to exit
+    // We need to go back twice: once to undo the pushState in popstate handler, 
+    // and once to actually leave.
+    // However, since we pushed state in the handler, 'back()' will just take us to the state before the handler pushed.
+    // To truly exit, we might need to close the window or navigate away.
+    // Since browsers block window.close(), we can try history.go(-2) or just let them be.
+    // A common pattern for "App-like" exit in browser is difficult.
+    // We will try to go back to the real previous page.
+    history.go(-2);
+  }
+}
+
+// Initial push to ensure we have a state to pop from
+history.pushState({ view: 'view-home' }, null, "");
