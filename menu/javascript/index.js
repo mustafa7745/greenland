@@ -559,3 +559,7 @@ async function registerVisitor() {
 
 // استدعاء عند فتح الموقع
 registerVisitor();
+
+window.onbeforeunload = function () {
+  return "هل أنت متأكد من خروجك من الموقع؟";
+};
