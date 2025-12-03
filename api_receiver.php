@@ -57,8 +57,6 @@ try {
 ");
     $stmtProd = $pdo->prepare("INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) VALUES (?, ?, ?, ?, ?, NOW())");
     $stmtImg = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
-    $stmtAdd = $pdo->prepare("INSERT INTO productAddons (id,productId, name, price, isHidden, enabled, orderNo, storeBranchId, orderAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-    $stmtOpt = $pdo->prepare("INSERT INTO productOptions (id,productId, name, description, price, prePrice, info, isHidden, enabled, orderNo, orderAt, storeBranchId, cover, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW())");
 
 
     // =======================================================
@@ -123,62 +121,66 @@ try {
 
 
 
-    if (isset($input['productsImages']) && is_array($input['productsImages'])) {
-        foreach ($input['productsImages'] as $imgItem) {
-            $imgUrl = $imgItem['image'];
-            $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
+    // if (isset($input['productsImages']) && is_array($input['productsImages'])) {
+    //     foreach ($input['productsImages'] as $imgItem) {
+    //         $imgUrl = $imgItem['image'];
+    //         $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
 
-            if ($localImgName) {
-                $stmtImg->execute([
-                    $imgItem['productId'],
-                    $imgItem['storeBranchId'],
-                    $localImgName
-                ]);
-                $report['images_synced']++;
-            }
-        }
-    }
+    //         if ($localImgName) {
+    //             $stmtImg->execute([
+    //                 $imgItem['productId'],
+    //                 $imgItem['storeBranchId'],
+    //                 $localImgName
+    //             ]);
+    //             $report['images_synced']++;
+    //         }
+    //     }
+    // }
 
-    if (isset($input['productOptions']) && is_array($input['productOptions'])) {
-        foreach ($input['productOptions'] as $option) {
+    // if (isset($input['productOptions']) && is_array($input['productOptions'])) {
+    //     foreach ($input['productOptions'] as $option) {
 
 
-            $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
-            $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
+    //         $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
+    //         $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
 
-            $stmtOpt->execute([
-                $option['id'],
-                $option['productId'],
-                $option['name'],
-                $option['description'] ?? '',
-                $option['price'] ?? 0,
-                $option['prePrice'] ?? 0,
-                $option['info'] ?? '[]',
-                $option['isHidden'] ?? 0,
-                $option['enabled'] ?? 1,
-                $option['orderNo'] ?? 1,
-                $option['storeBranchId'] ?? 0,
-                $localOptionCover,
-            ]);
-            $report['options_synced']++;
-        }
-    }
+    //         $stmtOpt->execute([
+    //             $option['id'],
+    //             $option['productId'],
+    //             $option['name'],
+    //             $option['description'] ?? '',
+    //             $option['price'] ?? 0,
+    //             $option['prePrice'] ?? 0,
+    //             $option['info'] ?? '[]',
+    //             $option['isHidden'] ?? 0,
+    //             $option['enabled'] ?? 1,
+    //             $option['orderNo'] ?? 1,
+    //             $option['storeBranchId'] ?? 0,
+    //             $localOptionCover,
+    //         ]);
+    //         $report['options_synced']++;
+    //     }
+    // }
 
 
     // =======================================================
     // 4️⃣ اللوب الرابع: إدراج الإضافات (productAddons)
     // =======================================================
     if (isset($input['productAddons']) && is_array($input['productAddons'])) {
+        $stmtAdd = $pdo->prepare("INSERT INTO productAddons (id,productId, name, price, isHidden, enabled, orderNo, storeBranchId, orderAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
+
         foreach ($input['productAddons'] as $addon) {
             $stmtAdd->execute([
                 $addon['id'],
                 $addon['productId'],
                 $addon['name'],
-                $addon['price'] ?? 0,
+                $addon['price'],
                 $addon['isHidden'] ?? 0,
                 $addon['enabled'] ?? 1,
                 $addon['orderNo'] ?? 1,
                 $addon['storeBranchId'] ?? 0,
+                $addon['orderAt'],
+                $addon['caretedAt'],
             ]);
             $report['addons_synced']++;
         }
