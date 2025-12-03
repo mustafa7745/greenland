@@ -121,21 +121,21 @@ try {
 
 
 
-    // if (isset($input['productsImages']) && is_array($input['productsImages'])) {
-    //     foreach ($input['productsImages'] as $imgItem) {
-    //         $imgUrl = $imgItem['image'];
-    //         $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
+    if (isset($input['productsImages']) && is_array($input['productsImages'])) {
+        foreach ($input['productsImages'] as $imgItem) {
+            $imgUrl = $imgItem['image'];
+            $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
 
-    //         if ($localImgName) {
-    //             $stmtImg->execute([
-    //                 $imgItem['productId'],
-    //                 $imgItem['storeBranchId'],
-    //                 $localImgName
-    //             ]);
-    //             $report['images_synced']++;
-    //         }
-    //     }
-    // }
+            if ($localImgName) {
+                $stmtImg->execute([
+                    $imgItem['productId'],
+                    $imgItem['storeBranchId'],
+                    $localImgName
+                ]);
+                $report['images_synced']++;
+            }
+        }
+    }
 
     if (isset($input['productOptions']) && is_array($input['productOptions'])) {
         foreach ($input['productOptions'] as $option) {
