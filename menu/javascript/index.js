@@ -560,6 +560,14 @@ async function registerVisitor() {
 // استدعاء عند فتح الموقع
 registerVisitor();
 
-window.onbeforeunload = function () {
-  return "هل أنت متأكد من خروجك من الموقع؟";
-};
+// منع الرجوع دون تأكيد
+history.pushState(null, null, location.href);
+
+window.addEventListener("popstate", function () {
+  const confirmExit = confirm("هل تريد الخروج من الموقع؟");
+  if (confirmExit) {
+    history.back(); // يرجع فعلياً
+  } else {
+    history.pushState(null, null, location.href); // يبقى في نفس الصفحة
+  }
+});
