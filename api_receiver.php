@@ -137,30 +137,33 @@ try {
     //     }
     // }
 
-    // if (isset($input['productOptions']) && is_array($input['productOptions'])) {
-    //     foreach ($input['productOptions'] as $option) {
+    if (isset($input['productOptions']) && is_array($input['productOptions'])) {
+        foreach ($input['productOptions'] as $option) {
 
+    $stmtOpt = $pdo->prepare("INSERT INTO productOptions (id,productId, name, description, price, prePrice, info, isHidden, enabled, orderNo, orderAt, storeBranchId, cover, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    //         $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
-    //         $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
+            $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
+            $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
 
-    //         $stmtOpt->execute([
-    //             $option['id'],
-    //             $option['productId'],
-    //             $option['name'],
-    //             $option['description'] ?? '',
-    //             $option['price'] ?? 0,
-    //             $option['prePrice'] ?? 0,
-    //             $option['info'] ?? '[]',
-    //             $option['isHidden'] ?? 0,
-    //             $option['enabled'] ?? 1,
-    //             $option['orderNo'] ?? 1,
-    //             $option['storeBranchId'] ?? 0,
-    //             $localOptionCover,
-    //         ]);
-    //         $report['options_synced']++;
-    //     }
-    // }
+            $stmtOpt->execute([
+                $option['id'],
+                $option['productId'],
+                $option['name'],
+                $option['description'] ?? '',
+                $option['price'] ?? 0,
+                $option['prePrice'] ?? 0,
+                $option['info'] ?? '[]',
+                $option['isHidden'] ?? 0,
+                $option['enabled'] ,
+                $option['orderNo'] ,
+                $option['storeBranchId'],
+                $localOptionCover,
+                $option['createdAt'],
+
+            ]);
+            $report['options_synced']++;
+        }
+    }
 
 
     // =======================================================
