@@ -9,7 +9,6 @@
     <title>المطعم الاحترافي</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
-
     <script>
       tailwind.config = {
         theme: {
@@ -79,13 +78,25 @@
   <body class="bg-gray-50 pb-20">
     <div id="view-home" class="page-section active relative">
       <header class="sticky top-0 z-10 bg-white shadow-sm pb-2">
-        <div class="flex justify-between items-center p-4">
-          <h1 class="text-xl font-bold text-gray-800">🥗 قائمة الطعام</h1>
+        <div class="flex justify-between items-center p-4 bg-white shadow-md">
+          <!-- Logo + Name -->
+          <div class="flex items-center gap-3">
+            <img
+              src="images/logo.jpg"
+              alt="Logo"
+              class="w-12 h-12 object-cover rounded-full shadow-sm"
+            />
+            <h2 class="text-xl font-bold text-gray-800 whitespace-nowrap">
+              مطعم الأرض الخضراء
+            </h2>
+          </div>
+
+          <!-- Cart Icon -->
           <div
             onclick="openCartPage()"
-            class="relative bg-apple-50 p-2 rounded-full cursor-pointer hover:bg-apple-100 transition"
+            class="relative bg-gray-100 p-3 rounded-full cursor-pointer hover:bg-gray-200 transition"
           >
-            <span class="text-xl">🛒</span>
+            <span class="text-2xl">🛒</span>
             <span
               id="home-cart-count"
               class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
