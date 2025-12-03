@@ -167,7 +167,7 @@ try {
     // 4️⃣ اللوب الرابع: إدراج الإضافات (productAddons)
     // =======================================================
     if (isset($input['productAddons']) && is_array($input['productAddons'])) {
-        $stmtAdd = $pdo->prepare("INSERT INTO productAddons (id,productId, name, price, isHidden, enabled, orderNo, storeBranchId, orderAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
+        $stmtAdd = $pdo->prepare("INSERT INTO productAddons (id,productId, name, price, isHidden, enabled, orderNo, storeBranchId, orderAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)");
 
         foreach ($input['productAddons'] as $addon) {
             $stmtAdd->execute([
@@ -175,12 +175,12 @@ try {
                 $addon['productId'],
                 $addon['name'],
                 $addon['price'],
-                $addon['isHidden'] ?? 0,
-                $addon['enabled'] ?? 1,
-                $addon['orderNo'] ?? 1,
-                $addon['storeBranchId'] ?? 0,
+                $addon['isHidden'],
+                $addon['enabled'],
+                $addon['orderNo'],
+                $addon['storeBranchId'],
                 $addon['orderAt'],
-                $addon['caretedAt'],
+                $addon['createdAt'],
             ]);
             $report['addons_synced']++;
         }
