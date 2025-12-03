@@ -13,21 +13,6 @@ let searchTimeout = null;
 
 // متغير لتتبع حالة التعديل (إذا كان -1 يعني إضافة جديدة، غير ذلك يعني رقم العنصر في السلة)
 let editingCartIndex = -1;
-// --- State Variables ---
-let allCategories = [];
-let currentProducts = [];
-let activeCategory = 0;
-
-let currentProduct = null;
-let selectedPrimaryOption = null;
-let currentModifiers = {};
-let mainQty = 1;
-
-let cart = [];
-let searchTimeout = null;
-
-// متغير لتتبع حالة التعديل (إذا كان -1 يعني إضافة جديدة، غير ذلك يعني رقم العنصر في السلة)
-let editingCartIndex = -1;
 
 const placeholderImg =
   "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22300%22%20height%3D%22300%22%20viewBox%3D%220%200%20300%20300%22%3E%3Crect%20fill%3D%22%23f3f4f6%22%20width%3D%22300%22%20height%3D%22300%22%2F%3E%3Ctext%20fill%3D%22%239ca3af%22%20font-family%3D%22sans-serif%22%20font-size%3D%2230%22%20dy%3D%2210.5%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E%F0%9F%93%B7%3C%2Ftext%3E%3C%2Fsvg%3E";
@@ -132,7 +117,10 @@ async function loadData(catId) {
 }
 
 function renderCategories() {
-  document.getElementById("categories-container").innerHTML = allCategories
+  const container = document.getElementById("categories-container");
+  if (!container) return;
+
+  container.innerHTML = allCategories
     .map(
       (c) => `
                 <button onclick="setCat('${c.id
@@ -151,7 +139,8 @@ function setCat(id) {
   if (id != activeCategory) {
     activeCategory = id;
     renderCategories();
-    document.getElementById("searchInput").value = "";
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) searchInput.value = "";
     loadData(id);
   }
 }
@@ -191,10 +180,13 @@ function goToProduct(pid) {
 }
 
 function handleSearch() {
-  const query = document.getElementById("searchInput").value.trim();
-  const scope = document.querySelector(
-    'input[name="searchScope"]:checked'
-  ).value;
+  const searchInput = document.getElementById("searchInput");
+  if (!searchInput) return;
+
+  const query = searchInput.value.trim();
+  const scopeEl = document.querySelector('input[name="searchScope"]:checked');
+  const scope = scopeEl ? scopeEl.value : "category";
+
   const grid = document.getElementById("products-grid");
 
   if (query === "") {
@@ -208,8 +200,8 @@ function handleSearch() {
     renderGrid(filtered);
   } else {
     clearTimeout(searchTimeout);
-    grid.innerHTML =
-      '<div class="col-span-full text-center py-10 text-gray-400">جاري البحث...</div>';
+    if (grid) grid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">جاري البحث...</div>';
+
     searchTimeout = setTimeout(async () => {
       try {
         const res = await fetch(`api.php?search=${encodeURIComponent(query)}`);
@@ -221,8 +213,7 @@ function handleSearch() {
           });
           renderGrid(data.products);
         } else {
-          grid.innerHTML =
-            '<div class="col-span-full text-center py-10 text-gray-400">لا نتائج</div>';
+          if (grid) grid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">لا نتائج</div>';
         }
       } catch (e) {
         console.error(e);
@@ -427,10 +418,15 @@ function addToCart() {
   saveCartToStorage(); // Save to local storage
   closeAddons();
 
-  // If on product page, go back to home or stay? Usually go back to home or show success.
-  // Let's go back to home as per typical flow, or maybe just show a toast?
-  // User asked for separate pages.
-  window.location.href = "index.html";
+  // Navigate based on context
+  if (window.location.pathname.includes("cart.html")) {
+    openCartPage(); // Refresh cart
+  } else {
+    // If on product page, go back to home or stay? Usually go back to home or show success.
+    // Let's go back to home as per typical flow, or maybe just show a toast?
+    // User asked for separate pages.
+    window.location.href = "index.html";
+  }
 }
 
 // --- ميزة التعديل الجديدة ---
@@ -500,7 +496,8 @@ function openCartPage() {
   if (cart.length === 0) {
     container.innerHTML =
       '<div class="text-center py-20 text-gray-400 flex flex-col items-center"><span class="text-6xl mb-4">🛒</span><span>السلة فارغة</span></div>';
-    document.getElementById("cart-grand-total").innerText = "0 ريال";
+    const grandTotal = document.getElementById("cart-grand-total");
+    if (grandTotal) grandTotal.innerText = "0 ريال";
   } else {
     container.innerHTML = cart
       .map((item, idx) => {
