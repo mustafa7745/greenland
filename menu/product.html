@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>تفاصيل المنتج | المطعم الاحترافي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            50: "#f4f9f0",
+                            100: "#e1f0d5",
+                            500: "#4a7c00", // تفاحي غامق (اللون الأساسي الجديد)
+                            600: "#3a6100", // عند الضغط
+                            700: "#2d4b00",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: "Tajawal", sans-serif;
+            background-color: #f8f9fa;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Modal Animation */
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-up {
+            animation: slideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 pb-20">
+    <div id="view-product" class="bg-white min-h-screen relative">
+        <div class="absolute top-4 right-4 z-30">
+            <button onclick="window.location.href='index.html'"
+                class="bg-white/80 backdrop-blur p-2 px-4 rounded-full shadow-lg text-gray-700 font-bold hover:bg-white text-xs">
+                ✕ إغلاق
+            </button>
+        </div>
+        <div class="h-[40vh] w-full relative">
+            <img id="p-page-img" src="" class="w-full h-full object-cover bg-gray-200" />
+            <div class="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
+        </div>
+        <div class="px-5 -mt-10 relative z-10">
+            <h1 id="p-page-title" class="text-2xl font-extrabold text-gray-800 mb-2"></h1>
+            <p id="p-page-desc" class="text-gray-500 leading-relaxed text-sm mb-6"></p>
+            <div class="border-t border-gray-100 pt-6">
+                <h3 class="font-bold text-gray-800 mb-4 text-sm bg-gray-100 inline-block px-3 py-1 rounded-lg">
+                    الخطوة 1: اختر النوع
+                </h3>
+                <div id="primary-options-grid" class="space-y-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addons-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeAddons()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl h-[80vh] flex flex-col modal-up">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-3xl">
+                <div>
+                    <span class="text-xs text-gray-500 block">تفاصيل الطلب:</span>
+                    <span id="selected-variant-name" class="font-bold text-gray-800 text-sm"></span>
+                </div>
+                <button onclick="closeAddons()" class="text-gray-400 text-xl p-2">
+                    ✕
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-5" id="secondary-options-container"></div>
+
+            <div class="p-4 border-t border-gray-100 bg-white sticky bottom-0">
+                <div class="flex justify-center items-center gap-6 mb-4">
+                    <span class="text-sm font-bold text-gray-400">العدد:</span>
+                    <div class="flex items-center gap-4 bg-gray-100 rounded-full px-2 py-1">
+                        <button onclick="updateMainQty(-1)"
+                            class="w-8 h-8 flex items-center justify-center font-bold text-lg hover:bg-gray-200 rounded-full transition">
+                            -
+                        </button>
+                        <span id="final-qty" class="text-lg font-bold w-6 text-center">1</span>
+                        <button onclick="updateMainQty(1)"
+                            class="w-8 h-8 flex items-center justify-center font-bold text-lg hover:bg-gray-200 rounded-full transition">
+                            +
+                        </button>
+                    </div>
+                </div>
+                <button id="add-to-cart-btn" onclick="addToCart()"
+                    class="w-full bg-apple-500 text-white py-3.5 rounded-xl font-bold text-lg shadow-lg flex justify-between px-6 active:scale-95 transition hover:bg-apple-600 shadow-apple-500/30">
+                    <span id="add-btn-text">إضافة للسلة</span>
+                    <span id="final-price-btn">0 ريال</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="javascript/index.js"></script>
+</body>
+
+</html>

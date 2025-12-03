@@ -13,33 +13,89 @@ let searchTimeout = null;
 
 // متغير لتتبع حالة التعديل (إذا كان -1 يعني إضافة جديدة، غير ذلك يعني رقم العنصر في السلة)
 let editingCartIndex = -1;
+// --- State Variables ---
+let allCategories = [];
+let currentProducts = [];
+let activeCategory = 0;
+
+let currentProduct = null;
+let selectedPrimaryOption = null;
+let currentModifiers = {};
+let mainQty = 1;
+
+let cart = [];
+let searchTimeout = null;
+
+// متغير لتتبع حالة التعديل (إذا كان -1 يعني إضافة جديدة، غير ذلك يعني رقم العنصر في السلة)
+let editingCartIndex = -1;
 
 const placeholderImg =
   "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22300%22%20height%3D%22300%22%20viewBox%3D%220%200%20300%20300%22%3E%3Crect%20fill%3D%22%23f3f4f6%22%20width%3D%22300%22%20height%3D%22300%22%2F%3E%3Ctext%20fill%3D%22%239ca3af%22%20font-family%3D%22sans-serif%22%20font-size%3D%2230%22%20dy%3D%2210.5%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E%F0%9F%93%B7%3C%2Ftext%3E%3C%2Fsvg%3E";
 
 // --- Init ---
 window.onload = async () => {
-  // Initialize History State
-  history.replaceState({ view: 'view-home' }, null, "");
-  await loadData(0);
+  // Load Cart from LocalStorage
+  loadCartFromStorage();
+
+  const path = window.location.pathname;
+
+  if (path.includes("product.html")) {
+    await initProductPage();
+  } else if (path.includes("cart.html")) {
+    openCartPage(); // Initialize cart page logic
+  } else {
+    // Home page (default)
+    await loadData(0);
+    // Setup exit confirmation only on Home
+    setupExitConfirmation();
+  }
+
+  updateCartUI();
 };
 
-function navigateTo(viewId) {
-  // If we are already on this view, do nothing
-  if (history.state && history.state.view === viewId) return;
-
-  // Push new state
-  history.pushState({ view: viewId }, null, "");
-
-  updateView(viewId);
+// Helper to get URL params
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
 }
 
-function updateView(viewId) {
-  document
-    .querySelectorAll(".page-section")
-    .forEach((el) => el.classList.remove("active"));
-  document.getElementById(viewId).classList.add("active");
-  window.scrollTo(0, 0);
+async function initProductPage() {
+  const pid = getQueryParam("id");
+  if (!pid) {
+    alert("منتج غير موجود");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // We need to fetch data to find the product
+  // In a real app, we might fetch just this product: api.php?id=...
+  // For now, we reuse loadData logic but just to get the list
+  await loadData(0); // This fills currentProducts
+
+  const product = currentProducts.find(p => p.id == pid);
+  if (product) {
+    showProductPage(product);
+  } else {
+    alert("المنتج غير موجود في القائمة");
+    window.location.href = "index.html";
+  }
+}
+
+function loadCartFromStorage() {
+  const stored = localStorage.getItem("greenland_cart");
+  if (stored) {
+    try {
+      cart = JSON.parse(stored);
+    } catch (e) {
+      console.error("Failed to parse cart", e);
+      cart = [];
+    }
+  }
+}
+
+function saveCartToStorage() {
+  localStorage.setItem("greenland_cart", JSON.stringify(cart));
+  updateCartUI();
 }
 
 // --- API & Data ---
@@ -106,6 +162,8 @@ function renderHome() {
 
 function renderGrid(products) {
   const grid = document.getElementById("products-grid");
+  if (!grid) return; // Not on home page
+
   if (!products || products.length === 0) {
     grid.innerHTML =
       '<div class="col-span-full text-center py-20 text-gray-400 flex flex-col items-center"><span class="text-4xl mb-2">🍽️</span><span>لا توجد منتجات</span></div>';
@@ -114,7 +172,7 @@ function renderGrid(products) {
   grid.innerHTML = products
     .map(
       (p) => `
-                <div onclick="showProductPage(${p.id
+                <div onclick="goToProduct(${p.id
         })" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 cursor-pointer active:scale-95 transition group hover:shadow-md">
                     <div class="h-32 w-full overflow-hidden rounded-xl mb-3 bg-gray-100"><img src="${p.image_url
         }" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" onerror="this.src='${placeholderImg}'"></div>
@@ -126,6 +184,10 @@ function renderGrid(products) {
             `
     )
     .join("");
+}
+
+function goToProduct(pid) {
+  window.location.href = `product.html?id=${pid}`;
 }
 
 function handleSearch() {
@@ -170,36 +232,42 @@ function handleSearch() {
 }
 
 // --- Product View ---
-function showProductPage(pid) {
-  currentProduct = currentProducts.find((p) => p.id == pid);
-  if (!currentProduct) return;
+function showProductPage(product) {
+  currentProduct = product;
+  // No need to find it again, we passed it
 
-  document.getElementById("p-page-img").src = currentProduct.image_url;
-  document.getElementById("p-page-title").innerText = currentProduct.name;
-  document.getElementById("p-page-desc").innerText = currentProduct.description;
+  const imgEl = document.getElementById("p-page-img");
+  if (imgEl) imgEl.src = currentProduct.image_url;
+
+  const titleEl = document.getElementById("p-page-title");
+  if (titleEl) titleEl.innerText = currentProduct.name;
+
+  const descEl = document.getElementById("p-page-desc");
+  if (descEl) descEl.innerText = currentProduct.description;
 
   const modifiers = currentProduct.modifiers || [];
   const container = document.getElementById("primary-options-grid");
 
-  if (modifiers.length > 0) {
-    const firstGroup = modifiers[0];
-    container.innerHTML = firstGroup.options
-      .map(
-        (opt) => `
-                    <div onclick="selectPrimaryOption(${opt.price}, '${opt.name}')" class="flex justify-between items-center p-4 border border-gray-200 rounded-xl hover:border-apple-500 hover:bg-apple-50 cursor-pointer transition shadow-sm bg-white mb-2 group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-apple-500"></div>
-                            <span class="font-bold text-gray-700">${opt.name}</span>
+  if (container) {
+    if (modifiers.length > 0) {
+      const firstGroup = modifiers[0];
+      container.innerHTML = firstGroup.options
+        .map(
+          (opt) => `
+                        <div onclick="selectPrimaryOption(${opt.price}, '${opt.name}')" class="flex justify-between items-center p-4 border border-gray-200 rounded-xl hover:border-apple-500 hover:bg-apple-50 cursor-pointer transition shadow-sm bg-white mb-2 group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-apple-500"></div>
+                                <span class="font-bold text-gray-700">${opt.name}</span>
+                            </div>
+                            <span class="font-bold text-apple-500">${opt.price} ريال</span>
                         </div>
-                        <span class="font-bold text-apple-500">${opt.price} ريال</span>
-                    </div>
-                `
-      )
-      .join("");
-  } else {
-    container.innerHTML = `<div onclick="selectPrimaryOption(${currentProduct.price}, 'Default')" class="w-full bg-apple-500 text-white p-4 rounded-xl font-bold text-center shadow-lg cursor-pointer hover:bg-apple-600">اطلب الآن (${currentProduct.price} ريال)</div>`;
+                    `
+        )
+        .join("");
+    } else {
+      container.innerHTML = `<div onclick="selectPrimaryOption(${currentProduct.price}, 'Default')" class="w-full bg-apple-500 text-white p-4 rounded-xl font-bold text-center shadow-lg cursor-pointer hover:bg-apple-600">اطلب الآن (${currentProduct.price} ريال)</div>`;
+    }
   }
-  navigateTo("view-product");
 }
 
 // --- MODAL: Selection & Logic ---
@@ -225,44 +293,46 @@ function openAddonsModal() {
   const container = document.getElementById("secondary-options-container");
   const addOnsGroups = modifiers.slice(1);
 
-  if (addOnsGroups.length === 0) {
-    container.innerHTML =
-      '<div class="text-center text-gray-400 py-10 bg-gray-50 rounded-xl">لا توجد إضافات لهذا الصنف</div>';
-  } else {
-    container.innerHTML = addOnsGroups
-      .map(
-        (grp, gIdx) => `
-                    <div class="mb-6">
-                        <h4 class="font-bold text-gray-800 mb-3 text-sm bg-gray-100 inline-block px-3 py-1 rounded-lg">${grp.title
-          }</h4>
-                        <div class="space-y-3">
-                            ${grp.options
-            .map((opt, oIdx) => {
-              const modId = `mod_${gIdx}_${oIdx}`;
-              // نتحقق هل الإضافة موجودة مسبقاً (في حالة التعديل)
-              const currentQty = currentModifiers[modId]
-                ? currentModifiers[modId].qty
-                : 0;
-              return `
-                                <div class="flex items-center justify-between p-3 border border-gray-100 rounded-xl bg-white shadow-sm">
-                                    <div class="flex flex-col">
-                                        <span class="text-gray-700 font-bold text-sm">${opt.name}</span>
-                                        <span class="text-xs text-apple-500 font-bold">+${opt.price} ريال</span>
-                                    </div>
-                                    <div class="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
-                                        <button onclick="updateModifierQty('${modId}', '${opt.name}', ${opt.price}, -1)" class="w-8 h-8 rounded-lg bg-white shadow text-gray-600 font-bold hover:bg-red-50 hover:text-red-500">-</button>
-                                        <span id="qty_${modId}" class="font-bold w-4 text-center text-sm">${currentQty}</span>
-                                        <button onclick="updateModifierQty('${modId}', '${opt.name}', ${opt.price}, 1)" class="w-8 h-8 rounded-lg bg-black text-white shadow font-bold hover:bg-gray-800">+</button>
-                                    </div>
-                                </div>
-                            `;
-            })
-            .join("")}
-                        </div>
-                    </div>
-                `
-      )
-      .join("");
+  if (container) {
+    if (addOnsGroups.length === 0) {
+      container.innerHTML =
+        '<div class="text-center text-gray-400 py-10 bg-gray-50 rounded-xl">لا توجد إضافات لهذا الصنف</div>';
+    } else {
+      container.innerHTML = addOnsGroups
+        .map(
+          (grp, gIdx) => `
+                      <div class="mb-6">
+                          <h4 class="font-bold text-gray-800 mb-3 text-sm bg-gray-100 inline-block px-3 py-1 rounded-lg">${grp.title
+            }</h4>
+                          <div class="space-y-3">
+                              ${grp.options
+              .map((opt, oIdx) => {
+                const modId = `mod_${gIdx}_${oIdx}`;
+                // نتحقق هل الإضافة موجودة مسبقاً (في حالة التعديل)
+                const currentQty = currentModifiers[modId]
+                  ? currentModifiers[modId].qty
+                  : 0;
+                return `
+                                  <div class="flex items-center justify-between p-3 border border-gray-100 rounded-xl bg-white shadow-sm">
+                                      <div class="flex flex-col">
+                                          <span class="text-gray-700 font-bold text-sm">${opt.name}</span>
+                                          <span class="text-xs text-apple-500 font-bold">+${opt.price} ريال</span>
+                                      </div>
+                                      <div class="flex items-center gap-3 bg-gray-50 rounded-lg p-1">
+                                          <button onclick="updateModifierQty('${modId}', '${opt.name}', ${opt.price}, -1)" class="w-8 h-8 rounded-lg bg-white shadow text-gray-600 font-bold hover:bg-red-50 hover:text-red-500">-</button>
+                                          <span id="qty_${modId}" class="font-bold w-4 text-center text-sm">${currentQty}</span>
+                                          <button onclick="updateModifierQty('${modId}', '${opt.name}', ${opt.price}, 1)" class="w-8 h-8 rounded-lg bg-black text-white shadow font-bold hover:bg-gray-800">+</button>
+                                      </div>
+                                  </div>
+                              `;
+              })
+              .join("")}
+                          </div>
+                      </div>
+                  `
+        )
+        .join("");
+    }
   }
   document.getElementById("addons-modal").classList.remove("hidden");
   calcTotal();
@@ -299,10 +369,12 @@ function calcTotal() {
 
 function updateAddBtnText() {
   const btnText = document.getElementById("add-btn-text");
-  if (editingCartIndex > -1) {
-    btnText.innerText = "حفظ التعديلات";
-  } else {
-    btnText.innerText = "إضافة للسلة";
+  if (btnText) {
+    if (editingCartIndex > -1) {
+      btnText.innerText = "حفظ التعديلات";
+    } else {
+      btnText.innerText = "إضافة للسلة";
+    }
   }
 }
 
@@ -352,14 +424,13 @@ function addToCart() {
     }
   }
 
-  updateCartUI();
+  saveCartToStorage(); // Save to local storage
   closeAddons();
-  // إذا كنا نعدل، نعود للسلة، وإلا نعود للرئيسية
-  if (document.getElementById("view-cart").classList.contains("active")) {
-    openCartPage();
-  } else {
-    navigateTo("view-home");
-  }
+
+  // If on product page, go back to home or stay? Usually go back to home or show success.
+  // Let's go back to home as per typical flow, or maybe just show a toast?
+  // User asked for separate pages.
+  window.location.href = "index.html";
 }
 
 // --- ميزة التعديل الجديدة ---
@@ -400,18 +471,32 @@ function updateCartUI() {
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.total, 0);
 
-  document.getElementById("home-cart-count").innerText = totalQty;
-  document.getElementById("float-count").innerText = totalQty;
-  document.getElementById("float-total").innerText =
-    totalPrice.toFixed(2) + " ريال";
+  const countEl = document.getElementById("home-cart-count");
+  if (countEl) countEl.innerText = totalQty;
 
-  if (totalQty > 0)
-    document.getElementById("sticky-cart").classList.remove("hidden");
-  else document.getElementById("sticky-cart").classList.add("hidden");
+  const floatCount = document.getElementById("float-count");
+  if (floatCount) floatCount.innerText = totalQty;
+
+  const floatTotal = document.getElementById("float-total");
+  if (floatTotal) floatTotal.innerText = totalPrice.toFixed(2) + " ريال";
+
+  const stickyCart = document.getElementById("sticky-cart");
+  if (stickyCart) {
+    if (totalQty > 0) stickyCart.classList.remove("hidden");
+    else stickyCart.classList.add("hidden");
+  }
 }
 
 function openCartPage() {
+  // If we are not on cart page, go there
+  if (!window.location.pathname.includes("cart.html")) {
+    window.location.href = "cart.html";
+    return;
+  }
+
   const container = document.getElementById("cart-items-container");
+  if (!container) return;
+
   if (cart.length === 0) {
     container.innerHTML =
       '<div class="text-center py-20 text-gray-400 flex flex-col items-center"><span class="text-6xl mb-4">🛒</span><span>السلة فارغة</span></div>';
@@ -461,13 +546,12 @@ function openCartPage() {
     document.getElementById("cart-grand-total").innerText =
       totalPrice.toFixed(2) + " ريال";
   }
-  navigateTo("view-cart");
 }
 
 function removeFromCart(idx) {
   if (confirm("هل أنت متأكد من حذف هذا العنصر؟")) {
     cart.splice(idx, 1);
-    updateCartUI();
+    saveCartToStorage();
     openCartPage();
   }
 }
@@ -563,41 +647,28 @@ registerVisitor();
 
 // --- Navigation & Exit Logic ---
 
-// Handle Back Button
-window.addEventListener("popstate", function (event) {
-  if (event.state && event.state.view) {
-    // Navigate back within the app
-    updateView(event.state.view);
-    // Close any open modals if necessary (like addons modal)
-    closeAddons();
-  } else {
-    // We reached the initial state or no state -> Show Exit Confirmation
-    // Push state again to prevent actual exit until confirmed
-    history.pushState(null, null, location.href);
+function setupExitConfirmation() {
+  // Push state to detect back button on Home
+  history.pushState(null, null, location.href);
+
+  window.addEventListener("popstate", function (event) {
+    // Show exit modal
+    history.pushState(null, null, location.href); // Push again to stay
     showExitModal();
-  }
-});
+  });
+}
 
 function showExitModal() {
-  document.getElementById("exit-modal").classList.remove("hidden");
+  const modal = document.getElementById("exit-modal");
+  if (modal) modal.classList.remove("hidden");
 }
 
 function confirmExit(shouldExit) {
   const modal = document.getElementById("exit-modal");
-  modal.classList.add("hidden");
+  if (modal) modal.classList.add("hidden");
 
   if (shouldExit) {
-    // User wants to exit
-    // We need to go back twice: once to undo the pushState in popstate handler, 
-    // and once to actually leave.
-    // However, since we pushed state in the handler, 'back()' will just take us to the state before the handler pushed.
-    // To truly exit, we might need to close the window or navigate away.
-    // Since browsers block window.close(), we can try history.go(-2) or just let them be.
-    // A common pattern for "App-like" exit in browser is difficult.
-    // We will try to go back to the real previous page.
+    // Go back twice to exit (undo pushState)
     history.go(-2);
   }
 }
-
-// Initial push to ensure we have a state to pop from
-history.pushState({ view: 'view-home' }, null, "");
