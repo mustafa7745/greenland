@@ -140,7 +140,13 @@ try {
     if (isset($input['productOptions']) && is_array($input['productOptions'])) {
         foreach ($input['productOptions'] as $option) {
 
-    $stmtOpt = $pdo->prepare("INSERT INTO productOptions (id,productId, name, description, price, prePrice, info, isHidden, enabled, orderNo, orderAt, storeBranchId, cover, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmtOpt = $pdo->prepare("
+                    INSERT INTO productOptions 
+                    (id, productId, name, description, storeNestedSectionId, storeProductViewId,
+                    currencyId, price, prePrice, info, isHidden, enabled, orderNo, orderAt, 
+                    storeBranchId, cover, createdAt)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ");
 
             $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
             $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
@@ -150,18 +156,20 @@ try {
                 $option['productId'],
                 $option['name'],
                 $option['description'] ?? '',
+                $option['storeNestedSectionId'] ?? null,
+                $option['storeProductViewId'] ?? null,
+                $option['currencyId'] ?? 1,
                 $option['price'] ?? 0,
                 $option['prePrice'] ?? 0,
                 $option['info'] ?? '[]',
                 $option['isHidden'] ?? 0,
-                $option['enabled'] ,
-                $option['orderNo'] ,
+                $option['enabled'] ?? 1,
+                $option['orderNo'] ?? 0,
+                $option['orderAt'] ?? null,
                 $option['storeBranchId'],
                 $localOptionCover,
                 $option['createdAt'],
-
             ]);
-            $report['options_synced']++;
         }
     }
 
