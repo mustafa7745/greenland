@@ -125,18 +125,13 @@ try {
 
     if (isset($input['productsImages']) && is_array($input['productsImages'])) {
         foreach ($input['productsImages'] as $imgItem) {
-            $oldProductId = $imgItem['productId'];
-
-            // بما أن الـ ID لم يتغير (فرضناه)، نستخدم $oldProductId مباشرة
-            $newProductId = $oldProductId;
-
             $imgUrl = $imgItem['image'];
             $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", "gallery_{$newProductId}_");
 
             if ($localImgName) {
                 $stmtImg->execute([
-                    $imgItem['productId'] ?? 0,
-                    $imgItem['storeBranchId'] ?? 0,
+                    $imgItem['productId'],
+                    $imgItem['storeBranchId'],
                     $localImgName
                 ]);
                 $report['images_synced']++;
@@ -146,17 +141,14 @@ try {
 
     if (isset($input['productOptions']) && is_array($input['productOptions'])) {
         foreach ($input['productOptions'] as $option) {
-            $oldProductId = $option['productId'];
 
-            // بما أن الـ ID لم يتغير، نستخدم $oldProductId مباشرة
-            $newProductId = $oldProductId;
 
             $optionImgUrl = $S3_OPTION_URL . ($option['cover'] ?? null);
             $localOptionCover = handleImageDownload($optionImgUrl, "$uploadBase/cover/", 'option_');
 
             $stmtOpt->execute([
                 $option['id'],
-                $newProductId,
+                $option['productId'],
                 $option['name'],
                 $option['description'] ?? '',
                 $option['price'] ?? 0,
@@ -178,9 +170,6 @@ try {
     // =======================================================
     if (isset($input['productAddons']) && is_array($input['productAddons'])) {
         foreach ($input['productAddons'] as $addon) {
-            $oldProductId = $addon['productId'];
-
-
             $stmtAdd->execute([
                 $addon['id'],
                 $addon['productId'],
