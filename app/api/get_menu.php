@@ -44,6 +44,14 @@ $productsStmt = $conn->prepare($productsQuery);
 $productsStmt->execute();
 $products = $productsStmt->fetchAll(PDO::FETCH_ASSOC);
 
+$folderStructure = '/uploads/images/products/cover/';
+
+foreach ($products as &$product) {
+    if (!empty($product['cover'])) {
+        $product['cover'] = $folderStructure . $product['cover'];
+    }
+}
+
 // Construct Response
 $response = [
     "categories" => $categories,
