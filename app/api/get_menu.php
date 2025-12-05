@@ -52,12 +52,40 @@ foreach ($products as &$product) {
     }
 }
 
+// Fetch Product Images
+$imagesQuery = "SELECT * FROM productImages WHERE deletedAt IS NULL";
+$imagesStmt = $conn->prepare($imagesQuery);
+$imagesStmt->execute();
+$productImages = $imagesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+$imagesFolder = '/uploads/images/products/images/';
+foreach ($productImages as &$img) {
+    if (!empty($img['image'])) {
+        $img['image'] = $imagesFolder . $img['image'];
+    }
+}
+
+// Fetch Product Options
+$optionsQuery = "SELECT * FROM productOptions WHERE enabled = '1' AND isHidden = '0' ORDER BY orderNo ASC";
+$optionsStmt = $conn->prepare($optionsQuery);
+$optionsStmt->execute();
+$productOptions = $optionsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch Product Addons
+$addonsQuery = "SELECT * FROM productAddons WHERE enabled = '1' AND isHidden = '0' ORDER BY orderNo ASC";
+$addonsStmt = $conn->prepare($addonsQuery);
+$addonsStmt->execute();
+$productAddons = $addonsStmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Construct Response
 $response = [
     "categories" => $categories,
     "sections" => $sections,
     "nestedSections" => $nestedSections,
-    "products" => $products
+    "products" => $products,
+    "productImages" => $productImages,
+    "productOptions" => $productOptions,
+    "productAddons" => $productAddons
 ];
 
 echo json_encode($response);
