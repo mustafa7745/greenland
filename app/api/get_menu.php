@@ -79,9 +79,9 @@ $productAddons = $addonsStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Construct Response
 $response = [
-    "categories" => $categories,
-    "sections" => $sections,
-    "nestedSections" => $nestedSections,
+    "storeCategories" => $categories,
+    "storeSections" => $sections,
+    "storeNestedSections" => $nestedSections,
     "products" => $products,
     "productImages" => $productImages,
     "productOptions" => $productOptions,
