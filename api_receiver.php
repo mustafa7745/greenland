@@ -29,10 +29,10 @@ $uploadBase = __DIR__ . '/uploads/images/products';
 function addOrUpdateOne($pdo, $uploadBase, $input)
 {
     $report = [
-        'categories_synced' => 0,
+        'categories_synced' => 0, // ✅ تمت إضافتها
         'products_synced' => 0,
-        'images_synced' => 0,
         'options_synced' => 0,
+        'images_synced' => 0,
         'addons_synced' => 0,
         'errors' => []
     ];
@@ -41,7 +41,7 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
         $pdo->beginTransaction();
 
         // =======================================================
-        // 1️⃣ الأقسام (Categories / NestedSections)
+        // 1️⃣ الأقسام (Categories / NestedSections) - ✅ تمت إضافتها
         // =======================================================
         if (isset($input['storeCategories']['storeNestedSections']) && is_array($input['storeCategories']['storeNestedSections'])) {
             $sqlCat = "INSERT INTO storeNestedSections (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt, storeSectionId) 
@@ -73,7 +73,7 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
         }
 
         // =======================================================
-        // 2️⃣ المنتجات (Products) - مع فحص الصورة
+        // 2️⃣ المنتجات (Products)
         // =======================================================
         if (isset($input['products']) && is_array($input['products'])) {
             $sqlProd = "INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) 
@@ -86,15 +86,13 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
 
             foreach ($input['products'] as $prod) {
                 try {
-                    // فحص الصورة: هل هي موجودة في قاعدة البيانات والملف موجود؟
                     $finalCoverName = null;
                     $existingCover = getLocalImageIfExists($pdo, 'products', $prod['id'], 'cover', "$uploadBase/cover/");
 
                     if ($existingCover) {
-                        $finalCoverName = $existingCover; // استخدام القديم
+                        $finalCoverName = $existingCover;
                     } else {
                         if (!empty($prod['cover'])) {
-                            // تحميل الجديد
                             $prefix = "cover_{$prod['id']}_";
                             $finalCoverName = handleImageDownload($prod['cover'], "$uploadBase/cover/", $prefix);
                         }
@@ -108,55 +106,14 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
                         $finalCoverName
                     ]);
                     $report['products_synced']++;
-
                 } catch (Exception $e) {
-                    $report['errors'][] = "Product ID {$prod['id']} Error: " . $e->getMessage();
+                    $report['errors'][] = "Product Error: " . $e->getMessage();
                 }
             }
         }
 
         // =======================================================
-        // 3️⃣ صور الجاليري (Gallery Images) - مع فحص التكرار
-        // =======================================================
-        // ملاحظة: صور الجاليري ليس لها ID ثابت عادة في الـ JSON، لذا نعتمد على الإضافة
-        if (isset($input['productsImages']) && is_array($input['productsImages'])) {
-            $stmtImgInsert = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
-
-            // استعلام للتحقق هل الصورة موجودة لهذا المنتج مسبقاً (لمنع التكرار في الجدول)
-            $stmtCheckImg = $pdo->prepare("SELECT id FROM productImages WHERE productId = ? AND image = ?");
-
-            foreach ($input['productsImages'] as $imgItem) {
-                try {
-                    $prodId = $imgItem['productId'];
-                    $imgUrl = $imgItem['image'];
-
-                    // 1. محاولة استخراج اسم الملف المتوقع (لتجنب التحميل إذا كان موجوداً)
-                    // نفترض هنا أننا سنحمل الصورة، ولكن أولاً نتحقق هل هي مضافة للقاعدة؟
-
-                    // سنقوم بتحميل الصورة أولاً للحصول على اسمها المحلي الصحيح
-                    // لكن لذكاء أكبر: تحقق هل الملف موجود في السيرفر؟
-                    $prefix = "gallery_{$prodId}_";
-                    // هذه الدالة يفترض أن تفحص هل الملف موجود (handleImageDownload عادة تفعل ذلك إذا عدلتها، أو نتركه يحملها)
-                    // هنا سنستخدم التحميل المباشر مع الاعتماد على أن handleImageDownload لا تكرر الملفات إذا كانت بنفس الاسم
-                    $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", $prefix);
-
-                    if ($localImgName) {
-                        // 2. التحقق: هل هذا السجل موجود في الداتابيس؟
-                        $stmtCheckImg->execute([$prodId, $localImgName]);
-                        if ($stmtCheckImg->rowCount() == 0) {
-                            // غير موجود -> إدراج
-                            $stmtImgInsert->execute([$prodId, $imgItem['storeBranchId'], $localImgName]);
-                            $report['images_synced']++;
-                        }
-                    }
-                } catch (Exception $e) {
-                    $report['errors'][] = "Gallery Image Error: " . $e->getMessage();
-                }
-            }
-        }
-
-        // =======================================================
-        // 4️⃣ الخيارات (Options) - مع فحص الصورة
+        // 3️⃣ الخيارات (Options)
         // =======================================================
         if (isset($input['productOptions']) && is_array($input['productOptions'])) {
             $sqlOpt = "INSERT INTO productOptions 
@@ -205,7 +162,34 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
                     ]);
                     $report['options_synced']++;
                 } catch (Exception $e) {
-                    $report['errors'][] = "Option ID {$option['id']} Error: " . $e->getMessage();
+                    $report['errors'][] = "Option Error: " . $e->getMessage();
+                }
+            }
+        }
+
+        // =======================================================
+        // 4️⃣ الصور (Images)
+        // =======================================================
+        if (isset($input['productsImages']) && is_array($input['productsImages'])) {
+            $stmtImgInsert = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
+            $stmtCheckImg = $pdo->prepare("SELECT id FROM productImages WHERE productId = ? AND image = ?");
+
+            foreach ($input['productsImages'] as $imgItem) {
+                try {
+                    $prodId = $imgItem['productId'];
+                    $imgUrl = $imgItem['image'];
+                    $prefix = "gallery_{$prodId}_";
+                    $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", $prefix);
+
+                    if ($localImgName) {
+                        $stmtCheckImg->execute([$prodId, $localImgName]);
+                        if ($stmtCheckImg->rowCount() == 0) {
+                            $stmtImgInsert->execute([$prodId, $imgItem['storeBranchId'], $localImgName]);
+                            $report['images_synced']++;
+                        }
+                    }
+                } catch (Exception $e) {
+                    $report['errors'][] = "Image Error: " . $e->getMessage();
                 }
             }
         }
@@ -237,7 +221,7 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
                     ]);
                     $report['addons_synced']++;
                 } catch (Exception $e) {
-                    $report['errors'][] = "Addon ID {$addon['id']} Error: " . $e->getMessage();
+                    $report['errors'][] = "Addon Error: " . $e->getMessage();
                 }
             }
         }
@@ -578,12 +562,16 @@ function deleteFileIfExists($path, $fileName)
     }
 }
 ////
-$strategy = $input['strategy'];
-if (isset($strategy) && $strategy = 'replaceAll') {
+$strategy = $input['strategy'] ?? null; // استخدام ?? null لتجنب Warning
+
+if ($strategy == 'replaceAll') { // ⚠️ تصحيح: استخدام == بدلاً من =
     replaceAll($pdo, $uploadBase, $input);
-} elseif (isset($strategy) && $strategy = 'addOrUpdate') {
+} elseif ($strategy == 'addOrUpdateOne' || $strategy == 'addOrUpdate') { // ⚠️ تصحيح: استخدام ==
     addOrUpdateOne($pdo, $uploadBase, $input);
-} elseif (isset($strategy) && $strategy == 'delete') {
+} elseif ($strategy == 'delete') { // ⚠️ تصحيح: استخدام ==
     deleteStrategy($pdo, $uploadBase, $input);
+} else {
+    // حالة عدم تطابق أي استراتيجية
+    echo json_encode(['status' => 'error', 'message' => 'Invalid Strategy', 'strategy_received' => $strategy]);
 }
 ?>
