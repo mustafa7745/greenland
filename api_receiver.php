@@ -28,60 +28,85 @@ $uploadBase = __DIR__ . '/uploads/images/products';
 
 function addOrUpdateOne($pdo, $uploadBase, $input)
 {
-    $report = ['products_synced' => 0, 'images_synced' => 0, 'addons_synced' => 0, 'errors' => []];
+    $report = [
+        'categories_synced' => 0,
+        'products_synced' => 0,
+        'images_synced' => 0,
+        'options_synced' => 0,
+        'addons_synced' => 0,
+        'errors' => []
+    ];
 
     try {
         $pdo->beginTransaction();
 
         // =======================================================
-        // 2️⃣ استراتيجية المنتجات (معالجة المصفوفة)
+        // 1️⃣ الأقسام (Categories / NestedSections)
         // =======================================================
-        
-        // التحضير مرة واحدة خارج اللوب للأداء العالي
-        $sqlProd = "INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) 
-                    VALUES (?, ?, ?, ?, ?, NOW())
-                    ON DUPLICATE KEY UPDATE 
-                    name = VALUES(name),
-                    description = VALUES(description),
-                    storeNestedSectionId = VALUES(storeNestedSectionId),
-                    cover = VALUES(cover)"; 
+        if (isset($input['storeCategories']['storeNestedSections']) && is_array($input['storeCategories']['storeNestedSections'])) {
+            $sqlCat = "INSERT INTO storeNestedSections (id, name, orderNo, orderAt, storeBranchId, isHidden, enabled, createdAt, storeSectionId) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                       ON DUPLICATE KEY UPDATE 
+                       name = VALUES(name), orderNo = VALUES(orderNo), isHidden = VALUES(isHidden), 
+                       enabled = VALUES(enabled), storeSectionId = VALUES(storeSectionId)";
 
-        $stmtProd = $pdo->prepare($sqlProd);
+            $stmtCat = $pdo->prepare($sqlCat);
 
-        // ✅ هنا يتم التعامل مع المصفوفة (Array)
-        if (isset($input['products']) && is_array($input['products'])) {
-            
-            foreach ($input['products'] as $prod) {
-                // تعريف المتغيرات داخل اللوب لضمان عدم تداخل البيانات بين المنتجات
-                $finalCoverName = null; 
-                $existingCover = null;
-
+            foreach ($input['storeCategories']['storeNestedSections'] as $cat) {
                 try {
-                    // 1. الفحص: هل توجد صورة لهذا المنتج في قاعدة البيانات والملف موجود؟
-                    // نستخدم الدالة المساعدة التي أنشأناها سابقاً
+                    $stmtCat->execute([
+                        $cat['id'],
+                        $cat['name'],
+                        $cat['orderNo'],
+                        $cat['orderAt'],
+                        $cat['storeBranchId'],
+                        $cat['isHidden'],
+                        $cat['enabled'],
+                        $cat['createdAt'],
+                        $cat['storeSectionId']
+                    ]);
+                    $report['categories_synced']++;
+                } catch (Exception $e) {
+                    $report['errors'][] = "Category {$cat['name']} error: " . $e->getMessage();
+                }
+            }
+        }
+
+        // =======================================================
+        // 2️⃣ المنتجات (Products) - مع فحص الصورة
+        // =======================================================
+        if (isset($input['products']) && is_array($input['products'])) {
+            $sqlProd = "INSERT INTO products (id, name, description, storeNestedSectionId, cover, createdAt) 
+                        VALUES (?, ?, ?, ?, ?, NOW())
+                        ON DUPLICATE KEY UPDATE 
+                        name = VALUES(name), description = VALUES(description),
+                        storeNestedSectionId = VALUES(storeNestedSectionId), cover = VALUES(cover)";
+
+            $stmtProd = $pdo->prepare($sqlProd);
+
+            foreach ($input['products'] as $prod) {
+                try {
+                    // فحص الصورة: هل هي موجودة في قاعدة البيانات والملف موجود؟
+                    $finalCoverName = null;
                     $existingCover = getLocalImageIfExists($pdo, 'products', $prod['id'], 'cover', "$uploadBase/cover/");
 
                     if ($existingCover) {
-                        // ✅ الحالة أ: الصورة موجودة فعلياً -> نعتمد الاسم القديم ولا نحملها
-                        $finalCoverName = $existingCover;
+                        $finalCoverName = $existingCover; // استخدام القديم
                     } else {
-                        // ⬇️ الحالة ب: لا توجد صورة أو الملف مفقود -> نقوم بالتنزيل
                         if (!empty($prod['cover'])) {
-                            // نقوم بتوليد اسم فريد يعتمد على الـ ID لضمان عدم التكرار
-                            $prefix = "cover_{$prod['id']}_"; 
+                            // تحميل الجديد
+                            $prefix = "cover_{$prod['id']}_";
                             $finalCoverName = handleImageDownload($prod['cover'], "$uploadBase/cover/", $prefix);
                         }
                     }
 
-                    // 2. التنفيذ (سواء إضافة جديد أو تحديث الحالي)
                     $stmtProd->execute([
                         $prod['id'],
                         $prod['name'],
                         $prod['description'],
                         $prod['storeNestedSectionId'] ?? 0,
-                        $finalCoverName // سيتم وضع الاسم القديم (إذا وجد) أو الجديد
+                        $finalCoverName
                     ]);
-
                     $report['products_synced']++;
 
                 } catch (Exception $e) {
@@ -91,52 +116,131 @@ function addOrUpdateOne($pdo, $uploadBase, $input)
         }
 
         // =======================================================
-        // 3️⃣ استراتيجية الخيارات (معالجة مصفوفة الخيارات)
+        // 3️⃣ صور الجاليري (Gallery Images) - مع فحص التكرار
         // =======================================================
-        
-        $sqlOpt = "INSERT INTO productOptions 
-                   (id, productId, name, description, storeNestedSectionId, storeProductViewId,
-                   currencyId, price, prePrice, info, isHidden, enabled, orderNo, orderAt, 
-                   storeBranchId, cover, createdAt)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                   ON DUPLICATE KEY UPDATE
-                   name = VALUES(name), price = VALUES(price), enabled = VALUES(enabled), 
-                   cover = VALUES(cover)";
+        // ملاحظة: صور الجاليري ليس لها ID ثابت عادة في الـ JSON، لذا نعتمد على الإضافة
+        if (isset($input['productsImages']) && is_array($input['productsImages'])) {
+            $stmtImgInsert = $pdo->prepare("INSERT INTO productImages (productId, storeBranchId, image, createdAt) VALUES (?, ?, ?, NOW())");
 
-        $stmtOpt = $pdo->prepare($sqlOpt);
+            // استعلام للتحقق هل الصورة موجودة لهذا المنتج مسبقاً (لمنع التكرار في الجدول)
+            $stmtCheckImg = $pdo->prepare("SELECT id FROM productImages WHERE productId = ? AND image = ?");
 
-        // ✅ التحقق من وجود مصفوفة الخيارات
-        if (isset($input['productOptions']) && is_array($input['productOptions'])) {
-            
-            foreach ($input['productOptions'] as $option) {
-                $finalOptionCover = null;
-                $existingOptionCover = null;
+            foreach ($input['productsImages'] as $imgItem) {
+                try {
+                    $prodId = $imgItem['productId'];
+                    $imgUrl = $imgItem['image'];
 
-                // فحص الصورة للخيار الحالي
-                $existingOptionCover = getLocalImageIfExists($pdo, 'productOptions', $option['id'], 'cover', "$uploadBase/cover/");
+                    // 1. محاولة استخراج اسم الملف المتوقع (لتجنب التحميل إذا كان موجوداً)
+                    // نفترض هنا أننا سنحمل الصورة، ولكن أولاً نتحقق هل هي مضافة للقاعدة؟
 
-                if ($existingOptionCover) {
-                    $finalOptionCover = $existingOptionCover;
-                } else {
-                    if (!empty($option['cover'])) {
-                        $prefixOpt = "option_{$option['id']}_";
-                        $finalOptionCover = handleImageDownload($option['cover'], "$uploadBase/cover/", $prefixOpt);
+                    // سنقوم بتحميل الصورة أولاً للحصول على اسمها المحلي الصحيح
+                    // لكن لذكاء أكبر: تحقق هل الملف موجود في السيرفر؟
+                    $prefix = "gallery_{$prodId}_";
+                    // هذه الدالة يفترض أن تفحص هل الملف موجود (handleImageDownload عادة تفعل ذلك إذا عدلتها، أو نتركه يحملها)
+                    // هنا سنستخدم التحميل المباشر مع الاعتماد على أن handleImageDownload لا تكرر الملفات إذا كانت بنفس الاسم
+                    $localImgName = handleImageDownload($imgUrl, "$uploadBase/images/", $prefix);
+
+                    if ($localImgName) {
+                        // 2. التحقق: هل هذا السجل موجود في الداتابيس؟
+                        $stmtCheckImg->execute([$prodId, $localImgName]);
+                        if ($stmtCheckImg->rowCount() == 0) {
+                            // غير موجود -> إدراج
+                            $stmtImgInsert->execute([$prodId, $imgItem['storeBranchId'], $localImgName]);
+                            $report['images_synced']++;
+                        }
                     }
+                } catch (Exception $e) {
+                    $report['errors'][] = "Gallery Image Error: " . $e->getMessage();
                 }
-
-                $stmtOpt->execute([
-                    $option['id'], $option['productId'], $option['name'], $option['description'] ?? '',
-                    $option['storeNestedSectionId'] ?? null, $option['storeProductViewId'] ?? null,
-                    $option['currencyId'] ?? 1, $option['price'] ?? 0, $option['prePrice'] ?? 0,
-                    $option['info'] ?? '[]', $option['isHidden'] ?? 0, $option['enabled'] ?? 1,
-                    $option['orderNo'] ?? 0, $option['orderAt'] ?? null, $option['storeBranchId'],
-                    $finalOptionCover,
-                    $option['createdAt']
-                ]);
             }
         }
 
-        // ... (باقي الكود للإضافات Addons) ...
+        // =======================================================
+        // 4️⃣ الخيارات (Options) - مع فحص الصورة
+        // =======================================================
+        if (isset($input['productOptions']) && is_array($input['productOptions'])) {
+            $sqlOpt = "INSERT INTO productOptions 
+                       (id, productId, name, description, storeNestedSectionId, storeProductViewId,
+                       currencyId, price, prePrice, info, isHidden, enabled, orderNo, orderAt, 
+                       storeBranchId, cover, createdAt)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                       ON DUPLICATE KEY UPDATE
+                       name = VALUES(name), price = VALUES(price), enabled = VALUES(enabled), 
+                       cover = VALUES(cover)";
+
+            $stmtOpt = $pdo->prepare($sqlOpt);
+
+            foreach ($input['productOptions'] as $option) {
+                try {
+                    $finalOptionCover = null;
+                    $existingOptionCover = getLocalImageIfExists($pdo, 'productOptions', $option['id'], 'cover', "$uploadBase/cover/");
+
+                    if ($existingOptionCover) {
+                        $finalOptionCover = $existingOptionCover;
+                    } else {
+                        if (!empty($option['cover'])) {
+                            $prefixOpt = "option_{$option['id']}_";
+                            $finalOptionCover = handleImageDownload($option['cover'], "$uploadBase/cover/", $prefixOpt);
+                        }
+                    }
+
+                    $stmtOpt->execute([
+                        $option['id'],
+                        $option['productId'],
+                        $option['name'],
+                        $option['description'] ?? '',
+                        $option['storeNestedSectionId'] ?? null,
+                        $option['storeProductViewId'] ?? null,
+                        $option['currencyId'] ?? 1,
+                        $option['price'] ?? 0,
+                        $option['prePrice'] ?? 0,
+                        $option['info'] ?? '[]',
+                        $option['isHidden'] ?? 0,
+                        $option['enabled'] ?? 1,
+                        $option['orderNo'] ?? 0,
+                        $option['orderAt'] ?? null,
+                        $option['storeBranchId'],
+                        $finalOptionCover,
+                        $option['createdAt']
+                    ]);
+                    $report['options_synced']++;
+                } catch (Exception $e) {
+                    $report['errors'][] = "Option ID {$option['id']} Error: " . $e->getMessage();
+                }
+            }
+        }
+
+        // =======================================================
+        // 5️⃣ الإضافات (Addons)
+        // =======================================================
+        if (isset($input['productAddons']) && is_array($input['productAddons'])) {
+            $sqlAdd = "INSERT INTO productAddons (id, productId, name, price, isHidden, enabled, orderNo, storeBranchId, orderAt, createdAt) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                       ON DUPLICATE KEY UPDATE
+                       name=VALUES(name), price=VALUES(price), isHidden=VALUES(isHidden), enabled=VALUES(enabled)";
+
+            $stmtAdd = $pdo->prepare($sqlAdd);
+
+            foreach ($input['productAddons'] as $addon) {
+                try {
+                    $stmtAdd->execute([
+                        $addon['id'],
+                        $addon['productId'],
+                        $addon['name'],
+                        $addon['price'],
+                        $addon['isHidden'],
+                        $addon['enabled'],
+                        $addon['orderNo'],
+                        $addon['storeBranchId'],
+                        $addon['orderAt'],
+                        $addon['createdAt']
+                    ]);
+                    $report['addons_synced']++;
+                } catch (Exception $e) {
+                    $report['errors'][] = "Addon ID {$addon['id']} Error: " . $e->getMessage();
+                }
+            }
+        }
 
         $pdo->commit();
         echo json_encode(['status' => 'success', 'report' => $report]);
