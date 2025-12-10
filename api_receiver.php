@@ -17,10 +17,10 @@ if (trim($sentKey) !== "SECRET_KEY_123") {
 
 // 2. استقبال البيانات والتحقق
 $input = json_decode(file_get_contents('php://input'), true);
-if (!isset($input['products'])) {
-    http_response_code(400);
-    exit(json_encode(['error' => 'Invalid structure: "products" array missing']));
-}
+// if (!isset($input['products'])) {
+//     http_response_code(400);
+//     exit(json_encode(['error' => 'Invalid structure: "products" array missing']));
+// }
 $uploadBase = __DIR__ . '/uploads/images/products';
 
 
